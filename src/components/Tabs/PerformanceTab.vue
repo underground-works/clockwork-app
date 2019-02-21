@@ -1,0 +1,83 @@
+<template>
+	<div>
+		<div class="counters-row">
+			<div class="performance-chart-container">
+				<div class="performance-chart">
+					<pie-chart :donut="true" :data="chartValues" :colors="chartColors" :library="chartOptions" height="60px"></pie-chart>
+				</div>
+			</div>
+			<div v-for="metric in $request.performanceMetrics" class="counter performance-chart-legend" :class="metric.style">
+				<div class="counter-value">{{metric.value}}&nbsp;ms</div>
+				<div class="counter-title">{{metric.name}}</div>
+			</div>
+			<div class="counter" ng-show="$request.responseDurationRounded">
+				<div class="counter-value">{{$request.responseDurationRounded}}&nbsp;ms</div>
+				<div class="counter-title">total</div>
+			</div>
+			<div class="counter" ng-show="$request.memoryUsage">
+				<div class="counter-value">{{$request.memoryUsageFormatted}}</div>
+				<div class="counter-title">memory</div>
+			</div>
+		</div>
+
+		<div tabs="performance">
+			<div class="performance-tabs">
+				<a class="performance-tab" :class="{ 'active': isTabActive('timeline') }" href="#" @click.prevent="showTab('timeline')">Timeline</a>
+				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')">Profiler</a>
+			</div>
+
+			<timeline v-show="isTabActive('timeline')"></timeline>
+			<profiler v-show="isTabActive('profiler')"></profiler>
+		</div>
+	</div>
+</template>
+
+<script>
+import Profiler from './Performance/Profiler'
+import Timeline from './Performance/Timeline'
+
+import Filter from '../../features/filter'
+
+export default {
+	name: 'PerformanceTab',
+	components: { Profiler, Timeline },
+	props: [ 'request', 'show' ],
+	data: () => ({
+		activeTab: 'timeline'
+	}),
+	computed: {
+		chartValues() {
+			return this.$request?.performanceMetrics.map(metric => [ metric.name, metric.value ])
+		},
+		chartColors() {
+			let colors = {
+				style1: { light: '#78b1de', dark: '#649dca' },
+				style2: { light: '#e79697', dark: '#d38283' },
+				style3: { light: '#b1ca6d', dark: '#9db659' },
+				style4: { light: '#ba94e6', dark: '#a680d2' }
+			}
+			let theme = document.querySelector('body').classList.contains('dark') ? 'dark' : 'light'
+
+			return this.$request?.performanceMetrics.map(metric => colors[metric.style][theme])
+		},
+		chartOptions() {
+			let theme = document.querySelector('body').classList.contains('dark') ? 'dark' : 'light'
+
+			return {
+				legend: { display: false },
+				tooltips: { enabled: false },
+				hover: { mode: null },
+				elements: { arc: { borderColor: theme == 'dark' ? '#1f1f1f' : '#fff' } }
+			}
+		}
+	},
+	methods: {
+		isTabActive: function (tab) { return this.activeTab == tab },
+		showTab: function (tab) {
+			this.activeTab = tab
+
+			if (tab == 'profiler') this.$profiler.loadRequest(this.$request)
+		}
+	}
+}
+</script>
