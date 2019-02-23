@@ -27,16 +27,18 @@
     "vue-spinkit": "^1.4.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.2.2",
-    "@vue/cli-plugin-pwa": "^3.2.2",
-    "@vue/cli-service": "^3.2.2",
+    "@vue/cli-plugin-babel": "^3.4.1",
+    "@vue/cli-plugin-pwa": "^3.4.1",
+    "@vue/cli-service": "^3.4.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.0.1",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.7"
   },
   "vue": {
     "outputDir": "build",
-    "configureWebpack": { "devtool": "inline-cheap-module-source-map" }
+    "configureWebpack": {
+      "devtool": "inline-cheap-module-source-map"
+    }
   },
   "postcss": {
     "plugins": {
