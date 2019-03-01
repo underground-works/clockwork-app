@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build-chrome": "vue-cli-service build && rm -rf dist/chrome && mv build dist/chrome && cp -R platforms/chrome/* dist/chrome/",
-    "build-chrome-dev": "vue-cli-service build --mode=development && rm -rf dist/chrome && mv build dist/chrome && cp -R platforms/chrome/* dist/chrome/"
+    "build-chrome-dev": "vue-cli-service build --mode=development && rm -rf dist/chrome && mv build dist/chrome && cp -R platforms/chrome/* dist/chrome/",
+    "build-web": "vue-cli-service build && rm -rf dist/web && mv build dist/web",
+    "build-web-dev": "vue-cli-service build --mode=development && rm -rf dist/web && mv build dist/web"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",

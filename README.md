@@ -18,7 +18,7 @@ The Clockwork app can be build for following targets:
 
 - Chrome extension - `npm run build-chrome`
 - Firefox extension - `npm run build-firefox`
-- standalone web application - `npm run build`
+- standalone web application - `npm run build-web`
 
 ### Licence
 
