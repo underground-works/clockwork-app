@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<details-table :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="eg. &quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
+		<details-table :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="event in items">
 					<td>{{event.time | moment('HH:mm:ss')}}</td>

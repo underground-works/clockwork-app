@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<details-table :columns="['Time', 'Level', 'Message']" :items="$request.log" :filter="filter" filter-example="eg. query failed level:error file:Controller.php time:>13:08:29">
+		<details-table :columns="['Time', 'Level', 'Message']" :items="$request.log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message in items" :class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }">
 					<td class="log-date">{{message.time | moment('HH:mm:ss')}}</td>

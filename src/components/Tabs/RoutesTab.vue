@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<details-table :columns="columns" :items="$request.routes" :filter="filter" filter-example="eg. OrderController method:post uri:order">
+		<details-table :columns="columns" :items="$request.routes" :filter="filter" filter-example="OrderController method:post uri:order">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="route in items">
 					<td>{{route.method}}</td>

@@ -13,7 +13,7 @@
 			</span>
 		</div>
 
-		<details-table :items="$request.sessionData" :filter="filter" filter-example="eg. registration successful name:_token">
+		<details-table :items="$request.sessionData" :filter="filter" filter-example="registration successful name:_token">
 			<template slot="header" slot-scope="{ filter }">
 				<th colspan="2">
 					Session

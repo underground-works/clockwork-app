@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<details-table :columns="['To', 'Subject', 'Headers']" :items="$request.emails" :filter="filter" filter-example="eg. &quot;User Registration&quot; to:its@underground.works">
+		<details-table :columns="['To', 'Subject', 'Headers']" :items="$request.emails" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="email in items">
 					<td>{{email.to}}</td>

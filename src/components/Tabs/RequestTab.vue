@@ -77,7 +77,7 @@
 			</template>
 		</details-table>
 
-		<details-table :items="$request.getData" :filter="getDataFilter" filter-example="eg. created_at name:orderBy" v-show="$request.getData.length">
+		<details-table :items="$request.getData" :filter="getDataFilter" filter-example="created_at name:orderBy" v-show="$request.getData.length">
 			<template slot="header" slot-scope="{ filter }">
 				<th colspan="2">
 					GET parameters
@@ -92,7 +92,7 @@
 			</template>
 		</details-table>
 
-		<details-table :items="$request.postData" :filter="postDataFilter" filter-example="eg. &quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
+		<details-table :items="$request.postData" :filter="postDataFilter" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
 			<template slot="header" slot-scope="{ filter }">
 				<th colspan="2">
 					POST parameters
@@ -107,7 +107,7 @@
 			</template>
 		</details-table>
 
-		<details-table :items="$request.cookies" :filter="cookiesFilter" filter-example="eg. &quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
+		<details-table :items="$request.cookies" :filter="cookiesFilter" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
 			<template slot="header" slot-scope="{ filter }">
 				<th colspan="2">
 					Cookies
