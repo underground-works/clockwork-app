@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<details-table :columns="['Name', 'Data']" :items="$request.views" :filter="filter" filter-example="eg. "Mike Jones" name:welcome">
+		<details-table :columns="['Name', 'Data']" :items="$request.views" :filter="filter" filter-example="eg. &quot;Mike Jones&quot; name:welcome">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="view in items">
 					<td>{{view.name}}</td>
