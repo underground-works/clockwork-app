@@ -31,7 +31,7 @@
 			</div>
 		</div>
 
-		<details-table :columns="columns" :items="$request.cacheQueries" :filter="filter" filter-example="eg. info@underground.works action:miss key:lastRequest file:Controller.php" v-if="$request.cacheQueries.length">
+		<details-table :columns="columns" :items="$request.cacheQueries" :filter="filter" filter-example="info@underground.works action:miss key:lastRequest file:Controller.php" v-if="$request.cacheQueries.length">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="query in items">
 					<td v-if="columns.includes('Connection')">{{query.connection}}</td>
@@ -76,7 +76,7 @@ export default {
 	}),
 	computed: {
 		columns() {
-			let columns = [ 'Action', 'Key', 'Value', 'Expires' ]
+			let columns = [ { name: 'Action', sortBy: 'type' }, 'Key', 'Value', 'Expires' ]
 
 			if (this.$request.cacheQueries.some(query => query.connection)) columns.unshift('Connection')
 			if (this.$request.cacheQueries.some(query => query.duration)) columns.push('Duration')

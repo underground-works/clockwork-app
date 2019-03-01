@@ -47,9 +47,11 @@ export default class Filter
 			return this.matchesTerms(searchable, terms) && this.matchesTags(item, tags)
 		})
 
-		items.sort((a, b) => {
-			return a.toString().localeCompare(b.toString())
-		})
+		if (this.sortedBy) {
+			items.sort((a, b) => {
+				return a[this.sortedBy]?.toString().localeCompare(b[this.sortedBy]?.toString())
+			})
+		}
 
 		if (this.sortedDesc) items = items.reverse()
 

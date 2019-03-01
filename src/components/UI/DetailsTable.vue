@@ -3,9 +3,9 @@
 		<thead>
 			<tr>
 				<slot name="header" :filter="filter">
-					<th v-for="column, index in columns" @click="filter.sortBy(column.toLowerCase())">
-						{{ column }}
-						<font-awesome-icon v-show="filter.sortedBy == column.toLowerCase()" :icon="filter.sortedDesc ? 'angle-down' : 'angle-up'"></font-awesome-icon>
+					<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())">
+						{{ column.name || column }}
+						<font-awesome-icon v-show="filter.sortedBy == (column.sortBy || column.toLowerCase())" :icon="filter.sortedDesc ? 'angle-down' : 'angle-up'"></font-awesome-icon>
 						<details-table-filter-toggle :filter="filter" v-if="index == columns.length - 1"></details-table-filter-toggle>
 					</th>
 				</slot>
