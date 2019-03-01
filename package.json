@@ -7,6 +7,8 @@
     "build": "vue-cli-service build",
     "build-chrome": "vue-cli-service build && rm -rf dist/chrome && mv build dist/chrome && cp -R platforms/chrome/* dist/chrome/",
     "build-chrome-dev": "vue-cli-service build --mode=development && rm -rf dist/chrome && mv build dist/chrome && cp -R platforms/chrome/* dist/chrome/",
+    "build-firefox": "vue-cli-service build && rm -rf dist/firefox && mv build dist/firefox && cp -R platforms/firefox/* dist/firefox/",
+    "build-firefox-dev": "vue-cli-service build --mode=development && rm -rf dist/firefox && mv build dist/firefox && cp -R platforms/firefox/* dist/firefox/",
     "build-web": "vue-cli-service build && rm -rf dist/web && mv build dist/web",
     "build-web-dev": "vue-cli-service build --mode=development && rm -rf dist/web && mv build dist/web"
   },

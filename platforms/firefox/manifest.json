@@ -1,0 +1,28 @@
+{
+	"manifest_version": 2,
+	"name": "Clockwork",
+	"version": "4.0.0",
+
+	"description": "php dev tools integrated to your browser",
+	"homepage_url": "https://github.com/itsgoingd/clockwork-firefox",
+
+	"icons": {
+		"48": "assets/images/logo-48.png",
+		"96": "assets/images/logo-96.png"
+	},
+
+	"devtools_page": "devtools.html",
+
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+
+	"permissions": [
+		"cookies",
+		"tabs",
+		"webNavigation",
+		"webRequest",
+		"http://*/",
+		"https://*/"
+	]
+}
