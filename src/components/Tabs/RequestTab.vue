@@ -50,7 +50,7 @@
 		</div>
 
 		<div class="request-tab-exception" v-if="$request.exceptions.length">
-			<div class="exception-info" v-for="exception in request.exceptions">
+			<div class="exception-info" v-for="exception in $request.exceptions">
 				<div class="exception-message">
 					<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
 					{{exception.message}}

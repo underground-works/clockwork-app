@@ -1,3 +1,4 @@
+import clone from 'just-clone'
 import URI from 'urijs'
 
 export default class Request
@@ -143,7 +144,7 @@ export default class Request
 
 		if (this.responseStatus != 500 || ! exception) return []
 
-		exception = angular.copy(exception)
+		exception = clone(exception)
 
 		let current = exception;
 
