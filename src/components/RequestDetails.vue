@@ -22,7 +22,7 @@
 				<tab-handle name="views" :active="isTabActive('views')" @tab-selected="showTab" v-show="showViewsTab">Views</tab-handle>
 				<tab-handle name="emails" :active="isTabActive('emails')" @tab-selected="showTab" v-show="showEmailsTab">Emails</tab-handle>
 				<tab-handle name="routes" :active="isTabActive('routes')" @tab-selected="showTab" v-show="showRoutesTab">Routes</tab-handle>
-				<tab-handle v-for="userTab in $get($request, 'userData')" :key="userTab.key" :name="`user-${userTab.key}`" :active="isTabActive(`user-${userTab.key}`)" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
+				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" :active="isTabActive(`user-${userTab.key}`)" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
 			</div>
 
 			<div class="icons">
@@ -51,7 +51,7 @@
 			<views-tab v-show="isTabActive('views')"></views-tab>
 			<emails-tab v-show="isTabActive('emails')"></emails-tab>
 			<routes-tab v-show="isTabActive('routes')"></routes-tab>
-			<user-tab v-for="userTab in $get($request, 'userData')" :key="userTab.key" :user-tab="userTab" v-show="isTabActive(`user-${userTab.key}`)"></user-tab>
+			<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" v-show="isTabActive(`user-${userTab.key}`)"></user-tab>
 
 		</div>
 

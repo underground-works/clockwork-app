@@ -2,7 +2,7 @@
 	<div>
 		<details-table :columns="['Name', 'Data']" :items="$request.views" :filter="filter" filter-example="&quot;Mike Jones&quot; name:welcome">
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="view in items">
+				<tr v-for="view, index in items" :key="`${$request.id}-${index}`">
 					<td>{{view.name}}</td>
 					<td><pretty-print :data="view.data"></pretty-print></td>
 				</tr>

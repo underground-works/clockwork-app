@@ -33,7 +33,7 @@
 
 		<details-table :columns="columns" :items="$request.databaseQueries" :filter="filter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100">
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="query in items">
+				<tr v-for="query, index in items" :key="`${$request.id}-${index}`">
 					<td>
 						<shortened-text :full="query.model">{{query.shortModel}}</shortened-text>
 					</td>

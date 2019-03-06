@@ -21,7 +21,7 @@
 				</th>
 			</template>
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item in items">
+				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 					<td class="key">{{item.name}}</td>
 					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
 				</tr>

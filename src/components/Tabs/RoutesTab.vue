@@ -2,7 +2,7 @@
 	<div>
 		<details-table :columns="columns" :items="$request.routes" :filter="filter" filter-example="OrderController method:post uri:order">
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="route in items">
+				<tr v-for="route, index in items" :key="`${$request.id}-${index}`">
 					<td>{{route.method}}</td>
 					<td>{{route.uri}}</td>
 					<td>{{route.action}}</td>

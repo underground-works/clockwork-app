@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<div v-for="section, sectionIndex in userTab.sections">
+		<div v-for="section, sectionIndex in userTab.sections" :key="`${$request.id}-${sectionIndex}`">
 			<div v-if="section.showAs == 'counters'" class="counters-row">
-				<div v-for="item in section.data" class="counter">
+				<div v-for="item, index in section.data" class="counter" :key="`${$request.id}-${index}`">
 					<div class="counter-value">{{item.value}}</div>
 					<div class="counter-title">{{item.key}}</div>
 				</div>

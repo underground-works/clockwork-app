@@ -68,7 +68,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in filterXdebug($profiler.functions)">
+				<tr v-for="item, index in filterXdebug($profiler.functions)" :key="`${$request.id}-${index}`">
 					<td class="profiler-metric">{{$profiler.formatMetric(item.self)}}</td>
 					<td class="profiler-metric">{{$profiler.formatMetric(item.inclusive)}}</td>
 					<td class="profiler-function">

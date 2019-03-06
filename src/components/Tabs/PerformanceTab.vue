@@ -6,7 +6,7 @@
 					<pie-chart :donut="true" :data="chartValues" :colors="chartColors" :library="chartOptions" height="60px"></pie-chart>
 				</div>
 			</div>
-			<div v-for="metric in $request.performanceMetrics" class="counter performance-chart-legend" :class="metric.style">
+			<div v-for="metric, index in $request.performanceMetrics" class="counter performance-chart-legend" :class="metric.style" :key="`${$request.id}-${index}`">
 				<div class="counter-value">{{metric.value}}&nbsp;ms</div>
 				<div class="counter-title">{{metric.name}}</div>
 			</div>

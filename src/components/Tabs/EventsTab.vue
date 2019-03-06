@@ -2,7 +2,7 @@
 	<div>
 		<details-table :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="event in items">
+				<tr v-for="event, index in items" :key="`${$request.id}-${index}`">
 					<td>{{event.time | moment('HH:mm:ss')}}</td>
 					<td>
 						<div class="fired-event">
@@ -23,7 +23,7 @@
 							</div>
 							<div class="fired-event-listeners">
 								<h4>Listeners</h4>
-								<shortened-text v-for="listener, index in event.listeners" :key="index" :full="listener.name">
+								<shortened-text v-for="listener, index in event.listeners" :key="`${$request.id}-${index}`" :full="listener.name">
 									{{listener.shortName}}
 								</shortened-text>
 							</div>
