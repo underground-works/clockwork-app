@@ -42,7 +42,7 @@
 							<div class="database-query-content">
 								<pretty-print :data="query.value"></pretty-print>
 							</div>
-							<stack-trace class="database-query-path" :trace="query.trace" :short-path="query.shortPath" :full-path="query.fullPath"></stack-trace>
+							<stack-trace class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
 						</div>
 					</td>
 					<td><span v-if="query.expiration">{{query.expiration}}</span></td>

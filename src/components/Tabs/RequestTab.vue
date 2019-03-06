@@ -57,7 +57,7 @@
 				</div>
 				<div>
 					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous">Previous</a>
-					<stack-trace class="exception-trace" :trace="exception.trace" short-path="Trace"></stack-trace>
+					<stack-trace class="exception-trace" :trace="exception.trace"></stack-trace>
 				</div>
 			</div>
 		</div>

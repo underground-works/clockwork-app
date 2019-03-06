@@ -14,7 +14,7 @@
 									{{event.event}}
 								</div>
 							</div>
-							<stack-trace class="fired-query-path" :trace="event.trace" :short-path="event.shortPath" :full-path="event.fullPath"></stack-trace>
+							<stack-trace class="fired-query-path" :trace="event.trace" :file="event.file" :line="event.line"></stack-trace>
 						</div>
 						<div class="fired-event-details" v-show="isEventExpanded(event)">
 							<div class="fired-event-parameters" v-if="! event.objectEvent">

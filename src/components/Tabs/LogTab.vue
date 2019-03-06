@@ -18,7 +18,7 @@
 								<span class="exception-type">{{message.exception.type}}</span>
 								<span class="exception-code" v-if="message.exception.code">#{{message.exception.code}}</span>
 							</div>
-							<stack-trace class="log-message-path" :trace="message.trace" :short-path="message.shortPath" :full-path="message.fullPath"></stack-trace>
+							<stack-trace class="log-message-path" :trace="message.trace" :file="message.file" :line="message.line"></stack-trace>
 						</div>
 					</td>
 				</tr>

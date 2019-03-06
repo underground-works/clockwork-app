@@ -41,7 +41,7 @@
 					<td>
 						<div class="database-query">
 							<div class="database-query-content">{{query.query}}</div>
-							<stack-trace class="database-query-path" :trace="query.trace" :short-path="query.shortPath" :full-path="query.fullPath"></stack-trace>
+							<stack-trace class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
 						</div>
 					</td>
 					<td class="database-duration">{{query.duration}} ms</td>

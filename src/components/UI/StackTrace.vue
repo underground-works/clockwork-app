@@ -1,13 +1,20 @@
 <template>
 	<div class="stack-trace popover-container" v-click-outside="closePopover">
-		<shortened-text :full="trace ? shortPath : fullPath" @click.native="togglePopover">{{shortPath}}</shortened-text>
-		<div class="popover" v-show="showPopover" v-if="trace">
+		<a :href="file | editorLink(line)" v-if="file">
+			<shortened-text :full="trace ? shortPath : fullPath" @click.native="togglePopover($event)">{{shortPath}}</shortened-text>
+		</a>
+		<a href="#" v-else>
+			<span @click="togglePopover($event)">TRACE</span>
+		</a>
+		<div class="popover" ref="popover" v-show="showPopover" v-if="trace">
 			<div class="popover-content">
 				<div v-for="frame in trace" class="stack-frame" :class="{'is-vendor':frame.isVendor}">
 					<div class="stack-frame-call">{{ frame.call }}</div>
 					<div class="stack-frame-file">
 						<a :href="frame.file | editorLink(frame.line)">
-							<shortened-text :full="frame.fullPath">{{frame.shortPath}}</shortened-text>
+							<shortened-text :full="makeFullPath(frame.file, frame.line)">
+								{{makeShortPath(frame.file, frame.line)}}
+							</shortened-text>
 						</a>
 					</div>
 				</div>
@@ -23,22 +30,34 @@ import ShortenedText from './ShortenedText'
 export default {
 	name: 'PrettyPrint',
 	components: { ShortenedText },
-	props: [ 'shortPath', 'fullPath', 'trace' ],
+	props: [ 'trace', 'file', 'line' ],
 	data: () => ({
 		showPopover: false
 	}),
+	computed: {
+		fullPath () { return this.makeFullPath(this.file, this.line) },
+		shortPath () { return this.makeShortPath(this.file, this.line) }
+	},
 	methods: {
 		closePopover: function () {
 			this.showPopover = false
 		},
-		togglePopover: function () {
+		togglePopover: function ($event) {
+			if (! this.trace) return
+
+			$event.preventDefault()
+
 			this.showPopover = ! this.showPopover
 
-			let popoverContainerEl = this.$el
-			let popoverEl = this.$el.querySelector('.popover')
-			if (window.innerWidth - popoverContainerEl.getBoundingClientRect().left < 300) {
-				popoverEl.classList.add('right-aligned')
+			if (window.innerWidth - this.$el.getBoundingClientRect().left < 300) {
+				this.$refs.popover.classList.add('right-aligned')
 			}
+		},
+		makeFullPath: function (file, line) {
+			return `${file}:${line}`
+		},
+		makeShortPath: function (file, line) {
+			return this.makeFullPath(file, line).split(/[\/\\]/).pop()
 		}
 	}
 }
