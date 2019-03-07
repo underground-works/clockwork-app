@@ -17,6 +17,8 @@ export default class Request
 		this.emails = this.processEmails(this.emailsData)
 		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
+		this.requestData = this.requestData instanceof Object
+			? this.createKeypairs(this.requestData, false) : this.requestData
 		this.headers = this.processHeaders(this.headers)
 		this.log = this.processLog(this.log)
 		this.postData = this.createKeypairs(this.postData)
@@ -61,12 +63,14 @@ export default class Request
 		return this
 	}
 
-	createKeypairs (data) {
+	createKeypairs (data, sorted = true) {
 		if (! (data instanceof Object)) return []
 
-		return Object.keys(data)
-			.map(key => ({ name: key, value: data[key] }))
-			.sort((a, b) => a.name.localeCompare(b.name))
+		let keypairs = Object.keys(data).map(key => ({ name: key, value: data[key] }))
+
+		if (sorted) keypairs = keypairs.sort((a, b) => a.name.localeCompare(b.name))
+
+		return keypairs
 	}
 
 	processCacheStats () {
