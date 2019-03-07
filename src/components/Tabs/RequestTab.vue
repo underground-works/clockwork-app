@@ -77,6 +77,36 @@
 			</template>
 		</details-table>
 
+		<details-table v-if="$request.requestData instanceof Object" :items="$request.requestData" :filter="requestDataFilter" filter-example="420 name:price" v-show="$request.requestData.length">
+			<template slot="header" slot-scope="{ filter }">
+				<th colspan="2">
+					Request data
+					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
+				</th>
+			</template>
+			<template slot="body" slot-scope="{ items }">
+				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
+					<td class="key">{{item.name}}</td>
+					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
+				</tr>
+			</template>
+		</details-table>
+
+		<table v-else-if="$request.requestData" class="request-tab-data-raw">
+			<thead>
+				<tr>
+					<th>
+						Request data
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{$request.requestData}}</td>
+				</tr>
+			</tbody>
+		</table>
+
 		<details-table :items="$request.getData" :filter="getDataFilter" filter-example="created_at name:orderBy" v-show="$request.getData.length">
 			<template slot="header" slot-scope="{ filter }">
 				<th colspan="2">
@@ -137,6 +167,7 @@ export default {
 	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, StackTrace },
 	data: () => ({
 		headersFilter: new Filter([ { tag: 'name' } ]),
+		requestDataFilter: new Filter([ { tag: 'name' } ]),
 		getDataFilter: new Filter([ { tag: 'name' } ]),
 		postDataFilter: new Filter([ { tag: 'name' } ]),
 		cookiesFilter: new Filter([ { tag: 'name' } ])

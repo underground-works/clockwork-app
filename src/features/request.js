@@ -17,6 +17,7 @@ export default class Request
 		this.emails = this.processEmails(this.emailsData)
 		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
+		this.requestData = this.requestData instanceof Object ? this.createKeypairs(this.requestData) : this.requestData
 		this.headers = this.processHeaders(this.headers)
 		this.log = this.processLog(this.log)
 		this.postData = this.createKeypairs(this.postData)
