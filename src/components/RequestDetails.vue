@@ -18,6 +18,7 @@
 				<tab-handle name="events" :active="isTabActive('events')" @tab-selected="showTab" v-show="showEventsTab">Events</tab-handle>
 				<tab-handle name="database" :active="isTabActive('database')" @tab-selected="showTab" v-show="showDatabaseTab">Database</tab-handle>
 				<tab-handle name="cache" :active="isTabActive('cache')" @tab-selected="showTab" v-show="showCacheTab">Cache</tab-handle>
+				<tab-handle name="redis" :active="isTabActive('redis')" @tab-selected="showTab" v-show="showRedisTab">Redis</tab-handle>
 				<tab-handle name="session" :active="isTabActive('session')" @tab-selected="showTab" v-show="showSessionTab">Session</tab-handle>
 				<tab-handle name="views" :active="isTabActive('views')" @tab-selected="showTab" v-show="showViewsTab">Views</tab-handle>
 				<tab-handle name="emails" :active="isTabActive('emails')" @tab-selected="showTab" v-show="showEmailsTab">Emails</tab-handle>
@@ -45,6 +46,7 @@
 			<events-tab v-show="isTabActive('events')"></events-tab>
 			<database-tab v-show="isTabActive('database')"></database-tab>
 			<cache-tab v-show="isTabActive('cache')"></cache-tab>
+			<redis-tab v-show="isTabActive('redis')"></redis-tab>
 			<log-tab v-show="isTabActive('log')"></log-tab>
 			<performance-tab v-show="isTabActive('performance')"></performance-tab>
 			<session-tab v-show="isTabActive('session')"></session-tab>
@@ -95,6 +97,7 @@ import EmailsTab from './Tabs/EmailsTab'
 import EventsTab from './Tabs/EventsTab'
 import LogTab from './Tabs/LogTab'
 import PerformanceTab from './Tabs/PerformanceTab'
+import RedisTab from './Tabs/RedisTab'
 import RequestTab from './Tabs/RequestTab'
 import RoutesTab from './Tabs/RoutesTab'
 import SessionTab from './Tabs/SessionTab'
@@ -104,8 +107,8 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, PerformanceTab, RequestTab,
-		RoutesTab, SessionTab, UserTab, ViewsTab
+		TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, PerformanceTab, RedisTab,
+		RequestTab, RoutesTab, SessionTab, UserTab, ViewsTab
 	},
 	data: () => ({
 		activeTab: 'request'
@@ -116,6 +119,7 @@ export default {
 			return [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
 				|| this.$request?.cacheQueries.length
 		},
+		showRedisTab: function () { return this.$request?.redisCommands?.length },
 		showEventsTab: function () { return this.$request?.events?.length },
 		showSessionTab: function () { return this.$request?.sessionData?.length || this.$request?.authenticatedUser },
 		showViewsTab: function () { return this.$request?.views?.length },
