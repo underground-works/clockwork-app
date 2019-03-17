@@ -19,6 +19,7 @@
 				<tab-handle name="database" :active="isTabActive('database')" @tab-selected="showTab" v-show="showDatabaseTab">Database</tab-handle>
 				<tab-handle name="cache" :active="isTabActive('cache')" @tab-selected="showTab" v-show="showCacheTab">Cache</tab-handle>
 				<tab-handle name="redis" :active="isTabActive('redis')" @tab-selected="showTab" v-show="showRedisTab">Redis</tab-handle>
+				<tab-handle name="queue" :active="isTabActive('queue')" @tab-selected="showTab" v-show="showQueueTab">Queue</tab-handle>
 				<tab-handle name="session" :active="isTabActive('session')" @tab-selected="showTab" v-show="showSessionTab">Session</tab-handle>
 				<tab-handle name="views" :active="isTabActive('views')" @tab-selected="showTab" v-show="showViewsTab">Views</tab-handle>
 				<tab-handle name="emails" :active="isTabActive('emails')" @tab-selected="showTab" v-show="showEmailsTab">Emails</tab-handle>
@@ -47,6 +48,7 @@
 			<database-tab v-show="isTabActive('database')"></database-tab>
 			<cache-tab v-show="isTabActive('cache')"></cache-tab>
 			<redis-tab v-show="isTabActive('redis')"></redis-tab>
+			<queue-tab v-show="isTabActive('queue')"></queue-tab>
 			<log-tab v-show="isTabActive('log')"></log-tab>
 			<performance-tab v-show="isTabActive('performance')"></performance-tab>
 			<session-tab v-show="isTabActive('session')"></session-tab>
@@ -98,6 +100,7 @@ import EventsTab from './Tabs/EventsTab'
 import LogTab from './Tabs/LogTab'
 import PerformanceTab from './Tabs/PerformanceTab'
 import RedisTab from './Tabs/RedisTab'
+import QueueTab from './Tabs/QueueTab'
 import RequestTab from './Tabs/RequestTab'
 import RoutesTab from './Tabs/RoutesTab'
 import SessionTab from './Tabs/SessionTab'
@@ -108,7 +111,7 @@ export default {
 	name: 'RequestDetails',
 	components: {
 		TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, PerformanceTab, RedisTab,
-		RequestTab, RoutesTab, SessionTab, UserTab, ViewsTab
+		QueueTab, RequestTab, RoutesTab, SessionTab, UserTab, ViewsTab
 	},
 	data: () => ({
 		activeTab: 'request'
@@ -120,6 +123,7 @@ export default {
 				|| this.$request?.cacheQueries.length
 		},
 		showRedisTab: function () { return this.$request?.redisCommands?.length },
+		showQueueTab: function () { return this.$request?.queueJobs?.length },
 		showEventsTab: function () { return this.$request?.events?.length },
 		showSessionTab: function () { return this.$request?.sessionData?.length || this.$request?.authenticatedUser },
 		showViewsTab: function () { return this.$request?.views?.length },
