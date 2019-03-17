@@ -22,6 +22,7 @@ export default class Request
 		this.headers = this.processHeaders(this.headers)
 		this.log = this.processLog(this.log)
 		this.postData = this.createKeypairs(this.postData)
+		this.queueJobs = this.processQueueJobs(this.queueJobs)
 		this.sessionData = this.createKeypairs(this.sessionData)
 		this.performanceMetrics = this.processPerformanceMetrics(this.performanceMetrics)
 		this.timeline = this.processTimeline(this.timelineData)
@@ -214,6 +215,16 @@ export default class Request
 		data.push({ name: 'Other', value: this.responseDurationRounded - metricsSum, style: 'style1' })
 
 		return data
+	}
+
+	processQueueJobs (data) {
+		if (! (data instanceof Array)) return []
+
+		return data.map(job => {
+			job.shortName = job.name.split('\\').pop()
+
+			return job
+		})
 	}
 
 	processTimeline (data) {

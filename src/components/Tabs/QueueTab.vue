@@ -5,7 +5,9 @@
 				<tr v-for="job, index in items" :key="`${$request.id}-${index}`">
 					<td v-if="columns.includes('Queue')">{{job.queue}}</td>
 					<td v-if="columns.includes('Connection')">{{job.connection}}</td>
-					<td>{{job.name}}</td>
+					<td>
+						<shortened-text :full="job.name">{{job.shortName}}</shortened-text>
+					</td>
 					<td>
 						<div class="database-query">
 							<div class="database-query-content">
@@ -27,13 +29,14 @@
 <script>
 import DetailsTable from '../UI/DetailsTable'
 import PrettyPrint from '../UI/PrettyPrint'
+import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
 
 import Filter from '../../features/filter'
 
 export default {
 	name: 'QueueTab',
-	components: { DetailsTable, PrettyPrint, StackTrace },
+	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'connection' },
