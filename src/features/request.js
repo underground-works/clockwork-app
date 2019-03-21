@@ -14,6 +14,8 @@ export default class Request
 		this.cacheQueries = this.processCacheQueries(this.cacheQueries)
 		this.cookies = this.createKeypairs(this.cookies)
 		this.databaseQueries = this.processDatabaseQueries(this.databaseQueries)
+		this.databaseQueriesCount = this.databaseQueries.length
+		this.databaseSlowQueriesCount = this.databaseQueries.filter(query => query.tags.includes('slow')).length
 		this.emails = this.processEmails(this.emailsData)
 		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
@@ -100,6 +102,7 @@ export default class Request
 		return data.map(query => {
 			query.model = query.model || '-'
 			query.shortModel = query.model ? query.model.split('\\').pop() : '-'
+			query.tags = query.tags instanceof Array ? query.tags : []
 
 			return query
 		})
@@ -300,9 +303,8 @@ export default class Request
 	}
 
 	getWarningsCount () {
-		return this.log.reduce((count, message) => {
-			return message.level == 'warning' ? count + 1 : count
-		}, 0)
+		return this.log.filter(message => message.level == 'warning').length
+			+ this.databaseSlowQueriesCount
 	}
 
 	formatTime (seconds) {
