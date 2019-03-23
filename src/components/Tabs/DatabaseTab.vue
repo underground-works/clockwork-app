@@ -5,7 +5,7 @@
 				<div class="counter-value">{{$request.databaseQueriesCount}}</div>
 				<div class="counter-title">queries</div>
 			</div>
-			<div class="counter slow-query" v-if="$request.databaseSlowQueries">
+			<div class="counter database-slow-query" v-if="$request.databaseSlowQueries">
 				<div class="counter-value">{{$request.databaseSlowQueries}}</div>
 				<div class="counter-title">slow</div>
 			</div>
@@ -37,7 +37,7 @@
 
 		<details-table :columns="columns" :items="$request.databaseQueries" :filter="filter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100">
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="query, index in items" :key="`${$request.id}-${index}`" :class="{ 'slow-query': query.tags.includes('slow') }">
+				<tr v-for="query, index in items" :key="`${$request.id}-${index}`" :class="{ 'database-slow-query': query.tags.includes('slow') }">
 					<td>
 						<shortened-text :full="query.model">{{query.shortModel}}</shortened-text>
 					</td>
@@ -91,38 +91,27 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.counter.slow-query {
+<style lang="scss">
+.counter.database-slow-query {
 	border-color: hsl(27, 55%, 65%) !important;
-
-	body.dark & {
-		border-color: hsl(38, 42%, 68%) !important;
-	}
+	body.dark & { border-color: hsl(38, 42%, 68%) !important; }
 }
 
-.slow-query {
+.database-slow-query {
 	background: rgb(255, 250, 226);
 	color: rgb(168, 89, 25);
 
-	&:nth-child(even) {
-		background: hsl(50, 100%, 88%);
-	}
+	&:nth-child(even) { background: hsl(50, 100%, 88%) !important; }
 
-	.database-query-path /deep/ > a {
-		color: hsl(27, 55%, 65%) !important;
-	}
+	.database-query-path > a { color: hsl(27, 55%, 65%) !important; }
 
 	body.dark & {
 		background: hsl(50, 100%, 11%);
 		color: rgb(250, 216, 159);
 
-		&:nth-child(even) {
-			background: hsl(50, 100%, 9%);
-		}
+		&:nth-child(even) { background: hsl(50, 100%, 9%) !important; }
 
-		.database-query-path /deep/ > a {
-			color: hsl(38, 42%, 68%) !important;
-		}
+		.database-query-path > a { color: hsl(38, 42%, 68%) !important; }
 	}
 }
 </style>

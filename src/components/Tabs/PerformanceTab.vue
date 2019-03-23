@@ -20,6 +20,8 @@
 			</div>
 		</div>
 
+		<performance-log v-if="$request.databaseSlowQueries"></performance-log>
+
 		<div tabs="performance">
 			<div class="performance-tabs">
 				<a class="performance-tab" :class="{ 'active': isTabActive('timeline') }" href="#" @click.prevent="showTab('timeline')">Timeline</a>
@@ -33,6 +35,7 @@
 </template>
 
 <script>
+import PerformanceLog from './Performance/PerformanceLog'
 import Profiler from './Performance/Profiler'
 import Timeline from './Performance/Timeline'
 
@@ -40,8 +43,7 @@ import Filter from '../../features/filter'
 
 export default {
 	name: 'PerformanceTab',
-	components: { Profiler, Timeline },
-	props: [ 'request', 'show' ],
+	components: { PerformanceLog, Profiler, Timeline },
 	data: () => ({
 		activeTab: 'timeline'
 	}),
