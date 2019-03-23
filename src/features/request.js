@@ -13,9 +13,7 @@ export default class Request
 		this.processCacheStats()
 		this.cacheQueries = this.processCacheQueries(this.cacheQueries)
 		this.cookies = this.createKeypairs(this.cookies)
-		this.databaseQueries = this.processDatabaseQueries(this.databaseQueries)
-		this.databaseQueriesCount = this.databaseQueries.length
-		this.databaseSlowQueriesCount = this.databaseQueries.filter(query => query.tags.includes('slow')).length
+		this.processDatabase()
 		this.emails = this.processEmails(this.emailsData)
 		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
@@ -94,6 +92,24 @@ export default class Request
 
 			return query
 		})
+	}
+
+	processDatabase () {
+		this.databaseQueries = this.processDatabaseQueries(this.databaseQueries)
+
+		this.databaseQueriesCount = parseInt(this.databaseQueriesCount) || this.databaseQueries.length
+		this.databaseSlowQueries = parseInt(this.databaseSlowQueries)
+			|| this.databaseQueries.filter(query => query.tags.includes('slow')).length
+		this.databaseSelects = parseInt(this.databaseSelects)
+			|| this.databaseQueries.filter(query => query.query.match(/^select /i)).length
+		this.databaseInserts = parseInt(this.databaseInserts)
+			|| this.databaseQueries.filter(query => query.query.match(/^insert /i)).length
+		this.databaseUpdates = parseInt(this.databaseUpdates)
+			|| this.databaseQueries.filter(query => query.query.match(/^update /i)).length
+		this.databaseDeletes = parseInt(this.databaseDelets)
+			|| this.databaseQueries.filter(query => query.query.match(/^delete /i)).length
+		this.databaseOthers = parseInt(this.databaseOthers)
+			|| this.databaseQueries.filter(query => ! query.query.match(/^(select|insert|update|delete) /i)).length
 	}
 
 	processDatabaseQueries (data) {
@@ -304,7 +320,7 @@ export default class Request
 
 	getWarningsCount () {
 		return this.log.filter(message => message.level == 'warning').length
-			+ this.databaseSlowQueriesCount
+			+ this.databaseSlowQueries
 	}
 
 	formatTime (seconds) {

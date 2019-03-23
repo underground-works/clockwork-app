@@ -5,28 +5,28 @@
 				<div class="counter-value">{{$request.databaseQueriesCount}}</div>
 				<div class="counter-title">queries</div>
 			</div>
-			<div class="counter slow-query" v-if="$request.databaseSlowQueriesCount">
-				<div class="counter-value">{{$request.databaseSlowQueriesCount}}</div>
-				<div class="counter-title">queries</div>
+			<div class="counter slow-query" v-if="$request.databaseSlowQueries">
+				<div class="counter-value">{{$request.databaseSlowQueries}}</div>
+				<div class="counter-title">slow</div>
 			</div>
-			<div class="counter" v-if="selectsCount">
-				<div class="counter-value">{{selectsCount}}</div>
+			<div class="counter" v-if="$request.databaseSelects">
+				<div class="counter-value">{{$request.databaseSelects}}</div>
 				<div class="counter-title">selects</div>
 			</div>
-			<div class="counter" v-if="insertsCount">
-				<div class="counter-value">{{insertsCount}}</div>
+			<div class="counter" v-if="$request.databaseInserts">
+				<div class="counter-value">{{$request.databaseInserts}}</div>
 				<div class="counter-title">inserts</div>
 			</div>
-			<div class="counter" v-if="updatesCount">
-				<div class="counter-value">{{updatesCount}}</div>
+			<div class="counter" v-if="$request.databaseUpdates">
+				<div class="counter-value">{{$request.databaseUpdates}}</div>
 				<div class="counter-title">updates</div>
 			</div>
-			<div class="counter" v-if="deletesCount">
-				<div class="counter-value">{{deletesCount}}</div>
+			<div class="counter" v-if="$request.databaseDeletes">
+				<div class="counter-value">{{$request.databaseDeletes}}</div>
 				<div class="counter-title">deletes</div>
 			</div>
-			<div class="counter" v-if="otherCount">
-				<div class="counter-value">{{otherCount}}</div>
+			<div class="counter" v-if="$request.databaseOthers">
+				<div class="counter-value">{{$request.databaseOthers}}</div>
 				<div class="counter-title">other</div>
 			</div>
 			<div class="counter">
@@ -78,11 +78,6 @@ export default {
 		])
 	}),
 	computed: {
-		selectsCount() { return this.$request.databaseQueries.filter(query => query.query.match(/^select /i)).length },
-		insertsCount() { return this.$request.databaseQueries.filter(query => query.query.match(/^insert /i)).length },
-		updatesCount() { return this.$request.databaseQueries.filter(query => query.query.match(/^update /i)).length },
-		deletesCount() { return this.$request.databaseQueries.filter(query => query.query.match(/^delete /i)).length },
-		otherCount() { return this.$request.databaseQueries.filter(query => ! query.query.match(/^(select|insert|update|delete) /i)).length },
 		columns() {
 			let columns = [ 'Model', 'Query', 'Duration' ]
 
