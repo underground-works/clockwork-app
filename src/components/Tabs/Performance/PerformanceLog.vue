@@ -2,7 +2,7 @@
 	<div class="performance-log">
 		<details-table :columns="databaseSlowQueriesColumns" :items="databaseSlowQueries" :filter="databaseSlowQueriesFilter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100">
 			<template slot="header" slot-scope="{ filter }">
-				<th :colspan="columns.length">
+				<th :colspan="databaseSlowQueriesColumns.length">
 					Slow database queries <span class="count">{{$request.databaseSlowQueries}}</span>
 					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
 				</th>
@@ -12,7 +12,7 @@
 					<td>
 						<shortened-text :full="query.model">{{query.shortModel}}</shortened-text>
 					</td>
-					<td v-if="columns.includes('Connection')">{{query.connection}}</td>
+					<td v-if="databaseSlowQueriesColumns.includes('Connection')">{{query.connection}}</td>
 					<td>
 						<div class="database-query">
 							<div class="database-query-content">{{query.query}}</div>
