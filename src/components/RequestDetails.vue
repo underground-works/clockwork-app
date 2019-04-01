@@ -117,7 +117,9 @@ export default {
 		activeTab: 'request'
 	}),
 	computed: {
-		showDatabaseTab: function () { return this.$request?.databaseQueries?.length },
+		showDatabaseTab: function () {
+			return this.$request?.databaseQueriesCount || this.$request?.databaseQueries?.length
+		},
 		showCacheTab: function () {
 			return [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
 				|| this.$request?.cacheQueries.length
