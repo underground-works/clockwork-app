@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<details-table :columns="['Time', 'Level', 'Message']" :items="$request.log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
+		<details-table :columns="['Time', 'Level', 'Message']" :items="log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message, index in items" :class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }" :key="`${$request.id}-${index}`">
 					<td class="log-date">{{message.time | moment('HH:mm:ss')}}</td>
@@ -44,6 +44,9 @@ export default {
 			{ tag: 'file', map: item => item.shortPath }
 		], item => item.message)
 	}),
+	computed: {
+		log() { return this.$request.log.filter(message => ! message.context?.performance) }
+	},
 	methods: {
 		showPreviousException: function (message) {
 			let messageIndex = this.$request.log.indexOf(message)

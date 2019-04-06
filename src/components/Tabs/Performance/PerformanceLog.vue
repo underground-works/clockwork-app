@@ -1,6 +1,30 @@
 <template>
 	<div class="performance-log">
-		<details-table :columns="databaseSlowQueriesColumns" :items="databaseSlowQueries" :filter="databaseSlowQueriesFilter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100">
+		<details-table :columns="['Message']" :items="performanceLog" :filter="performanceLogFilter" filter-example="query failed file:Controller.php time:>13:08:29" v-if="performanceLog.length">
+			<template slot="header" slot-scope="{ filter }">
+				<th :colspan="databaseSlowQueriesColumns.length">
+					Performance warnings <span class="count">{{performanceLog.length}}</span>
+					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
+				</th>
+			</template>
+			<template slot="body" slot-scope="{ items }">
+				<tr v-for="message, index in items" class="log-row" :key="`${$request.id}-${index}`">
+					<td>
+						<div class="log-message">
+							<div class="log-message-content">
+								<pretty-print :data="message.message"></pretty-print>
+								<div v-show="message.context && message.context.length">
+									<pretty-print :data="message.context"></pretty-print>
+								</div>
+							</div>
+							<stack-trace class="log-message-path" :trace="message.trace" :file="message.file" :line="message.line"></stack-trace>
+						</div>
+					</td>
+				</tr>
+			</template>
+		</details-table>
+
+		<details-table :columns="databaseSlowQueriesColumns" :items="databaseSlowQueries" :filter="databaseSlowQueriesFilter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100" v-if="databaseSlowQueries.length">
 			<template slot="header" slot-scope="{ filter }">
 				<th :colspan="databaseSlowQueriesColumns.length">
 					Slow database queries <span class="count">{{$request.databaseSlowQueries}}</span>
@@ -29,14 +53,18 @@
 <script>
 import DetailsTable from '../../UI/DetailsTable'
 import DetailsTableFilterToggle from '../../UI/DetailsTableFilterToggle'
+import PrettyPrint from '../../UI/PrettyPrint'
 import ShortenedText from '../../UI/ShortenedText'
 import StackTrace from '../../UI/StackTrace'
 
 import Filter from '../../../features/filter'
 
+import extend from 'just-extend'
+import omit from 'just-omit'
+
 export default {
 	name: 'PerformanceLog',
-	components: { DetailsTable, DetailsTableFilterToggle, ShortenedText, StackTrace },
+	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, ShortenedText, StackTrace },
 	data: () => ({
 		databaseSlowQueriesFilter: new Filter([
 			{ tag: 'model' },
@@ -47,7 +75,11 @@ export default {
 			} },
 			{ tag: 'file', map: item => item.shortPath },
 			{ tag: 'duration', type: 'number' }
-		])
+		]),
+		performanceLogFilter: new Filter([
+			{ tag: 'time', type: 'date' },
+			{ tag: 'file', map: item => item.shortPath }
+		], item => item.message)
 	}),
 	computed: {
 		databaseSlowQueriesColumns() {
@@ -61,6 +93,11 @@ export default {
 		},
 		databaseSlowQueries() {
 			return this.$request.databaseQueries.filter(query => query.tags.includes('slow'))
+		},
+		performanceLog() {
+			return this.$request.log.filter(message => message.context?.performance).map(message => {
+				return extend({}, message, { context: omit(message.context, [ 'performance', 'trace' ]) })
+			})
 		}
 	}
 }
@@ -90,13 +127,17 @@ export default {
 			background: rgb(255, 250, 226);
 			color: rgb(168, 89, 25);
 
-			&:nth-child(even) { background: hsl(50, 100%, 88%); }
+			&:nth-child(even) { background: hsl(50, 100%, 88%) !important; }
+
+			.log-message-path > a { color: hsl(27, 55%, 65%) !important; }
 
 			body.dark & {
 				background: hsl(50, 100%, 11%);
 				color: rgb(250, 216, 159);
 
-				&:nth-child(even) { background: hsl(50, 100%, 9%); }
+				&:nth-child(even) { background: hsl(50, 100%, 9%) !important; }
+
+				.log-message-path > a { color: hsl(38, 42%, 68%) !important; }
 			}
 
 			&:first-child td {
