@@ -83,9 +83,9 @@ export default class Standalone
 	}
 
 	getCookie (name) {
-		let matches = document.cookie.match(new RegExp(`(?:^| )${name}=(?<value>[^;]*)`))
+		let matches = document.cookie.match(new RegExp(`(?:^| )${name}=([^;]*)`))
 
-		return Promise.resolve(! matches ? undefined : matches.groups.value)
+		return Promise.resolve(! matches ? undefined : matches.groups[0])
 	}
 
 	startPollingRequests () {
