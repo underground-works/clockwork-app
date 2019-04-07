@@ -6,9 +6,6 @@
 					<th class="controller">
 						Path<br><small>Controller</small>
 					</th>
-					<th class="method">
-						Method
-					</th>
 					<th class="status">
 						Status
 					</th>
@@ -30,28 +27,24 @@
 			<table id="requests" ref="requestsTable">
 				<tr class="sizing">
 					<td class="controller"></td>
-					<td class="method"></td>
 					<td class="status"></td>
 					<td class="duration"></td>
 				</tr>
 				<tr v-for="request in $requests.items" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
-					<td class="controller" :title="`${request.uri} (${request.controller})`">
-						<span class="notifications-count">
-							<span class="errors-count" v-show="request.errorsCount">
-								<font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{request.errorsCount}}
-							</span>
+					<td class="controller" :title="`${request.method} ${request.uri} (${request.controller})`">
+						<div class="notifications-count">
 							<span class="warnings-count" v-show="request.warningsCount">
 								<font-awesome-icon icon="exclamation-triangle"></font-awesome-icon> {{request.warningsCount}}
 							</span>
-						</span>
-						{{request.uri}}<br>
+							<span class="errors-count" v-show="request.errorsCount">
+								<font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{request.errorsCount}}
+							</span>
+						</div>
+						<big><span class="method-text">{{request.method}}</span> {{request.uri}}</big><br>
 						<small>{{request.controller}}</small>
 					</td>
-					<td class="method" :title="request.method">
-						{{request.method}}
-					</td>
 					<td class="status" :title="request.responseStatus">
-						{{request.responseStatus}}
+						<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
 					</td>
 					<td class="duration" :title="`${request.responseDurationRounded} ms (${request.databaseDurationRounded} ms)`">
 						{{request.responseDurationRounded}} ms<br>
@@ -60,7 +53,6 @@
 				</tr>
 				<tr class="filler">
 					<td class="controller"></td>
-					<td class="method"></td>
 					<td class="status"></td>
 					<td class="duration"></td>
 				</tr>
@@ -128,32 +120,18 @@ export default {
 		&:first-child td {
 			border-top: 1px solid rgb(209, 209, 209);
 
-			body.dark & {
-				border-top: 1px solid rgb(54, 54, 54);
-			}
+			body.dark & { border-top: 1px solid rgb(54, 54, 54); }
 		}
 
 		&:nth-child(even):not(.filler) {
 			background: rgb(243, 243, 243);
 
-			body.dark & {
-				background: rgb(24, 24, 24);
-			}
-
-			td.method, td.status, td.duration {
-				background: rgb(225, 225, 225);
-
-				body.dark & {
-					background: rgb(17, 17, 17);
-				}
-			}
+			body.dark & { background: rgb(24, 24, 24); }
 
 			.notifications-count {
 				background: rgba(243, 243, 243, 0.8);
 
-				body.dark & {
-					background: rgba(27, 27, 27, 0.8);
-				}
+				body.dark & { background: rgba(27, 27, 27, 0.8); }
 			}
 		}
 
@@ -162,28 +140,40 @@ export default {
 				background: rgb(39, 134, 243) !important;
 				color: white;
 
-				body.dark & {
-					background: hsl(31, 98%, 48%) !important;
-				}
+				body.dark & { background: hsl(31, 98%, 48%) !important; }
 			}
 
 			small {
 				color: white;
 
-				body.dark & {
-					color: white;
-				}
+				body.dark & { color: white; }
 			}
 
 			.notifications-count {
 				background: rgb(39, 134, 243) !important;
 
-				.errors-count svg, .warnings-count svg {
+				.errors-count, .warnings-count, .warnings-count svg {
 					color: #fff;
+
+					body.dark & { color: #fff; }
 				}
 
+				body.dark & { background: hsl(31, 98%, 48%) !important; }
+			}
+
+			.method-text {
+				color: white;
+
+				body.dark & { color: white; }
+			}
+
+			.status-text {
+				background: transparent;
+				color: #fff;
+
 				body.dark & {
-					background: hsl(31, 98%, 48%) !important;
+					background: transparent;
+					color: #fff;
 				}
 			}
 		}
@@ -208,7 +198,6 @@ export default {
 
 	th {
 		border-bottom: 1px solid rgb(209, 209, 209);
-		border-right: 1px solid rgb(209, 209, 209);
 		font-weight: normal;
 		height: 30px;
 		line-height: 1.1;
@@ -217,28 +206,14 @@ export default {
 
 		body.dark & {
 			border-bottom: 1px solid rgb(54, 54, 54);
-			border-right: 1px solid rgb(54, 54, 54);
 		}
 	}
 
 	td {
-		border-right: 1px solid rgb(209, 209, 209);
 		overflow: hidden;
 		padding: 8px 6px;
 		vertical-align: middle;
 		white-space: nowrap;
-
-		&.method, &.status, &.duration {
-			background: rgb(237, 237, 237);
-
-			body.dark & {
-				background: rgb(29, 29, 29);
-			}
-		}
-
-		body.dark & {
-			border-right: 1px solid rgb(54, 54, 54);
-		}
 	}
 
 	small {
@@ -250,18 +225,63 @@ export default {
 		}
 	}
 
+	big {
+		font-size: 115%;
+	}
+
 	.method, .status {
 		text-align: center;
-		width: 50px;
+		width: 42px;
 	}
 
 	.duration {
 		text-align: right;
-		width: 80px;
+		width: 68px;
+	}
+
+	.method-text {
+		color: gray;
+		font-size: 90%;
+
+		body.dark & {
+			color: rgb(118, 118, 118);
+		}
+	}
+
+	.status-text {
+		background: hsl(76, 47%, 86%);
+		border-radius: 8px;
+		color: #586336;
+		padding: 2px 6px;
+
+		body.dark & {
+			background: hsla(76, 100%, 11%, 1);
+		    color: hsla(75, 90%, 80%, 1);
+		}
+
+		&.client-error {
+			background: #fffae2;
+			color: #a85919;
+
+			body.dark & {
+			    background: #382f00;
+			    color: #fad89f;
+			}
+		}
+
+		&.server-error {
+			background: #ffebeb;
+			color: #c51f24;
+
+			body.dark & {
+				background: #380000;
+				color: #ed797a;
+			}
+		}
 	}
 
 	.notifications-count {
-		background: rgba(255, 255, 255, 0.8);
+		background: hsl1(0, 0%, 98%, 0.8);
 		float: right;
 		letter-spacing: -0.5px;
 		line-height: 29px;
@@ -269,18 +289,32 @@ export default {
 	    padding: 0 6px;
 		position: relative;
 
-		.errors-count svg {
-			color: rgb(179, 73, 46);
-			margin-left: 2px;
+		.errors-count, .warnings-count {
+			line-height: 15px;
 		}
 
-		.warnings-count svg {
-			color: rgb(244, 189, 0);
+		.errors-count {
+			color: rgb(179, 73, 46);
 			margin-left: 2px;
+
+			body.dark & { color: #ed797a; }
+		}
+
+		.warnings-count {
+			color: #a85919;
+			margin-left: 2px;
+
+			body.dark & { color: #fad89f; }
+
+			svg {
+				color: rgb(244, 189, 0);
+
+				body.dark & { color: #fad89f; }
+			}
 		}
 
 		body.dark & {
-			background: rgba(31, 31, 31, 0.8);
+			background: rgba(#1b1b1b, 0.8);
 		}
 	}
 
@@ -289,11 +323,16 @@ export default {
 	}
 
 	.requests-container {
+		background: hsl(0, 0%, 98%);
 		height: calc(100% - 31px);
 		overflow: auto;
 
 		table {
 			height: 100%;
+		}
+
+		body.dark & {
+			background: #1b1b1b;
 		}
 	}
 
