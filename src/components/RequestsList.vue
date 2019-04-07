@@ -15,6 +15,13 @@
 				</tr>
 			</thead>
 		</table>
+		<div class="requests-search" v-show="$requestsSearch.shown">
+			<label>
+				<font-awesome-icon icon="search"></font-awesome-icon>
+				<input type="search" placeholder="Search..." v-model="$requestsSearch.input" @input="$requestsSearch.searchDebounced">
+				<span class="example" v-show="! $requestsSearch.input">eg. /api/users method:post status:500</span>
+			</label>
+		</div>
 		<div class="requests-container" ref="requestsContainer">
 			<div class="load-more" ref="loadMore">
 				<p class="load" v-show="! loadingMoreRequests">
@@ -320,6 +327,60 @@ export default {
 
 	.requests-header {
 		height: 31px;
+	}
+
+	.requests-search {
+		border-bottom: 1px solid #d1d1d1;
+		padding: 6px 2px;
+
+		body.dark & {
+			border-bottom: 1px solid rgb(54, 54, 54);
+		}
+
+		label {
+			align-items: center;
+			display: flex;
+			position: relative;
+		}
+
+		.fa-search {
+			color: #696969;
+			margin: 0 4px;
+		}
+
+		input {
+			background: transparent;
+			border: none;
+			width: 100%;
+
+			&:focus {
+				outline: none;
+			}
+
+			&::placeholder {
+				color: #a9a9a9;
+
+				body.dark & {
+					color: #777;
+				}
+			}
+
+			body.dark & {
+				color: #b2b2b2;
+			}
+		}
+
+		.example {
+			color: #a9a9a9;
+			font-size: 11px;
+			pointer-events: none;
+			position: absolute;
+			right: 0;
+
+			body.dark & {
+				color: #777;
+			}
+		}
 	}
 
 	.requests-container {

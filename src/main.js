@@ -12,6 +12,7 @@ import Authentication from './features/authentication'
 import EditorLinks from './features/editor-links'
 import Profiler from './features/profiler'
 import Requests from './features/requests'
+import RequestsSearch from './features/requests-search'
 import Settings from './features/settings'
 import UpdateNotification from './features/update-notification'
 
@@ -23,10 +24,11 @@ let $platform = Extension.runningAsExtension() ? new Extension : new Standalone
 let $authentication = new Authentication($requests)
 let $editorLinks = new EditorLinks($settings)
 let $profiler = new Profiler($requests, $platform)
+let $requestsSearch = new RequestsSearch($requests)
 let $updateNotification = new UpdateNotification
 
 let global = {
-	$requests, $platform, $authentication, $profiler, $settings, $updateNotification, $request: null,
+	$requests, $platform, $authentication, $profiler, $requestsSearch, $settings, $updateNotification, $request: null,
 	preserveLog: true, requestsListCollapsed: false, showIncomingRequests: true
 }
 
