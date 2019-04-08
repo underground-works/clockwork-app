@@ -92,8 +92,6 @@ export default class Standalone
 		this.requests.loadLatest().then(() => {
 			if (! this.requests.last()) throw new Error
 
-			this.lastRequestId = this.requests.last().id
-
 			this.pollRequests()
 		}).catch(error => {
 			if (error.error == 'requires-authentication') {
@@ -107,13 +105,13 @@ export default class Standalone
 	}
 
 	pollRequests () {
+		if (this.requests.last()) {
+			this.lastRequestId = this.requests.last().id
+		}
+
 		this.requests.loadNext(null, this.lastRequestId).then(() => {
 			if (! this.global.preserveLog) {
 				this.requests.setItems(this.requests.all().slice(-1))
-			}
-
-			if (this.requests.last()) {
-				this.lastRequestId = this.requests.last().id
 			}
 
 			setTimeout(() => this.pollRequests(), 1000)

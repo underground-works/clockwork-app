@@ -47,7 +47,7 @@ export default class RequestsSearch
 
 		this.requests.returnLatest().then(latest => {
 			this.requests.returnPrevious(9, latest.id).then(previous => {
-				this.requests.setItems([ ...previous, latest ])
+				this.requests.setItems(previous ? [ ...previous, latest ] : [ latest ])
 			})
 		}).catch(() => {
 			this.requests.clear()
