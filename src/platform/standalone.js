@@ -83,16 +83,14 @@ export default class Standalone
 	}
 
 	getCookie (name) {
-		let matches = document.cookie.match(new RegExp(`(?:^| )${name}=(?<value>[^;]*)`))
+		let matches = document.cookie.match(new RegExp(`(?:^| )${name}=([^;]*)`))
 
-		return Promise.resolve(! matches ? undefined : matches.groups.value)
+		return Promise.resolve(! matches ? undefined : matches.groups[0])
 	}
 
 	startPollingRequests () {
 		this.requests.loadLatest().then(() => {
 			if (! this.requests.last()) throw new Error
-
-			this.lastRequestId = this.requests.last().id
 
 			this.pollRequests()
 		}).catch(error => {
@@ -107,13 +105,13 @@ export default class Standalone
 	}
 
 	pollRequests () {
+		if (this.requests.last()) {
+			this.lastRequestId = this.requests.last().id
+		}
+
 		this.requests.loadNext(null, this.lastRequestId).then(() => {
 			if (! this.global.preserveLog) {
 				this.requests.setItems(this.requests.all().slice(-1))
-			}
-
-			if (this.requests.last()) {
-				this.lastRequestId = this.requests.last().id
 			}
 
 			setTimeout(() => this.pollRequests(), 1000)

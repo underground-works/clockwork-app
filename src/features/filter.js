@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default class Filter
 {
-	constructor (tags, map, $timeout) {
+	constructor (tags, map) {
 		this.tags = tags
 		this.map = map
 
@@ -10,11 +10,9 @@ export default class Filter
 		this.sortedBy = undefined
 		this.sortedDesc = false
 		this.input = ''
-
-		this.$timeout = $timeout
 	}
 
-	toggle ($event) {
+	toggle () {
 		this.shown = ! this.shown
 
 		if (this.shown) {

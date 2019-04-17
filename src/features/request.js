@@ -64,6 +64,14 @@ export default class Request
 		return this
 	}
 
+	isClientError() {
+		return this.responseStatus >= 400 && this.responseStatus < 500
+	}
+
+	isServerError() {
+		return this.responseStatus >= 500 && this.responseStatus < 600
+	}
+
 	createKeypairs (data, sorted = true) {
 		if (! (data instanceof Object)) return []
 

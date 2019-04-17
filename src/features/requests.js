@@ -8,6 +8,7 @@ export default class Requests
 		this.items = []
 
 		this.tokens = LocalStore.get('requests.tokens')
+		this.query = {}
 
 		if (! (this.tokens instanceof Object)) this.tokens = {}
 	}
@@ -50,33 +51,47 @@ export default class Requests
 		}).catch(error => {})
 	}
 
-	loadLatest () {
+	loadLatest (update = true) {
 		return this.callRemote(this.remoteUrl + 'latest').then(data => {
-			this.items.push(data[0])
+			if (update) this.items.push(data[0])
 			return data[0]
 		})
 	}
 
+	returnLatest () {
+		return this.loadLatest(false)
+	}
+
 	// loads requests after the last request, if the count isn't specified loads all requests
-	loadNext (count, id) {
+	loadNext (count, id, update = true) {
 		if (! id && ! this.items.length) return Promise.resolve([])
 
 		id = id || this.last().id
 
 		return this.callRemote(this.remoteUrl + id + '/next' + (count ? '/' + count : '')).then(data => {
-			this.items.push(...data)
+			if (update) this.items.push(...data)
+			return data
 		}).catch(error => {})
 	}
 
+	returnNext (count, id) {
+		return this.loadNext(count, id, false)
+	}
+
 	// loads requests before the first request, if the count isn't specified loads all requests
-	loadPrevious (count, id) {
+	loadPrevious (count, id, update = true) {
 		if (! id && ! this.items.length) return Promise.resolve([])
 
 		id = id || this.first().id
 
 		return this.callRemote(this.remoteUrl + id + '/previous' + (count ? '/' + count : '')).then(data => {
-			this.items.unshift(...data)
+			if (update) this.items.unshift(...data)
+			return data
 		}).catch(error => {})
+	}
+
+	returnPrevious (count, id) {
+		return this.loadPrevious(count, id, false)
 	}
 
 	clear () {
@@ -119,8 +134,14 @@ export default class Requests
 		LocalStore.set('requests.tokens', this.tokens)
 	}
 
+	setQuery (query) {
+		this.query = query
+	}
+
 	callRemote (url) {
 		let headers = Object.assign({}, this.remoteHeaders, { 'X-Clockwork-Auth': this.tokens[this.remoteUrl] })
+
+		url = URI(url).addQuery(this.query).toString()
 
 		return this.client('GET', url, {}, headers).then(data => {
 			if (! data) return []
