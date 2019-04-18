@@ -15,9 +15,8 @@
 			</div>
 
 			<div class="details-header-tabs">
-				<tab-handle name="request" :active="isTabActive('request')" @tab-selected="showTab">Request</tab-handle>
 				<tab-handle name="performance" :active="isTabActive('performance')" @tab-selected="showTab">Performance</tab-handle>
-				<tab-handle name="log" :active="isTabActive('log')" @tab-selected="showTab">Log</tab-handle>
+				<tab-handle name="log" :active="isTabActive('log')" @tab-selected="showTab" v-show="showLogTab">Log</tab-handle>
 				<tab-handle name="events" :active="isTabActive('events')" @tab-selected="showTab" v-show="showEventsTab">Events</tab-handle>
 				<tab-handle name="database" :active="isTabActive('database')" @tab-selected="showTab" v-show="showDatabaseTab">Database</tab-handle>
 				<tab-handle name="cache" :active="isTabActive('cache')" @tab-selected="showTab" v-show="showCacheTab">Cache</tab-handle>
@@ -31,22 +30,21 @@
 			</div>
 
 			<div class="icons">
-				<settings-popover></settings-popover>
-				<a href="#" title="Preserve log" v-show="! preserveLog" @click="togglePreserveLog">
-					<font-awesome-icon :icon="['far', 'circle']"></font-awesome-icon>
+				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="requestSidebarCollapsed">
+					<font-awesome-icon :icon="preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
-				<a href="#" title="Preserve log" v-show="preserveLog" @click="togglePreserveLog">
-					<font-awesome-icon icon="circle"></font-awesome-icon>
-				</a>
-				<a href="#" title="Clear" @click="clear">
+				<a href="#" title="Clear" @click="clear" v-show="requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
+				</a>
+				<settings-popover></settings-popover>
+				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
+					<font-awesome-icon :icon="requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
 				</a>
 			</div>
 		</div>
 
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
-			<request-tab v-show="isTabActive('request')"></request-tab>
 			<events-tab v-show="isTabActive('events')"></events-tab>
 			<database-tab v-show="isTabActive('database')"></database-tab>
 			<cache-tab v-show="isTabActive('cache')"></cache-tab>
@@ -104,7 +102,6 @@ import LogTab from './Tabs/LogTab'
 import PerformanceTab from './Tabs/PerformanceTab'
 import RedisTab from './Tabs/RedisTab'
 import QueueTab from './Tabs/QueueTab'
-import RequestTab from './Tabs/RequestTab'
 import RoutesTab from './Tabs/RoutesTab'
 import SessionTab from './Tabs/SessionTab'
 import UserTab from './Tabs/UserTab'
@@ -114,12 +111,13 @@ export default {
 	name: 'RequestDetails',
 	components: {
 		TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, PerformanceTab, RedisTab,
-		QueueTab, RequestTab, RoutesTab, SessionTab, UserTab, ViewsTab
+		QueueTab, RoutesTab, SessionTab, UserTab, ViewsTab
 	},
 	data: () => ({
-		activeTab: 'request'
+		activeTab: 'performance'
 	}),
 	computed: {
+		showLogTab: function () { return this.$request?.log?.length },
 		showDatabaseTab: function () {
 			return this.$request?.databaseQueriesCount || this.$request?.databaseQueries?.length
 		},
@@ -139,7 +137,8 @@ export default {
 		isTabActive: function (tab) { return this.$request && this.activeTab == tab },
 		showTab: function (tab) { this.activeTab = tab },
 		toggleRequestsList: function () { this.global.requestsListCollapsed = ! this.global.requestsListCollapsed },
-		togglePreserveLog: function () { this.$platform.preserveLog = ! this.$platform.preserveLog },
+		toggleRequestSidebar: function () { this.global.requestSidebarCollapsed = ! this.global.requestSidebarCollapsed },
+		togglePreserveLog: function () { this.global.preserveLog = ! this.global.preserveLog },
 		clear: function () { this.$requests.clear() }
 	}
 }

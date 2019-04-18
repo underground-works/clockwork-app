@@ -19,36 +19,6 @@
 			</span>
 		</div>
 
-		<div class="request-tab-info">
-			<div class="field">
-				<div class="field-title">Method</div>
-				<div class="field-value">
-					<div>{{$request.method}}</div>
-				</div>
-			</div>
-			<div class="field action">
-				<div class="field-title">Action</div>
-				<div class="field-value">
-					<div>{{$request.uri}}</div>
-					<div class="small">{{$request.controller}}</div>
-				</div>
-			</div>
-			<div class="field link">
-				<div class="field-title">&nbsp;</div>
-				<div class="field-value">
-					<a href="#" v-show="$request.url" v-clipboard:copy="$request.url" title="Copy url">
-						<font-awesome-icon icon="link"></font-awesome-icon>
-					</a>
-				</div>
-			</div>
-			<div class="field">
-				<div class="field-title">Status</div>
-				<div class="field-value">
-					<div>{{$request.responseStatus}}</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="request-tab-exception" v-if="$request.exceptions.length">
 			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
 				<div class="exception-message">
@@ -65,7 +35,7 @@
 		<details-table :items="$request.headers" :filter="headersFilter" filter-example="text/html name:Accept" v-show="$request.headers.length">
 			<template slot="header" slot-scope="{ filter }">
 				<th colspan="2">
-					Request headers
+					Headers
 					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
 				</th>
 			</template>

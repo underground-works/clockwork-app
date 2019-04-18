@@ -1,5 +1,5 @@
 <template>
-	<div class="split-view-pane split-view-requests">
+	<div :class="{ 'split-view-pane split-view-requests': true, 'large': requestSidebarCollapsed }">
 		<table class="requests-header" id="requests-header">
 			<thead>
 				<tr>
@@ -71,6 +71,7 @@
 <script>
 export default {
 	name: 'RequestsList',
+	components: { },
 	data: () => ({
 		loadingMoreRequests: false
 	}),
@@ -115,6 +116,10 @@ export default {
 <style lang="scss">
 .split-view-requests {
 	cursor: default;
+	display: flex;
+	flex-direction: column;
+
+	&.large { width: 440px; }
 
 	table {
 		line-height: 1.4;

@@ -29,7 +29,7 @@ let $updateNotification = new UpdateNotification
 
 let global = {
 	$requests, $platform, $authentication, $profiler, $requestsSearch, $settings, $updateNotification, $request: null,
-	preserveLog: true, requestsListCollapsed: false, showIncomingRequests: true
+	preserveLog: true, requestsListCollapsed: false, requestSidebarCollapsed: true, showIncomingRequests: true
 }
 
 $platform.init(global)
