@@ -32,7 +32,7 @@
 			</div>
 		</div>
 
-		<sidebar-section title="Headers" :items="$request.headers" filter-example="text/html name:Accept" v-show="$request.headers.length">
+		<sidebar-section title="Headers" :items="headers" filter-example="text/html name:Accept" v-show="headers.length">
 		</sidebar-section>
 
 		<sidebar-section title="Data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
@@ -72,7 +72,11 @@ export default {
 		cookiesFilter: new Filter([ { tag: 'name' } ])
 	}),
 	computed: {
-		updateNotification() { this.$updateNotification.show(this.$requests.remoteUrl) }
+		headers() {
+			return ! this.$request.cookies.length
+				? this.$request.headers : this.$request.headers.filter(header => header.name != 'Cookie')
+		},
+		updateNotification() { return this.$updateNotification.show(this.$requests.remoteUrl) }
 	},
 	methods: {
 		closeUpdateNotification: function () {
