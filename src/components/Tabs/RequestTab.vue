@@ -32,95 +32,23 @@
 			</div>
 		</div>
 
-		<details-table :items="$request.headers" :filter="headersFilter" filter-example="text/html name:Accept" v-show="$request.headers.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					Headers
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		<sidebar-section title="Headers" :items="$request.headers" filter-example="text/html name:Accept" v-show="$request.headers.length">
+		</sidebar-section>
 
-		<details-table v-if="$request.requestData instanceof Object" :items="$request.requestData" :filter="requestDataFilter" filter-example="420 name:price" v-show="$request.requestData.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					Request data
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
+		<sidebar-section title="Data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
+			<template slot="content" v-if="! ($request.requestData instanceof Object)">
+				{{$request.requestData}}
 			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		</sidebar-section>
 
-		<table v-else-if="$request.requestData" class="request-tab-data-raw">
-			<thead>
-				<tr>
-					<th>
-						Request data
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{$request.requestData}}</td>
-				</tr>
-			</tbody>
-		</table>
+		<sidebar-section title="GET data" :items="$request.getData" filter-example="created_at name:orderBy" v-show="$request.getData.length">
+		</sidebar-section>
 
-		<details-table :items="$request.getData" :filter="getDataFilter" filter-example="created_at name:orderBy" v-show="$request.getData.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					GET parameters
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		<sidebar-section title="POST data" :items="$request.postData" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
+		</sidebar-section>
 
-		<details-table :items="$request.postData" :filter="postDataFilter" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					POST parameters
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
-
-		<details-table :items="$request.cookies" :filter="cookiesFilter" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					Cookies
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		<sidebar-section title="Cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
+		</sidebar-section>
 	</div>
 </template>
 
@@ -128,13 +56,14 @@
 import DetailsTable from '../UI/DetailsTable'
 import DetailsTableFilterToggle from '../UI/DetailsTableFilterToggle'
 import PrettyPrint from '../UI/PrettyPrint'
+import SidebarSection from '../UI/SidebarSection'
 import StackTrace from '../UI/StackTrace'
 
 import Filter from '../../features/filter'
 
 export default {
 	name: 'RequestTab',
-	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, StackTrace },
+	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, SidebarSection, StackTrace },
 	data: () => ({
 		headersFilter: new Filter([ { tag: 'name' } ]),
 		requestDataFilter: new Filter([ { tag: 'name' } ]),
