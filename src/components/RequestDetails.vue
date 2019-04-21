@@ -22,7 +22,6 @@
 				<tab-handle name="cache" :active="isTabActive('cache')" @tab-selected="showTab" v-show="showCacheTab">Cache</tab-handle>
 				<tab-handle name="redis" :active="isTabActive('redis')" @tab-selected="showTab" v-show="showRedisTab">Redis</tab-handle>
 				<tab-handle name="queue" :active="isTabActive('queue')" @tab-selected="showTab" v-show="showQueueTab">Queue</tab-handle>
-				<tab-handle name="session" :active="isTabActive('session')" @tab-selected="showTab" v-show="showSessionTab">Session</tab-handle>
 				<tab-handle name="views" :active="isTabActive('views')" @tab-selected="showTab" v-show="showViewsTab">Views</tab-handle>
 				<tab-handle name="emails" :active="isTabActive('emails')" @tab-selected="showTab" v-show="showEmailsTab">Emails</tab-handle>
 				<tab-handle name="routes" :active="isTabActive('routes')" @tab-selected="showTab" v-show="showRoutesTab">Routes</tab-handle>
@@ -52,7 +51,6 @@
 			<queue-tab v-show="isTabActive('queue')"></queue-tab>
 			<log-tab v-show="isTabActive('log')"></log-tab>
 			<performance-tab v-show="isTabActive('performance')"></performance-tab>
-			<session-tab v-show="isTabActive('session')"></session-tab>
 			<views-tab v-show="isTabActive('views')"></views-tab>
 			<emails-tab v-show="isTabActive('emails')"></emails-tab>
 			<routes-tab v-show="isTabActive('routes')"></routes-tab>
@@ -103,7 +101,6 @@ import PerformanceTab from './Tabs/PerformanceTab'
 import RedisTab from './Tabs/RedisTab'
 import QueueTab from './Tabs/QueueTab'
 import RoutesTab from './Tabs/RoutesTab'
-import SessionTab from './Tabs/SessionTab'
 import UserTab from './Tabs/UserTab'
 import ViewsTab from './Tabs/ViewsTab'
 
@@ -111,7 +108,7 @@ export default {
 	name: 'RequestDetails',
 	components: {
 		TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, PerformanceTab, RedisTab,
-		QueueTab, RoutesTab, SessionTab, UserTab, ViewsTab
+		QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	data: () => ({
 		activeTab: 'performance'
@@ -128,7 +125,6 @@ export default {
 		showRedisTab: function () { return this.$request?.redisCommands?.length },
 		showQueueTab: function () { return this.$request?.queueJobs?.length },
 		showEventsTab: function () { return this.$request?.events?.length },
-		showSessionTab: function () { return this.$request?.sessionData?.length || this.$request?.authenticatedUser },
 		showViewsTab: function () { return this.$request?.views?.length },
 		showEmailsTab: function () { return this.$request?.emails?.length },
 		showRoutesTab: function () { return this.$request?.routes?.length }

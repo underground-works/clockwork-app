@@ -49,28 +49,31 @@
 
 		<sidebar-section title="Cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
 		</sidebar-section>
+
+		<sidebar-section title="Session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
+			<template slot="above-table">
+				<div class="session-user" v-if="$request.authenticatedUser">
+					<font-awesome-icon icon="user"></font-awesome-icon>
+					<div>
+						<span class="name" v-if="$request.authenticatedUser.name && $request.authenticatedUser.name.trim()">{{$request.authenticatedUser.name}}</span>
+						<span :class="$request.authenticatedUser.name && $request.authenticatedUser.name.trim() ? 'dimmed' : ''">{{$request.authenticatedUser.username}}</span>
+					</div>
+					<span class="session-user-details" v-if="$request.authenticatedUser.email || $request.authenticatedUser.id">
+						<span class="dimmed" v-if="$request.authenticatedUser.id">#{{$request.authenticatedUser.id}}</span>
+					</span>
+				</div>
+			</template>
+		</sidebar-section>
 	</div>
 </template>
 
 <script>
-import DetailsTable from '../UI/DetailsTable'
-import DetailsTableFilterToggle from '../UI/DetailsTableFilterToggle'
-import PrettyPrint from '../UI/PrettyPrint'
 import SidebarSection from '../UI/SidebarSection'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
-
 export default {
 	name: 'RequestTab',
-	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, SidebarSection, StackTrace },
-	data: () => ({
-		headersFilter: new Filter([ { tag: 'name' } ]),
-		requestDataFilter: new Filter([ { tag: 'name' } ]),
-		getDataFilter: new Filter([ { tag: 'name' } ]),
-		postDataFilter: new Filter([ { tag: 'name' } ]),
-		cookiesFilter: new Filter([ { tag: 'name' } ])
-	}),
+	components: { SidebarSection, StackTrace },
 	computed: {
 		headers() {
 			return ! this.$request.cookies.length
@@ -97,5 +100,36 @@ export default {
 <style lang="scss">
 .request-tab {
 	background: #fff;
+
+	.session-user {
+		align-items: center;
+		border-bottom: 1px solid rgb(209, 209, 209);
+		display: flex;
+		font-size: 110%;
+		padding: 8px 10px;
+
+		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+		.fa-user {
+			color: rgb(128, 128, 128);
+			font-size: 110%;
+			margin-right: 8px;
+		}
+
+		.name {
+			margin-right: 6px;
+		}
+
+		.dimmed {
+			color: rgb(128, 128, 128);
+			font-size: 90%;
+
+			body.dark & { color: rgb(118, 118, 118); }
+		}
+
+		.session-user-details {
+			margin-left: auto;
+		}
+	}
 }
 </style>
