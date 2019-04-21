@@ -62,7 +62,7 @@ a {
 }
 
 .split-view-requests {
-	height: 50%;
+	height: 25%;
 	width: 100%;
 
 	@media screen and (min-width: 900px) {
@@ -75,11 +75,10 @@ a {
 }
 
 .split-view-details {
-	height: 50%;
+	flex: 1;
 	min-width: 0;
 
 	@media screen and (min-width: 900px) {
-		flex: 1;
 		height: 100%;
 	}
 }

@@ -115,11 +115,21 @@ export default {
 
 <style lang="scss">
 .split-view-requests {
+	border-bottom: 1px solid rgb(209, 209, 209);
 	cursor: default;
 	display: flex;
 	flex-direction: column;
+	height: 25%;
 
-	&.large { width: 440px; }
+	body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+	@media screen and (min-width: 900px) {
+		border-bottom: 0;
+		height: 100%;
+		width: 360px;
+
+		&.large { width: 440px; }
+	}
 
 	table {
 		line-height: 1.4;
