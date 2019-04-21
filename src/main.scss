@@ -1026,31 +1026,6 @@ a {
 	}
 }
 
-.update-notification {
-	background: hsl(206, 71%, 95%);
-	border-radius: 3px;
-	display: flex;
-	margin-bottom: 10px;
-	padding: 6px 10px;
-
-	body.dark & {
-		background: hsl(30, 97%, 20%);
-	}
-
-	a {
-		color: rgb(37, 140, 219);
-		text-decoration: none;
-
-		body.dark & {
-			color: hsl(31, 98%, 48%);
-		}
-	}
-
-	.updateNotification-close, .parentRequest-close {
-		margin-left: auto;
-	}
-}
-
 .settings-container {
 	.popover {
 		right: -11px !important;

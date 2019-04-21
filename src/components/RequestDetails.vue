@@ -42,6 +42,8 @@
 			</div>
 		</div>
 
+		<messages-overlay></messages-overlay>
+
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
 			<events-tab v-show="isTabActive('events')"></events-tab>
@@ -89,6 +91,7 @@
 </template>
 
 <script>
+import MessagesOverlay from './Details/MessagesOverlay'
 import TabHandle from './Details/TabHandle'
 
 import SettingsPopover from './Settings/SettingsPopover'
@@ -107,8 +110,8 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, PerformanceTab, RedisTab,
-		QueueTab, RoutesTab, UserTab, ViewsTab
+		MessagesOverlay, TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab,
+		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	data: () => ({
 		activeTab: 'performance'

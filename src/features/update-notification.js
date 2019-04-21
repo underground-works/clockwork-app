@@ -2,11 +2,16 @@ import LocalStore from './local-store'
 
 export default class UpdateNotification
 {
-	get ignoredUpdates() {
+	get ignoredUpdates () {
 		return LocalStore.get('update-notification.ignored-updates') || {}
 	}
 
 	latest () {
+		return {
+			version: '4.0.0',
+			url: 'https://underground.works/blog/clockwork-4.0-wow'
+		}
+
 		return {
 			version: '3.1.2',
 			url: 'https://underground.works/blog/clockwork-3.1-released-with-editor-links-and-better-exceptions'
@@ -14,6 +19,9 @@ export default class UpdateNotification
 	}
 
 	show (host) {
+		//
+		this.serverVersion = '3.0.0'
+
 		if (this.ignoresUpdate(host) || ! this.serverVersion) {
 			return
 		}

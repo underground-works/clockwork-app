@@ -1,15 +1,5 @@
 <template>
 	<div class="request-tab">
-		<div class="update-notification" v-if="updateNotification">
-			<span>
-				A new Clockwork server-side version is available, {{updateNotification.version}}, you are using {{updateNotification.currentVersion}}.
-				<a v-if="updateNotification.url" :href="updateNotification.url" target="_blank">Read more</a>
-			</span>
-			<span class="updateNotification-close">
-				<a @click="closeUpdateNotification" href="#">Close</a>
-			</span>
-		</div>
-
 		<div class="parent-request" v-if="$request.parent">
 			<div>
 				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
@@ -82,14 +72,9 @@ export default {
 		headers() {
 			return ! this.$request.cookies.length
 				? this.$request.headers : this.$request.headers.filter(header => header.name != 'Cookie')
-		},
-		updateNotification() { return this.$updateNotification.show(this.$requests.remoteUrl) }
+		}
 	},
 	methods: {
-		closeUpdateNotification: function () {
-			this.$updateNotification.ignoreUpdate(this.$requests.remoteUrl)
-			this.updateNotification = false
-		},
 		showPreviousException: function (exception) {
 			this.$request.exceptions.push(exception.previous)
 			exception.previous = undefined
