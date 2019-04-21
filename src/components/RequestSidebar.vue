@@ -8,6 +8,9 @@
 			</div>
 
 			<div class="sidebar-actions">
+				<a href="#" v-show="$request.url" v-clipboard:copy="$request.url" title="Copy url">
+					<font-awesome-icon icon="link"></font-awesome-icon>
+				</a>
 				<a href="#" title="Preserve log" @click="togglePreserveLog">
 					<font-awesome-icon :icon="preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
@@ -39,6 +42,7 @@ export default {
 
 <style lang="scss">
 .request-sidebar {
+	background: #fafafa;
 	border-left: 1px solid #ccc;
 	display: flex;
 	flex-direction: column;

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="request-tab">
 		<div class="update-notification" v-if="updateNotification">
 			<span>
 				A new Clockwork server-side version is available, {{updateNotification.version}}, you are using {{updateNotification.currentVersion}}.
@@ -93,3 +93,9 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.request-tab {
+	background: #fff;
+}
+</style>
