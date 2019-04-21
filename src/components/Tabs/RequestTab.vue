@@ -19,14 +19,16 @@
 			</span>
 		</div>
 
-		<div class="request-tab-exception" v-if="$request.exceptions.length">
+		<div class="exception" v-if="$request.exceptions.length">
 			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
 				<div class="exception-message">
 					<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
 					{{exception.message}}
 				</div>
 				<div>
-					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous">Previous</a>
+					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous" title="Show previous">
+						<font-awesome-icon icon="arrow-circle-down"></font-awesome-icon>
+					</a>
 					<stack-trace class="exception-trace" :trace="exception.trace"></stack-trace>
 				</div>
 			</div>
@@ -37,7 +39,9 @@
 
 		<sidebar-section title="Data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
 			<template slot="content" v-if="! ($request.requestData instanceof Object)">
-				{{$request.requestData}}
+				<div class="data-raw">
+					{{$request.requestData}}
+				</div>
 			</template>
 		</sidebar-section>
 
@@ -100,6 +104,66 @@ export default {
 <style lang="scss">
 .request-tab {
 	background: #fff;
+
+	.exception {
+		border-bottom: 1px solid rgb(209, 209, 209);
+
+		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+		.exception-info {
+			align-items: center;
+			background: rgb(255, 235, 235);
+			color: rgb(197, 31, 36);
+		    display: flex;
+		    padding: 6px 10px;
+
+			&:nth-child(even) { background: hsl(0, 100%, 94%); }
+			&:first-child { padding-top: 12px; }
+			&:last-child { padding-bottom: 12px; }
+
+			body.dark & {
+				background: hsl(0, 100%, 11%);
+				color: rgb(237, 121, 122);
+
+				&:nth-child(even) { background: hsl(0, 100%, 9%); }
+			}
+
+			h3 {
+			    border-bottom: 0;
+			    font-size: 14px;
+			    margin: 0 0 5px;
+			}
+
+		    .exception-message {
+			    flex: 1;
+	    	    font-size: 12px;
+			    line-height: 1.5;
+		    }
+
+    		.exception-previous, .exception-trace > a {
+				color: rgb(197, 31, 36);
+			    font-size: 12px;
+			    margin: 0 4px;
+
+				body.dark & { color: rgb(237, 121, 122); }
+			}
+
+			.exception-previous {
+				margin-right: 4px;
+				text-decoration: none;
+			}
+
+			.exception-trace {
+				display: inline-block;
+			}
+		}
+	}
+
+	.data-raw {
+		td {
+			white-space: pre;
+		}
+	}
 
 	.session-user {
 		align-items: center;

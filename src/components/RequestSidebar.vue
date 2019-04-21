@@ -51,6 +51,7 @@ export default {
     &.large { width: 460px; }
 
     .sidebar-header {
+    	background: #fff;
     	border-bottom: 1px solid #ccc;
     	display: flex;
     	flex-shrink: 0;
