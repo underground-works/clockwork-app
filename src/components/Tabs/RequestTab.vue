@@ -11,12 +11,12 @@
 		</div>
 
 		<div class="parent-request" v-if="$request.parent">
-			<span>
-				Subrequest of <code>{{$request.parent.method}} {{$request.parent.uri}}</code>.
-			</span>
-			<span class="parentRequest-close">
+			<div>
+				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
+			</div>
+			<div class="parent-close">
 				<a @click="showRequestById($request.parent.id)" href="#">Show</a>
-			</span>
+			</div>
 		</div>
 
 		<div class="exception" v-if="$request.exceptions.length">
@@ -104,6 +104,39 @@ export default {
 <style lang="scss">
 .request-tab {
 	background: #fff;
+
+	.parent-request {
+		border-bottom: 1px solid rgb(209, 209, 209);
+		display: flex;
+		font-size: 12px;
+		font-weight: 600;
+		padding: 12px 10px;
+
+		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+		.parent-method {
+			color: gray;
+			font-size: 90%;
+			font-weight: normal;
+			margin-right: 2px;
+
+			body.dark & { color: rgb(118, 118, 118); }
+		}
+
+		.parent-uri {
+			font-weight: normal;
+		}
+
+		a {
+			color: rgb(37, 140, 219);
+			font-weight: normal;
+			text-decoration: none;
+
+			body.dark & { color: hsl(31, 98%, 48%); }
+		}
+
+		.parent-close { margin-left: auto; }
+	}
 
 	.exception {
 		border-bottom: 1px solid rgb(209, 209, 209);
