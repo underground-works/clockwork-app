@@ -56,12 +56,20 @@ export default {
 		border-left: 1px solid rgb(209, 209, 209);
 		border-top: 0;
 		height: 100%;
-		width: 360px;
+		width: 300px;
 
 		body.dark & { border-left: 1px solid rgb(54, 54, 54); }
 
 		&.large {
 			height: 100%;
+			width: 400px;
+		}
+	}
+
+	@media screen and (min-width: 1100px) {
+		width: 360px;
+
+		&.large {
 			width: 460px;
 		}
 	}

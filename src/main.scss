@@ -61,19 +61,6 @@ a {
 	}
 }
 
-.split-view-requests {
-	height: 25%;
-	width: 100%;
-
-	@media screen and (min-width: 900px) {
-		height: 100%;
-		border-right: 1px solid rgb(209, 209, 209);
-		width: 300px;
-
-		body.dark & { border-right: 1px solid rgb(54, 54, 54); }
-	}
-}
-
 .split-view-details {
 	flex: 1;
 	min-width: 0;

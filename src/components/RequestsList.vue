@@ -120,15 +120,24 @@ export default {
 	display: flex;
 	flex-direction: column;
 	height: 25%;
+	width: 100%;
 
 	body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
 
 	@media screen and (min-width: 900px) {
 		border-bottom: 0;
+		border-right: 1px solid rgb(209, 209, 209);
 		height: 100%;
-		width: 360px;
+		width: 300px;
 
-		&.large { width: 440px; }
+		body.dark & { border-right: 1px solid rgb(54, 54, 54); }
+		&.large { width: 400px; }
+	}
+
+	@media screen and (min-width: 1100px) {
+		width: 320px;
+
+		&.large { width: 420px; }
 	}
 
 	table {
