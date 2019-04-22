@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ 'split-view-pane split-view-requests': true, 'large': requestSidebarCollapsed }">
+	<div :class="{ 'split-view-pane split-view-requests': true, 'large': $store.data.requestSidebarCollapsed }">
 		<table class="requests-header" id="requests-header">
 			<thead>
 				<tr>
@@ -325,12 +325,12 @@ export default {
 
 	.notifications-count {
 		align-items: center;
-		background: hsl1(0, 0%, 98%, 0.8);
+		background: hsla(0, 0%, 98%, 0.8);
 		display: flex;
 		flex-direction: column;
 		float: right;
 		height: 100%;
-	    justify-content: space-between;
+	    justify-content: center;
 		letter-spacing: -0.5px;
 	    margin-right: -6px;
 	    padding: 0 6px;

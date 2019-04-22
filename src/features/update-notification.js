@@ -1,9 +1,11 @@
-import LocalStore from './local-store'
-
 export default class UpdateNotification
 {
+	constructor(store) {
+		this.store = store
+	}
+
 	get ignoredUpdates () {
-		return LocalStore.get('update-notification.ignored-updates') || {}
+		return this.store.get('update-notification.ignored-updates') || {}
 	}
 
 	latest () {
@@ -42,7 +44,7 @@ export default class UpdateNotification
 
 		ignoredUpdates[host] = this.latest().version
 
-		LocalStore.set('update-notification.ignored-updates', ignoredUpdates)
+		this.store.set('update-notification.ignored-updates', ignoredUpdates)
 	}
 
 	versionCompare (left, right) {

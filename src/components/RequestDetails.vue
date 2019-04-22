@@ -135,8 +135,12 @@ export default {
 	methods: {
 		isTabActive: function (tab) { return this.$request && this.activeTab == tab },
 		showTab: function (tab) { this.activeTab = tab },
-		toggleRequestsList: function () { this.global.requestsListCollapsed = ! this.global.requestsListCollapsed },
-		toggleRequestSidebar: function () { this.global.requestSidebarCollapsed = ! this.global.requestSidebarCollapsed },
+		toggleRequestsList: function () {
+			this.$store.set('requestsListCollapsed', ! this.$store.get('requestsListCollapsed'))
+		},
+		toggleRequestSidebar: function () {
+			this.$store.set('requestSidebarCollapsed', ! this.$store.get('requestSidebarCollapsed'))
+		},
 		togglePreserveLog: function () { this.global.preserveLog = ! this.global.preserveLog },
 		clear: function () { this.$requests.clear() }
 	}

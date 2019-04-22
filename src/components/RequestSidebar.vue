@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ 'request-sidebar': true, 'large': requestsListCollapsed }">
+	<div :class="{ 'request-sidebar': true, 'large': $store.data.requestsListCollapsed }">
 
 		<div class="sidebar-header">
 			<div class="sidebar-title">
@@ -31,7 +31,7 @@
 import RequestTab from './Tabs/RequestTab'
 
 export default {
-	name: 'RequestDetails',
+	name: 'RequestSidebar',
 	components: { RequestTab },
 	methods: {
 		togglePreserveLog: function () { this.global.preserveLog = ! this.global.preserveLog },

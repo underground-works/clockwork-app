@@ -33,13 +33,15 @@ import Filter from '../../features/filter'
 export default {
 	name: 'SidebarSection',
 	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint },
-	props: [ 'title', 'filterExample', 'items' ],
+	props: [ 'title', 'name', 'filterExample', 'items' ],
 	data: () => ({
-		expanded: true,
 		filter: new Filter([ { tag: 'name' } ])
 	}),
+	computed: {
+		expanded: function () { return this.$store.get(`sidebarSection.${this.name}`, true) }
+	},
 	methods: {
-		toggle: function () { this.expanded = ! this.expanded }
+		toggle: function () { this.$store.set(`sidebarSection.${this.name}`, ! this.expanded) }
 	}
 }
 </script>

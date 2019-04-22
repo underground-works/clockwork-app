@@ -1,8 +1,8 @@
 <template>
 	<div class="split-view">
-		<requests-list v-show="! requestsListCollapsed"></requests-list>
+		<requests-list v-show="! $store.data.requestsListCollapsed"></requests-list>
 		<request-details></request-details>
-		<request-sidebar v-show="! requestSidebarCollapsed"></request-sidebar>
+		<request-sidebar v-show="! $store.data.requestSidebarCollapsed"></request-sidebar>
 	</div>
 </template>
 

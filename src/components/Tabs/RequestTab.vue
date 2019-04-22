@@ -24,10 +24,10 @@
 			</div>
 		</div>
 
-		<sidebar-section title="Headers" :items="headers" filter-example="text/html name:Accept" v-show="headers.length">
+		<sidebar-section title="Headers" name="headers" :items="headers" filter-example="text/html name:Accept" v-show="headers.length">
 		</sidebar-section>
 
-		<sidebar-section title="Data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
+		<sidebar-section title="Data" name="data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
 			<template slot="content" v-if="! ($request.requestData instanceof Object)">
 				<div class="data-raw">
 					{{$request.requestData}}
@@ -35,16 +35,16 @@
 			</template>
 		</sidebar-section>
 
-		<sidebar-section title="GET data" :items="$request.getData" filter-example="created_at name:orderBy" v-show="$request.getData.length">
+		<sidebar-section title="GET data" name="getData" :items="$request.getData" filter-example="created_at name:orderBy" v-show="$request.getData.length">
 		</sidebar-section>
 
-		<sidebar-section title="POST data" :items="$request.postData" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
+		<sidebar-section title="POST data" name="postData" :items="$request.postData" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
 		</sidebar-section>
 
-		<sidebar-section title="Cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
+		<sidebar-section title="Cookies" name="cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
 		</sidebar-section>
 
-		<sidebar-section title="Session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
+		<sidebar-section title="Session" name="session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
 			<template slot="above-table">
 				<div class="session-user" v-if="$request.authenticatedUser">
 					<font-awesome-icon icon="user"></font-awesome-icon>
