@@ -124,6 +124,18 @@ export default {
 
 	body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
 
+	&.large {
+		.notifications-count {
+			flex-direction: row;
+
+			.errors-count {
+				margin-left: 5px;
+
+				svg { margin-right: 0; }
+			}
+		}
+	}
+
 	@media screen and (min-width: 900px) {
 		border-bottom: 0;
 		border-right: 1px solid rgb(209, 209, 209);
@@ -312,28 +324,28 @@ export default {
 	}
 
 	.notifications-count {
+		align-items: center;
 		background: hsl1(0, 0%, 98%, 0.8);
+		display: flex;
+		flex-direction: column;
 		float: right;
+		height: 100%;
+	    justify-content: space-between;
 		letter-spacing: -0.5px;
-		line-height: 29px;
 	    margin-right: -6px;
 	    padding: 0 6px;
 		position: relative;
 
-		.errors-count, .warnings-count {
-			line-height: 15px;
-		}
-
 		.errors-count {
 			color: rgb(179, 73, 46);
-			margin-left: 2px;
 
 			body.dark & { color: #ed797a; }
+
+			svg { margin-right: 1px; }
 		}
 
 		.warnings-count {
 			color: #a85919;
-			margin-left: 2px;
 
 			body.dark & { color: #fad89f; }
 

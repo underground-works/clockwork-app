@@ -1,5 +1,27 @@
 <template>
-	<div>
+	<div class="messages-overlay">
+		<div class="parent-request" v-show="requestSidebarCollapsed" v-if="$request.parent">
+			<div>
+				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
+			</div>
+			<div class="parent-close">
+				<a @click="showRequestById($request.parent.id)" href="#">Show</a>
+			</div>
+		</div>
+		<div class="exception" v-show="requestSidebarCollapsed" v-if="$request.exceptions.length">
+			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
+				<div class="exception-message">
+					<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
+					{{exception.message}}
+				</div>
+				<div>
+					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous" title="Show previous">
+						<font-awesome-icon icon="arrow-circle-down"></font-awesome-icon>
+					</a>
+					<stack-trace class="exception-trace" :trace="exception.trace"></stack-trace>
+				</div>
+			</div>
+		</div>
 		<div class="update-notification" v-if="updateNotification">
 			<span>
 				A new Clockwork server-side version <strong>{{updateNotification.version}}</strong> is available, you are using <strong>{{updateNotification.currentVersion}}</strong>.
@@ -13,8 +35,11 @@
 </template>
 
 <script>
+import StackTrace from '../UI/StackTrace'
+
 export default {
 	name: 'MessagesOverlay',
+	components: { StackTrace },
 	computed: {
 		updateNotification() { return this.$updateNotification.show(this.$requests.remoteUrl) }
 	},
@@ -22,32 +47,118 @@ export default {
 		closeUpdateNotification: function () {
 			this.$updateNotification.ignoreUpdate(this.$requests.remoteUrl)
 			this.updateNotification = false
+		},
+		showPreviousException: function (exception) {
+			this.$request.exceptions.push(exception.previous)
+			exception.previous = undefined
+		},
+		showRequestById: function (requestId) {
+			this.global.$request = this.$requests.find(requestId)
 		}
 	}
 }
 </script>
 
 <style lang="scss">
-.update-notification {
-	align-items: center;
-	background: hsl(206, 71%, 95%);
-	display: flex;
-	font-size: 110%;
-	padding: 10px;
+.messages-overlay {
+	.parent-request {
+		display: flex;
+		font-size: 12px;
+		font-weight: 600;
+		padding: 10px;
 
-	body.dark & { background: hsl(30, 97%, 20%); }
+		.parent-method {
+			color: gray;
+			font-size: 90%;
+			font-weight: normal;
+			margin-right: 2px;
 
-	a {
-		color: rgb(37, 140, 219);
-		text-decoration: none;
+			body.dark & { color: rgb(118, 118, 118); }
+		}
 
-		body.dark & { color: hsl(31, 98%, 48%); }
+		.parent-uri {
+			font-weight: normal;
+		}
+
+		a {
+			color: rgb(37, 140, 219);
+			font-weight: normal;
+			text-decoration: none;
+
+			body.dark & { color: hsl(31, 98%, 48%); }
+		}
+
+		.parent-close { margin-left: auto; }
 	}
 
-	strong { font-weight: 500; }
+	.exception {
+		.exception-info {
+			align-items: center;
+			background: rgb(255, 235, 235);
+			color: rgb(197, 31, 36);
+		    display: flex;
+		    padding: 10px;
 
-	.updateNotification-close {
-		margin-left: auto;
+			&:nth-child(even) { background: hsl(0, 100%, 94%); }
+
+			body.dark & {
+				background: hsl(0, 100%, 11%);
+				color: rgb(237, 121, 122);
+
+				&:nth-child(even) { background: hsl(0, 100%, 9%); }
+			}
+
+			h3 {
+			    border-bottom: 0;
+			    display: inline;
+			    font-size: 12px;
+			}
+
+		    .exception-message {
+			    flex: 1;
+	    	    font-size: 12px;
+		    }
+
+    		.exception-previous, .exception-trace > a {
+				color: rgb(197, 31, 36);
+			    font-size: 12px;
+			    margin: 0 4px;
+
+				body.dark & { color: rgb(237, 121, 122); }
+			}
+
+			.exception-previous {
+				margin-right: 4px;
+				text-decoration: none;
+			}
+
+			.exception-trace {
+				display: inline-block;
+			}
+		}
+	}
+
+	.update-notification {
+		align-items: center;
+		background: hsl(206, 71%, 95%);
+		display: flex;
+		font-size: 110%;
+		padding: 10px;
+
+		body.dark & { background: hsl(30, 97%, 20%); }
+
+		a {
+			color: rgb(37, 140, 219);
+			text-decoration: none;
+
+			body.dark & { color: hsl(31, 98%, 48%); }
+		}
+
+		strong { font-weight: 500; }
+
+		.updateNotification-close {
+			margin-left: auto;
+		}
 	}
 }
 </style>
