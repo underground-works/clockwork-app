@@ -1,6 +1,6 @@
 <template>
 	<div class="request-tab">
-		<div class="parent-request" v-if="$request.parent">
+		<div class="parent-request" v-if="$request && $request.parent">
 			<div>
 				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
 			</div>
@@ -9,7 +9,7 @@
 			</div>
 		</div>
 
-		<div class="exception" v-if="$request.exceptions.length">
+		<div class="exception" v-if="$request && $request.exceptions.length">
 			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
 				<div class="exception-message">
 					<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>

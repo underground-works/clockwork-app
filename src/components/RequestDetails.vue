@@ -3,10 +3,10 @@
 
 		<div class="details-header">
 			<div class="icons">
-				<a href="#" title="Toggle requests" v-show="! requestsListCollapsed" @click="toggleRequestsList">
+				<a href="#" title="Toggle requests" v-show="! $store.data.requestsListCollapsed" @click="toggleRequestsList">
 					<font-awesome-icon icon="outdent"></font-awesome-icon>
 				</a>
-				<a href="#" title="Toggle requests" v-show="requestsListCollapsed" @click="toggleRequestsList">
+				<a href="#" title="Toggle requests" v-show="$store.data.requestsListCollapsed" @click="toggleRequestsList">
 					<font-awesome-icon icon="indent"></font-awesome-icon>
 				</a>
 				<a href="#" title="Search requests" @click="$requestsSearch.toggle()">
@@ -29,15 +29,15 @@
 			</div>
 
 			<div class="icons">
-				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="requestSidebarCollapsed">
+				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="$store.data.requestSidebarCollapsed">
 					<font-awesome-icon :icon="preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
-				<a href="#" title="Clear" @click="clear" v-show="requestSidebarCollapsed">
+				<a href="#" title="Clear" @click="clear" v-show="$store.data.requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
 				</a>
 				<settings-popover></settings-popover>
 				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
-					<font-awesome-icon :icon="requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
+					<font-awesome-icon :icon="$store.data.requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
 				</a>
 			</div>
 		</div>

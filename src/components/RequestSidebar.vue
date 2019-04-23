@@ -8,7 +8,7 @@
 			</div>
 
 			<div class="sidebar-actions">
-				<a href="#" v-show="$request.url" v-clipboard:copy="$request.url" title="Copy url">
+				<a href="#" v-if="$request && $request.url" v-clipboard:copy="$request.url" title="Copy url">
 					<font-awesome-icon icon="link"></font-awesome-icon>
 				</a>
 				<a href="#" title="Preserve log" @click="togglePreserveLog">

@@ -1,4 +1,3 @@
-import LocalStore from '../features/local-store'
 import Request from '../features/request'
 
 import URI from 'urijs'
@@ -10,6 +9,7 @@ export default class Standalone
 		this.requests = global.$requests
 		this.authentication = global.$authentication
 		this.profiler = global.$profiler
+		this.store = global.$store
 
 		this.useProperTheme()
 		this.setMetadataUrl()
@@ -24,10 +24,10 @@ export default class Standalone
 		let wantsDarkTheme = URI(window.location.href).query(true).dark
 
 		if (wantsDarkTheme == '1' || wantsDarkTheme == '0')	{
-			LocalStore.set('use-dark-theme', wantsDarkTheme)
+			this.store.set('use-dark-theme', wantsDarkTheme)
 			wantsDarkTheme = wantsDarkTheme == '1'
-		} else if (LocalStore.get('use-dark-theme')) {
-			wantsDarkTheme = LocalStore.get('use-dark-theme') == '1'
+		} else if (this.store.get('use-dark-theme')) {
+			wantsDarkTheme = this.store.get('use-dark-theme') == '1'
 		} else {
 			wantsDarkTheme = wantsDarkTheme === null
 		}

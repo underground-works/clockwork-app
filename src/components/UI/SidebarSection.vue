@@ -7,19 +7,21 @@
 			</span>
 			<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
 		</div>
-		<div v-show="expanded">
-			<slot name="above-table"></slot>
-		</div>
-		<details-table :items="items" :filter="filter" :filter-example="filterExample" v-show="expanded">
-			<template slot="header" slot-scope="{ filter }">
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		<slot name="content">
+			<div v-show="expanded">
+				<slot name="above-table"></slot>
+			</div>
+			<details-table :items="items" :filter="filter" :filter-example="filterExample" v-show="expanded">
+				<template slot="header" slot-scope="{ filter }">
+				</template>
+				<template slot="body" slot-scope="{ items }">
+					<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
+						<td class="key">{{item.name}}</td>
+						<td class="value"><pretty-print :data="item.value"></pretty-print></td>
+					</tr>
+				</template>
+			</details-table>
+		</slot>
 	</div>
 </template>
 
