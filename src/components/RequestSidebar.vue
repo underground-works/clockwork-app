@@ -4,7 +4,6 @@
 		<div class="sidebar-header">
 			<div class="sidebar-title">
 				Request
-				<font-awesome-icon icon="angle-down"></font-awesome-icon>
 			</div>
 
 			<div class="sidebar-actions">
