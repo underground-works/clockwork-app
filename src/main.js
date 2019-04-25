@@ -15,6 +15,7 @@ import Profiler from './features/profiler'
 import Requests from './features/requests'
 import RequestsSearch from './features/requests-search'
 import Settings from './features/settings'
+import TextFilters from './features/text-filters'
 import UpdateNotification from './features/update-notification'
 
 let $store = new LocalStore
@@ -27,6 +28,7 @@ let $authentication = new Authentication($requests)
 let $editorLinks = new EditorLinks($settings)
 let $profiler = new Profiler($requests, $platform)
 let $requestsSearch = new RequestsSearch($requests)
+let $textFilters = new TextFilters
 let $updateNotification = new UpdateNotification($store)
 
 let global = {
@@ -36,6 +38,7 @@ let global = {
 
 $platform.init(global)
 $editorLinks.register()
+$textFilters.register()
 
 Vue.mixin({
 	data: () => ({ global }),

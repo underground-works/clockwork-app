@@ -48,7 +48,8 @@
 							</span>
 						</div>
 						<big><span class="method-text">{{request.method}}</span> {{request.uri}}</big><br>
-						<small>{{request.controller}}</small>
+						<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
+						<small v-else>{{request.controller | shortClass}}</small>
 					</td>
 					<td class="status" :title="request.responseStatus">
 						<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
