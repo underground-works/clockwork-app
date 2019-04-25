@@ -51,7 +51,7 @@ export default {
 
 			this.showPopover = ! this.showPopover
 
-			if (window.innerWidth - this.$el.getBoundingClientRect().left < 300) {
+			if (this.$el.offsetParent.clientWidth - this.$el.offsetLeft < 300) {
 				this.$refs.popover.classList.add('right-aligned')
 			}
 		},
