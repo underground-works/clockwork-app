@@ -124,18 +124,17 @@ export default {
 		}
 
 		tr {
-			background: rgb(255, 250, 226);
+			background: transparent !important;
 			color: rgb(168, 89, 25);
 
-			&:nth-child(even) { background: hsl(50, 100%, 88%) !important; }
+			&:nth-child(even) { background: rgb(255, 250, 226) !important; }
 
 			.log-message-path > a { color: hsl(27, 55%, 65%) !important; }
 
 			body.dark & {
-				background: hsl(50, 100%, 11%);
 				color: rgb(250, 216, 159);
 
-				&:nth-child(even) { background: hsl(50, 100%, 9%) !important; }
+				&:nth-child(even) { background: hsl(50, 100%, 11%) !important; }
 
 				.log-message-path > a { color: hsl(38, 42%, 68%) !important; }
 			}

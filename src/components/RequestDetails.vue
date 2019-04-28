@@ -3,10 +3,10 @@
 
 		<div class="details-header">
 			<div class="icons">
-				<a href="#" title="Toggle requests" v-show="! requestsListCollapsed" @click="toggleRequestsList">
+				<a href="#" title="Toggle requests" v-show="! $store.data.requestsListCollapsed" @click="toggleRequestsList">
 					<font-awesome-icon icon="outdent"></font-awesome-icon>
 				</a>
-				<a href="#" title="Toggle requests" v-show="requestsListCollapsed" @click="toggleRequestsList">
+				<a href="#" title="Toggle requests" v-show="$store.data.requestsListCollapsed" @click="toggleRequestsList">
 					<font-awesome-icon icon="indent"></font-awesome-icon>
 				</a>
 				<a href="#" title="Search requests" @click="$requestsSearch.toggle()">
@@ -15,15 +15,13 @@
 			</div>
 
 			<div class="details-header-tabs">
-				<tab-handle name="request" :active="isTabActive('request')" @tab-selected="showTab">Request</tab-handle>
 				<tab-handle name="performance" :active="isTabActive('performance')" @tab-selected="showTab">Performance</tab-handle>
-				<tab-handle name="log" :active="isTabActive('log')" @tab-selected="showTab">Log</tab-handle>
+				<tab-handle name="log" :active="isTabActive('log')" @tab-selected="showTab" v-show="showLogTab">Log</tab-handle>
 				<tab-handle name="events" :active="isTabActive('events')" @tab-selected="showTab" v-show="showEventsTab">Events</tab-handle>
 				<tab-handle name="database" :active="isTabActive('database')" @tab-selected="showTab" v-show="showDatabaseTab">Database</tab-handle>
 				<tab-handle name="cache" :active="isTabActive('cache')" @tab-selected="showTab" v-show="showCacheTab">Cache</tab-handle>
 				<tab-handle name="redis" :active="isTabActive('redis')" @tab-selected="showTab" v-show="showRedisTab">Redis</tab-handle>
 				<tab-handle name="queue" :active="isTabActive('queue')" @tab-selected="showTab" v-show="showQueueTab">Queue</tab-handle>
-				<tab-handle name="session" :active="isTabActive('session')" @tab-selected="showTab" v-show="showSessionTab">Session</tab-handle>
 				<tab-handle name="views" :active="isTabActive('views')" @tab-selected="showTab" v-show="showViewsTab">Views</tab-handle>
 				<tab-handle name="emails" :active="isTabActive('emails')" @tab-selected="showTab" v-show="showEmailsTab">Emails</tab-handle>
 				<tab-handle name="routes" :active="isTabActive('routes')" @tab-selected="showTab" v-show="showRoutesTab">Routes</tab-handle>
@@ -31,22 +29,23 @@
 			</div>
 
 			<div class="icons">
-				<settings-popover></settings-popover>
-				<a href="#" title="Preserve log" v-show="! preserveLog" @click="togglePreserveLog">
-					<font-awesome-icon :icon="['far', 'circle']"></font-awesome-icon>
+				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="$store.data.requestSidebarCollapsed">
+					<font-awesome-icon :icon="preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
-				<a href="#" title="Preserve log" v-show="preserveLog" @click="togglePreserveLog">
-					<font-awesome-icon icon="circle"></font-awesome-icon>
-				</a>
-				<a href="#" title="Clear" @click="clear">
+				<a href="#" title="Clear" @click="clear" v-show="$store.data.requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
+				</a>
+				<settings-popover></settings-popover>
+				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
+					<font-awesome-icon :icon="$store.data.requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
 				</a>
 			</div>
 		</div>
 
+		<messages-overlay></messages-overlay>
+
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
-			<request-tab v-show="isTabActive('request')"></request-tab>
 			<events-tab v-show="isTabActive('events')"></events-tab>
 			<database-tab v-show="isTabActive('database')"></database-tab>
 			<cache-tab v-show="isTabActive('cache')"></cache-tab>
@@ -54,7 +53,6 @@
 			<queue-tab v-show="isTabActive('queue')"></queue-tab>
 			<log-tab v-show="isTabActive('log')"></log-tab>
 			<performance-tab v-show="isTabActive('performance')"></performance-tab>
-			<session-tab v-show="isTabActive('session')"></session-tab>
 			<views-tab v-show="isTabActive('views')"></views-tab>
 			<emails-tab v-show="isTabActive('emails')"></emails-tab>
 			<routes-tab v-show="isTabActive('routes')"></routes-tab>
@@ -93,6 +91,7 @@
 </template>
 
 <script>
+import MessagesOverlay from './Details/MessagesOverlay'
 import TabHandle from './Details/TabHandle'
 
 import SettingsPopover from './Settings/SettingsPopover'
@@ -104,22 +103,21 @@ import LogTab from './Tabs/LogTab'
 import PerformanceTab from './Tabs/PerformanceTab'
 import RedisTab from './Tabs/RedisTab'
 import QueueTab from './Tabs/QueueTab'
-import RequestTab from './Tabs/RequestTab'
 import RoutesTab from './Tabs/RoutesTab'
-import SessionTab from './Tabs/SessionTab'
 import UserTab from './Tabs/UserTab'
 import ViewsTab from './Tabs/ViewsTab'
 
 export default {
 	name: 'RequestDetails',
 	components: {
-		TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, PerformanceTab, RedisTab,
-		QueueTab, RequestTab, RoutesTab, SessionTab, UserTab, ViewsTab
+		MessagesOverlay, TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab,
+		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	data: () => ({
-		activeTab: 'request'
+		activeTab: 'performance'
 	}),
 	computed: {
+		showLogTab: function () { return this.$request?.log?.length },
 		showDatabaseTab: function () {
 			return this.$request?.databaseQueriesCount || this.$request?.databaseQueries?.length
 		},
@@ -130,7 +128,6 @@ export default {
 		showRedisTab: function () { return this.$request?.redisCommands?.length },
 		showQueueTab: function () { return this.$request?.queueJobs?.length },
 		showEventsTab: function () { return this.$request?.events?.length },
-		showSessionTab: function () { return this.$request?.sessionData?.length || this.$request?.authenticatedUser },
 		showViewsTab: function () { return this.$request?.views?.length },
 		showEmailsTab: function () { return this.$request?.emails?.length },
 		showRoutesTab: function () { return this.$request?.routes?.length }
@@ -138,8 +135,13 @@ export default {
 	methods: {
 		isTabActive: function (tab) { return this.$request && this.activeTab == tab },
 		showTab: function (tab) { this.activeTab = tab },
-		toggleRequestsList: function () { this.global.requestsListCollapsed = ! this.global.requestsListCollapsed },
-		togglePreserveLog: function () { this.$platform.preserveLog = ! this.$platform.preserveLog },
+		toggleRequestsList: function () {
+			this.$store.set('requestsListCollapsed', ! this.$store.get('requestsListCollapsed'))
+		},
+		toggleRequestSidebar: function () {
+			this.$store.set('requestSidebarCollapsed', ! this.$store.get('requestSidebarCollapsed'))
+		},
+		togglePreserveLog: function () { this.global.preserveLog = ! this.global.preserveLog },
 		clear: function () { this.$requests.clear() }
 	}
 }

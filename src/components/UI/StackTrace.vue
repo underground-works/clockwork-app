@@ -3,8 +3,10 @@
 		<a :href="file | editorLink(line)" v-if="file">
 			<shortened-text :full="trace ? shortPath : fullPath" @click.native="togglePopover($event)">{{shortPath}}</shortened-text>
 		</a>
-		<a href="#" v-else>
-			<span @click="togglePopover($event)">TRACE</span>
+		<a href="#" v-else title="Stack trace">
+			<span @click="togglePopover($event)">
+				<font-awesome-icon icon="list-ol"></font-awesome-icon>
+			</span>
 		</a>
 		<div class="popover" ref="popover" v-show="showPopover" v-if="trace">
 			<div class="popover-content">
@@ -49,7 +51,7 @@ export default {
 
 			this.showPopover = ! this.showPopover
 
-			if (window.innerWidth - this.$el.getBoundingClientRect().left < 300) {
+			if (this.$el.offsetParent.clientWidth - this.$el.offsetLeft < 300) {
 				this.$refs.popover.classList.add('right-aligned')
 			}
 		},

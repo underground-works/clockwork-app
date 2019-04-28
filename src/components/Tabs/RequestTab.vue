@@ -1,185 +1,80 @@
 <template>
-	<div>
-		<div class="update-notification" v-if="updateNotification">
-			<span>
-				A new Clockwork server-side version is available, {{updateNotification.version}}, you are using {{updateNotification.currentVersion}}.
-				<a v-if="updateNotification.url" :href="updateNotification.url" target="_blank">Read more</a>
-			</span>
-			<span class="updateNotification-close">
-				<a @click="closeUpdateNotification" href="#">Close</a>
-			</span>
-		</div>
-
-		<div class="parent-request" v-if="$request.parent">
-			<span>
-				Subrequest of <code>{{$request.parent.method}} {{$request.parent.uri}}</code>.
-			</span>
-			<span class="parentRequest-close">
+	<div class="request-tab">
+		<div class="parent-request" v-if="$request && $request.parent">
+			<div>
+				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
+			</div>
+			<div class="parent-close">
 				<a @click="showRequestById($request.parent.id)" href="#">Show</a>
-			</span>
-		</div>
-
-		<div class="request-tab-info">
-			<div class="field">
-				<div class="field-title">Method</div>
-				<div class="field-value">
-					<div>{{$request.method}}</div>
-				</div>
-			</div>
-			<div class="field action">
-				<div class="field-title">Action</div>
-				<div class="field-value">
-					<div>{{$request.uri}}</div>
-					<div class="small">{{$request.controller}}</div>
-				</div>
-			</div>
-			<div class="field link">
-				<div class="field-title">&nbsp;</div>
-				<div class="field-value">
-					<a href="#" v-show="$request.url" v-clipboard:copy="$request.url" title="Copy url">
-						<font-awesome-icon icon="link"></font-awesome-icon>
-					</a>
-				</div>
-			</div>
-			<div class="field">
-				<div class="field-title">Status</div>
-				<div class="field-value">
-					<div>{{$request.responseStatus}}</div>
-				</div>
 			</div>
 		</div>
 
-		<div class="request-tab-exception" v-if="$request.exceptions.length">
+		<div class="exception" v-if="$request && $request.exceptions.length">
 			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
 				<div class="exception-message">
 					<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
 					{{exception.message}}
 				</div>
 				<div>
-					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous">Previous</a>
+					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous" title="Show previous">
+						<font-awesome-icon icon="arrow-circle-down"></font-awesome-icon>
+					</a>
 					<stack-trace class="exception-trace" :trace="exception.trace"></stack-trace>
 				</div>
 			</div>
 		</div>
 
-		<details-table :items="$request.headers" :filter="headersFilter" filter-example="text/html name:Accept" v-show="$request.headers.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					Request headers
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		<sidebar-section title="Headers" name="headers" :items="headers" filter-example="text/html name:Accept" v-show="headers.length">
+		</sidebar-section>
 
-		<details-table v-if="$request.requestData instanceof Object" :items="$request.requestData" :filter="requestDataFilter" filter-example="420 name:price" v-show="$request.requestData.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					Request data
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
+		<sidebar-section title="Data" name="data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
+			<template slot="content" v-if="! ($request.requestData instanceof Object)">
+				<div class="data-raw">
+					{{$request.requestData}}
+				</div>
 			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		</sidebar-section>
 
-		<table v-else-if="$request.requestData" class="request-tab-data-raw">
-			<thead>
-				<tr>
-					<th>
-						Request data
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>{{$request.requestData}}</td>
-				</tr>
-			</tbody>
-		</table>
+		<sidebar-section title="GET data" name="getData" :items="$request.getData" filter-example="created_at name:orderBy" v-show="$request.getData.length">
+		</sidebar-section>
 
-		<details-table :items="$request.getData" :filter="getDataFilter" filter-example="created_at name:orderBy" v-show="$request.getData.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					GET parameters
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		<sidebar-section title="POST data" name="postData" :items="$request.postData" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
+		</sidebar-section>
 
-		<details-table :items="$request.postData" :filter="postDataFilter" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					POST parameters
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
-			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		<sidebar-section title="Cookies" name="cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
+		</sidebar-section>
 
-		<details-table :items="$request.cookies" :filter="cookiesFilter" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
-			<template slot="header" slot-scope="{ filter }">
-				<th colspan="2">
-					Cookies
-					<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
-				</th>
+		<sidebar-section title="Session" name="session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
+			<template slot="above-table">
+				<div class="session-user" v-if="$request.authenticatedUser">
+					<font-awesome-icon icon="user"></font-awesome-icon>
+					<div>
+						<span class="name" v-if="$request.authenticatedUser.name && $request.authenticatedUser.name.trim()">{{$request.authenticatedUser.name}}</span>
+						<span :class="$request.authenticatedUser.name && $request.authenticatedUser.name.trim() ? 'dimmed' : ''">{{$request.authenticatedUser.username}}</span>
+					</div>
+					<span class="session-user-details" v-if="$request.authenticatedUser.email || $request.authenticatedUser.id">
+						<span class="dimmed" v-if="$request.authenticatedUser.id">#{{$request.authenticatedUser.id}}</span>
+					</span>
+				</div>
 			</template>
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-					<td class="key">{{item.name}}</td>
-					<td class="value"><pretty-print :data="item.value"></pretty-print></td>
-				</tr>
-			</template>
-		</details-table>
+		</sidebar-section>
 	</div>
 </template>
 
 <script>
-import DetailsTable from '../UI/DetailsTable'
-import DetailsTableFilterToggle from '../UI/DetailsTableFilterToggle'
-import PrettyPrint from '../UI/PrettyPrint'
+import SidebarSection from '../UI/SidebarSection'
 import StackTrace from '../UI/StackTrace'
-
-import Filter from '../../features/filter'
 
 export default {
 	name: 'RequestTab',
-	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, StackTrace },
-	data: () => ({
-		headersFilter: new Filter([ { tag: 'name' } ]),
-		requestDataFilter: new Filter([ { tag: 'name' } ]),
-		getDataFilter: new Filter([ { tag: 'name' } ]),
-		postDataFilter: new Filter([ { tag: 'name' } ]),
-		cookiesFilter: new Filter([ { tag: 'name' } ])
-	}),
+	components: { SidebarSection, StackTrace },
 	computed: {
-		updateNotification() { this.$updateNotification.show(this.$requests.remoteUrl) }
+		headers() {
+			return ! this.$request.cookies.length
+				? this.$request.headers : this.$request.headers.filter(header => header.name != 'Cookie')
+		}
 	},
 	methods: {
-		closeUpdateNotification: function () {
-			this.$updateNotification.ignoreUpdate(this.$requests.remoteUrl)
-			this.updateNotification = false
-		},
 		showPreviousException: function (exception) {
 			this.$request.exceptions.push(exception.previous)
 			exception.previous = undefined
@@ -190,3 +85,133 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.request-tab {
+	background: #fff;
+
+	.parent-request {
+		border-bottom: 1px solid rgb(209, 209, 209);
+		display: flex;
+		font-size: 12px;
+		font-weight: 600;
+		padding: 12px 10px;
+
+		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+		.parent-method {
+			color: gray;
+			font-size: 90%;
+			font-weight: normal;
+			margin-right: 2px;
+
+			body.dark & { color: rgb(118, 118, 118); }
+		}
+
+		.parent-uri {
+			font-weight: normal;
+		}
+
+		a {
+			color: rgb(37, 140, 219);
+			font-weight: normal;
+			text-decoration: none;
+
+			body.dark & { color: hsl(31, 98%, 48%); }
+		}
+
+		.parent-close { margin-left: auto; }
+	}
+
+	.exception {
+		border-bottom: 1px solid rgb(209, 209, 209);
+
+		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+		.exception-info {
+			align-items: center;
+			background: rgb(255, 235, 235);
+			color: rgb(197, 31, 36);
+		    display: flex;
+		    padding: 6px 10px;
+
+			&:nth-child(even) { background: hsl(0, 100%, 94%); }
+			&:first-child { padding-top: 12px; }
+			&:last-child { padding-bottom: 12px; }
+
+			body.dark & {
+				background: hsl(0, 100%, 11%);
+				color: rgb(237, 121, 122);
+
+				&:nth-child(even) { background: hsl(0, 100%, 9%); }
+			}
+
+			h3 {
+			    border-bottom: 0;
+			    font-size: 14px;
+			    margin: 0 0 5px;
+			}
+
+		    .exception-message {
+			    flex: 1;
+	    	    font-size: 12px;
+			    line-height: 1.5;
+		    }
+
+    		.exception-previous, .exception-trace > a {
+				color: rgb(197, 31, 36);
+			    font-size: 12px;
+			    margin: 0 4px;
+
+				body.dark & { color: rgb(237, 121, 122); }
+			}
+
+			.exception-previous {
+				margin-right: 4px;
+				text-decoration: none;
+			}
+
+			.exception-trace {
+				display: inline-block;
+			}
+		}
+	}
+
+	.data-raw {
+		td {
+			white-space: pre;
+		}
+	}
+
+	.session-user {
+		align-items: center;
+		border-bottom: 1px solid rgb(209, 209, 209);
+		display: flex;
+		font-size: 110%;
+		padding: 8px 10px;
+
+		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+		.fa-user {
+			color: rgb(128, 128, 128);
+			font-size: 110%;
+			margin-right: 8px;
+		}
+
+		.name {
+			margin-right: 6px;
+		}
+
+		.dimmed {
+			color: rgb(128, 128, 128);
+			font-size: 90%;
+
+			body.dark & { color: rgb(118, 118, 118); }
+		}
+
+		.session-user-details {
+			margin-left: auto;
+		}
+	}
+}
+</style>

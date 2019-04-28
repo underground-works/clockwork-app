@@ -1,5 +1,5 @@
 <template>
-	<div class="split-view-pane split-view-requests">
+	<div :class="{ 'split-view-pane split-view-requests': true, 'large': $store.data.requestSidebarCollapsed }">
 		<table class="requests-header" id="requests-header">
 			<thead>
 				<tr>
@@ -48,7 +48,8 @@
 							</span>
 						</div>
 						<big><span class="method-text">{{request.method}}</span> {{request.uri}}</big><br>
-						<small>{{request.controller}}</small>
+						<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
+						<small v-else>{{request.controller | shortClass}}</small>
 					</td>
 					<td class="status" :title="request.responseStatus">
 						<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
@@ -71,6 +72,7 @@
 <script>
 export default {
 	name: 'RequestsList',
+	components: { },
 	data: () => ({
 		loadingMoreRequests: false
 	}),
@@ -114,7 +116,42 @@ export default {
 
 <style lang="scss">
 .split-view-requests {
+	border-bottom: 1px solid rgb(209, 209, 209);
 	cursor: default;
+	display: flex;
+	flex-direction: column;
+	height: 25%;
+	width: 100%;
+
+	body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+
+	&.large {
+		.notifications-count {
+			flex-direction: row;
+
+			.errors-count {
+				margin-left: 5px;
+
+				svg { margin-right: 0; }
+			}
+		}
+	}
+
+	@media screen and (min-width: 900px) {
+		border-bottom: 0;
+		border-right: 1px solid rgb(209, 209, 209);
+		height: 100%;
+		width: 300px;
+
+		body.dark & { border-right: 1px solid rgb(54, 54, 54); }
+		&.large { width: 400px; }
+	}
+
+	@media screen and (min-width: 1100px) {
+		width: 320px;
+
+		&.large { width: 420px; }
+	}
 
 	table {
 		line-height: 1.4;
@@ -288,28 +325,28 @@ export default {
 	}
 
 	.notifications-count {
-		background: hsl1(0, 0%, 98%, 0.8);
+		align-items: center;
+		background: hsla(0, 0%, 98%, 0.8);
+		display: flex;
+		flex-direction: column;
 		float: right;
+		height: 100%;
+	    justify-content: center;
 		letter-spacing: -0.5px;
-		line-height: 29px;
 	    margin-right: -6px;
 	    padding: 0 6px;
 		position: relative;
 
-		.errors-count, .warnings-count {
-			line-height: 15px;
-		}
-
 		.errors-count {
 			color: rgb(179, 73, 46);
-			margin-left: 2px;
 
 			body.dark & { color: #ed797a; }
+
+			svg { margin-right: 1px; }
 		}
 
 		.warnings-count {
 			color: #a85919;
-			margin-left: 2px;
 
 			body.dark & { color: #fad89f; }
 

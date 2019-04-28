@@ -1,27 +1,42 @@
+import extend from 'just-extend'
+
 export default class LocalStore
 {
-	static isPersistent() {
-		try {
-			return localStorage !== undefined
-		} catch (e) {
-			return false
-		}
+	constructor() {
+		this.load()
 	}
 
-	static get(key) {
-		try {
-			return JSON.parse(localStorage.getItem(key))
-		} catch (e) {
-			return this.temporary ? this.temporary[key] : undefined
-		}
+	get(key, defaultValue) {
+		if (this.data[key] == undefined) this.set(key, defaultValue)
+
+		return this.data[key]
 	}
 
-	static set(key, value) {
+	set(key, value) {
+		this.data[key] = value
+		this.save()
+	}
+
+	load() {
 		try {
-			localStorage.setItem(key, JSON.stringify(value))
-		} catch (e) {
-			if (! this.temporary) this.temporary = {}
-			this.temporary[key] = value
+			this.data = JSON.parse(localStorage.getItem('clockwork'))
+		} catch (e) {}
+
+		if (! (this.data instanceof Object)) this.data = {}
+
+		this.data = extend(this.defaults(), this.data)
+	}
+
+	save() {
+		try {
+			localStorage.setItem('clockwork', JSON.stringify(this.data))
+		} catch (e) {}
+	}
+
+	defaults() {
+		return {
+			requestsListCollapsed: false,
+			requestSidebarCollapsed: false
 		}
 	}
 }

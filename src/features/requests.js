@@ -1,13 +1,13 @@
-import LocalStore from './local-store'
 import Request from './request'
 import URI from 'urijs'
 
 export default class Requests
 {
-	constructor () {
+	constructor (store) {
+		this.store = store
 		this.items = []
 
-		this.tokens = LocalStore.get('requests.tokens')
+		this.tokens = this.store.get('requests.tokens')
 		this.query = {}
 
 		if (! (this.tokens instanceof Object)) this.tokens = {}
@@ -131,7 +131,7 @@ export default class Requests
 
 	setAuthenticationToken (token) {
 		this.tokens[this.remoteUrl] = token
-		LocalStore.set('requests.tokens', this.tokens)
+		this.store.set('requests.tokens', this.tokens)
 	}
 
 	setQuery (query) {

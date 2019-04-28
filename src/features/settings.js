@@ -1,10 +1,9 @@
-import LocalStore from './local-store'
-
 import extend from 'just-extend'
 
 export default class Settings
 {
-	constructor (requests) {
+	constructor (store, requests) {
+		this.store = store
 		this.requests = requests
 
 		this.reload()
@@ -47,7 +46,7 @@ export default class Settings
 	save() {
 		let settings = extend(true, this.loadSettings(), this.settings)
 
-		LocalStore.set('settings', settings)
+		this.store.set('settings', settings)
 	}
 
 	reload() {
@@ -57,6 +56,6 @@ export default class Settings
 	loadSettings() {
 		let defaultSettings = { global: { editor: null }, site: {} }
 
-		return extend(true, defaultSettings, LocalStore.get('settings'))
+		return extend(true, defaultSettings, this.store.get('settings'))
 	}
 }
