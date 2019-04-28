@@ -1,5 +1,5 @@
 <template>
-	<table>
+	<table class="details-table">
 		<thead>
 			<tr>
 				<slot name="header" :filter="filter">
@@ -21,7 +21,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			<slot name="body" :items="filter.filter(items)"></slot>
+			<tr v-if="hasPreviousItems" class="pagination-controls">
+				<td :colspan="columns.length">
+					<a href="#" @click="showPreviousItems">Show {{previousItemsCount}} previous</a>
+				</td>
+			</tr>
+			<slot name="body" :items="shownItems"></slot>
+			<tr v-if="hasNextItems" class="pagination-controls">
+				<td :colspan="columns.length">
+					<a href="#" @click="showNextItems">Show {{nextItemsCount}} more</a>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </template>
@@ -33,6 +43,75 @@ import PrettyPrint from './PrettyPrint'
 export default {
 	name: 'DetailsTable',
 	components: { DetailsTableFilterToggle, PrettyPrint },
-	props: [ 'columns', 'filter', 'filterExample', 'items' ]
+	props: [ 'columns', 'filter', 'filterExample', 'items' ],
+	data: () => ({
+		showItemsCount: 30,
+		showItemsFirst: 0
+	}),
+	computed: {
+		filteredItems() {
+			return this.filter.filter(this.items)
+		},
+		shownItems() {
+			if (this.showItemsFirst > this.filteredItems.length) {
+				this.showItemsFirst = Math.max(this.filteredItems.length - this.showItemsCount, 0)
+			}
+
+			return this.filteredItems.slice(this.showItemsFirst, this.showItemsFirst + this.showItemsCount)
+		},
+		hasPreviousItems() {
+			return this.showItemsFirst > 0
+		},
+		previousItemsCount() {
+			return this.showItemsFirst
+		},
+		hasNextItems() {
+			return this.showItemsFirst + this.showItemsCount < this.filteredItems.length
+		},
+		nextItemsCount() {
+			return this.filteredItems.length - this.showItemsCount - this.showItemsFirst
+		},
+	},
+	methods: {
+		showPreviousItems() {
+			this.showItemsFirst -= this.showItemsCount
+		},
+		showNextItems() {
+			this.showItemsFirst += this.showItemsCount
+
+			// scroll the first scrollable parent to top of the table
+			let firstScrollableParent = this.$el.parentElement
+			while (firstScrollableParent && firstScrollableParent.scrollTop == 0) {
+				firstScrollableParent = firstScrollableParent.parentElement
+			}
+
+			let tableOffsetTop = this.$el.offsetTop - firstScrollableParent.offsetTop - 5
+			if (firstScrollableParent && firstScrollableParent.scrollTop > tableOffsetTop) {
+				firstScrollableParent.scrollTop = tableOffsetTop
+			}
+		}
+	},
+	watch: {
+		'filter.input': function () { this.showItemsFirst = 0 }
+	}
 }
 </script>
+
+<style lang="scss">
+.details-table {
+	.pagination-controls {
+		background: transparent !important ;
+
+		td {
+			text-align: center;
+		}
+
+		a {
+			color: rgb(37, 140, 219);
+			text-decoration: none;
+
+			body.dark & { color: hsl(31, 98%, 48%); }
+		}
+	}
+}
+</style>

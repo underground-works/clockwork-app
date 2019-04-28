@@ -12,7 +12,7 @@ export default class Filter
 		this.input = ''
 	}
 
-	toggle () {
+	toggle ($event) {
 		this.shown = ! this.shown
 
 		if (this.shown) {
