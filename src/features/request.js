@@ -13,6 +13,7 @@ export default class Request
 		this.processCacheStats()
 		this.cacheQueries = this.processCacheQueries(this.cacheQueries)
 		this.cookies = this.createKeypairs(this.cookies)
+		this.middleware = this.middleware instanceof Array ? this.middleware : []
 		this.processDatabase()
 		this.emails = this.processEmails(this.emailsData)
 		this.events = this.processEvents(this.events)
