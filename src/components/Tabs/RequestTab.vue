@@ -44,6 +44,20 @@
 		<sidebar-section title="Cookies" name="cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
 		</sidebar-section>
 
+		<sidebar-section title="Middleware" name="middleware" :items="$request.middleware" filter-example="auth:admin" v-show="$request.middleware.length">
+			<template slot="table" slot-scope="{ items, filter, filterExample, expanded }">
+				<details-table :items="items" :filter="filter" :filter-example="filterExample" v-show="expanded">
+					<template slot="header" slot-scope="{ filter }">
+					</template>
+					<template slot="body" slot-scope="{ items }">
+						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
+							<td class="value">{{item}}</td>
+						</tr>
+					</template>
+				</details-table>
+			</template>
+		</sidebar-section>
+
 		<sidebar-section title="Session" name="session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
 			<template slot="above-table">
 				<div class="session-user" v-if="$request.authenticatedUser">
@@ -62,12 +76,13 @@
 </template>
 
 <script>
+import DetailsTable from '../UI/DetailsTable'
 import SidebarSection from '../UI/SidebarSection'
 import StackTrace from '../UI/StackTrace'
 
 export default {
 	name: 'RequestTab',
-	components: { SidebarSection, StackTrace },
+	components: { DetailsTable, SidebarSection, StackTrace },
 	computed: {
 		headers() {
 			return ! this.$request.cookies.length
