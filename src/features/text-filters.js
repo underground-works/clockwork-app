@@ -7,6 +7,6 @@ export default class TextFilters
 	}
 
 	shortClass (className) {
-		return className.split('\\').pop()
+		return className && className.split('\\').pop()
 	}
 }
