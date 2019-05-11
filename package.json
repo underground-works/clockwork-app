@@ -5,12 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-chrome": "vue-cli-service build && rm -rf dist/chrome && mv build dist/chrome && cp -R platforms/chrome/* dist/chrome/",
-    "build-chrome-dev": "vue-cli-service build --mode=development && rm -rf dist/chrome && mv build dist/chrome && cp -R platforms/chrome/* dist/chrome/",
-    "build-firefox": "vue-cli-service build && rm -rf dist/firefox && mv build dist/firefox && cp -R platforms/firefox/* dist/firefox/",
-    "build-firefox-dev": "vue-cli-service build --mode=development && rm -rf dist/firefox && mv build dist/firefox && cp -R platforms/firefox/* dist/firefox/",
-    "build-web": "vue-cli-service build && rm -rf dist/web && mv build dist/web",
-    "build-web-dev": "vue-cli-service build --mode=development && rm -rf dist/web && mv build dist/web"
+    "build-chrome": "vue-cli-service build && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cp-cli platforms/chrome/* dist/chrome/",
+    "build-chrome-dev": "vue-cli-service build --mode=development && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cp-cli platforms/chrome/* dist/chrome/",
+    "build-firefox": "vue-cli-service build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cp-cli platforms/firefox/* dist/firefox/",
+    "build-firefox-dev": "vue-cli-service build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cp-cli platforms/firefox/* dist/firefox/",
+    "build-web": "vue-cli-service build && del-cli dist/web && move-cli --mkdirp build dist/web",
+    "build-web-dev": "vue-cli-service build --mode=development && del-cli dist/web && move-cli --mkdirp build dist/web"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
@@ -38,6 +38,9 @@
     "@vue/cli-plugin-babel": "^3.4.1",
     "@vue/cli-plugin-pwa": "^3.4.1",
     "@vue/cli-service": "^3.4.1",
+    "cp-cli": "^2.0.0",
+    "del-cli": "^1.1.0",
+    "move-cli": "^1.2.1",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.6.7"
