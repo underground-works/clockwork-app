@@ -2,17 +2,15 @@ import Vue from 'vue'
 
 export default class EditorLinks
 {
-	constructor (settings) {
+	constructor(settings) {
 		this.settings = settings
 	}
 
-	register ()
-	{
+	register() {
 		Vue.filter('editorLink', this.filter())
 	}
 
-	filter ()
-	{
+	filter() {
 		return (file, line) => {
 			let scheme = {
 				'atom': (file, line) => `atom://open?url=file://${file}&line=${line}`,

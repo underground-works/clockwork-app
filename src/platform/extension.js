@@ -2,14 +2,14 @@ import Request from '../features/request'
 
 export default class Extension
 {
-	get api () { return chrome || browser }
+	get api() { return chrome || browser }
 
-	static runningAsExtension () {
+	static runningAsExtension() {
 		return (typeof chrome == 'object' && chrome.devtools)
 			|| (typeof browser == 'object' && browser.devtools)
 	}
 
-	init (global) {
+	init(global) {
 		this.global = global
 		this.requests = global.$requests
 		this.profiler = global.$profiler
@@ -24,17 +24,17 @@ export default class Extension
 		this.loadLastRequest()
 	}
 
-	useProperTheme () {
+	useProperTheme() {
 		if (this.api.devtools.panels.themeName === 'dark') {
 			document.querySelector('body').classList.add('dark')
 		}
 	}
 
-	setMetadataUrl () {
+	setMetadataUrl() {
 		this.resolveTabUrl().then(url => this.requests.setRemote(url))
 	}
 
-	setMetadataClient () {
+	setMetadataClient() {
 		this.requests.setClient((method, url, data, headers) => {
 			return new Promise((accept, reject) => {
 				let isProfiling = this.profiler.isProfiling
@@ -54,7 +54,7 @@ export default class Extension
 		})
 	}
 
-	setCookie (name, value, expiration) {
+	setCookie(name, value, expiration) {
 		return this.resolveTabUrl().then(url => {
 			this.api.cookies.set({
 				url, name, value, path: '/', expirationDate: Math.floor(Date.now() / 1000) + expiration
@@ -62,7 +62,7 @@ export default class Extension
 		})
 	}
 
-	getCookie (name) {
+	getCookie(name) {
 		return this.resolveTabUrl().then(url => {
 			return new Promise((accept, reject) => {
 				this.api.cookies.get({ url, name }, cookie => {
@@ -81,7 +81,7 @@ export default class Extension
 		})
 	}
 
-	listenToRequests () {
+	listenToRequests() {
 		this.api.runtime.onMessage.addListener(message => {
 			if (message.action !== 'requestCompleted') return;
 
@@ -123,7 +123,7 @@ export default class Extension
 		})
 	}
 
-	loadLastRequest () {
+	loadLastRequest() {
 		this.api.runtime.sendMessage(
 			{ action: 'getLastClockworkRequestInTab', tabId: this.api.devtools.inspectedWindow.tabId },
 			(request) => {
@@ -139,7 +139,7 @@ export default class Extension
 		)
 	}
 
-	parseHeaders (requestHeaders) {
+	parseHeaders(requestHeaders) {
 		let found
 		let id = (found = requestHeaders.find((x) => x.name.toLowerCase() == 'x-clockwork-id'))
 			? found.value : undefined

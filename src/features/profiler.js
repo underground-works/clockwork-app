@@ -2,7 +2,7 @@ import Callgrind from './callgrind/callgrind'
 
 export default class Profiler
 {
-	constructor (requests, platform) {
+	constructor(requests, platform) {
 		this.requests = requests
 		this.platform = platform
 
@@ -21,13 +21,13 @@ export default class Profiler
 		this.platform.getCookie('XDEBUG_PROFILE').then(value => this.isProfiling = value)
 	}
 
-	enableProfiling () {
+	enableProfiling() {
 		return this.platform.setCookie('XDEBUG_PROFILE', '1', 60 * 60 * 24 * 30).then(() => {
 			this.isProfiling = true
 		})
 	}
 
-	disableProfiling (clear = false) {
+	disableProfiling(clear = false) {
 		if (clear) this.clear()
 
 		return this.platform.setCookie('XDEBUG_PROFILE', '0', 0).then(() => {
@@ -35,7 +35,7 @@ export default class Profiler
 		})
 	}
 
-	loadRequest (request) {
+	loadRequest(request) {
 		if (this.request && this.request.id == request.id) return
 
 		if (! request.xdebug || ! request.xdebug.profile) {
@@ -61,7 +61,7 @@ export default class Profiler
 		})
 	}
 
-	parseProfile () {
+	parseProfile() {
 		this.ready = false
 		this.parsing = true
 
@@ -93,28 +93,28 @@ export default class Profiler
 		})
 	}
 
-	clear () {
+	clear() {
 		this.available = this.loading = this.parsing = this.ready = false
 		this.metadata = this.functions = undefined
 	}
 
-	showMetric (metric) {
+	showMetric(metric) {
 		this.metric = metric
 
 		this.parseProfile()
 	}
 
-	showPercentual (percentual) {
+	showPercentual(percentual) {
 		this.percentual = percentual === true || percentual === undefined
 	}
 
-	setShownFraction (shownFraction) {
+	setShownFraction(shownFraction) {
 		this.shownFraction = shownFraction
 
 		this.parseProfile()
 	}
 
-	formatMetric (item) {
+	formatMetric(item) {
 		if (this.percentual) {
 			return Math.round(item[this.metric] / this.summary[this.metric] * 100) + ' %'
 		} else {

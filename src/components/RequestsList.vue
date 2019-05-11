@@ -77,14 +77,14 @@ export default {
 		loadingMoreRequests: false
 	}),
 	computed: {
-		requests () { return this.$requests.items }
+		requests() { return this.$requests.items }
 	},
-	mounted () {
+	mounted() {
 		this.$refs.requestsContainer.scrollTop = this.$refs.loadMore.offsetHeight + 1
 	},
 	methods: {
-		isActive: function (id) { return this.$request?.id == id },
-		showRequest: function (request) {
+		isActive(id) { return this.$request?.id == id },
+		showRequest(request) {
 			this.global.$request = request
 
 			if (this.$request?.error?.error == 'requires-authentication') {
@@ -93,7 +93,7 @@ export default {
 
 			this.global.showIncomingRequests = request == this.$requests.last()
 		},
-		loadMoreRequests: function () {
+		loadMoreRequests() {
 			this.loadingMoreRequests = true
 
 			this.$requests.loadPrevious(10).then(() => {
@@ -102,14 +102,17 @@ export default {
 		}
 	},
 	watch: {
-		requests: { handler: function (items) {
-			if (! this.global.preserveLog) {
-				this.showRequest(this.global.$requests.first())
-			} else if (this.global.showIncomingRequests) {
-				this.showRequest(this.global.$requests.last())
-				this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight
-			}
-		}, deep: true }
+		requests: {
+			handler(items) {
+				if (! this.global.preserveLog) {
+					this.showRequest(this.global.$requests.first())
+				} else if (this.global.showIncomingRequests) {
+					this.showRequest(this.global.$requests.last())
+					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight
+				}
+			},
+			deep: true
+		}
 	}
 }
 </script>

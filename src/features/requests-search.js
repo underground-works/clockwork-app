@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 export default class RequestsSearch
 {
-	constructor (requests) {
+	constructor(requests) {
 		this.requests = requests
 
 		this.tags = [
@@ -21,7 +21,7 @@ export default class RequestsSearch
 		this.searchDebounced = debounce(() => this.search(), 500)
 	}
 
-	toggle () {
+	toggle() {
 		this.shown = ! this.shown
 
 		if (this.shown) {
@@ -32,7 +32,7 @@ export default class RequestsSearch
 		}
 	}
 
-	search () {
+	search() {
 		let { terms, tags } = this.tokenize(this.input)
 
 		tags = Object.entries(tags).filter(([ tag, values ]) => {
@@ -54,7 +54,7 @@ export default class RequestsSearch
 		})
 	}
 
-	tokenize (input) {
+	tokenize(input) {
 		let terms = []
 		let tags = {}
 

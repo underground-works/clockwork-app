@@ -42,10 +42,10 @@ export default {
 		filter: new Filter([ { tag: 'name' } ])
 	}),
 	computed: {
-		expanded: function () { return this.$store.get(`sidebarSection.${this.name}`, true) }
+		expanded() { return this.$store.get(`sidebarSection.${this.name}`, true) }
 	},
 	methods: {
-		toggle: function () { this.$store.set(`sidebarSection.${this.name}`, ! this.expanded) }
+		toggle() { this.$store.set(`sidebarSection.${this.name}`, ! this.expanded) }
 	}
 }
 </script>

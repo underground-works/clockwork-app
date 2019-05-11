@@ -46,7 +46,7 @@ export default {
 	}),
 	watch: {
 		userTab: {
-			handler: function (val) {
+			handler(val) {
 				this.filters = val.sections.map(section => {
 					if (section.showAs == 'table') {
 						return new Filter(section.data[0].map(item => ({ tag: item.key })))

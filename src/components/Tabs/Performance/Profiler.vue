@@ -137,7 +137,7 @@ export default {
 		})()
 	}),
 	methods: {
-		filterXdebug: function (xdebug) { return xdebug ? this.filter.filter(xdebug) : [] },
+		filterXdebug(xdebug) { return xdebug ? this.filter.filter(xdebug) : [] }
 	}
 }
 </script>

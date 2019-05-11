@@ -90,11 +90,11 @@ export default {
 		}
 	},
 	methods: {
-		showPreviousException: function (exception) {
+		showPreviousException(exception) {
 			this.$request.exceptions.push(exception.previous)
 			exception.previous = undefined
 		},
-		showRequestById: function (requestId) {
+		showRequestById(requestId) {
 			this.global.$request = this.$requests.find(requestId)
 		}
 	}

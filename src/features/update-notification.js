@@ -4,18 +4,18 @@ export default class UpdateNotification
 		this.store = store
 	}
 
-	get ignoredUpdates () {
+	get ignoredUpdates() {
 		return this.store.get('update-notification.ignored-updates') || {}
 	}
 
-	latest () {
+	latest() {
 		return {
 			version: '3.1.2',
 			url: 'https://underground.works/blog/clockwork-3.1-released-with-editor-links-and-better-exceptions'
 		}
 	}
 
-	show (host) {
+	show(host) {
 		if (this.ignoresUpdate(host) || ! this.serverVersion) {
 			return
 		}
@@ -25,13 +25,13 @@ export default class UpdateNotification
 		}
 	}
 
-	ignoresUpdate (host) {
+	ignoresUpdate(host) {
 		let ignoredVersion = this.ignoredUpdates[host]
 
 		return ignoredVersion && this.versionCompare(ignoredVersion, this.latest().version) >= 0
 	}
 
-	ignoreUpdate (host) {
+	ignoreUpdate(host) {
 		let ignoredUpdates = this.ignoredUpdates
 
 		ignoredUpdates[host] = this.latest().version
@@ -39,7 +39,7 @@ export default class UpdateNotification
 		this.store.set('update-notification.ignored-updates', ignoredUpdates)
 	}
 
-	versionCompare (left, right) {
+	versionCompare(left, right) {
 		left = left.split('.').map(number => parseInt(number))
 		right = right.split('.').map(number => parseInt(number))
 

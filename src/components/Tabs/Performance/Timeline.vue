@@ -59,7 +59,7 @@ export default {
 		], item => item.description)
 	}),
 	computed: {
-		legend: function () {
+		legend() {
 			if (! this.$request) return []
 
 			let items = []

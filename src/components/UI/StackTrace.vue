@@ -37,14 +37,14 @@ export default {
 		showPopover: false
 	}),
 	computed: {
-		fullPath () { return this.makeFullPath(this.file, this.line) },
-		shortPath () { return this.makeShortPath(this.file, this.line) }
+		fullPath() { return this.makeFullPath(this.file, this.line) },
+		shortPath() { return this.makeShortPath(this.file, this.line) }
 	},
 	methods: {
-		closePopover: function () {
+		closePopover() {
 			this.showPopover = false
 		},
-		togglePopover: function ($event) {
+		togglePopover($event) {
 			if (! this.trace) return
 
 			$event.preventDefault()
@@ -55,10 +55,10 @@ export default {
 				this.$refs.popover.classList.add('right-aligned')
 			}
 		},
-		makeFullPath: function (file, line) {
+		makeFullPath(file, line) {
 			return `${file}:${line}`
 		},
-		makeShortPath: function (file, line) {
+		makeShortPath(file, line) {
 			return this.makeFullPath(file, line).split(/[\/\\]/).pop()
 		}
 	}

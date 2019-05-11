@@ -117,32 +117,32 @@ export default {
 		activeTab: 'performance'
 	}),
 	computed: {
-		showLogTab: function () { return this.$request?.log?.length },
-		showDatabaseTab: function () {
+		showLogTab() { return this.$request?.log?.length },
+		showDatabaseTab() {
 			return this.$request?.databaseQueriesCount || this.$request?.databaseQueries?.length
 		},
-		showCacheTab: function () {
+		showCacheTab() {
 			return [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
 				|| this.$request?.cacheQueries.length
 		},
-		showRedisTab: function () { return this.$request?.redisCommands?.length },
-		showQueueTab: function () { return this.$request?.queueJobs?.length },
-		showEventsTab: function () { return this.$request?.events?.length },
-		showViewsTab: function () { return this.$request?.views?.length },
-		showEmailsTab: function () { return this.$request?.emails?.length },
-		showRoutesTab: function () { return this.$request?.routes?.length }
+		showRedisTab() { return this.$request?.redisCommands?.length },
+		showQueueTab() { return this.$request?.queueJobs?.length },
+		showEventsTab() { return this.$request?.events?.length },
+		showViewsTab() { return this.$request?.views?.length },
+		showEmailsTab() { return this.$request?.emails?.length },
+		showRoutesTab() { return this.$request?.routes?.length }
 	},
 	methods: {
-		isTabActive: function (tab) { return this.$request && this.activeTab == tab },
-		showTab: function (tab) { this.activeTab = tab },
-		toggleRequestsList: function () {
+		isTabActive(tab) { return this.$request && this.activeTab == tab },
+		showTab(tab) { this.activeTab = tab },
+		toggleRequestsList() {
 			this.$store.set('requestsListCollapsed', ! this.$store.get('requestsListCollapsed'))
 		},
-		toggleRequestSidebar: function () {
+		toggleRequestSidebar() {
 			this.$store.set('requestSidebarCollapsed', ! this.$store.get('requestSidebarCollapsed'))
 		},
-		togglePreserveLog: function () { this.global.preserveLog = ! this.global.preserveLog },
-		clear: function () { this.$requests.clear() }
+		togglePreserveLog() { this.global.preserveLog = ! this.global.preserveLog },
+		clear() { this.$requests.clear() }
 	}
 }
 </script>

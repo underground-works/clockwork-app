@@ -1,6 +1,6 @@
 export default class Authentication
 {
-	constructor (requests) {
+	constructor(requests) {
 		this.requests = requests
 
 		this.username = this.password = ''
@@ -9,7 +9,7 @@ export default class Authentication
 		this.requires = []
 	}
 
-	attempt () {
+	attempt() {
 		let data = { username: this.username, password: this.password }
 
 		this.username = this.password = ''
@@ -32,7 +32,7 @@ export default class Authentication
 		})
 	}
 
-	request (message, requires) {
+	request(message, requires) {
 		this.shown = true
 		this.requires = requires
 		this.message = message

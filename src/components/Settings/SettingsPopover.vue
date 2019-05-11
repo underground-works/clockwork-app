@@ -61,7 +61,7 @@ export default {
 			if (! this.show) this.$settings.reload()
 			this.show = ! this.show
 		},
-		save () {
+		save() {
 			this.$settings.save()
 			this.show = false
 		}

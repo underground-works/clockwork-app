@@ -8,7 +8,7 @@ export default {
 	name: 'PrettyPrint',
 	props: [ 'data' ],
 	methods: {
-		render () {
+		render() {
 			let data = this.data
 			let rendered = document.createElement('div')
 
@@ -35,7 +35,7 @@ export default {
 			this.$el.append(rendered)
 		}
 	},
-	mounted: function () {
+	mounted() {
 		this.render()
 	},
 	watch: {

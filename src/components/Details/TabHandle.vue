@@ -9,7 +9,7 @@ export default {
 	name: 'TabHandle',
 	props: [ 'name', 'active' ],
 	methods: {
-		selectTab: function () { this.$emit('tab-selected', this.name) }
+		selectTab() { this.$emit('tab-selected', this.name) }
 	}
 }
 </script>

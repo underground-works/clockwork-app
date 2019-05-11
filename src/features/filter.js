@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default class Filter
 {
-	constructor (tags, map) {
+	constructor(tags, map) {
 		this.tags = tags
 		this.map = map
 
@@ -12,7 +12,7 @@ export default class Filter
 		this.input = ''
 	}
 
-	toggle ($event) {
+	toggle($event) {
 		this.shown = ! this.shown
 
 		if (this.shown) {
@@ -27,7 +27,7 @@ export default class Filter
 		}
 	}
 
-	sortBy (column) {
+	sortBy(column) {
 		if (this.sortedBy == column) {
 			this.sortedDesc = ! this.sortedDesc
 		} else {
@@ -36,7 +36,7 @@ export default class Filter
 		}
 	}
 
-	filter (items) {
+	filter(items) {
 		let { terms, tags } = this.tokenize(this.input)
 
 		items = items.filter(item => {
@@ -56,7 +56,7 @@ export default class Filter
 		return items
 	}
 
-	matchesTerms (item, terms) {
+	matchesTerms(item, terms) {
 		if (! terms.length) return true
 
 		if (typeof item == 'object' && item !== null) {
@@ -68,7 +68,7 @@ export default class Filter
 		return terms.find(term => item.toLowerCase().includes(term.toLowerCase()))
 	}
 
-	matchesTags (item, tags) {
+	matchesTags(item, tags) {
 		if (! Object.keys(tags).length) return true
 
 		return Object.keys(tags).every(tag => {
@@ -84,7 +84,7 @@ export default class Filter
 		})
 	}
 
-	isTagApplicable (tag, item, tagValue) {
+	isTagApplicable(tag, item, tagValue) {
 		if (tag.apply) {
 			return tag.apply(item, tagValue)
 		}
@@ -122,7 +122,7 @@ export default class Filter
 		}
 	}
 
-	tokenize (input) {
+	tokenize(input) {
 		let terms = []
 		let tags = {}
 

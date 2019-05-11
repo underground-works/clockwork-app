@@ -44,15 +44,15 @@ export default {
 		updateNotification() { return this.$updateNotification.show(this.$requests.remoteUrl) }
 	},
 	methods: {
-		closeUpdateNotification: function () {
+		closeUpdateNotification() {
 			this.$updateNotification.ignoreUpdate(this.$requests.remoteUrl)
 			this.updateNotification = false
 		},
-		showPreviousException: function (exception) {
+		showPreviousException(exception) {
 			this.$request.exceptions.push(exception.previous)
 			exception.previous = undefined
 		},
-		showRequestById: function (requestId) {
+		showRequestById(requestId) {
 			this.global.$request = this.$requests.find(requestId)
 		}
 	}

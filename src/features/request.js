@@ -3,7 +3,7 @@ import URI from 'urijs'
 
 export default class Request
 {
-	constructor (data) {
+	constructor(data) {
 		Object.assign(this, data)
 
 		this.responseDurationRounded = this.responseDuration ? Math.round(this.responseDuration) : 0
@@ -35,7 +35,7 @@ export default class Request
 		this.exceptions = this.processExceptions()
 	}
 
-	static placeholder (id, request, parent) {
+	static placeholder(id, request, parent) {
 		return Object.assign(new Request({
 			loading: true,
 			id: id,
@@ -50,17 +50,17 @@ export default class Request
 		})
 	}
 
-	resolve (request) {
+	resolve(request) {
 		Object.assign(this, request, { loading: false, error: undefined })
 		return this
 	}
 
-	resolveWithError (error) {
+	resolveWithError(error) {
 		Object.assign(this, { loading: false, error })
 		return this
 	}
 
-	extend (data, fields) {
+	extend(data, fields) {
 		fields.forEach(field => this[field] = data[field])
 		return this
 	}
@@ -73,7 +73,7 @@ export default class Request
 		return this.responseStatus >= 500 && this.responseStatus < 600
 	}
 
-	createKeypairs (data, sorted = true) {
+	createKeypairs(data, sorted = true) {
 		if (! (data instanceof Object)) return []
 
 		let keypairs = Object.keys(data).map(key => ({ name: key, value: data[key] }))
@@ -83,7 +83,7 @@ export default class Request
 		return keypairs
 	}
 
-	processCacheStats () {
+	processCacheStats() {
 		if (this.cacheDeletes) this.cacheDeletes = parseInt(this.cacheDeletes)
 		if (this.cacheHits) this.cacheHits = parseInt(this.cacheHits)
 		if (this.cacheReads) this.cacheReads = parseInt(this.cacheReads)
@@ -92,7 +92,7 @@ export default class Request
 		this.cacheMisses = this.cacheReads && this.cacheHits ? this.cacheReads - this.cacheHits : null
 	}
 
-	processCacheQueries (data) {
+	processCacheQueries(data) {
 		if (! (data instanceof Array)) return []
 
 		return data.map(query => {
@@ -103,7 +103,7 @@ export default class Request
 		})
 	}
 
-	processDatabase () {
+	processDatabase() {
 		this.databaseQueries = this.processDatabaseQueries(this.databaseQueries)
 
 		this.databaseQueriesCount = parseInt(this.databaseQueriesCount) || this.databaseQueries.length
@@ -121,7 +121,7 @@ export default class Request
 			|| this.databaseQueries.filter(query => ! query.query.match(/^(select|insert|update|delete) /i)).length
 	}
 
-	processDatabaseQueries (data) {
+	processDatabaseQueries(data) {
 		if (! (data instanceof Array)) return []
 
 		return data.map(query => {
@@ -133,13 +133,13 @@ export default class Request
 		})
 	}
 
-	processEmails (data) {
+	processEmails(data) {
 		if (! (data instanceof Object)) return []
 
 		return Object.values(data).filter(email => email.data instanceof Object).map(email => email.data)
 	}
 
-	processEvents (data) {
+	processEvents(data) {
 		if (! (data instanceof Array)) return []
 
 		return data.map(event => {
@@ -163,7 +163,7 @@ export default class Request
 		})
 	}
 
-	processExceptions () {
+	processExceptions() {
 		let exception = this.log.length ? this.log[this.log.length - 1].exception : null
 
 		if (this.responseStatus != 500 || ! exception) return []
@@ -184,7 +184,7 @@ export default class Request
 		return [ exception ]
 	}
 
-	processHeaders (data) {
+	processHeaders(data) {
 		if (! (data instanceof Object)) return []
 
 		return Object.keys(data)
@@ -206,7 +206,7 @@ export default class Request
 			.sort((a, b) => a.name.localeCompare(b.name))
 	}
 
-	processLog (data) {
+	processLog(data) {
 		if (! (data instanceof Array)) return []
 
 		return data.map(message => {
@@ -223,7 +223,7 @@ export default class Request
 		})
 	}
 
-	processPerformanceMetrics (data) {
+	processPerformanceMetrics(data) {
 		if (! data) {
 			return [
 				{ name: 'Database', value: this.databaseDurationRounded, style: 'style2' },
@@ -245,7 +245,7 @@ export default class Request
 		return data
 	}
 
-	processQueueJobs (data) {
+	processQueueJobs(data) {
 		if (! (data instanceof Array)) return []
 
 		return data.map(job => {
@@ -255,7 +255,7 @@ export default class Request
 		})
 	}
 
-	processTimeline (data) {
+	processTimeline(data) {
 		if (! (data instanceof Object)) return []
 
 		return Object.values(data).map((entry, i) => {
@@ -285,13 +285,13 @@ export default class Request
 		})
 	}
 
-	processViews (data) {
+	processViews(data) {
 		if (! (data instanceof Object)) return []
 
 		return Object.values(data).filter(view => view.data instanceof Object).map(view => view.data)
 	}
 
-	processUserData (tabs) {
+	processUserData(tabs) {
 		if (! (tabs instanceof Object)) return []
 
 		let stripMeta = ([ key, section ]) => key != '__meta'
@@ -321,18 +321,18 @@ export default class Request
 		})
 	}
 
-	getErrorsCount () {
+	getErrorsCount() {
 		return this.log.reduce((count, message) => {
 			return message.level == 'error' ? count + 1 : count
 		}, 0)
 	}
 
-	getWarningsCount () {
+	getWarningsCount() {
 		return this.log.filter(message => message.level == 'warning').length
 			+ this.databaseSlowQueries
 	}
 
-	formatTime (seconds) {
+	formatTime(seconds) {
 		let minutes = Math.floor(seconds / 60)
 		let hours = Math.floor(minutes / 60)
 
@@ -348,7 +348,7 @@ export default class Request
 		return time.join(' ')
 	}
 
-	formatBytes (bytes) {
+	formatBytes(bytes) {
 		let units = [ 'B', 'kB', 'MB', 'GB', 'TB', 'PB' ]
 		let pow = Math.floor(Math.log(bytes) / Math.log(1024))
 

@@ -74,8 +74,8 @@ export default {
 		}
 	},
 	methods: {
-		isTabActive: function (tab) { return this.activeTab == tab },
-		showTab: function (tab) {
+		isTabActive(tab) { return this.activeTab == tab },
+		showTab(tab) {
 			this.activeTab = tab
 
 			if (tab == 'profiler') this.$profiler.loadRequest(this.$request)

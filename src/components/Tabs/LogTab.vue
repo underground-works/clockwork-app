@@ -48,7 +48,7 @@ export default {
 		log() { return this.$request.log.filter(message => ! message.context?.performance) }
 	},
 	methods: {
-		showPreviousException: function (message) {
+		showPreviousException(message) {
 			let messageIndex = this.$request.log.indexOf(message)
 
 			this.$request.log.splice(messageIndex + 1, 0, {

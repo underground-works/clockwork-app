@@ -2,34 +2,34 @@ import extend from 'just-extend'
 
 export default class Settings
 {
-	constructor (store, requests) {
+	constructor(store, requests) {
 		this.store = store
 		this.requests = requests
 
 		this.reload()
 	}
 
-	get editor () {
+	get editor() {
 		return this.settings.global.editor
 	}
 
-	set editor (value) {
+	set editor(value) {
 		this.settings.global.editor = value
 	}
 
-	get localPathMapReal () {
+	get localPathMapReal() {
 		return this.getSite('localPathMap', {}).real
 	}
 
-	set localPathMapReal (value) {
+	set localPathMapReal(value) {
 		this.setSite('localPathMap', extend(true, this.getSite('localPathMap', {}), { real: value }))
 	}
 
-	get localPathMapLocal () {
+	get localPathMapLocal() {
 		return this.getSite('localPathMap', {}).local
 	}
 
-	set localPathMapLocal (value) {
+	set localPathMapLocal(value) {
 		this.setSite('localPathMap', extend(true, this.getSite('localPathMap', {}), { local: value }))
 	}
 

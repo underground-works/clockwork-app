@@ -3,7 +3,7 @@ import URI from 'urijs'
 
 export default class Requests
 {
-	constructor (store) {
+	constructor(store) {
 		this.store = store
 		this.items = []
 
@@ -14,17 +14,17 @@ export default class Requests
 	}
 
 	// returns all requests up to the first placeholder, or everything if there are no placeholders
-	all () {
+	all() {
 		return this.items
 	}
 
 	// return request by id
-	findId (id) {
+	findId(id) {
 		return this.items.find(request => request.id == id)
 	}
 
 	// loads request by id, inserts a placeholder to the items array which is replaced once the metadata is retrieved
-	loadId (id, placeholder) {
+	loadId(id, placeholder) {
 		let existing = this.findId(id)
 
 		if (existing) {
@@ -43,7 +43,7 @@ export default class Requests
 		})
 	}
 
-	loadExtended (id, fields) {
+	loadExtended(id, fields) {
 		let request = this.findId(id)
 
 		return this.callRemote(this.remoteUrl + id + '/extended').then(data => {
@@ -51,19 +51,19 @@ export default class Requests
 		}).catch(error => {})
 	}
 
-	loadLatest (update = true) {
+	loadLatest(update = true) {
 		return this.callRemote(this.remoteUrl + 'latest').then(data => {
 			if (update) this.items.push(data[0])
 			return data[0]
 		})
 	}
 
-	returnLatest () {
+	returnLatest() {
 		return this.loadLatest(false)
 	}
 
 	// loads requests after the last request, if the count isn't specified loads all requests
-	loadNext (count, id, update = true) {
+	loadNext(count, id, update = true) {
 		if (! id && ! this.items.length) return Promise.resolve([])
 
 		id = id || this.last().id
@@ -74,12 +74,12 @@ export default class Requests
 		}).catch(error => {})
 	}
 
-	returnNext (count, id) {
+	returnNext(count, id) {
 		return this.loadNext(count, id, false)
 	}
 
 	// loads requests before the first request, if the count isn't specified loads all requests
-	loadPrevious (count, id, update = true) {
+	loadPrevious(count, id, update = true) {
 		if (! id && ! this.items.length) return Promise.resolve([])
 
 		id = id || this.first().id
@@ -90,31 +90,31 @@ export default class Requests
 		}).catch(error => {})
 	}
 
-	returnPrevious (count, id) {
+	returnPrevious(count, id) {
 		return this.loadPrevious(count, id, false)
 	}
 
-	clear () {
+	clear() {
 		this.items.splice(0)
 	}
 
-	first () {
+	first() {
 		return this.items[0]
 	}
 
-	last () {
+	last() {
 		return this.items[this.items.length - 1]
 	}
 
-	setClient (client) {
+	setClient(client) {
 		this.client = client
 	}
 
-	setItems (items) {
+	setItems(items) {
 		this.items = items
 	}
 
-	setRemote (url, options) {
+	setRemote(url, options) {
 		options = options || {}
 		options.path = options.path || '/__clockwork/'
 
@@ -129,16 +129,16 @@ export default class Requests
 		this.remoteHeaders = options.headers || {}
 	}
 
-	setAuthenticationToken (token) {
+	setAuthenticationToken(token) {
 		this.tokens[this.remoteUrl] = token
 		this.store.set('requests.tokens', this.tokens)
 	}
 
-	setQuery (query) {
+	setQuery(query) {
 		this.query = query
 	}
 
-	callRemote (url) {
+	callRemote(url) {
 		let headers = Object.assign({}, this.remoteHeaders, { 'X-Clockwork-Auth': this.tokens[this.remoteUrl] })
 
 		url = URI(url).addQuery(this.query).toString()

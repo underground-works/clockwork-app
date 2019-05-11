@@ -33,8 +33,8 @@ export default {
 	name: 'RequestSidebar',
 	components: { RequestTab },
 	methods: {
-		togglePreserveLog: function () { this.global.preserveLog = ! this.global.preserveLog },
-		clear: function () { this.$requests.clear() }
+		togglePreserveLog() { this.global.preserveLog = ! this.global.preserveLog },
+		clear() { this.$requests.clear() }
 	}
 }
 </script>

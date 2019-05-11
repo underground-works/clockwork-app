@@ -1,6 +1,6 @@
 export default class PrettyJason
 {
-	constructor (data) {
+	constructor(data) {
 		if (! (data instanceof Object)) {
 			data = this.parseJson(data)
 		}
@@ -12,7 +12,7 @@ export default class PrettyJason
 		this.data = data
 	}
 
-	parseJson (data) {
+	parseJson(data) {
 		try {
 			return JSON.parse(data)
 		} catch (e) {
@@ -20,11 +20,11 @@ export default class PrettyJason
 		}
 	}
 
-	print (target) {
+	print(target) {
 		target.innerHTML = this.generateHtml()
 	}
 
-	generateHtml () {
+	generateHtml() {
 		let [ value, valueType ] = this.resolveValueAndType(this.data)
 
 		return this.createElement('ul', { class: 'pretty-jason' }, [
@@ -42,7 +42,7 @@ export default class PrettyJason
 		])
 	}
 
-	generateHtmlNode (data) {
+	generateHtmlNode(data) {
 		return this.createElement('ul', { style: { display: 'none' } }, Object.keys(data)
 			.filter(key => ! [ '__class__', '__type__', '__hash__' ].includes(key))
 			.map(key => {
@@ -64,7 +64,7 @@ export default class PrettyJason
 		)
 	}
 
-	generateHtmlPreview (data) {
+	generateHtmlPreview(data) {
 		return this.createElement('span', { class: 'pretty-jason-preview' }, Object.keys(data)
 			.filter(key => ! [ '__class__', '__type__', '__hash__' ].includes(key))
 			.slice(0, 3)
@@ -85,7 +85,7 @@ export default class PrettyJason
 		)
 	}
 
-	resolveValueAndType (value) {
+	resolveValueAndType(value) {
 		if (value === null) {
 			return [ 'null',  'null' ]
 		} else if (value === undefined) {
@@ -107,7 +107,7 @@ export default class PrettyJason
 		return [ value.toString(), typeof value ]
 	}
 
-	objectNodeClickedCallback (node) {
+	objectNodeClickedCallback(node) {
 		this.renderObjectNode(node)
 
 		let list = node.parentNode.querySelector('ul')
@@ -124,7 +124,7 @@ export default class PrettyJason
 		}
 	};
 
-	renderObjectNode (node) {
+	renderObjectNode(node) {
 		if (node.dataset.rendered) return
 
 		let path = []
@@ -143,7 +143,7 @@ export default class PrettyJason
 		node.dataset.rendered = true
 	}
 
-	getDataFromPath (path) {
+	getDataFromPath(path) {
 		let data = this.data
 		let segment
 
@@ -154,7 +154,7 @@ export default class PrettyJason
 		return data
 	}
 
-	createElement (name, options, children) {
+	createElement(name, options, children) {
 		let element = document.createElement(name)
 
 		if (options.html) element.innerHTML = options.html
