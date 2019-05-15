@@ -21,6 +21,9 @@
 
 		<div class="sidebar-content">
 			<request-tab v-if="$request"></request-tab>
+
+			<div class="sidebar-date">{{ $request.time * 1000 | moment('Y-MM-DD HH:mm:ss') }}</div>
+			<div class="sidebar-id">{{ $request.id }}</div>
 		</div>
 
 	</div>
@@ -101,6 +104,17 @@ export default {
 	.sidebar-content {
 		flex: 1;
 		overflow: auto;
+	}
+
+	.sidebar-date, .sidebar-id {
+		margin: 10px 0;
+		text-align: center;
+	}
+
+	.sidebar-id {
+		color: rgb(128, 128, 128);
+
+		body.dark & { color: rgb(118, 118, 118); }
 	}
 }
 </style>
