@@ -105,6 +105,8 @@ export default {
 .request-tab {
 	background: #fff;
 
+	body.dark & { background: #1f1f1f; }
+
 	.parent-request {
 		border-bottom: 1px solid rgb(209, 209, 209);
 		display: flex;

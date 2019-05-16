@@ -50,7 +50,10 @@ export default {
 	flex-direction: column;
 	height: 25%;
 
-	body.dark & { border-top: 1px solid rgb(54, 54, 54); }
+	body.dark & {
+		background: #1b1b1b;
+		border-top: 1px solid rgb(54, 54, 54);
+	}
 
 	&.large { height: 33%; }
 
@@ -60,7 +63,10 @@ export default {
 		height: 100%;
 		width: 300px;
 
-		body.dark & { border-left: 1px solid rgb(54, 54, 54); }
+		body.dark & {
+			border-left: 1px solid rgb(54, 54, 54);
+			border-top: 0;
+		}
 
 		&.large {
 			height: 100%;
@@ -86,6 +92,11 @@ export default {
 		justify-content: space-between;
 		line-height: 31px;
 		width: 100%;
+
+		body.dark & {
+			background: #1f1f1f;
+			border-bottom: 1px solid rgb(54, 54, 54);
+		}
 
 		.sidebar-title {
 			padding: 0 10px;
