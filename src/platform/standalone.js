@@ -4,7 +4,7 @@ import URI from 'urijs'
 
 export default class Standalone
 {
-	init (global) {
+	init(global) {
 		this.global = global
 		this.requests = global.$requests
 		this.authentication = global.$authentication
@@ -16,11 +16,12 @@ export default class Standalone
 		this.setMetadataClient()
 
 		this.startPollingRequests()
+		this.throttlePolling()
 	}
 
 	// appending ?dark to the query string will cause dark theme to be used, ?dark=1 or ?dark=0 can be used to
 	// permanently activate or deactivate dark theme in this browser
-	useProperTheme () {
+	useProperTheme() {
 		let wantsDarkTheme = URI(window.location.href).query(true).dark
 
 		if (wantsDarkTheme == '1' || wantsDarkTheme == '0')	{
@@ -37,14 +38,14 @@ export default class Standalone
 		}
 	}
 
-	setMetadataUrl () {
+	setMetadataUrl() {
 		this.requests.setRemote(
 			// window.location.href, { path: URI(window.location.href.split('/').slice(0, -1).join('/')).path() + '/' }
 			'http://127.0.0.1:8000/', { path: '__clockwork/' }
 		)
 	}
 
-	setMetadataClient () {
+	setMetadataClient() {
 		this.requests.setClient((method, url, data, headers) => {
 			let isProfiling = this.profiler.isProfiling
 
@@ -76,19 +77,21 @@ export default class Standalone
 		})
 	}
 
-	setCookie (name, value, expiration) {
+	setCookie(name, value, expiration) {
 		document.cookie = `${name}=${value};path=/;max-age=${expiration}`
 
 		return Promise.resolve()
 	}
 
-	getCookie (name) {
+	getCookie(name) {
 		let matches = document.cookie.match(new RegExp(`(?:^| )${name}=([^;]*)`))
 
 		return Promise.resolve(! matches ? undefined : matches.groups[0])
 	}
 
-	startPollingRequests () {
+	startPollingRequests() {
+		this.pollingInterval = 1000
+
 		this.requests.loadLatest().then(() => {
 			if (! this.requests.last()) throw new Error
 
@@ -99,12 +102,12 @@ export default class Standalone
 					this.startPollingRequests()
 				})
 			} else {
-				setTimeout(() => this.startPollingRequests(), 1000)
+				setTimeout(() => this.startPollingRequests(), this.pollingInterval)
 			}
 		})
 	}
 
-	pollRequests () {
+	pollRequests() {
 		if (this.requests.last()) {
 			this.lastRequestId = this.requests.last().id
 		}
@@ -114,9 +117,17 @@ export default class Standalone
 				this.requests.setItems(this.requests.all().slice(-1))
 			}
 
-			setTimeout(() => this.pollRequests(), 1000)
+			setTimeout(() => this.pollRequests(), this.pollingInterval)
 		}).catch(() => {
-			setTimeout(() => this.pollRequests(), 1000)
+			setTimeout(() => this.pollRequests(), this.pollingInterval)
 		})
+	}
+
+	throttlePolling() {
+		document.addEventListener('visibilitychange', () => {
+			this.pollingInterval = document.hidden ? 60000 : 1000
+
+			if (! document.hidden) this.pollRequests()
+		});
 	}
 }
