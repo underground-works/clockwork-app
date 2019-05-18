@@ -21,6 +21,7 @@
 - improved session tab is now part of the request sidebar
 - improved requests list, sidebar and sidebar sections toggling is now preserved after closing Clockwork
 - improved raw Cookie header is no longer shown (since we already have full Cookies section)
+- improved standalone mode to throttle requests list updates when the browser tab is not active
 - improved stack trace popover alignment
 - improved build scripts to be platform-independent (implemented by Ir00man, thanks!)
 - fixed some cases when empty tabs were shown
