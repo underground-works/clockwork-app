@@ -7,11 +7,11 @@
 				</div>
 			</div>
 			<div v-for="metric, index in $request.performanceMetrics" class="counter performance-chart-legend" :class="metric.style" :key="`${$request.id}-${index}`">
-				<div class="counter-value">{{metric.value}}&nbsp;ms</div>
+				<div class="counter-value">{{metric.value}} ms</div>
 				<div class="counter-title">{{metric.name}}</div>
 			</div>
 			<div class="counter" ng-show="$request.responseDurationRounded">
-				<div class="counter-value">{{$request.responseDurationRounded}}&nbsp;ms</div>
+				<div class="counter-value">{{$request.responseDurationRounded}} ms</div>
 				<div class="counter-title">total</div>
 			</div>
 			<div class="counter" ng-show="$request.memoryUsage">
