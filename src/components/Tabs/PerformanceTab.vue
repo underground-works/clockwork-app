@@ -10,11 +10,11 @@
 				<div class="counter-value">{{metric.value}} ms</div>
 				<div class="counter-title">{{metric.name}}</div>
 			</div>
-			<div class="counter" ng-show="$request.responseDurationRounded">
+			<div class="counter" v-if="$request.responseDurationRounded">
 				<div class="counter-value">{{$request.responseDurationRounded}} ms</div>
 				<div class="counter-title">total</div>
 			</div>
-			<div class="counter" ng-show="$request.memoryUsage">
+			<div class="counter" v-if="$request.memoryUsage">
 				<div class="counter-value">{{$request.memoryUsageFormatted}}</div>
 				<div class="counter-title">memory</div>
 			</div>

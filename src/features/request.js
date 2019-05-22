@@ -6,6 +6,7 @@ export default class Request
 	constructor(data) {
 		Object.assign(this, data)
 
+		this.time = parseFloat(this.time)
 		this.responseDurationRounded = this.responseDuration ? Math.round(this.responseDuration) : 0
 		this.databaseDurationRounded = this.databaseDuration ? Math.round(this.databaseDuration) : 0
 		this.memoryUsageFormatted = this.memoryUsage ? this.formatBytes(this.memoryUsage) : undefined
@@ -24,6 +25,7 @@ export default class Request
 		this.log = this.processLog(this.log)
 		this.postData = this.createKeypairs(this.postData)
 		this.queueJobs = this.processQueueJobs(this.queueJobs)
+		this.redisCommands = this.processRedisCommands(this.redisCommands)
 		this.sessionData = this.createKeypairs(this.sessionData)
 		this.performanceMetrics = this.processPerformanceMetrics(this.performanceMetrics)
 		this.timeline = this.processTimeline(this.timelineData)
@@ -228,7 +230,7 @@ export default class Request
 			return [
 				{ name: 'Database', value: this.databaseDurationRounded, style: 'style2' },
 				{ name: 'Cache', value: this.cacheTime, style: 'style3' },
-				{ name: 'Other', value: this.responseDurationRounded - this.databaseDurationRounded - this.cacheTime, style: 'style1' }
+				{ name: 'Other', value: (this.responseDurationRounded || 0) - (this.databaseDurationRounded || 0) - (this.cacheTime || 0), style: 'style1' }
 			].filter(metric => metric.value !== null && metric.value !== undefined)
 		}
 
@@ -253,6 +255,10 @@ export default class Request
 
 			return job
 		})
+	}
+
+	processRedisCommands(data) {
+		return data instanceof Array ? data : []
 	}
 
 	processTimeline(data) {
