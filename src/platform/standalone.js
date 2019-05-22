@@ -108,6 +108,8 @@ export default class Standalone
 	}
 
 	pollRequests() {
+		clearTimeout(this.pollTimeout)
+
 		if (this.requests.last()) {
 			this.lastRequestId = this.requests.last().id
 		}
@@ -117,9 +119,9 @@ export default class Standalone
 				this.requests.setItems(this.requests.all().slice(-1))
 			}
 
-			setTimeout(() => this.pollRequests(), this.pollingInterval)
+			this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
 		}).catch(() => {
-			setTimeout(() => this.pollRequests(), this.pollingInterval)
+			this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
 		})
 	}
 
