@@ -22,8 +22,8 @@
 		<div class="sidebar-content">
 			<request-tab v-if="$request"></request-tab>
 
-			<div class="sidebar-date">{{ $request.time * 1000 | moment('Y-MM-DD HH:mm:ss') }}</div>
-			<div class="sidebar-id">{{ $request.id }}</div>
+			<div class="sidebar-date" v-if="$request">{{ $request.time * 1000 | moment('Y-MM-DD HH:mm:ss') }}</div>
+			<div class="sidebar-id" v-if="$request">{{ $request.id }}</div>
 		</div>
 
 	</div>
