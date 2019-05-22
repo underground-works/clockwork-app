@@ -40,9 +40,9 @@ import StackTrace from '../UI/StackTrace'
 export default {
 	name: 'MessagesOverlay',
 	components: { StackTrace },
-	computed: {
-		updateNotification() { return this.$updateNotification.show(this.$requests.remoteUrl) }
-	},
+	data: () => ({
+		updateNotification: false
+	}),
 	methods: {
 		closeUpdateNotification() {
 			this.$updateNotification.ignoreUpdate(this.$requests.remoteUrl)
@@ -54,6 +54,14 @@ export default {
 		},
 		showRequestById(requestId) {
 			this.global.$request = this.$requests.find(requestId)
+		}
+	},
+	watch: {
+		'$requests.remoteUrl': {
+			handler() {
+				this.updateNotification = this.$updateNotification.show(this.$requests.remoteUrl)
+			},
+			immediate: true
 		}
 	}
 }
