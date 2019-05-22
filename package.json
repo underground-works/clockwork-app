@@ -5,10 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-chrome": "vue-cli-service build && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cp-cli platforms/chrome/* dist/chrome/",
-    "build-chrome-dev": "vue-cli-service build --mode=development && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cp-cli platforms/chrome/* dist/chrome/",
-    "build-firefox": "vue-cli-service build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cp-cli platforms/firefox/* dist/firefox/",
-    "build-firefox-dev": "vue-cli-service build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cp-cli platforms/firefox/* dist/firefox/",
+    "build-chrome": "vue-cli-service build && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cp-cli platforms/chrome/ dist/chrome/",
+    "build-chrome-dev": "vue-cli-service build --mode=development && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cp-cli platforms/chrome/ dist/chrome/",
+    "build-firefox": "vue-cli-service build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cp-cli platforms/firefox/ dist/firefox/",
+    "build-firefox-dev": "vue-cli-service build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cp-cli platforms/firefox/ dist/firefox/",
     "build-web": "vue-cli-service build && del-cli dist/web && move-cli --mkdirp build dist/web",
     "build-web-dev": "vue-cli-service build --mode=development && del-cli dist/web && move-cli --mkdirp build dist/web"
   },
