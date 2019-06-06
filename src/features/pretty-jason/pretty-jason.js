@@ -31,7 +31,7 @@ export default class PrettyJason
 			this.createElement('li', {}, [
 				this.createElement('span', {
 					data: { rendered: true },
-					click: ev => this.objectNodeClickedCallback(ev.currentTarget)
+					click: ev => this.objectNodeClickedCallback(ev)
 				}, [
 					this.createElement('span', { class: 'pretty-jason-icon', html: '<i class="pretty-jason-icon-closed"></i>' }),
 					this.createElement('span', { text: `${value} ` })
@@ -50,7 +50,7 @@ export default class PrettyJason
 
 				return this.createElement('li', { data: { key } }, [
 					this.createElement('span', {
-						click: valueType == 'object' ? (ev => this.objectNodeClickedCallback(ev.currentTarget)) : undefined
+						click: valueType == 'object' ? (ev => this.objectNodeClickedCallback(ev)) : undefined
 					}, [
 						this.createElement('span', { class: 'pretty-jason-icon', html: valueType == 'object' ? '<i class="pretty-jason-icon-closed"></i>' : undefined }),
 						this.createElement('span', { class: 'pretty-jason-key', text: `${key}: ` }),
@@ -107,7 +107,23 @@ export default class PrettyJason
 		return [ value.toString(), typeof value ]
 	}
 
-	objectNodeClickedCallback(node) {
+	objectNodeClickedCallback(ev) {
+		let node = ev.currentTarget
+
+		if (this.isNodeExpanded(node)) {
+			this.collapseNode(node, ev.ctrlKey || ev.metaKey)
+		} else {
+			this.expandNode(node, ev.ctrlKey || ev.metaKey)
+		}
+	}
+
+	isNodeExpanded(node) {
+		let list = node.parentNode.querySelector('ul')
+
+		return list && list.style.display != 'none'
+	}
+
+	expandNode(node, recursive) {
 		this.renderObjectNode(node)
 
 		let list = node.parentNode.querySelector('ul')
@@ -115,14 +131,31 @@ export default class PrettyJason
 
 		icon.classList.remove('pretty-jason-icon-closed', 'pretty-jason-icon-open')
 
-		if (list.style.display == 'none') {
-			list.style.display = 'block'
-			icon.classList.add('pretty-jason-icon-open')
-		} else {
-			list.style.display = 'none'
-			icon.classList.add('pretty-jason-icon-closed')
+		list.style.display = 'block'
+		icon.classList.add('pretty-jason-icon-open')
+
+		if (recursive) {
+			list.querySelectorAll('.pretty-jason-icon-closed').forEach(closedIcon => {
+				this.expandNode(closedIcon.parentNode.parentNode, recursive)
+			})
 		}
-	};
+	}
+
+	collapseNode(node, recursive) {
+		let list = node.parentNode.querySelector('ul')
+		let icon = node.querySelector('i')
+
+		icon.classList.remove('pretty-jason-icon-closed', 'pretty-jason-icon-open')
+
+		list.style.display = 'none'
+		icon.classList.add('pretty-jason-icon-closed')
+
+		if (recursive) {
+			list.querySelectorAll('.pretty-jason-icon-open').forEach(openIcon => {
+				this.collapseNode(openIcon.parentNode.parentNode, recursive)
+			})
+		}
+	}
 
 	renderObjectNode(node) {
 		if (node.dataset.rendered) return
