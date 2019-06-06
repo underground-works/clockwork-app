@@ -15,7 +15,9 @@
 			<details-table :columns="section.data[0].map(item => item.key)" :items="section.data" :filter="filters[sectionIndex]" v-if="section.showAs == 'table'">
 				<template slot="body" slot-scope="{ items }">
 					<tr v-for="item in items">
-						<td v-for="item in item">{{item.value}}</td>
+						<td v-for="item in item">
+							<pretty-print :data="item.value"></pretty-print>
+						</td>
 					</tr>
 				</template>
 			</details-table>
@@ -25,12 +27,13 @@
 
 <script>
 import DetailsTable from '../UI/DetailsTable'
+import PrettyPrint from '../UI/PrettyPrint'
 
 import Filter from '../../features/filter'
 
 export default {
 	name: 'UserTab',
-	components: { DetailsTable },
+	components: { DetailsTable, PrettyPrint },
 	props: [ 'userTab' ],
 	// computed: {
 	// 	filters() {
