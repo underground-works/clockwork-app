@@ -17,8 +17,10 @@
 					</template>
 					<template slot="body" slot-scope="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
-							<td class="key">{{item.name}}</td>
-							<td class="value"><pretty-print :data="item.value"></pretty-print></td>
+							<td colspan="2">
+								<div class="key">{{item.name}}</div>
+								<div class="value"><pretty-print :data="item.value"></pretty-print></div>
+							</td>
 						</tr>
 					</template>
 				</details-table>
@@ -136,12 +138,14 @@ export default {
 			padding: 8px 10px;
 			vertical-align: top;
 
-			&.key {
+			.key {
 				font-size: 11px;
+				font-weight: 600;
+				margin-bottom: 3px;
 				white-space: nowrap;
 			}
 
-			&.value {
+			.value {
 				word-break: break-all;
 			}
 		}
