@@ -231,7 +231,7 @@ export default class Request
 				{ name: 'Database', value: this.databaseDurationRounded, style: 'style2' },
 				{ name: 'Cache', value: this.cacheTime, style: 'style3' },
 				{ name: 'Other', value: (this.responseDurationRounded || 0) - (this.databaseDurationRounded || 0) - (this.cacheTime || 0), style: 'style1' }
-			].filter(metric => metric.value !== null && metric.value !== undefined)
+			].filter(metric => metric.value > 0)
 		}
 
 		data = data.filter(metric => metric instanceof Object)
