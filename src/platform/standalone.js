@@ -115,7 +115,7 @@ export default class Standalone
 		}
 
 		this.requests.loadNext(null, this.lastRequestId).then(() => {
-			if (! this.global.preserveLog) {
+			if (! this.store.get('preserveLog')) {
 				this.requests.setItems(this.requests.all().slice(-1))
 			}
 

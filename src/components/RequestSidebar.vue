@@ -11,7 +11,7 @@
 					<font-awesome-icon icon="link"></font-awesome-icon>
 				</a>
 				<a href="#" title="Preserve log" @click="togglePreserveLog">
-					<font-awesome-icon :icon="preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
+					<font-awesome-icon :icon="$store.data.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
 				<a href="#" title="Clear" @click="clear">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
@@ -36,7 +36,9 @@ export default {
 	name: 'RequestSidebar',
 	components: { RequestTab },
 	methods: {
-		togglePreserveLog() { this.global.preserveLog = ! this.global.preserveLog },
+		togglePreserveLog() {
+			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
+		},
 		clear() { this.$requests.clear() }
 	}
 }

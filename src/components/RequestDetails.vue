@@ -30,7 +30,7 @@
 
 			<div class="icons">
 				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="$store.data.requestSidebarCollapsed">
-					<font-awesome-icon :icon="preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
+					<font-awesome-icon :icon="$store.data.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
 				<a href="#" title="Clear" @click="clear" v-show="$store.data.requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
@@ -141,7 +141,9 @@ export default {
 		toggleRequestSidebar() {
 			this.$store.set('requestSidebarCollapsed', ! this.$store.get('requestSidebarCollapsed'))
 		},
-		togglePreserveLog() { this.global.preserveLog = ! this.global.preserveLog },
+		togglePreserveLog() {
+			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
+		},
 		clear() { this.$requests.clear() }
 	}
 }

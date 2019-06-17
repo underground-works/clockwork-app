@@ -35,6 +35,7 @@ export default class LocalStore
 
 	defaults() {
 		return {
+			preserveLog: true,
 			requestsListCollapsed: false,
 			requestSidebarCollapsed: false
 		}

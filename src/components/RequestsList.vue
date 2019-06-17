@@ -104,7 +104,7 @@ export default {
 	watch: {
 		requests: {
 			handler(items) {
-				if (! this.global.preserveLog) {
+				if (! this.$store.get('preserveLog')) {
 					this.showRequest(this.global.$requests.first())
 				} else if (this.global.showIncomingRequests) {
 					this.showRequest(this.global.$requests.last())
