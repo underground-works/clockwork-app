@@ -134,7 +134,10 @@ export default {
 	},
 	methods: {
 		isTabActive(tab) { return this.$request && this.activeTab == tab },
-		showTab(tab) { this.activeTab = tab },
+		showTab(tab) {
+			this.activeTab = tab
+			this.global.showIncomingRequests = false
+		},
 		toggleRequestsList() {
 			this.$store.set('requestsListCollapsed', ! this.$store.get('requestsListCollapsed'))
 		},
