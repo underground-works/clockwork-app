@@ -110,11 +110,7 @@ export default class Standalone
 	pollRequests() {
 		clearTimeout(this.pollTimeout)
 
-		if (this.requests.last()) {
-			this.lastRequestId = this.requests.last().id
-		}
-
-		this.requests.loadNext(null, this.lastRequestId).then(() => {
+		this.requests.loadNext().then(() => {
 			if (! this.store.get('preserveLog')) {
 				this.requests.setItems(this.requests.all().slice(-1))
 			}

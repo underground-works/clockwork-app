@@ -9,6 +9,7 @@ export default class Requests
 
 		this.tokens = this.store.get('requests.tokens')
 		this.query = {}
+		this.exclusive = {}
 
 		if (! (this.tokens instanceof Object)) this.tokens = {}
 	}
@@ -36,26 +37,28 @@ export default class Requests
 
 		placeholder.loading = true
 
-		return this.callRemote(this.remoteUrl + id).then(data => {
-			return placeholder.resolve(data[0])
-		}).catch(message => {
-			return placeholder.resolveWithError(message)
+		return this.load(id, promise => {
+			return promise
+				.then(data => { return placeholder.resolve(data[0]) })
+				.catch(message => { return placeholder.resolveWithError(message) })
 		})
 	}
 
 	loadExtended(id, fields) {
 		let request = this.findId(id)
 
-		return this.callRemote(this.remoteUrl + id + '/extended').then(data => {
-			return request.extend(data[0], fields)
-		}).catch(error => {})
+		return this.load(`${id}/extended`, promise => {
+			return promise.then(data => { return request.extend(data[0], fields) }).catch(error => {})
+		})
 	}
 
 	loadLatest(update = true) {
-		return this.callRemote(this.remoteUrl + 'latest').then(data => {
-			if (update) this.items.push(data[0])
-			return data[0]
-		})
+		return this.load('latest', promise => {
+			return promise.then(data => {
+				if (update) this.items.push(data[0])
+				return data[0]
+			})
+		}, update)
 	}
 
 	returnLatest() {
@@ -68,10 +71,12 @@ export default class Requests
 
 		id = id || this.last().id
 
-		return this.callRemote(this.remoteUrl + id + '/next' + (count ? '/' + count : '')).then(data => {
-			if (update) this.items.push(...data)
-			return data
-		}).catch(error => {})
+		return this.load(`${id}/next` + (count ? `/${count}` : ''), promise => {
+			return promise.then(data => {
+				if (update) this.items.push(...data)
+				return data
+			}).catch(error => {})
+		}, update)
 	}
 
 	returnNext(count, id) {
@@ -84,10 +89,12 @@ export default class Requests
 
 		id = id || this.first().id
 
-		return this.callRemote(this.remoteUrl + id + '/previous' + (count ? '/' + count : '')).then(data => {
-			if (update) this.items.unshift(...data)
-			return data
-		}).catch(error => {})
+		return this.load(`${id}/previous` + (count ? `/${count}` : ''), promise => {
+			return promise.then(data => {
+				if (update) this.items.unshift(...data)
+				return data
+			}).catch(error => {})
+		}, update)
 	}
 
 	returnPrevious(count, id) {
@@ -138,14 +145,21 @@ export default class Requests
 		this.query = query
 	}
 
-	callRemote(url) {
+	load(uri, configure, exclusive = false) {
+		if (exclusive) return this.loadExclusive(uri, configure)
+
+		let url = URI(`${this.remoteUrl}${uri}`).addQuery(this.query).toString()
 		let headers = Object.assign({}, this.remoteHeaders, { 'X-Clockwork-Auth': this.tokens[this.remoteUrl] })
 
-		url = URI(url).addQuery(this.query).toString()
-
-		return this.client('GET', url, {}, headers).then(data => {
+		return configure(this.client('GET', url, {}, headers).then(data => {
 			if (! data) return []
 			return ((data instanceof Array) ? data : [ data ]).map(data => new Request(data))
-		})
+		}))
+	}
+
+	loadExclusive(uri, configure) {
+		if (this.exclusive[uri]) return this.exclusive[uri]
+
+		return this.exclusive[uri] = this.load(uri, configure).finally(() => this.exclusive[uri] = null)
 	}
 }
