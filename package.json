@@ -46,6 +46,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "vue": {
+    "publicPath": "./",
     "outputDir": "build",
     "configureWebpack": {
       "devtool": "inline-cheap-module-source-map"
