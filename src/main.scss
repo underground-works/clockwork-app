@@ -1285,15 +1285,3 @@ body.dark {
 		border-color: rgb(145, 145, 145) transparent transparent transparent;
 	}
 }
-
-body.dark {
-	scrollbar-color: dark;
-
-	::-webkit-scrollbar { width: 8px; height: 8px; }
-	::-webkit-scrollbar-button {  background: #494949; }
-	::-webkit-scrollbar-track {  background: #494949; }
-	::-webkit-scrollbar-track-piece { background: #1b1b1b; }
-	::-webkit-scrollbar-thumb { background: #494949; border-radius: 3px; }
-	::-webkit-scrollbar-corner { background: #494949; }
-	::-webkit-resizer { background: #494949; }
-}
