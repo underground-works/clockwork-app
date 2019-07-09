@@ -62,6 +62,9 @@ export default {
 				this.updateNotification = this.$updateNotification.show(this.$requests.remoteUrl)
 			},
 			immediate: true
+		},
+		'$updateNotification.serverVersion': function () {
+			this.updateNotification = this.$updateNotification.show(this.$requests.remoteUrl)
 		}
 	}
 }

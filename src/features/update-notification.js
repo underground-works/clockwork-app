@@ -2,6 +2,8 @@ export default class UpdateNotification
 {
 	constructor(store) {
 		this.store = store
+
+		this.serverVersion = null
 	}
 
 	get ignoredUpdates() {
