@@ -1,3 +1,7 @@
+4.0.1
+
+- fixed tables pagination being preserved when changing requests leading to broken pagination state
+
 4.0
 
 - fully rewritten in Vue.js
