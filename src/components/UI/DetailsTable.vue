@@ -92,7 +92,7 @@ export default {
 		}
 	},
 	watch: {
-		'filter.input': function () { this.showItemsFirst = 0 }
+		filteredItems() { this.showItemsFirst = 0 }
 	}
 }
 </script>
