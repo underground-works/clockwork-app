@@ -46,8 +46,12 @@ export default class Filter
 		})
 
 		if (this.sortedBy) {
+			let sortedByTag = this.tags.find(current => current.tag == this.sortedBy)
+
 			items.sort((a, b) => {
-				return a[this.sortedBy]?.toString().localeCompare(b[this.sortedBy]?.toString())
+				return sortedByTag && sortedByTag.type == 'number'
+					? a[this.sortedBy] - b[this.sortedBy]
+					: a[this.sortedBy]?.toString().localeCompare(b[this.sortedBy]?.toString())
 			})
 		}
 
