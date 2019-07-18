@@ -1,3 +1,7 @@
+4.0.2
+
+- fixed sorting tables by columns with numeric data (reported by fitztrev, thanks!)
+
 4.0.1
 
 - fixed tables pagination being preserved when changing requests leading to broken pagination state

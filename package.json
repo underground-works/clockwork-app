@@ -1,6 +1,6 @@
 {
   "name": "Clockwork",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "php dev tools integrated to your browser",
   "scripts": {
     "serve": "vue-cli-service serve",
