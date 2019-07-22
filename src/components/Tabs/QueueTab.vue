@@ -48,8 +48,8 @@ export default {
 		columns() {
 			let columns = [ 'Name', 'Data' ]
 
-			let hasMultipleQueues = (new Set(this.$request.queueJobs.map(job => job.queue))).length > 1
-			let hasMultipleConnections = (new Set(this.$request.queueJobs.map(job => job.connection))).length > 1
+			let hasMultipleQueues = (new Set(this.$request.queueJobs.map(job => job.queue))).size > 1
+			let hasMultipleConnections = (new Set(this.$request.queueJobs.map(job => job.connection))).size > 1
 			let hasOptions = this.$request.queueJobs.some(job => job.maxTries || job.timeout)
 
 			if (hasMultipleQueues) columns.splice(0, 0, 'Queue')
