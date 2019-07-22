@@ -81,7 +81,7 @@ export default {
 		columns() {
 			let columns = [ 'Model', 'Query', 'Duration' ]
 
-			let hasMultipleConnections = (new Set(this.$request.databaseQueries.map(query => query.connection))).length > 1
+			let hasMultipleConnections = (new Set(this.$request.databaseQueries.map(query => query.connection))).size > 1
 
 			if (hasMultipleConnections) columns.splice(1, 0, 'Connection')
 

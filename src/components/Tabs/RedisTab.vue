@@ -42,7 +42,7 @@ export default {
 		columns() {
 			let columns = [ 'Command', 'Parameters', 'Duration' ]
 
-			let hasMultipleConnections = (new Set(this.$request.redisCommands.map(query => query.connection))).length > 1
+			let hasMultipleConnections = (new Set(this.$request.redisCommands.map(query => query.connection))).size > 1
 
 			if (hasMultipleConnections) columns.splice(0, 0, 'Connection')
 
