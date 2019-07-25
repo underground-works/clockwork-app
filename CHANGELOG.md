@@ -1,3 +1,9 @@
+4.0.3
+
+- fixed database, queue and redis tab "connection" and queue tab "queue" columns never being shown (implemented by fitztrev, thanks!)
+- fixed broken layout in the responsive column view if the details pane has a lot of content
+- updated npm deps
+
 4.0.2
 
 - fixed sorting tables by columns with numeric data (reported by fitztrev, thanks!)
