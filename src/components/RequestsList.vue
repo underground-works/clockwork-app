@@ -123,6 +123,7 @@ export default {
 	cursor: default;
 	display: flex;
 	flex-direction: column;
+	flex-shrink: 0;
 	height: 25%;
 	width: 100%;
 

@@ -52,6 +52,7 @@ export default {
 	border-top: 1px solid rgb(209, 209, 209);
 	display: flex;
 	flex-direction: column;
+	flex-shrink: 0;
 	height: 25%;
 
 	body.dark & {

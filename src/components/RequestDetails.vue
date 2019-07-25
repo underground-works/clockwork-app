@@ -152,5 +152,8 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.split-view-details {
+	overflow: hidden;
+}
 </style>
