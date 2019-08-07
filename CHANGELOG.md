@@ -1,3 +1,7 @@
+4.0.4
+
+- fixed crash in standalone mode when resolving cookie values (reported by christophmayrhofer, Tongzzzzz and spaceemotion, thanks!)
+
 4.0.3
 
 - fixed database, queue and redis tab "connection" and queue tab "queue" columns never being shown (implemented by fitztrev, thanks!)
