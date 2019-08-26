@@ -1,5 +1,5 @@
 <template>
-	<div class="performance-log">
+	<div class="performance-log" v-if="performanceLog.length || databaseSlowQueries.length">
 		<details-table :columns="['Message']" :items="performanceLog" :filter="performanceLogFilter" filter-example="query failed file:Controller.php time:>13:08:29" v-if="performanceLog.length">
 			<template slot="header" slot-scope="{ filter }">
 				<th :colspan="databaseSlowQueriesColumns.length">

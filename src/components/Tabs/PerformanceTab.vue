@@ -20,7 +20,7 @@
 			</div>
 		</div>
 
-		<performance-log v-if="$request.databaseSlowQueries"></performance-log>
+		<performance-log></performance-log>
 
 		<div tabs="performance">
 			<div class="performance-tabs">
