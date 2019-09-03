@@ -1,3 +1,7 @@
+4.0.5
+
+- fixed entire performance log not being shown if the request doesn't have slow queries (reported by sebastiaanluca, thanks!)
+
 4.0.4
 
 - fixed crash in standalone mode when resolving cookie values (reported by christophmayrhofer, Tongzzzzz and spaceemotion, thanks!)
