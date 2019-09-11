@@ -11,7 +11,7 @@
 				</slot>
 			</tr>
 			<tr class="filter" v-show="filter.shown">
-				<td :colspan="columns ? columns.length : 2">
+				<td :colspan="totalColumns">
 					<label>
 						<font-awesome-icon icon="search"></font-awesome-icon>
 						<input type="search" placeholder="Filter..." v-model="filter.input" ref="filterInput">
@@ -22,13 +22,13 @@
 		</thead>
 		<tbody>
 			<tr v-if="hasPreviousItems" class="pagination-controls">
-				<td :colspan="columns.length">
+				<td :colspan="totalColumns">
 					<a href="#" @click="showPreviousItems">Show {{previousItemsCount}} previous</a>
 				</td>
 			</tr>
 			<slot name="body" :items="shownItems"></slot>
 			<tr v-if="hasNextItems" class="pagination-controls">
-				<td :colspan="columns.length">
+				<td :colspan="totalColumns">
 					<a href="#" @click="showNextItems">Show {{nextItemsCount}} more</a>
 				</td>
 			</tr>
@@ -49,6 +49,9 @@ export default {
 		showItemsFirst: 0
 	}),
 	computed: {
+		totalColumns() {
+			return this.columns ? this.columns.length : 2;
+		},
 		filteredItems() {
 			return this.filter.filter(this.items)
 		},
