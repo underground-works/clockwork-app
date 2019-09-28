@@ -12,9 +12,7 @@
 				<slot name="above-table"></slot>
 			</div>
 			<slot name="table" :items="items" :filter="filter" :filter-example="filterExample" :expanded="expanded">
-				<details-table :items="items" :filter="filter" :filter-example="filterExample" v-show="expanded">
-					<template slot="header" slot-scope="{ filter }">
-					</template>
+				<details-table :columns="['Key', 'Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" v-show="expanded">
 					<template slot="body" slot-scope="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 							<td colspan="2">

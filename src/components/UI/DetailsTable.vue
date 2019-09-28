@@ -1,7 +1,7 @@
 <template>
 	<table class="details-table">
 		<thead>
-			<tr>
+			<tr v-if="! noHeader">
 				<slot name="header" :filter="filter">
 					<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())">
 						{{ column.name || column }}
@@ -11,7 +11,7 @@
 				</slot>
 			</tr>
 			<tr class="filter" v-show="filter.shown">
-				<td :colspan="columns ? columns.length : 2">
+				<td :colspan="columns.length">
 					<label>
 						<font-awesome-icon icon="search"></font-awesome-icon>
 						<input type="search" placeholder="Filter..." v-model="filter.input" ref="filterInput">
@@ -43,7 +43,7 @@ import PrettyPrint from './PrettyPrint'
 export default {
 	name: 'DetailsTable',
 	components: { DetailsTableFilterToggle, PrettyPrint },
-	props: [ 'columns', 'filter', 'filterExample', 'items' ],
+	props: [ 'columns', 'filter', 'filterExample', 'items', 'noHeader' ],
 	data: () => ({
 		showItemsCount: 30,
 		showItemsFirst: 0
