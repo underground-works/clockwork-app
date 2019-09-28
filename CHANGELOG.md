@@ -1,3 +1,7 @@
+4.0.6
+
+- fixed timeline and sidebar sections not rendering when showing too many records (partially implemented by Zuken)
+
 4.0.5
 
 - fixed entire performance log not being shown if the request doesn't have slow queries (reported by sebastiaanluca, thanks!)
