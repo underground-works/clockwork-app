@@ -6,6 +6,8 @@ export default class Settings
 		this.store = store
 		this.requests = requests
 
+		this.shown = false
+
 		this.reload()
 	}
 
@@ -49,6 +51,11 @@ export default class Settings
 		if (! this.settings.site[this.requests.remoteUrl]) this.settings.site[this.requests.remoteUrl] = {}
 
 		this.settings.site[this.requests.remoteUrl][key] = value
+	}
+
+	show() {
+		this.reload()
+		this.shown = true
 	}
 
 	save() {
