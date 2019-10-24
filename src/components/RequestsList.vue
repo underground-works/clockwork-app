@@ -47,7 +47,11 @@
 								<font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{request.errorsCount}}
 							</span>
 						</div>
-						<big><span class="method-text">{{request.method}}</span> {{request.uri}}</big><br>
+						<big>
+							<span v-if="request.isAjax()" class="is-ajax">AJAX</span>
+							<span class="method-text">{{request.method}}</span> {{request.uri}}
+						</big>
+						<br>
 						<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
 						<small v-else>{{request.controller | shortClass}}</small>
 					</td>
@@ -219,7 +223,7 @@ export default {
 				body.dark & { color: white; }
 			}
 
-			.status-text {
+			.status-text, .is-ajax {
 				background: transparent;
 				color: #fff;
 
@@ -289,6 +293,21 @@ export default {
 	.duration {
 		text-align: right;
 		width: 68px;
+	}
+
+	.is-ajax {
+		background: hsla(206, 47%, 86%, 1);
+		border-radius: 3px;
+		color: hsla(205, 29%, 30%, 1);
+		font-size: 80%;
+		margin-bottom: 1px;
+		margin-right: 2px;
+		padding: 1px 3px;
+
+		body.dark & {
+			background: hsla(206, 100%, 16%, 1);
+		    color: hsla(205, 90%, 70%, 1);
+		}
 	}
 
 	.method-text {
