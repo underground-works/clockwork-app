@@ -99,6 +99,9 @@ export default {
 			this.$requests.loadPrevious(10).then(() => {
 				this.loadingMoreRequests = false
 			})
+		},
+		shouldShowIncomingRequest() {
+			return ! this.$request || (this.$settings.showIncomingRequests && this.global.showIncomingRequests)
 		}
 	},
 	watch: {
@@ -106,7 +109,7 @@ export default {
 			handler(items) {
 				if (! this.$store.get('preserveLog')) {
 					this.showRequest(this.global.$requests.first())
-				} else if (this.global.showIncomingRequests) {
+				} else if (this.shouldShowIncomingRequest()) {
 					this.showRequest(this.global.$requests.last())
 					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight
 				}
