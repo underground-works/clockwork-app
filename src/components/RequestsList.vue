@@ -96,7 +96,8 @@ export default {
 			}
 
 			let lastPageRequest = this.$requests.last(request => ! request.isAjax()) || this.$requests.last()
-			this.global.showIncomingRequests = request == lastPageRequest
+			let lastPageRequestIndex = this.$requests.all().indexOf(lastPageRequest)
+			this.global.showIncomingRequests = this.$requests.all().slice(lastPageRequestIndex).includes(request)
 		},
 		loadMoreRequests() {
 			this.loadingMoreRequests = true
