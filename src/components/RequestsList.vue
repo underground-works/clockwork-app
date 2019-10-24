@@ -91,7 +91,8 @@ export default {
 				this.$authentication.request(this.$request.error.message, this.$request.error.requires)
 			}
 
-			this.global.showIncomingRequests = request == this.$requests.last()
+			let lastPageRequest = this.$requests.last(request => ! request.isAjax()) || this.$requests.last()
+			this.global.showIncomingRequests = request == lastPageRequest
 		},
 		loadMoreRequests() {
 			this.loadingMoreRequests = true
@@ -108,9 +109,9 @@ export default {
 		requests: {
 			handler(items) {
 				if (! this.$store.get('preserveLog')) {
-					this.showRequest(this.global.$requests.first())
+					this.showRequest(this.$requests.first())
 				} else if (this.shouldShowIncomingRequest()) {
-					this.showRequest(this.global.$requests.last())
+					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
 					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight
 				}
 			},

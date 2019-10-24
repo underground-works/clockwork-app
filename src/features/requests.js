@@ -109,8 +109,10 @@ export default class Requests
 		return this.items[0]
 	}
 
-	last() {
-		return this.items[this.items.length - 1]
+	last(filter) {
+		return filter
+			? this.items.slice().reverse().find(filter)
+			: this.items[this.items.length - 1]
 	}
 
 	setClient(client) {
