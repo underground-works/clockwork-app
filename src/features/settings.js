@@ -33,6 +33,14 @@ export default class Settings
 		this.setSite('localPathMap', extend(true, this.getSite('localPathMap', {}), { local: value }))
 	}
 
+	get showIncomingRequests() {
+		return this.settings.global.showIncomingRequests
+	}
+
+	set showIncomingRequests(value) {
+		this.settings.global.showIncomingRequests = value
+	}
+
 	getSite(key, defaultValue) {
 		return this.settings.site[this.requests.remoteUrl] ? this.settings.site[this.requests.remoteUrl][key] : defaultValue
 	}
@@ -54,7 +62,7 @@ export default class Settings
 	}
 
 	loadSettings() {
-		let defaultSettings = { global: { editor: null }, site: {} }
+		let defaultSettings = { global: { editor: null, showIncomingRequests: true }, site: {} }
 
 		return extend(true, defaultSettings, this.store.get('settings'))
 	}

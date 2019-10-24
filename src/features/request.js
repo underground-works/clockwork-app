@@ -75,6 +75,10 @@ export default class Request
 		return this.responseStatus >= 500 && this.responseStatus < 600
 	}
 
+	isAjax() {
+		return this.headers.find(header => header.name == 'X-Requested-With' && header.value == 'XMLHttpRequest')
+	}
+
 	createKeypairs(data, sorted = true) {
 		if (! (data instanceof Object)) return []
 
