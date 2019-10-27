@@ -5,7 +5,7 @@
 				<label for="settings-editor">Code editor</label>
 
 				<div class="controls">
-					<select id="settings-editor" v-model="$settings.global.editor">
+					<select id="settings-editor" v-model="$settings.global.editor" @change="save">
 						<option value="atom">Atom</option>
 						<option value="phpstorm">PhpStorm</option>
 						<option value="sublime">Sublime Text</option>
@@ -27,8 +27,8 @@
 
 				<div class="controls">
 					<div class="controls-input-vgroup">
-						<input type="text" name="settings-local-path-map-real" v-model="$settings.site.localPathMap.real" placeholder="/real/path">
-						<input type="text" name="settings-local-path-map-local" v-model="$settings.site.localPathMap.local" placeholder="/local/path">
+						<input type="text" name="settings-local-path-map-real" v-model="$settings.site.localPathMap.real" placeholder="/real/path" @change="save">
+						<input type="text" name="settings-local-path-map-local" v-model="$settings.site.localPathMap.local" placeholder="/local/path" @change="save">
 					</div>
 
 					<div class="help-text">
@@ -42,16 +42,10 @@
 
 				<div class="controls">
 					<label>
-						<input type="checkbox" v-model="$settings.global.showIncomingRequests">
+						<input type="checkbox" v-model="$settings.global.showIncomingRequests" @change="save">
 						Automatically show incoming requests
 					</label>
 				</div>
-			</div>
-
-			<div class="actions">
-				<button @click="save">
-					Save
-				</button>
 			</div>
 		</div>
 	</transition>
@@ -63,12 +57,8 @@ export default {
 	data: () => ({
 	}),
 	methods: {
-		close() {
-			this.$settings.shown = false
-		},
 		save() {
 			this.$settings.save()
-			this.$settings.shown = false
 		}
 	}
 }
@@ -82,6 +72,7 @@ export default {
 	box-shadow: 0 0 4px #e5e5e5;
 	font-size: 13px;
 	left: 5%;
+	max-width: 600px;
 	padding: 32px 35px 1px;
 	position: absolute;
 	text-align: left;

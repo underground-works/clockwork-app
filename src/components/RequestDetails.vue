@@ -35,7 +35,7 @@
 				<a href="#" title="Clear" @click="clear" v-show="$store.data.requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
 				</a>
-				<a href="#" title="Settings" @click="toggleSettingsModal">
+				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
 					<font-awesome-icon icon="cog"></font-awesome-icon>
 				</a>
 				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
@@ -151,7 +151,7 @@ export default {
 			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
 		},
 		toggleSettingsModal() {
-			this.$settings.show()
+			this.$settings.toggle()
 		},
 		clear() { this.$requests.clear() }
 	}

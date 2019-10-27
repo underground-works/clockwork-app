@@ -127,6 +127,14 @@ a {
 
 		a {
 			padding: 0 5px;
+
+			&.active {
+				color: rgb(37, 140, 219);
+
+				body.dark & {
+					color: hsl(31, 98%, 48%);
+				}
+			}
 		}
 	}
 }

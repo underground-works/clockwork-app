@@ -25,9 +25,8 @@ export default class Settings
 		return this.settings.site[this.requests.remoteUrl]
 	}
 
-	show() {
-		this.load()
-		this.shown = true
+	toggle() {
+		this.shown = ! this.shown
 	}
 
 	save() {
