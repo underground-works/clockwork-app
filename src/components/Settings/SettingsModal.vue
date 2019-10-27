@@ -5,7 +5,7 @@
 				<label for="settings-editor">Code editor</label>
 
 				<div class="controls">
-					<select id="settings-editor" v-model="$settings.editor">
+					<select id="settings-editor" v-model="$settings.global.editor">
 						<option value="atom">Atom</option>
 						<option value="phpstorm">PhpStorm</option>
 						<option value="sublime">Sublime Text</option>
@@ -13,10 +13,10 @@
 						<option value="vs-code">Visual Studio Code</option>
 					</select>
 
-					<div class="help-text" v-show="$settings.editor == 'atom'">
+					<div class="help-text" v-show="$settings.global.editor == 'atom'">
 						Requires <a href="https://atom.io/packages/open" target="_blank">Atom Open</a> package.
 					</div>
-					<div class="help-text" v-show="$settings.editor == 'sublime'">
+					<div class="help-text" v-show="$settings.global.editor == 'sublime'">
 						Requires <a href="https://github.com/asuth/subl-handler" target="_blank">subl-handler</a>.
 					</div>
 				</div>
@@ -27,8 +27,8 @@
 
 				<div class="controls">
 					<div class="controls-input-vgroup">
-						<input type="text" name="settings-local-path-map-real" v-model="$settings.localPathMapReal" placeholder="/real/path">
-						<input type="text" name="settings-local-path-map-local" v-model="$settings.localPathMapLocal" placeholder="/local/path">
+						<input type="text" name="settings-local-path-map-real" v-model="$settings.site.localPathMap.real" placeholder="/real/path">
+						<input type="text" name="settings-local-path-map-local" v-model="$settings.site.localPathMap.local" placeholder="/local/path">
 					</div>
 
 					<div class="help-text">
@@ -42,7 +42,7 @@
 
 				<div class="controls">
 					<label>
-						<input type="checkbox" v-model="$settings.showIncomingRequests">
+						<input type="checkbox" v-model="$settings.global.showIncomingRequests">
 						Automatically show incoming requests
 					</label>
 				</div>
@@ -81,12 +81,12 @@ export default {
 	border-radius: 5px;
 	box-shadow: 0 0 4px #e5e5e5;
 	font-size: 13px;
-	left: 10%;
+	left: 5%;
 	padding: 32px 35px 1px;
 	position: absolute;
 	text-align: left;
 	top: 0;
-	width: 80%;
+	width: 90%;
 	z-index: 300;
 
 	body.dark & {

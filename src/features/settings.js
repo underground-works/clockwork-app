@@ -1,4 +1,5 @@
 import extend from 'just-extend'
+import mapValues from 'just-map-values'
 
 export default class Settings
 {
@@ -7,70 +8,51 @@ export default class Settings
 		this.requests = requests
 
 		this.shown = false
+		this.settings = {}
 
-		this.reload()
+		this.load()
 	}
 
-	get editor() {
-		return this.settings.global.editor
+	get global() {
+		return this.settings.global
 	}
 
-	set editor(value) {
-		this.settings.global.editor = value
-	}
+	get site() {
+		if (! this.settings.site[this.requests.remoteUrl]) {
+			this.settings.site[this.requests.remoteUrl] = extend(true, {}, this.defaults().site)
+		}
 
-	get localPathMapReal() {
-		return this.getSite('localPathMap', {}).real
-	}
-
-	set localPathMapReal(value) {
-		this.setSite('localPathMap', extend(true, this.getSite('localPathMap', {}), { real: value }))
-	}
-
-	get localPathMapLocal() {
-		return this.getSite('localPathMap', {}).local
-	}
-
-	set localPathMapLocal(value) {
-		this.setSite('localPathMap', extend(true, this.getSite('localPathMap', {}), { local: value }))
-	}
-
-	get showIncomingRequests() {
-		return this.settings.global.showIncomingRequests
-	}
-
-	set showIncomingRequests(value) {
-		this.settings.global.showIncomingRequests = value
-	}
-
-	getSite(key, defaultValue) {
-		return this.settings.site[this.requests.remoteUrl] ? this.settings.site[this.requests.remoteUrl][key] : defaultValue
-	}
-
-	setSite(key, value) {
-		if (! this.settings.site[this.requests.remoteUrl]) this.settings.site[this.requests.remoteUrl] = {}
-
-		this.settings.site[this.requests.remoteUrl][key] = value
+		return this.settings.site[this.requests.remoteUrl]
 	}
 
 	show() {
-		this.reload()
+		this.load()
 		this.shown = true
 	}
 
 	save() {
-		let settings = extend(true, this.loadSettings(), this.settings)
-
-		this.store.set('settings', settings)
+		this.store.set('settings', this.settings)
 	}
 
-	reload() {
-		this.settings = this.loadSettings()
+	load() {
+		let defaults = this.defaults()
+		let settings = this.store.get('settings')
+
+		this.settings = {
+			global: extend(true, defaults.global, settings.global),
+			site: mapValues(settings.site, settings => extend(true, {}, defaults.site, settings))
+		}
 	}
 
-	loadSettings() {
-		let defaultSettings = { global: { editor: null, showIncomingRequests: true }, site: {} }
-
-		return extend(true, defaultSettings, this.store.get('settings'))
+	defaults() {
+		return {
+			global: {
+				editor: null,
+				showIncomingRequests: true
+			},
+			site: {
+				localPathMap: { real: null, local: null }
+			}
+		}
 	}
 }
