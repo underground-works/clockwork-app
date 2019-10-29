@@ -35,13 +35,16 @@
 				<a href="#" title="Clear" @click="clear" v-show="$store.data.requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
 				</a>
-				<settings-popover></settings-popover>
+				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
+					<font-awesome-icon icon="cog"></font-awesome-icon>
+				</a>
 				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
 					<font-awesome-icon :icon="$store.data.requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
 				</a>
 			</div>
 		</div>
 
+		<settings-modal></settings-modal>
 		<messages-overlay></messages-overlay>
 
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
@@ -92,9 +95,9 @@
 
 <script>
 import MessagesOverlay from './Details/MessagesOverlay'
+import SettingsModal from './Settings/SettingsModal'
 import TabHandle from './Details/TabHandle'
 
-import SettingsPopover from './Settings/SettingsPopover'
 import CacheTab from './Tabs/CacheTab'
 import DatabaseTab from './Tabs/DatabaseTab'
 import EmailsTab from './Tabs/EmailsTab'
@@ -110,7 +113,7 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, TabHandle, SettingsPopover, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab,
+		MessagesOverlay, SettingsModal, TabHandle, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab,
 		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	data: () => ({
@@ -146,6 +149,9 @@ export default {
 		},
 		togglePreserveLog() {
 			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
+		},
+		toggleSettingsModal() {
+			this.$settings.toggle()
 		},
 		clear() { this.$requests.clear() }
 	}

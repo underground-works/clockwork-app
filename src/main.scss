@@ -79,12 +79,16 @@ a {
 }
 
 .details-header {
+	background: #fff;
 	border-bottom: 1px solid rgb(204, 204, 204);
 	display: flex;
 	flex-shrink: 0;
 	height: 31px;
+	position: relative;
+	z-index: 500;
 
 	body.dark & {
+		background: rgb(31, 31, 31);
 		border-bottom: 1px solid rgb(54, 54, 54);
 	}
 
@@ -123,6 +127,14 @@ a {
 
 		a {
 			padding: 0 5px;
+
+			&.active {
+				color: rgb(37, 140, 219);
+
+				body.dark & {
+					color: hsl(31, 98%, 48%);
+				}
+			}
 		}
 	}
 }

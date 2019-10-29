@@ -20,12 +20,12 @@ export default class EditorLinks
 				'vs-code': (file, line) => `vscode://file/${file}:${line}`
 			}
 
-			let editor = this.settings.editor
+			let editor = this.settings.global.editor
 
 			if (! editor || ! scheme[editor]) return
 
-			if (file && this.settings.localPathMapReal) {
-				file = file.replace(this.settings.localPathMapReal, this.settings.localPathMapLocal)
+			if (file && this.settings.site.localPathMap.real) {
+				file = file.replace(this.settings.site.localPathMap.real, this.settings.site.localPathMap.local)
 			}
 
 			return scheme[editor](file, line)

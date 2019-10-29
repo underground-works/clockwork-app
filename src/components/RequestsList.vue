@@ -107,7 +107,7 @@ export default {
 			})
 		},
 		shouldShowIncomingRequest() {
-			return ! this.$request || (this.$settings.showIncomingRequests && this.global.showIncomingRequests)
+			return ! this.$request || (this.$settings.global.showIncomingRequests && this.global.showIncomingRequests)
 		}
 	},
 	watch: {

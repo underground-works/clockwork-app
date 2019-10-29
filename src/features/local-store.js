@@ -24,7 +24,7 @@ export default class LocalStore
 
 		if (! (this.data instanceof Object)) this.data = {}
 
-		this.data = extend(this.defaults(), this.data)
+		this.data = extend({}, this.defaults(), this.data)
 	}
 
 	save() {
