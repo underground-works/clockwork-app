@@ -127,6 +127,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../mixins.scss';
+
 .split-view-requests {
 	border-bottom: 1px solid rgb(209, 209, 209);
 	cursor: default;
@@ -136,7 +138,7 @@ export default {
 	height: 25%;
 	width: 100%;
 
-	body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+	@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
 	&.large {
 		.notifications-count {
@@ -156,7 +158,7 @@ export default {
 		height: 100%;
 		width: 300px;
 
-		body.dark & { border-right: 1px solid rgb(54, 54, 54); }
+		@include dark { border-right: 1px solid rgb(54, 54, 54); }
 		&.large { width: 400px; }
 	}
 
@@ -177,18 +179,18 @@ export default {
 		&:first-child td {
 			border-top: 1px solid rgb(209, 209, 209);
 
-			body.dark & { border-top: 1px solid rgb(54, 54, 54); }
+			@include dark { border-top: 1px solid rgb(54, 54, 54); }
 		}
 
 		&:nth-child(even):not(.filler) {
 			background: rgb(243, 243, 243);
 
-			body.dark & { background: rgb(24, 24, 24); }
+			@include dark { background: rgb(24, 24, 24); }
 
 			.notifications-count {
 				background: rgba(243, 243, 243, 0.8);
 
-				body.dark & { background: rgba(27, 27, 27, 0.8); }
+				@include dark { background: rgba(27, 27, 27, 0.8); }
 			}
 		}
 
@@ -197,13 +199,13 @@ export default {
 				background: rgb(39, 134, 243) !important;
 				color: white;
 
-				body.dark & { background: hsl(31, 98%, 48%) !important; }
+				@include dark { background: hsl(31, 98%, 48%) !important; }
 			}
 
 			small {
 				color: white;
 
-				body.dark & { color: white; }
+				@include dark { color: white; }
 			}
 
 			.notifications-count {
@@ -212,23 +214,23 @@ export default {
 				.errors-count, .warnings-count, .warnings-count svg {
 					color: #fff;
 
-					body.dark & { color: #fff; }
+					@include dark { color: #fff; }
 				}
 
-				body.dark & { background: hsl(31, 98%, 48%) !important; }
+				@include dark { background: hsl(31, 98%, 48%) !important; }
 			}
 
 			.method-text {
 				color: white;
 
-				body.dark & { color: white; }
+				@include dark { color: white; }
 			}
 
 			.status-text, .is-ajax {
 				background: transparent;
 				color: #fff;
 
-				body.dark & {
+				@include dark {
 					background: transparent;
 					color: #fff;
 				}
@@ -242,7 +244,7 @@ export default {
 				border-top: 0;
 				padding: 0;
 
-				body.dark & {
+				@include dark {
 					border-top: 0;
 				}
 			}
@@ -261,7 +263,7 @@ export default {
 		padding: 2px 4px;
 		white-space: nowrap;
 
-		body.dark & {
+		@include dark {
 			border-bottom: 1px solid rgb(54, 54, 54);
 		}
 	}
@@ -277,7 +279,7 @@ export default {
 		color: rgb(128, 128, 128);
 		font-size: 100%;
 
-		body.dark & {
+		@include dark {
 			color: rgb(118, 118, 118);
 		}
 	}
@@ -305,7 +307,7 @@ export default {
 		margin-right: 2px;
 		padding: 1px 3px;
 
-		body.dark & {
+		@include dark {
 			background: hsla(206, 100%, 16%, 1);
 		    color: hsla(205, 90%, 70%, 1);
 		}
@@ -315,7 +317,7 @@ export default {
 		color: gray;
 		font-size: 90%;
 
-		body.dark & {
+		@include dark {
 			color: rgb(118, 118, 118);
 		}
 	}
@@ -326,7 +328,7 @@ export default {
 		color: #586336;
 		padding: 2px 6px;
 
-		body.dark & {
+		@include dark {
 			background: hsla(76, 100%, 11%, 1);
 		    color: hsla(75, 90%, 80%, 1);
 		}
@@ -335,7 +337,7 @@ export default {
 			background: #fffae2;
 			color: #a85919;
 
-			body.dark & {
+			@include dark {
 			    background: #382f00;
 			    color: #fad89f;
 			}
@@ -345,7 +347,7 @@ export default {
 			background: #ffebeb;
 			color: #c51f24;
 
-			body.dark & {
+			@include dark {
 				background: #380000;
 				color: #ed797a;
 			}
@@ -368,7 +370,7 @@ export default {
 		.errors-count {
 			color: rgb(179, 73, 46);
 
-			body.dark & { color: #ed797a; }
+			@include dark { color: #ed797a; }
 
 			svg { margin-right: 1px; }
 		}
@@ -376,16 +378,16 @@ export default {
 		.warnings-count {
 			color: #a85919;
 
-			body.dark & { color: #fad89f; }
+			@include dark { color: #fad89f; }
 
 			svg {
 				color: rgb(244, 189, 0);
 
-				body.dark & { color: #fad89f; }
+				@include dark { color: #fad89f; }
 			}
 		}
 
-		body.dark & {
+		@include dark {
 			background: rgba(#1b1b1b, 0.8);
 		}
 	}
@@ -398,7 +400,7 @@ export default {
 		border-bottom: 1px solid #d1d1d1;
 		padding: 6px 2px;
 
-		body.dark & {
+		@include dark {
 			border-bottom: 1px solid rgb(54, 54, 54);
 		}
 
@@ -425,12 +427,12 @@ export default {
 			&::placeholder {
 				color: #a9a9a9;
 
-				body.dark & {
+				@include dark {
 					color: #777;
 				}
 			}
 
-			body.dark & {
+			@include dark {
 				color: #b2b2b2;
 			}
 		}
@@ -442,7 +444,7 @@ export default {
 			position: absolute;
 			right: 0;
 
-			body.dark & {
+			@include dark {
 				color: #777;
 			}
 		}
@@ -457,7 +459,7 @@ export default {
 			height: 100%;
 		}
 
-		body.dark & {
+		@include dark {
 			background: #1b1b1b;
 		}
 	}
@@ -470,7 +472,7 @@ export default {
 		height: 36px;
 		justify-content: center;
 
-		body.dark & {
+		@include dark {
 			border-bottom: 1px solid rgb(54, 54, 54);
 			border-right: 1px solid rgb(54, 54, 54);
 		}
@@ -482,12 +484,12 @@ export default {
 			&:hover {
 				color: rgb(37, 140, 219);
 
-				body.dark & {
+				@include dark {
 					color: hsl(31, 98%, 48%);
 				}
 			}
 
-			body.dark & {
+			@include dark {
 				color: rgb(178, 178, 178);
 			}
 		}

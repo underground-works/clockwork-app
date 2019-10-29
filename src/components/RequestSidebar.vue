@@ -47,6 +47,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../mixins.scss';
+
 .request-sidebar {
 	background: #fafafa;
 	border-top: 1px solid rgb(209, 209, 209);
@@ -55,7 +57,7 @@ export default {
 	flex-shrink: 0;
 	height: 25%;
 
-	body.dark & {
+	@include dark {
 		background: #1b1b1b;
 		border-top: 1px solid rgb(54, 54, 54);
 	}
@@ -68,7 +70,7 @@ export default {
 		height: 100%;
 		width: 300px;
 
-		body.dark & {
+		@include dark {
 			border-left: 1px solid rgb(54, 54, 54);
 			border-top: 0;
 		}
@@ -98,7 +100,7 @@ export default {
 		line-height: 31px;
 		width: 100%;
 
-		body.dark & {
+		@include dark {
 			background: #1f1f1f;
 			border-bottom: 1px solid rgb(54, 54, 54);
 		}
@@ -130,7 +132,7 @@ export default {
 	.sidebar-id {
 		color: rgb(128, 128, 128);
 
-		body.dark & { color: rgb(118, 118, 118); }
+		@include dark { color: rgb(118, 118, 118); }
 	}
 }
 </style>

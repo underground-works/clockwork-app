@@ -19,22 +19,9 @@ export default class Standalone
 		this.throttlePolling()
 	}
 
-	// appending ?dark to the query string will cause dark theme to be used, ?dark=1 or ?dark=0 can be used to
-	// permanently activate or deactivate dark theme in this browser
 	useProperTheme() {
-		let wantsDarkTheme = URI(window.location.href).query(true).dark
-
-		if (wantsDarkTheme == '1' || wantsDarkTheme == '0')	{
-			this.store.set('use-dark-theme', wantsDarkTheme)
-			wantsDarkTheme = wantsDarkTheme == '1'
-		} else if (this.store.get('use-dark-theme')) {
-			wantsDarkTheme = this.store.get('use-dark-theme') == '1'
-		} else {
-			wantsDarkTheme = wantsDarkTheme === null
-		}
-
-		if (wantsDarkTheme) {
-			document.querySelector('body').classList.add('dark')
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			this.global.defaultAppearance = 'dark'
 		}
 	}
 

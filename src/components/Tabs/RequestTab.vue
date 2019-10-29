@@ -102,10 +102,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../mixins.scss';
+
 .request-tab {
 	background: #fff;
 
-	body.dark & { background: #1f1f1f; }
+	@include dark { background: #1f1f1f; }
 
 	.parent-request {
 		border-bottom: 1px solid rgb(209, 209, 209);
@@ -114,7 +116,7 @@ export default {
 		font-weight: 600;
 		padding: 12px 10px;
 
-		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
 		.parent-method {
 			color: gray;
@@ -122,7 +124,7 @@ export default {
 			font-weight: normal;
 			margin-right: 2px;
 
-			body.dark & { color: rgb(118, 118, 118); }
+			@include dark { color: rgb(118, 118, 118); }
 		}
 
 		.parent-uri {
@@ -134,7 +136,7 @@ export default {
 			font-weight: normal;
 			text-decoration: none;
 
-			body.dark & { color: hsl(31, 98%, 48%); }
+			@include dark { color: hsl(31, 98%, 48%); }
 		}
 
 		.parent-close { margin-left: auto; }
@@ -143,7 +145,7 @@ export default {
 	.exception {
 		border-bottom: 1px solid rgb(209, 209, 209);
 
-		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
 		.exception-info {
 			align-items: center;
@@ -156,7 +158,7 @@ export default {
 			&:first-child { padding-top: 12px; }
 			&:last-child { padding-bottom: 12px; }
 
-			body.dark & {
+			@include dark {
 				background: hsl(0, 100%, 11%);
 				color: rgb(237, 121, 122);
 
@@ -180,7 +182,7 @@ export default {
 			    font-size: 12px;
 			    margin: 0 4px;
 
-				body.dark & { color: rgb(237, 121, 122); }
+				@include dark { color: rgb(237, 121, 122); }
 			}
 
 			.exception-previous {
@@ -207,7 +209,7 @@ export default {
 		font-size: 110%;
 		padding: 8px 10px;
 
-		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
 		.fa-user {
 			color: rgb(128, 128, 128);
@@ -223,7 +225,7 @@ export default {
 			color: rgb(128, 128, 128);
 			font-size: 90%;
 
-			body.dark & { color: rgb(118, 118, 118); }
+			@include dark { color: rgb(118, 118, 118); }
 		}
 
 		.session-user-details {
