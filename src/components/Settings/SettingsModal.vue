@@ -218,26 +218,6 @@ export default {
 			}
 		}
 	}
-
-	.actions {
-		margin: 22px 0;
-		text-align: right;
-
-		button {
-			background: transparent;
-			border: 1px solid #258cdb;
-			border-radius: 4px;
-			color: #258cdb;
-			font-size: 100%;
-			padding: 5px 30px;
-
-			@include dark {
-				border: 1px solid #f27e02;
-				border-radius: 4px;
-				color: #f27e02;
-			}
-		}
-	}
 }
 
 .settings-enter-active, .settings-leave-active {
