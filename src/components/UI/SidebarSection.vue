@@ -51,6 +51,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../mixins.scss';
+
 .sidebar-section {
 	.section-header {
 		align-items: center;
@@ -59,7 +61,7 @@ export default {
 		font-weight: bold;
 		padding: 5px 10px;
 
-		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
 		.section-title {
 			cursor: default;
@@ -80,7 +82,7 @@ export default {
 		font-size: 11px;
 		margin-bottom: 0;
 
-		body.dark & { border-bottom: 1px solid rgb(54, 54, 54); }
+		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
 		thead {
 			th:last-child {
@@ -111,7 +113,7 @@ export default {
 			&:first-child td {
 				border-top: 0;
 
-				body.dark & {
+				@include dark {
 					border-top: 0;
 				}
 			}
@@ -119,7 +121,7 @@ export default {
 			&:nth-child(even) {
 				background: rgb(245, 245, 245);
 
-				body.dark & {
+				@include dark {
 					background: rgb(27, 27, 27);
 				}
 			}
@@ -156,7 +158,7 @@ export default {
 				border-top: 0;
 				padding: 2px 10px;
 
-				body.dark & {
+				@include dark {
 					border-bottom: 1px solid rgb(54, 54, 54);
 					border-top: 0;
 				}
@@ -185,12 +187,12 @@ export default {
 				&::placeholder {
 					color: #a9a9a9;
 
-					body.dark & {
+					@include dark {
 						color: #777;
 					}
 				}
 
-				body.dark & {
+				@include dark {
 					color: #b2b2b2;
 				}
 			}
@@ -202,7 +204,7 @@ export default {
 				position: absolute;
 				right: 0;
 
-				body.dark & {
+				@include dark {
 					color: #777;
 				}
 			}

@@ -71,6 +71,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../mixins.scss';
+
 .messages-overlay {
 	.parent-request {
 		display: flex;
@@ -84,7 +86,7 @@ export default {
 			font-weight: normal;
 			margin-right: 2px;
 
-			body.dark & { color: rgb(118, 118, 118); }
+			@include dark { color: rgb(118, 118, 118); }
 		}
 
 		.parent-uri {
@@ -96,7 +98,7 @@ export default {
 			font-weight: normal;
 			text-decoration: none;
 
-			body.dark & { color: hsl(31, 98%, 48%); }
+			@include dark { color: hsl(31, 98%, 48%); }
 		}
 
 		.parent-close { margin-left: auto; }
@@ -112,7 +114,7 @@ export default {
 
 			&:nth-child(even) { background: hsl(0, 100%, 94%); }
 
-			body.dark & {
+			@include dark {
 				background: hsl(0, 100%, 11%);
 				color: rgb(237, 121, 122);
 
@@ -135,7 +137,7 @@ export default {
 			    font-size: 12px;
 			    margin: 0 4px;
 
-				body.dark & { color: rgb(237, 121, 122); }
+				@include dark { color: rgb(237, 121, 122); }
 			}
 
 			.exception-previous {
@@ -156,13 +158,13 @@ export default {
 		font-size: 110%;
 		padding: 10px;
 
-		body.dark & { background: hsl(30, 97%, 20%); }
+		@include dark { background: hsl(30, 97%, 20%); }
 
 		a {
 			color: rgb(37, 140, 219);
 			text-decoration: none;
 
-			body.dark & { color: hsl(31, 98%, 48%); }
+			@include dark { color: hsl(31, 98%, 48%); }
 		}
 
 		strong { font-weight: 500; }

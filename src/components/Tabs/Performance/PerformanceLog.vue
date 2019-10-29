@@ -104,6 +104,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../../mixins.scss';
+
 .performance-log {
 	margin-top: 25px;
 
@@ -116,7 +118,7 @@ export default {
 				margin-left: 2px;
 				padding: 0 8px;
 
-				body.dark & {
+				@include dark {
 					background: rgb(250, 216, 159);
 					color: hsl(50, 100%, 11%);
 				}
@@ -131,7 +133,7 @@ export default {
 
 			.log-message-path > a { color: hsl(27, 55%, 65%) !important; }
 
-			body.dark & {
+			@include dark {
 				color: rgb(250, 216, 159);
 
 				&:nth-child(even) { background: hsl(50, 100%, 11%) !important; }
@@ -141,25 +143,25 @@ export default {
 
 			&:first-child td {
 				border-top: 1px solid hsl(27, 55%, 65%) !important;
-				body.dark & { border-top: 1px solid hsl(38, 42%, 68%) !important; }
+				@include dark { border-top: 1px solid hsl(38, 42%, 68%) !important; }
 			}
 
 			.toggle-filter {
 				color: hsl(27, 55%, 65%) !important;
-				body.dark & { color: hsl(38, 42%, 68%) !important; }
+				@include dark { color: hsl(38, 42%, 68%) !important; }
 			}
 
 			&.filter {
 				background: rgb(255, 250, 226) !important;
-				body.dark & { background: hsl(50, 100%, 11%) !important; }
+				@include dark { background: hsl(50, 100%, 11%) !important; }
 
 				td {
 					border-top: 1px solid hsl(27, 55%, 65%) !important;
-					body.dark & { border-top: 1px solid hsl(38, 42%, 68%) !important; }
+					@include dark { border-top: 1px solid hsl(38, 42%, 68%) !important; }
 
 					.fa-search, input, .example {
 						color: hsl(27, 55%, 65%) !important;
-						body.dark & { color: hsl(38, 42%, 68%) !important; }
+						@include dark { color: hsl(38, 42%, 68%) !important; }
 					}
 				}
 			}

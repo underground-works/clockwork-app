@@ -27,7 +27,7 @@ export default class Extension
 
 	useProperTheme() {
 		if (this.api.devtools.panels.themeName === 'dark') {
-			document.querySelector('body').classList.add('dark')
+			this.global.defaultAppearance = 'dark'
 		}
 	}
 

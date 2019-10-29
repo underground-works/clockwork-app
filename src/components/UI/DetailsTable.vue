@@ -98,6 +98,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../mixins.scss';
+
 .details-table {
 	.pagination-controls {
 		background: transparent !important ;
@@ -110,7 +112,7 @@ export default {
 			color: rgb(37, 140, 219);
 			text-decoration: none;
 
-			body.dark & { color: hsl(31, 98%, 48%); }
+			@include dark { color: hsl(31, 98%, 48%); }
 		}
 	}
 }

@@ -92,9 +92,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../mixins.scss';
+
 .counter.database-slow-query {
 	border-color: hsl(27, 55%, 65%) !important;
-	body.dark & { border-color: hsl(38, 42%, 68%) !important; }
+	@include dark { border-color: hsl(38, 42%, 68%) !important; }
 }
 
 .database-slow-query {
@@ -105,7 +107,7 @@ export default {
 
 	.database-query-path > a { color: hsl(27, 55%, 65%) !important; }
 
-	body.dark & {
+	@include dark {
 		background: hsl(50, 100%, 11%);
 		color: rgb(250, 216, 159);
 

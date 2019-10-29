@@ -46,6 +46,7 @@ export default class Settings
 	defaults() {
 		return {
 			global: {
+				appearance: 'auto',
 				editor: null,
 				showIncomingRequests: true
 			},

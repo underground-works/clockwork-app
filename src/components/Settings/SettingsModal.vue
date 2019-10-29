@@ -2,6 +2,29 @@
 	<transition name="settings">
 		<div class="settings-modal" v-show="$settings.shown">
 			<div class="controls-group">
+				<label for="settings-editor">Appearance</label>
+
+				<div class="controls">
+					<div class="appearance-controls">
+						<div class="option" :class="{'selected': $settings.global.appearance == 'auto'}" @click="setAppearance('auto')">
+							<img src="/img/appearance-auto-icon.png">
+							Auto
+						</div>
+
+						<div class="option" :class="{'selected': $settings.global.appearance == 'light'}" @click="setAppearance('light')">
+							<img src="/img/appearance-light-icon.png">
+							Light
+						</div>
+
+						<div class="option" :class="{'selected': $settings.global.appearance == 'dark'}" @click="setAppearance('dark')">
+							<img src="/img/appearance-dark-icon.png">
+							Dark
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="controls-group">
 				<label for="settings-editor">Code editor</label>
 
 				<div class="controls">
@@ -57,6 +80,11 @@ export default {
 	data: () => ({
 	}),
 	methods: {
+		setAppearance(appearance) {
+			this.$settings.global.appearance = appearance
+			this.save()
+		},
+
 		save() {
 			this.$settings.save()
 		}
@@ -65,6 +93,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../mixins.scss';
+
 .settings-modal {
 	background: #fff;
 	border: 1px solid rgb(209, 209, 209);
@@ -80,7 +110,7 @@ export default {
 	width: 90%;
 	z-index: 300;
 
-	body.dark & {
+	@include dark {
 		background: rgb(31, 31, 31);
 		border: 1px solid #404040;
 		box-shadow: 0 0 4px #292929;
@@ -114,7 +144,7 @@ export default {
 		font-size: 13px;
 		height: 26px;
 
-		body.dark & {
+		@include dark {
 			background: rgb(93, 92, 91);
 			border-color: rgb(124, 122, 120);
 			color: rgb(233, 233, 233);
@@ -132,7 +162,7 @@ export default {
 	}
 
 	select {
-		body.dark & {
+		@include dark {
 			background: rgb(106, 104, 102);
 			border: 1px solid rgb(124, 122, 120);
 			border-radius: 5px;
@@ -156,6 +186,39 @@ export default {
 		}
 	}
 
+	.appearance-controls {
+		display: flex;
+
+		.option {
+			flex: 0;
+			margin-right: 12px;
+			text-align: center;
+
+			&.selected {
+				img {
+					@include dark {
+						border: 2px solid #f27e02;
+						box-shadow: 0 0 2px #f27e02;
+					}
+
+					border: 2px solid #258cdb;
+					box-shadow: 0 0 2px #258cdb;
+				}
+			}
+
+			img {
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				height: 50px;
+				width: 75px;
+
+				@include dark {
+					border: 1px solid #363636;
+				}
+			}
+		}
+	}
+
 	.actions {
 		margin: 22px 0;
 		text-align: right;
@@ -168,7 +231,7 @@ export default {
 			font-size: 100%;
 			padding: 5px 30px;
 
-			body.dark & {
+			@include dark {
 				border: 1px solid #f27e02;
 				border-radius: 4px;
 				color: #f27e02;
