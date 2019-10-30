@@ -99,14 +99,22 @@ export default {
 			this.$requests.loadPrevious(10).then(() => {
 				this.loadingMoreRequests = false
 			})
+		},
+		shouldShowFirstRequest() {
+			return ! this.$store.get('preserveLog')
+				&& (! this.$request || ! this.$requests.findId(this.$request.id))
+		},
+		shouldShowIncomingRequest() {
+			return this.$store.get('preserveLog')
+				&& (! this.$request || this.global.showIncomingRequests)
 		}
 	},
 	watch: {
 		requests: {
 			handler(items) {
-				if (! this.$store.get('preserveLog')) {
+				if (this.shouldShowFirstRequest()) {
 					this.showRequest(this.global.$requests.first())
-				} else if (this.global.showIncomingRequests) {
+				} else if (this.shouldShowIncomingRequest()) {
 					this.showRequest(this.global.$requests.last())
 					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight
 				}
