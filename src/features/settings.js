@@ -35,11 +35,11 @@ export default class Settings
 
 	load() {
 		let defaults = this.defaults()
-		let settings = this.store.get('settings')
+		let settings = this.store.get('settings', {})
 
 		this.settings = {
-			global: extend(true, defaults.global, settings.global),
-			site: mapValues(settings.site, settings => extend(true, {}, defaults.site, settings))
+			global: extend(true, defaults.global, settings.global || {}),
+			site: mapValues(settings.site || {}, settings => extend(true, {}, defaults.site, settings || {}))
 		}
 	}
 
