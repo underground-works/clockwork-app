@@ -106,14 +106,19 @@ export default {
 				this.loadingMoreRequests = false
 			})
 		},
+		shouldShowFirstRequest() {
+			return ! this.$store.get('preserveLog')
+				&& (! this.$request || ! this.$requests.findId(this.$request.id))
+		},
 		shouldShowIncomingRequest() {
-			return ! this.$request || (this.$settings.global.showIncomingRequests && this.global.showIncomingRequests)
+			return this.$store.get('preserveLog')
+				&& (! this.$request || (this.$settings.global.showIncomingRequests && this.global.showIncomingRequests))
 		}
 	},
 	watch: {
 		requests: {
 			handler(items) {
-				if (! this.$store.get('preserveLog')) {
+				if (this.shouldShowFirstRequest()) {
 					this.showRequest(this.$requests.first())
 				} else if (this.shouldShowIncomingRequest()) {
 					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
