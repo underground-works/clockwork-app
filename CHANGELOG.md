@@ -1,6 +1,11 @@
+4.0.7
+
+- fixed requests list behavior when "preserve log" is disabled (reported by Vai2kas, thanks!)
+- fixed PHPStorm editor links (implemented by zlodes, thanks!)
+
 4.0.6
 
-- fixed timeline and sidebar sections not rendering when showing too many records (partially implemented by Zuken)
+- fixed timeline and sidebar sections not rendering when showing too many records (partially implemented by Zuken, thanks!)
 
 4.0.5
 
