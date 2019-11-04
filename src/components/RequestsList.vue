@@ -56,6 +56,10 @@
 								<span class="type-text">QUEUE</span>
 								{{request.jobName}}
 							</template>
+							<template v-else-if="request.isTest()">
+								<span class="type-text">TEST</span>
+								{{request.testGroup}}
+							</template>
 							<template v-else>
 								<span v-if="request.isAjax()" class="type-text">AJAX</span>
 								<span class="method-text">{{request.method}}</span> {{request.uri}}
@@ -67,6 +71,9 @@
 						</template>
 						<template v-else-if="request.isQueueJob()">
 							<small>{{request.jobDescription}}</small>
+						</template>
+						<template v-else-if="request.isTest()">
+							<small>{{request.testName}}</small>
 						</template>
 						<template v-else>
 							<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
@@ -81,6 +88,11 @@
 					<template v-else-if="request.isQueueJob()">
 						<td class="status" :title="request.jobStatus">
 							<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isQueueJobWarning(), 'server-error': request.isQueueJobError() }">{{request.jobStatus}}</span>
+						</td>
+					</template>
+					<template v-else-if="request.isTest()">
+						<td class="status" :title="request.testStatus">
+							<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isTestWarning(), 'server-error': request.isTestError() }">{{request.testStatus}}</span>
 						</td>
 					</template>
 					<template v-else>
@@ -333,7 +345,7 @@ export default {
 		font-size: 115%;
 	}
 
-	.method, .status {
+	.status {
 		text-align: center;
 		width: 52px;
 	}

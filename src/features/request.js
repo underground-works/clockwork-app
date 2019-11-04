@@ -33,6 +33,7 @@ export default class Request
 		this.userData = this.processUserData(this.userData)
 		this.processCommand()
 		this.processQueueJob()
+		this.processTest()
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
@@ -107,6 +108,18 @@ export default class Request
 
 	isQueueJobWarning() {
 		return this.jobStatus == 'released'
+	}
+
+	isTest() {
+		return this.type == 'test'
+	}
+
+	isTestError() {
+		return [ 'failed', 'error' ].includes(this.testStatus)
+	}
+
+	isTestWarning() {
+		return [ 'warning' ].includes(this.testStatus)
 	}
 
 	get tooltip() {
@@ -303,6 +316,11 @@ export default class Request
 
 	processRedisCommands(data) {
 		return data instanceof Array ? data : []
+	}
+
+	processTest() {
+		[ this.testGroup, this.testName ] = this.testName.includes('::')
+			? this.testName.split('::') : [ this.testName, '' ];
 	}
 
 	processTimeline(data) {
