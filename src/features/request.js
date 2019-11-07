@@ -31,6 +31,7 @@ export default class Request
 		this.timeline = this.processTimeline(this.timelineData)
 		this.views = this.processViews(this.viewsData)
 		this.userData = this.processUserData(this.userData)
+		this.processCommand()
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
@@ -77,6 +78,26 @@ export default class Request
 
 	isAjax() {
 		return this.headers.find(header => header.name == 'X-Requested-With' && header.value == 'XMLHttpRequest')
+	}
+
+	isCommand() {
+		return this.type == 'command'
+	}
+
+	isCommandError() {
+		return this.commandExitCode == 1
+	}
+
+	isCommandWarning() {
+		return this.commandExitCode > 1
+	}
+
+	get tooltip() {
+		if (this.isCommand()) {
+			return `[CMD] ${this.commandName} ${this.commandLine}`
+		} else {
+			return `${this.method} ${this.uri} (${this.controller})`
+		}
 	}
 
 	createKeypairs(data, sorted = true) {
@@ -329,6 +350,22 @@ export default class Request
 				})
 			}
 		})
+	}
+
+	processCommand() {
+		this.commandLine = ''
+
+		this.commandLine += (Object.values(this.commandArguments) || []).filter(val => val).join(' ')
+		this.commandLine += (Object.entries(this.commandOptions) || []).reduce((line, [ option, value ]) => {
+			return line + (value === true ? ` --${option}` : ` --${option}=${value}`)
+		}, '')
+
+		this.commandArgumentsMerged = this.createKeypairs(
+			Object.assign({}, this.commandArgumentsDefaults || {}, this.commandArguments || {}), false
+		)
+		this.commandOptionsMerged = this.createKeypairs(
+			Object.assign({}, this.commandOptionsDefaults || {}, this.commandOptions || {}), false
+		)
 	}
 
 	getErrorsCount() {
