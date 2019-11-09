@@ -26,6 +26,7 @@
 				<tab-handle name="emails" :active="isTabActive('emails')" @tab-selected="showTab" v-show="showEmailsTab">Emails</tab-handle>
 				<tab-handle name="routes" :active="isTabActive('routes')" @tab-selected="showTab" v-show="showRoutesTab">Routes</tab-handle>
 				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" :active="isTabActive(`user-${userTab.key}`)" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
+				<tab-handle name="output" :active="isTabActive('output')" @tab-selected="showTab" v-show="showOutputTab">Output</tab-handle>
 			</div>
 
 			<div class="icons">
@@ -60,6 +61,7 @@
 			<emails-tab v-show="isTabActive('emails')"></emails-tab>
 			<routes-tab v-show="isTabActive('routes')"></routes-tab>
 			<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" v-show="isTabActive(`user-${userTab.key}`)"></user-tab>
+			<output-tab v-show="isTabActive('output')"></output-tab>
 
 		</div>
 
@@ -103,6 +105,7 @@ import DatabaseTab from './Tabs/DatabaseTab'
 import EmailsTab from './Tabs/EmailsTab'
 import EventsTab from './Tabs/EventsTab'
 import LogTab from './Tabs/LogTab'
+import OutputTab from './Tabs/OutputTab'
 import PerformanceTab from './Tabs/PerformanceTab'
 import RedisTab from './Tabs/RedisTab'
 import QueueTab from './Tabs/QueueTab'
@@ -113,7 +116,7 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, TabHandle, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab,
+		MessagesOverlay, SettingsModal, TabHandle, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, OutputTab,
 		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	data: () => ({
@@ -133,7 +136,8 @@ export default {
 		showEventsTab() { return this.$request?.events?.length },
 		showViewsTab() { return this.$request?.views?.length },
 		showEmailsTab() { return this.$request?.emails?.length },
-		showRoutesTab() { return this.$request?.routes?.length }
+		showRoutesTab() { return this.$request?.routes?.length },
+		showOutputTab() { return this.$request?.commandOutput }
 	},
 	methods: {
 		isTabActive(tab) { return this.$request && this.activeTab == tab },
