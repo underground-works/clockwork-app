@@ -70,6 +70,17 @@
 					</label>
 				</div>
 			</div>
+
+			<div class="controls-group">
+				<label></label>
+
+				<div class="controls">
+					<label>
+						<input type="checkbox" v-model="$settings.global.hideCommandTypeRequests" @change="save">
+						Hide commands in requests list
+					</label>
+				</div>
+			</div>
 		</div>
 	</transition>
 </template>

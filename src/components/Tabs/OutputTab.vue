@@ -10,7 +10,7 @@ import AnsiToHtml from 'ansi-to-html'
 export default {
 	name: 'OutputTab',
 	computed: {
-		formattedOutput() { return this.ansiToHtml.toHtml(this.$request.commandOutput) }
+		formattedOutput() { return this.ansiToHtml.toHtml(this.$request.commandOutput || '') }
 	},
 	created() {
 		this.ansiToHtml = new AnsiToHtml({

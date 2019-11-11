@@ -37,7 +37,7 @@
 					<td class="status"></td>
 					<td class="duration"></td>
 				</tr>
-				<tr v-for="request in $requests.items" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
+				<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
 					<td class="controller" :title="request.tooltip">
 						<div class="notifications-count">
 							<span class="warnings-count" v-show="request.warningsCount">
@@ -99,7 +99,13 @@ export default {
 		loadingMoreRequests: false
 	}),
 	computed: {
-		requests() { return this.$requests.items }
+		requests() {
+			if (this.$settings.global.hideCommandTypeRequests) {
+				return this.$requests.items.filter(request => request.type != 'command')
+			}
+
+			return this.$requests.items
+		}
 	},
 	mounted() {
 		this.$refs.requestsContainer.scrollTop = this.$refs.loadMore.offsetHeight + 1
