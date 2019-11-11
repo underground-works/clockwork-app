@@ -355,8 +355,8 @@ export default class Request
 	processCommand() {
 		this.commandLine = ''
 
-		this.commandLine += (Object.values(this.commandArguments) || []).filter(val => val).join(' ')
-		this.commandLine += (Object.entries(this.commandOptions) || []).reduce((line, [ option, value ]) => {
+		this.commandLine += (Object.values(this.commandArguments || {})).filter(val => val).join(' ')
+		this.commandLine += (Object.entries(this.commandOptions || {})).reduce((line, [ option, value ]) => {
 			return line + (value === true ? ` --${option}` : ` --${option}=${value}`)
 		}, '')
 

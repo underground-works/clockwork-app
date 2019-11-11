@@ -147,6 +147,15 @@ export default class Requests
 		this.query = query
 	}
 
+	withQuery(query, callback) {
+		let previousQuery = this.query
+		this.query = query
+
+		callback()
+
+		this.query = previousQuery
+	}
+
 	load(uri, configure, exclusive = false) {
 		if (exclusive) return this.loadExclusive(uri, configure)
 

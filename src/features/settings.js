@@ -1,11 +1,14 @@
+import Extension from '../platform/extension'
+
 import extend from 'just-extend'
 import mapValues from 'just-map-values'
 
 export default class Settings
 {
-	constructor(store, requests) {
+	constructor(store, requests, platform) {
 		this.store = store
 		this.requests = requests
+		this.platform = platform
 
 		this.shown = false
 		this.settings = {}
@@ -31,6 +34,8 @@ export default class Settings
 
 	save() {
 		this.store.set('settings', this.settings)
+
+		this.platform.settingsChanged()
 	}
 
 	load() {
@@ -48,7 +53,8 @@ export default class Settings
 			global: {
 				appearance: 'auto',
 				editor: null,
-				showIncomingRequests: true
+				showIncomingRequests: true,
+				hideCommandTypeRequests: this.platform instanceof Extension
 			},
 			site: {
 				localPathMap: { real: null, local: null }

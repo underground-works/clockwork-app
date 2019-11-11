@@ -18,11 +18,11 @@ import Settings from './features/settings'
 import TextFilters from './features/text-filters'
 import UpdateNotification from './features/update-notification'
 
+let $platform = Extension.runningAsExtension() ? new Extension : new Standalone
+
 let $store = new LocalStore
 let $requests = new Requests($store)
-let $settings = new Settings($store, $requests)
-
-let $platform = Extension.runningAsExtension() ? new Extension : new Standalone
+let $settings = new Settings($store, $requests, $platform)
 
 let $authentication = new Authentication($requests)
 let $editorLinks = new EditorLinks($settings)
