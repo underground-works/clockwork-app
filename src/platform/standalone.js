@@ -114,4 +114,7 @@ export default class Standalone
 			if (! document.hidden) this.pollRequests()
 		});
 	}
+
+	settingsChanged() {
+	}
 }
