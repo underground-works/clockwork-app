@@ -37,8 +37,8 @@
 					<td class="status"></td>
 					<td class="duration"></td>
 				</tr>
-				<tr v-for="request in $requests.items" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
-					<td class="controller" :title="`${request.method} ${request.uri} (${request.controller})`">
+				<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
+					<td class="controller" :title="request.tooltip">
 						<div class="notifications-count">
 							<span class="warnings-count" v-show="request.warningsCount">
 								<font-awesome-icon icon="exclamation-triangle"></font-awesome-icon> {{request.warningsCount}}
@@ -48,16 +48,34 @@
 							</span>
 						</div>
 						<big>
-							<span v-if="request.isAjax()" class="is-ajax">AJAX</span>
-							<span class="method-text">{{request.method}}</span> {{request.uri}}
+							<template v-if="request.isCommand()">
+								<span class="type-text">CMD</span>
+								{{request.commandName}}
+							</template>
+							<template v-else>
+								<span v-if="request.isAjax()" class="type-text">AJAX</span>
+								<span class="method-text">{{request.method}}</span> {{request.uri}}
+							</template>
 						</big>
 						<br>
-						<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
-						<small v-else>{{request.controller | shortClass}}</small>
+						<template v-if="request.isCommand()">
+							<small>{{request.commandLine}}</small>
+						</template>
+						<template v-else>
+							<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
+							<small v-else>{{request.controller | shortClass}}</small>
+						</template>
 					</td>
-					<td class="status" :title="request.responseStatus">
-						<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
-					</td>
+					<template v-if="request.isCommand()">
+						<td class="status" :title="request.commandExitCode">
+							<span :class="{ 'status-text': true, 'client-error': request.isCommandWarning(), 'server-error': request.isCommandError() }">{{request.commandExitCode}}</span>
+						</td>
+					</template>
+					<template v-else>
+						<td class="status" :title="request.responseStatus">
+							<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
+						</td>
+					</template>
 					<td class="duration" :title="`${request.responseDurationRounded} ms (${request.databaseDurationRounded} ms)`">
 						{{request.responseDurationRounded}} ms<br>
 						<small>{{request.databaseDurationRounded}} ms</small>
@@ -81,7 +99,13 @@ export default {
 		loadingMoreRequests: false
 	}),
 	computed: {
-		requests() { return this.$requests.items }
+		requests() {
+			if (this.$settings.global.hideCommandTypeRequests) {
+				return this.$requests.items.filter(request => request.type != 'command')
+			}
+
+			return this.$requests.items
+		}
 	},
 	mounted() {
 		this.$refs.requestsContainer.scrollTop = this.$refs.loadMore.offsetHeight + 1
@@ -231,7 +255,7 @@ export default {
 				@include dark { color: white; }
 			}
 
-			.status-text, .is-ajax {
+			.status-text, .type-text {
 				background: transparent;
 				color: #fff;
 
@@ -303,14 +327,14 @@ export default {
 		width: 68px;
 	}
 
-	.is-ajax {
+	.type-text {
 		background: hsla(206, 47%, 86%, 1);
 		border-radius: 3px;
 		color: hsla(205, 29%, 30%, 1);
 		font-size: 80%;
-		margin-bottom: 1px;
 		margin-right: 2px;
 		padding: 1px 3px;
+		vertical-align: 1px;
 
 		@include dark {
 			background: hsla(206, 100%, 16%, 1);

@@ -12,7 +12,8 @@ export default class RequestsSearch
 			{ tag: 'method', validate: val => [ 'get', 'post', 'put', 'patch', 'delete', 'head' ].includes(val) },
 			{ tag: 'status', validate: val => val >= 100 && val < 600 },
 			{ tag: 'time' },
-			{ tag: 'received', validate: val => moment(val).isValid() }
+			{ tag: 'received', validate: val => moment(val).isValid() },
+			{ tag: 'type', validate: val => [ 'command', 'request' ].includes(val) }
 		]
 
 		this.shown = false
@@ -43,7 +44,9 @@ export default class RequestsSearch
 			return tags
 		}, {})
 
-		this.requests.setQuery(terms.length || Object.keys(tags).length ? { 'uri[]': terms, ...tags } : {})
+		this.requests.setQuery(
+			terms.length || Object.keys(tags).length ? { 'uri[]': terms, 'name[]': terms, ...tags } : {}
+		)
 
 		this.requests.returnLatest().then(latest => {
 			this.requests.returnPrevious(9, latest.id).then(previous => {

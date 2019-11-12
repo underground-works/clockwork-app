@@ -13,6 +13,7 @@ export default class Extension
 		this.global = global
 		this.requests = global.$requests
 		this.profiler = global.$profiler
+		this.settings = global.$settings
 		this.store = global.$store
 		this.updateNotification = global.$updateNotification
 
@@ -108,6 +109,8 @@ export default class Extension
 			})
 
 			this.requests.setRemote(message.request.url, options)
+
+			if (! this.settings.global.hideCommandTypeRequests) this.startPollingRequests()
 		})
 
 		// handle clearing of requests list if we are not preserving log
@@ -136,6 +139,8 @@ export default class Extension
 
 				this.requests.setRemote(request.url, options)
 				this.requests.loadId(options.id, Request.placeholder(options.id, request))
+
+				if (! this.settings.global.hideCommandTypeRequests) this.startPollingRequests()
 			}
 		)
 	}
@@ -170,5 +175,47 @@ export default class Extension
 			}, [])
 
 		return { id, path, version, headers, subrequests }
+	}
+
+	startPollingRequests() {
+		this.pollingInterval = 1000
+		this.isPolling = true
+
+		if (! this.pollTimeout) this.pollRequests()
+	}
+
+	stopPollingRequests() {
+		this.isPolling = false
+
+		clearTimeout(this.pollTimeout)
+		this.pollTimeout = null
+	}
+
+	pollRequests() {
+		clearTimeout(this.pollTimeout)
+
+		this.requests.withQuery({ 'type[]': 'command' }, () => {
+			this.requests.loadNext().then(() => {
+				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
+			}).catch(() => {
+				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
+			})
+		})
+	}
+
+	throttlePolling() {
+		document.addEventListener('visibilitychange', () => {
+			this.pollingInterval = document.hidden ? 60000 : 1000
+
+			if (! document.hidden && this.isPolling) this.pollRequests()
+		});
+	}
+
+	settingsChanged() {
+		if (this.settings.global.hideCommandTypeRequests) {
+			this.stopPollingRequests()
+		} else {
+			this.startPollingRequests()
+		}
 	}
 }

@@ -18,6 +18,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/vue-fontawesome": "^0.1.6",
+    "ansi-to-html": "^0.6.13",
     "chart.js": "^2.8.0",
     "just-clone": "^3.1.0",
     "just-debounce-it": "^1.1.0",

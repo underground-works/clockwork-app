@@ -3,7 +3,12 @@
 
 		<div class="sidebar-header">
 			<div class="sidebar-title">
-				Request
+				<template v-if="$request && $request.isCommand()">
+					Command
+				</template>
+				<template v-else>
+					Request
+				</template>
 			</div>
 
 			<div class="sidebar-actions">
@@ -20,7 +25,8 @@
 		</div>
 
 		<div class="sidebar-content">
-			<request-tab v-if="$request"></request-tab>
+			<command-tab v-if="$request && $request.isCommand()"></command-tab>
+			<request-tab v-else-if="$request"></request-tab>
 
 			<div class="sidebar-date" v-if="$request && $request.time">
 				{{ $request.time * 1000 | moment('Y-MM-DD HH:mm:ss') }}
@@ -32,11 +38,12 @@
 </template>
 
 <script>
+import CommandTab from './Tabs/CommandTab'
 import RequestTab from './Tabs/RequestTab'
 
 export default {
 	name: 'RequestSidebar',
-	components: { RequestTab },
+	components: { CommandTab, RequestTab },
 	methods: {
 		togglePreserveLog() {
 			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
