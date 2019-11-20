@@ -6,7 +6,7 @@ import PrettyJason from '../../features/pretty-jason/pretty-jason'
 
 export default {
 	name: 'PrettyPrint',
-	props: [ 'data' ],
+	props: [ 'data', 'expanded' ],
 	methods: {
 		render() {
 			let data = this.data
@@ -33,6 +33,8 @@ export default {
 			if (this.$el.firstChild) this.$el.firstChild.remove()
 
 			this.$el.append(rendered)
+
+			if (this.expanded) this.$el.querySelector('.pretty-jason > li > span').click()
 		}
 	},
 	mounted() {
