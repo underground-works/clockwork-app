@@ -111,7 +111,9 @@ export default class Request
 
 	get tooltip() {
 		if (this.isCommand()) {
-			return `[CMD] ${this.commandName} ${this.commandLine}`
+			return `[CMD] ${this.commandName} (${this.commandLine})`
+		} else if (this.isQueueJob()) {
+			return `[QUEUE] ${this.jobName} (${this.jobDescription})`
 		} else {
 			return `${this.method} ${this.uri} (${this.controller})`
 		}
