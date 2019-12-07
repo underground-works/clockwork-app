@@ -1,14 +1,5 @@
 <template>
 	<div class="request-tab">
-		<div class="parent-request" v-if="$request && $request.parent">
-			<div>
-				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
-			</div>
-			<div class="parent-close">
-				<a @click="showRequestById($request.parent.id)" href="#">Show</a>
-			</div>
-		</div>
-
 		<div class="exception" v-if="$request && $request.exceptions.length">
 			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
 				<div class="exception-message">
@@ -93,9 +84,6 @@ export default {
 		showPreviousException(exception) {
 			this.$request.exceptions.push(exception.previous)
 			exception.previous = undefined
-		},
-		showRequestById(requestId) {
-			this.global.$request = this.$requests.find(requestId)
 		}
 	}
 }
@@ -108,39 +96,6 @@ export default {
 	background: #fff;
 
 	@include dark { background: #1f1f1f; }
-
-	.parent-request {
-		border-bottom: 1px solid rgb(209, 209, 209);
-		display: flex;
-		font-size: 12px;
-		font-weight: 600;
-		padding: 12px 10px;
-
-		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
-
-		.parent-method {
-			color: gray;
-			font-size: 90%;
-			font-weight: normal;
-			margin-right: 2px;
-
-			@include dark { color: rgb(118, 118, 118); }
-		}
-
-		.parent-uri {
-			font-weight: normal;
-		}
-
-		a {
-			color: rgb(37, 140, 219);
-			font-weight: normal;
-			text-decoration: none;
-
-			@include dark { color: hsl(31, 98%, 48%); }
-		}
-
-		.parent-close { margin-left: auto; }
-	}
 
 	.exception {
 		border-bottom: 1px solid rgb(209, 209, 209);

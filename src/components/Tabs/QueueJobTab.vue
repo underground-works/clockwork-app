@@ -47,10 +47,11 @@
 <script>
 import PrettyPrint from '../UI/PrettyPrint'
 import SidebarSection from '../UI/SidebarSection'
+import StackTrace from '../UI/StackTrace'
 
 export default {
 	name: 'QueueJobTab',
-	components: { PrettyPrint, SidebarSection },
+	components: { PrettyPrint, SidebarSection, StackTrace },
 	methods: {
 		showPreviousException(exception) {
 			this.$request.exceptions.push(exception.previous)

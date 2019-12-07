@@ -28,6 +28,8 @@
 		</div>
 
 		<div class="sidebar-content">
+			<parent-request></parent-request>
+
 			<command-tab v-if="$request && $request.isCommand()"></command-tab>
 			<queue-job-tab v-if="$request && $request.isQueueJob()"></queue-job-tab>
 			<request-tab v-else-if="$request"></request-tab>
@@ -43,12 +45,13 @@
 
 <script>
 import CommandTab from './Tabs/CommandTab'
+import ParentRequest from './Sidebar/ParentRequest'
 import QueueJobTab from './Tabs/QueueJobTab'
 import RequestTab from './Tabs/RequestTab'
 
 export default {
 	name: 'RequestSidebar',
-	components: { CommandTab, QueueJobTab, RequestTab },
+	components: { CommandTab, ParentRequest, QueueJobTab, RequestTab },
 	methods: {
 		togglePreserveLog() {
 			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
