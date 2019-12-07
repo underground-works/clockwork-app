@@ -39,7 +39,11 @@ export default class Requests
 
 		return this.load(id, promise => {
 			return promise
-				.then(data => { return placeholder.resolve(data[0]) })
+				.then(data => {
+					placeholder.resolve(data[0])
+					this.sort()
+					return placeholder
+				})
 				.catch(message => { return placeholder.resolveWithError(message) })
 		})
 	}
@@ -55,7 +59,7 @@ export default class Requests
 	loadLatest(update = true) {
 		return this.load('latest', promise => {
 			return promise.then(data => {
-				if (update) this.items.push(data[0])
+				if (update) this.merge(data)
 				return data[0]
 			})
 		}, update)
@@ -69,11 +73,11 @@ export default class Requests
 	loadNext(count, id, update = true) {
 		if (! id && ! this.items.length) return Promise.resolve([])
 
-		id = id || this.last().id
+		id = id || this.last(request => ! request.loading).id
 
 		return this.load(`${id}/next` + (count ? `/${count}` : ''), promise => {
 			return promise.then(data => {
-				if (update) this.items.push(...data)
+				if (update) this.merge(data)
 				return data
 			}).catch(error => {})
 		}, update)
@@ -87,11 +91,11 @@ export default class Requests
 	loadPrevious(count, id, update = true) {
 		if (! id && ! this.items.length) return Promise.resolve([])
 
-		id = id || this.first().id
+		id = id || this.first(request => ! request.loading).id
 
 		return this.load(`${id}/previous` + (count ? `/${count}` : ''), promise => {
 			return promise.then(data => {
-				if (update) this.items.unshift(...data)
+				if (update) this.merge(data)
 				return data
 			}).catch(error => {})
 		}, update)
@@ -105,8 +109,18 @@ export default class Requests
 		this.items.splice(0)
 	}
 
-	first() {
-		return this.items[0]
+	merge(requests) {
+		this.items = this.items.concat(requests).sort((a, b) => a.time - b.time)
+	}
+
+	sort() {
+		this.items = this.items.sort((a, b) => a.time - b.time)
+	}
+
+	first(filter) {
+		return filter
+			? this.items.find(filter)
+			: this.items[0]
 	}
 
 	last(filter) {
