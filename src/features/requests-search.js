@@ -13,7 +13,7 @@ export default class RequestsSearch
 			{ tag: 'status', validate: val => val >= 100 && val < 600 },
 			{ tag: 'time' },
 			{ tag: 'received', validate: val => moment(val).isValid() },
-			{ tag: 'type', validate: val => [ 'command', 'request' ].includes(val) }
+			{ tag: 'type', validate: val => [ 'command', 'queue-job', 'request' ].includes(val) }
 		]
 
 		this.shown = false
