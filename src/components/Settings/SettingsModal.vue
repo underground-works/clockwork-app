@@ -64,7 +64,7 @@
 				<label></label>
 
 				<div class="controls">
-					<label>
+					<label class="controls-checkbox">
 						<input type="checkbox" v-model="$settings.global.showIncomingRequests" @change="save">
 						Automatically show incoming requests
 					</label>
@@ -75,9 +75,13 @@
 				<label></label>
 
 				<div class="controls">
-					<label>
+					<label class="controls-checkbox">
 						<input type="checkbox" v-model="$settings.global.hideCommandTypeRequests" @change="save">
 						Hide commands in requests list
+					</label>
+					<label class="controls-checkbox">
+						<input type="checkbox" v-model="$settings.global.hideQueueJobTypeRequests" @change="save">
+						Hide queue jobs in requests list
 					</label>
 				</div>
 			</div>
@@ -195,6 +199,13 @@ export default {
 			border-radius: 0 0 4px 4px;
 			margin-top: -2px;
 		}
+	}
+
+	.controls-checkbox {
+		display: inline-block;
+		margin-bottom: 5px;
+		text-align: left;
+		width: 100%;
 	}
 
 	.appearance-controls {

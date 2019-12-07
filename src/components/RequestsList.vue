@@ -116,6 +116,10 @@ export default {
 				return this.$requests.items.filter(request => request.type != 'command')
 			}
 
+			if (this.$settings.global.hideQueueJobTypeRequests) {
+				return this.$requests.items.filter(request => request.type != 'queue-job')
+			}
+
 			return this.$requests.items
 		}
 	},
