@@ -119,9 +119,6 @@ export default {
 		MessagesOverlay, SettingsModal, TabHandle, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, OutputTab,
 		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
-	data: () => ({
-		activeTab: 'performance'
-	}),
 	computed: {
 		showLogTab() { return this.$request?.log?.length },
 		showDatabaseTab() {
@@ -140,9 +137,9 @@ export default {
 		showOutputTab() { return this.$request?.commandOutput }
 	},
 	methods: {
-		isTabActive(tab) { return this.$request && this.activeTab == tab },
+		isTabActive(tab) { return this.$request && this.global.activeTab == tab },
 		showTab(tab) {
-			this.activeTab = tab
+			this.global.activeTab = tab
 			this.global.showIncomingRequests = false
 		},
 		toggleRequestsList() {
