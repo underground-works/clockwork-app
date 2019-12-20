@@ -30,21 +30,27 @@ export default class Requests
 
 		if (existing) {
 			placeholder = existing
-		} else {
+		} else if (placeholder !== false) {
 			placeholder = placeholder || Request.placeholder(id)
 			this.items.push(placeholder)
 		}
 
-		placeholder.loading = true
+		if (placeholder) placeholder.loading = true
 
 		return this.load(id, promise => {
 			return promise
 				.then(data => {
-					placeholder.resolve(data[0])
+					if (placeholder) {
+						placeholder.resolve(data[0])
+					} else {
+						this.items.push(data[0])
+					}
+
 					this.sort()
-					return placeholder
+
+					return placeholder || data[0]
 				})
-				.catch(message => { return placeholder.resolveWithError(message) })
+				.catch(message => { if (placeholder) placeholder.resolveWithError(message) })
 		})
 	}
 

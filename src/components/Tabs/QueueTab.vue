@@ -21,8 +21,8 @@
 						</div>
 					</td>
 					<td>
-						<span :class="{ 'job-status-text': true, 'is-success': job.request.jobStatus == 'done', 'is-error': job.request.jobStatus == 'failed' }" v-if="job.request">
-							{{job.request.jobStatus}}
+						<span :class="{ 'job-status-text': true, 'is-success': job.request && job.request.jobStatus == 'done', 'is-error': job.request && job.request.jobStatus == 'failed' }">
+							{{job.request ? job.request.jobStatus : 'waiting'}}
 						</span>
 					</td>
 					<td>
@@ -82,15 +82,23 @@ export default {
 		showJob(job) {
 			this.global.$request = this.$requests.findId(job.id)
 			this.global.activeTab = 'performance'
+		},
+
+		async loadQueueJobRequest(id, attempt = 0) {
+			if (attempt == 12) return
+
+			let request = this.$requests.findId(id) || await this.$requests.loadId(id, false)
+
+			if (! request) return setTimeout(() => this.loadQueueJobRequest(id, attempt + 1), 5000)
+
+			this.$set(this.jobRequests, id, request)
 		}
 	},
 	watch: {
 		'$request': {
-			async handler() {
-				this.$request.queueJobs.forEach(async job => {
-					if (! job.id) return
-
-					this.$set(this.jobRequests, job.id, this.$requests.findId(job.id) || await this.$requests.loadId(job.id))
+			handler() {
+				this.$request.queueJobs.forEach(job => {
+					if (job.id) this.loadQueueJobRequest(job.id)
 				})
 			},
 			immediate: true
