@@ -15,18 +15,18 @@
 			</div>
 
 			<div class="details-header-tabs">
-				<tab-handle name="performance" :active="isTabActive('performance')" @tab-selected="showTab">Performance</tab-handle>
-				<tab-handle name="log" :active="isTabActive('log')" @tab-selected="showTab" v-show="showLogTab">Log</tab-handle>
-				<tab-handle name="events" :active="isTabActive('events')" @tab-selected="showTab" v-show="showEventsTab">Events</tab-handle>
-				<tab-handle name="database" :active="isTabActive('database')" @tab-selected="showTab" v-show="showDatabaseTab">Database</tab-handle>
-				<tab-handle name="cache" :active="isTabActive('cache')" @tab-selected="showTab" v-show="showCacheTab">Cache</tab-handle>
-				<tab-handle name="redis" :active="isTabActive('redis')" @tab-selected="showTab" v-show="showRedisTab">Redis</tab-handle>
-				<tab-handle name="queue" :active="isTabActive('queue')" @tab-selected="showTab" v-show="showQueueTab">Queue</tab-handle>
-				<tab-handle name="views" :active="isTabActive('views')" @tab-selected="showTab" v-show="showViewsTab">Views</tab-handle>
-				<tab-handle name="emails" :active="isTabActive('emails')" @tab-selected="showTab" v-show="showEmailsTab">Emails</tab-handle>
-				<tab-handle name="routes" :active="isTabActive('routes')" @tab-selected="showTab" v-show="showRoutesTab">Routes</tab-handle>
-				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" :active="isTabActive(`user-${userTab.key}`)" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
-				<tab-handle name="output" :active="isTabActive('output')" @tab-selected="showTab" v-show="showOutputTab">Output</tab-handle>
+				<tab-handle name="performance" :active="activeDetailsTab == 'performance'" @tab-selected="showTab">Performance</tab-handle>
+				<tab-handle name="log" :active="activeDetailsTab == 'log'" @tab-selected="showTab" v-show="shownTabs.log">Log</tab-handle>
+				<tab-handle name="events" :active="activeDetailsTab == 'events'" @tab-selected="showTab" v-show="shownTabs.events">Events</tab-handle>
+				<tab-handle name="database" :active="activeDetailsTab == 'database'" @tab-selected="showTab" v-show="shownTabs.database">Database</tab-handle>
+				<tab-handle name="cache" :active="activeDetailsTab == 'cache'" @tab-selected="showTab" v-show="shownTabs.cache">Cache</tab-handle>
+				<tab-handle name="redis" :active="activeDetailsTab == 'redis'" @tab-selected="showTab" v-show="shownTabs.redis">Redis</tab-handle>
+				<tab-handle name="queue" :active="activeDetailsTab == 'queue'" @tab-selected="showTab" v-show="shownTabs.queue">Queue</tab-handle>
+				<tab-handle name="views" :active="activeDetailsTab == 'views'" @tab-selected="showTab" v-show="shownTabs.views">Views</tab-handle>
+				<tab-handle name="emails" :active="activeDetailsTab == 'emails'" @tab-selected="showTab" v-show="shownTabs.emails">Emails</tab-handle>
+				<tab-handle name="routes" :active="activeDetailsTab == 'routes'" @tab-selected="showTab" v-show="shownTabs.routes">Routes</tab-handle>
+				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" :active="activeDetailsTab == `user-${userTab.key}`" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
+				<tab-handle name="output" :active="activeDetailsTab == 'output'" @tab-selected="showTab" v-show="shownTabs.output">Output</tab-handle>
 			</div>
 
 			<div class="icons">
@@ -50,18 +50,18 @@
 
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
-			<events-tab v-show="isTabActive('events')"></events-tab>
-			<database-tab v-show="isTabActive('database')"></database-tab>
-			<cache-tab v-show="isTabActive('cache')"></cache-tab>
-			<redis-tab v-show="isTabActive('redis')"></redis-tab>
-			<queue-tab v-show="isTabActive('queue')"></queue-tab>
-			<log-tab v-show="isTabActive('log')"></log-tab>
-			<performance-tab v-show="isTabActive('performance')"></performance-tab>
-			<views-tab v-show="isTabActive('views')"></views-tab>
-			<emails-tab v-show="isTabActive('emails')"></emails-tab>
-			<routes-tab v-show="isTabActive('routes')"></routes-tab>
-			<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" v-show="isTabActive(`user-${userTab.key}`)"></user-tab>
-			<output-tab v-show="isTabActive('output')"></output-tab>
+			<events-tab v-show="activeDetailsTab == 'events'"></events-tab>
+			<database-tab v-show="activeDetailsTab == 'database'"></database-tab>
+			<cache-tab v-show="activeDetailsTab == 'cache'"></cache-tab>
+			<redis-tab v-show="activeDetailsTab == 'redis'"></redis-tab>
+			<queue-tab v-show="activeDetailsTab == 'queue'"></queue-tab>
+			<log-tab v-show="activeDetailsTab == 'log'"></log-tab>
+			<performance-tab v-show="activeDetailsTab == 'performance'"></performance-tab>
+			<views-tab v-show="activeDetailsTab == 'views'"></views-tab>
+			<emails-tab v-show="activeDetailsTab == 'emails'"></emails-tab>
+			<routes-tab v-show="activeDetailsTab == 'routes'"></routes-tab>
+			<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" v-show="activeDetailsTab == `user-${userTab.key}`"></user-tab>
+			<output-tab v-show="activeDetailsTab == 'output'"></output-tab>
 
 		</div>
 
@@ -120,24 +120,30 @@ export default {
 		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
-		showLogTab() { return this.$request?.log?.length },
-		showDatabaseTab() {
-			return this.$request?.databaseQueriesCount || this.$request?.databaseQueries?.length
+		activeDetailsTab() {
+			if (! this.$request) return
+			if (this.shownTabs[this.global.activeTab] === false) return 'performance'
+
+			return this.global.activeTab
 		},
-		showCacheTab() {
-			return [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
-				|| this.$request?.cacheQueries.length
-		},
-		showRedisTab() { return this.$request?.redisCommands?.length },
-		showQueueTab() { return this.$request?.queueJobs?.length },
-		showEventsTab() { return this.$request?.events?.length },
-		showViewsTab() { return this.$request?.views?.length },
-		showEmailsTab() { return this.$request?.emails?.length },
-		showRoutesTab() { return this.$request?.routes?.length },
-		showOutputTab() { return this.$request?.commandOutput }
+
+		shownTabs() {
+			return {
+				log: this.$request?.log?.length > 0,
+				database: this.$request?.databaseQueriesCount > 0 || this.$request?.databaseQueries?.length > 0,
+				cache: [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
+					|| this.$request?.cacheQueries.length > 0,
+				redis: this.$request?.redisCommands?.length > 0,
+				queue: this.$request?.queueJobs?.length > 0,
+				events: this.$request?.events?.length > 0,
+				views: this.$request?.views?.length > 0,
+				emails: this.$request?.emails?.length > 0,
+				routes: this.$request?.routes?.length > 0,
+				output: this.$request?.commandOutput?.length > 0
+			}
+		}
 	},
 	methods: {
-		isTabActive(tab) { return this.$request && this.global.activeTab == tab },
 		showTab(tab) {
 			this.global.activeTab = tab
 			this.global.showIncomingRequests = false

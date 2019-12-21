@@ -81,7 +81,6 @@ export default {
 	methods: {
 		showJob(job) {
 			this.global.$request = this.$requests.findId(job.id)
-			this.global.activeTab = 'performance'
 		},
 
 		async loadQueueJobRequest(id, attempt = 0) {
