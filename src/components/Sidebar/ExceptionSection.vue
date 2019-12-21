@@ -1,5 +1,5 @@
 <template>
-	<div class="exception-section" v-if="$request && $request.exceptions.length">
+	<div class="exception-section" :class="{ 'compact': compact }" v-if="$request && $request.exceptions.length">
 		<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
 			<div class="exception-message">
 				<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
@@ -21,6 +21,7 @@ import StackTrace from '../UI/StackTrace'
 export default {
 	name: 'ExceptionSection',
 	components: { StackTrace },
+	props: [ 'compact' ],
 	methods: {
 		showPreviousException(exception) {
 			this.$request.exceptions.push(exception.previous)
@@ -37,6 +38,13 @@ export default {
 	border-bottom: 1px solid rgb(209, 209, 209);
 
 	@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
+
+	&.compact {
+		.exception-message h3 {
+			display: inline;
+			padding-right: 4px;
+		}
+	}
 
 	.exception-info {
 		align-items: center;

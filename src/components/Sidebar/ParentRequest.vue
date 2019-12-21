@@ -1,5 +1,5 @@
 <template>
-	<div class="parent-request" v-if="parentRequest">
+	<div class="parent-request" :class="{ 'compact': compact }" v-if="parentRequest">
 		<div>
 			<div class="parent-title">
 				Subrequest of
@@ -23,6 +23,7 @@
 <script>
 export default {
 	name: 'ParentRequest',
+	props: [ 'compact' ],
 	data: () => ({
 		parentRequest: null
 	}),
@@ -59,6 +60,11 @@ export default {
 	padding: 12px 10px;
 
 	@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
+
+	&.compact {
+		.parent-title { padding-right: 4px; }
+		.parent-title, .parent-name { display: inline; }
+	}
 
 	.parent-title {
 		font-size: 11px;
