@@ -58,18 +58,19 @@ export default {
 				style3: { light: '#b1ca6d', dark: '#9db659' },
 				style4: { light: '#ba94e6', dark: '#a680d2' }
 			}
-			let theme = document.querySelector('body').classList.contains('dark') ? 'dark' : 'light'
 
-			return this.$request?.performanceMetrics.map(metric => colors[metric.style][theme])
+			let appearance = this.$settings.global.appearance != 'auto' ? this.$settings.global.appearance : this.defaultAppearance
+
+			return this.$request?.performanceMetrics.map(metric => colors[metric.style][appearance])
 		},
 		chartOptions() {
-			let theme = document.querySelector('body').classList.contains('dark') ? 'dark' : 'light'
+			let appearance = this.$settings.global.appearance != 'auto' ? this.$settings.global.appearance : this.defaultAppearance
 
 			return {
 				legend: { display: false },
 				tooltips: { enabled: false },
 				hover: { mode: null },
-				elements: { arc: { borderColor: theme == 'dark' ? '#1f1f1f' : '#fff' } }
+				elements: { arc: { borderColor: appearance == 'dark' ? '#1f1f1f' : '#fff' } }
 			}
 		}
 	},
