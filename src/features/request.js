@@ -32,6 +32,7 @@ export default class Request
 		this.views = this.processViews(this.viewsData)
 		this.userData = this.processUserData(this.userData)
 		this.processCommand()
+		this.processQueueJob()
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
@@ -80,6 +81,10 @@ export default class Request
 		return this.headers.find(header => header.name == 'X-Requested-With' && header.value == 'XMLHttpRequest')
 	}
 
+	isRequest() {
+		return this.type == 'request' || ! this.type
+	}
+
 	isCommand() {
 		return this.type == 'command'
 	}
@@ -92,9 +97,23 @@ export default class Request
 		return this.commandExitCode > 1
 	}
 
+	isQueueJob() {
+		return this.type == 'queue-job'
+	}
+
+	isQueueJobError() {
+		return this.jobStatus == 'failed'
+	}
+
+	isQueueJobWarning() {
+		return this.jobStatus == 'released'
+	}
+
 	get tooltip() {
 		if (this.isCommand()) {
-			return `[CMD] ${this.commandName} ${this.commandLine}`
+			return `[CMD] ${this.commandName} (${this.commandLine})`
+		} else if (this.isQueueJob()) {
+			return `[QUEUE] ${this.jobName} (${this.jobDescription})`
 		} else {
 			return `${this.method} ${this.uri} (${this.controller})`
 		}
@@ -193,7 +212,7 @@ export default class Request
 	processExceptions() {
 		let exception = this.log.length ? this.log[this.log.length - 1].exception : null
 
-		if (this.responseStatus != 500 || ! exception) return []
+		if ((this.isRequest() && ! this.isServerError()) || ! exception) return []
 
 		exception = clone(exception)
 
@@ -366,6 +385,10 @@ export default class Request
 		this.commandOptionsMerged = this.createKeypairs(
 			Object.assign({}, this.commandOptionsDefaults || {}, this.commandOptions || {}), false
 		)
+	}
+
+	processQueueJob() {
+		this.jobOptions = this.createKeypairs(this.jobOptions)
 	}
 
 	getErrorsCount() {

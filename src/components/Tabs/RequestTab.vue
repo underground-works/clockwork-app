@@ -1,29 +1,5 @@
 <template>
 	<div class="request-tab">
-		<div class="parent-request" v-if="$request && $request.parent">
-			<div>
-				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
-			</div>
-			<div class="parent-close">
-				<a @click="showRequestById($request.parent.id)" href="#">Show</a>
-			</div>
-		</div>
-
-		<div class="exception" v-if="$request && $request.exceptions.length">
-			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
-				<div class="exception-message">
-					<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
-					{{exception.message}}
-				</div>
-				<div>
-					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous" title="Show previous">
-						<font-awesome-icon icon="arrow-circle-down"></font-awesome-icon>
-					</a>
-					<stack-trace class="exception-trace" :trace="exception.trace"></stack-trace>
-				</div>
-			</div>
-		</div>
-
 		<sidebar-section title="Headers" name="headers" :items="headers" filter-example="text/html name:Accept" v-show="headers.length">
 		</sidebar-section>
 
@@ -78,24 +54,14 @@
 <script>
 import DetailsTable from '../UI/DetailsTable'
 import SidebarSection from '../UI/SidebarSection'
-import StackTrace from '../UI/StackTrace'
 
 export default {
 	name: 'RequestTab',
-	components: { DetailsTable, SidebarSection, StackTrace },
+	components: { DetailsTable, SidebarSection },
 	computed: {
 		headers() {
 			return ! this.$request.cookies.length
 				? this.$request.headers : this.$request.headers.filter(header => header.name != 'Cookie')
-		}
-	},
-	methods: {
-		showPreviousException(exception) {
-			this.$request.exceptions.push(exception.previous)
-			exception.previous = undefined
-		},
-		showRequestById(requestId) {
-			this.global.$request = this.$requests.find(requestId)
 		}
 	}
 }
@@ -108,93 +74,6 @@ export default {
 	background: #fff;
 
 	@include dark { background: #1f1f1f; }
-
-	.parent-request {
-		border-bottom: 1px solid rgb(209, 209, 209);
-		display: flex;
-		font-size: 12px;
-		font-weight: 600;
-		padding: 12px 10px;
-
-		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
-
-		.parent-method {
-			color: gray;
-			font-size: 90%;
-			font-weight: normal;
-			margin-right: 2px;
-
-			@include dark { color: rgb(118, 118, 118); }
-		}
-
-		.parent-uri {
-			font-weight: normal;
-		}
-
-		a {
-			color: rgb(37, 140, 219);
-			font-weight: normal;
-			text-decoration: none;
-
-			@include dark { color: hsl(31, 98%, 48%); }
-		}
-
-		.parent-close { margin-left: auto; }
-	}
-
-	.exception {
-		border-bottom: 1px solid rgb(209, 209, 209);
-
-		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
-
-		.exception-info {
-			align-items: center;
-			background: rgb(255, 235, 235);
-			color: rgb(197, 31, 36);
-		    display: flex;
-		    padding: 6px 10px;
-
-			&:nth-child(even) { background: hsl(0, 100%, 94%); }
-			&:first-child { padding-top: 12px; }
-			&:last-child { padding-bottom: 12px; }
-
-			@include dark {
-				background: hsl(0, 100%, 11%);
-				color: rgb(237, 121, 122);
-
-				&:nth-child(even) { background: hsl(0, 100%, 9%); }
-			}
-
-			h3 {
-			    border-bottom: 0;
-			    font-size: 14px;
-			    margin: 0 0 5px;
-			}
-
-		    .exception-message {
-			    flex: 1;
-	    	    font-size: 12px;
-			    line-height: 1.5;
-		    }
-
-    		.exception-previous, .exception-trace > a {
-				color: rgb(197, 31, 36);
-			    font-size: 12px;
-			    margin: 0 4px;
-
-				@include dark { color: rgb(237, 121, 122); }
-			}
-
-			.exception-previous {
-				margin-right: 4px;
-				text-decoration: none;
-			}
-
-			.exception-trace {
-				display: inline-block;
-			}
-		}
-	}
 
 	.data-raw {
 		td {

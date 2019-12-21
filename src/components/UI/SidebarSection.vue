@@ -7,7 +7,7 @@
 			</span>
 			<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
 		</div>
-		<slot name="content">
+		<slot name="content" :expanded="expanded">
 			<div v-show="expanded">
 				<slot name="above-table"></slot>
 			</div>

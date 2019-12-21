@@ -52,6 +52,10 @@
 								<span class="type-text">CMD</span>
 								{{request.commandName}}
 							</template>
+							<template v-else-if="request.isQueueJob()">
+								<span class="type-text">QUEUE</span>
+								{{request.jobName}}
+							</template>
 							<template v-else>
 								<span v-if="request.isAjax()" class="type-text">AJAX</span>
 								<span class="method-text">{{request.method}}</span> {{request.uri}}
@@ -61,6 +65,9 @@
 						<template v-if="request.isCommand()">
 							<small>{{request.commandLine}}</small>
 						</template>
+						<template v-else-if="request.isQueueJob()">
+							<small>{{request.jobDescription}}</small>
+						</template>
 						<template v-else>
 							<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
 							<small v-else>{{request.controller | shortClass}}</small>
@@ -69,6 +76,11 @@
 					<template v-if="request.isCommand()">
 						<td class="status" :title="request.commandExitCode">
 							<span :class="{ 'status-text': true, 'client-error': request.isCommandWarning(), 'server-error': request.isCommandError() }">{{request.commandExitCode}}</span>
+						</td>
+					</template>
+					<template v-else-if="request.isQueueJob()">
+						<td class="status" :title="request.jobStatus">
+							<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isQueueJobWarning(), 'server-error': request.isQueueJobError() }">{{request.jobStatus}}</span>
 						</td>
 					</template>
 					<template v-else>
@@ -102,6 +114,10 @@ export default {
 		requests() {
 			if (this.$settings.global.hideCommandTypeRequests) {
 				return this.$requests.items.filter(request => request.type != 'command')
+			}
+
+			if (this.$settings.global.hideQueueJobTypeRequests) {
+				return this.$requests.items.filter(request => request.type != 'queue-job')
 			}
 
 			return this.$requests.items
@@ -319,7 +335,7 @@ export default {
 
 	.method, .status {
 		text-align: center;
-		width: 42px;
+		width: 52px;
 	}
 
 	.duration {
@@ -356,6 +372,7 @@ export default {
 		border-radius: 8px;
 		color: #586336;
 		padding: 2px 6px;
+		text-transform: uppercase;
 
 		@include dark {
 			background: hsla(76, 100%, 11%, 1);
@@ -380,6 +397,10 @@ export default {
 				background: #380000;
 				color: #ed797a;
 			}
+		}
+
+		&.status-text-small {
+			font-size: 9px;
 		}
 	}
 

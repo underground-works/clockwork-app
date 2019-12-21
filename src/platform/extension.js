@@ -110,7 +110,9 @@ export default class Extension
 
 			this.requests.setRemote(message.request.url, options)
 
-			if (! this.settings.global.hideCommandTypeRequests) this.startPollingRequests()
+			if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests) {
+				this.startPollingRequests()
+			}
 		})
 
 		// handle clearing of requests list if we are not preserving log
@@ -140,7 +142,9 @@ export default class Extension
 				this.requests.setRemote(request.url, options)
 				this.requests.loadId(options.id, Request.placeholder(options.id, request))
 
-				if (! this.settings.global.hideCommandTypeRequests) this.startPollingRequests()
+				if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests) {
+					this.startPollingRequests()
+				}
 			}
 		)
 	}
@@ -212,7 +216,7 @@ export default class Extension
 	}
 
 	settingsChanged() {
-		if (this.settings.global.hideCommandTypeRequests) {
+		if (this.settings.global.hideCommandTypeRequests && this.settings.global.hideQueueJobTypeRequests) {
 			this.stopPollingRequests()
 		} else {
 			this.startPollingRequests()

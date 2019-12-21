@@ -1,27 +1,8 @@
 <template>
 	<div class="messages-overlay">
-		<div class="parent-request" v-show="$store.data.requestSidebarCollapsed" v-if="$request && $request.parent">
-			<div>
-				Subrequest of <span class="parent-method">{{$request.parent.method}}</span> <span class="parent-uri">{{$request.parent.uri}}</span>
-			</div>
-			<div class="parent-close">
-				<a @click="showRequestById($request.parent.id)" href="#">Show</a>
-			</div>
-		</div>
-		<div class="exception" v-show="$store.data.requestSidebarCollapsed" v-if="$request && $request.exceptions.length">
-			<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
-				<div class="exception-message">
-					<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
-					{{exception.message}}
-				</div>
-				<div>
-					<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous" title="Show previous">
-						<font-awesome-icon icon="arrow-circle-down"></font-awesome-icon>
-					</a>
-					<stack-trace class="exception-trace" :trace="exception.trace"></stack-trace>
-				</div>
-			</div>
-		</div>
+		<parent-request compact="true" v-show="$store.data.requestSidebarCollapsed"></parent-request>
+		<exception-section compact="true" v-show="$store.data.requestSidebarCollapsed"></exception-section>
+
 		<div class="update-notification" v-if="updateNotification">
 			<span>
 				A new Clockwork server-side version <strong>{{updateNotification.version}}</strong> is available, you are using <strong>{{updateNotification.currentVersion}}</strong>.
@@ -35,11 +16,13 @@
 </template>
 
 <script>
+import ExceptionSection from '../Sidebar/ExceptionSection'
+import ParentRequest from '../Sidebar/ParentRequest'
 import StackTrace from '../UI/StackTrace'
 
 export default {
 	name: 'MessagesOverlay',
-	components: { StackTrace },
+	components: { ExceptionSection, ParentRequest, StackTrace },
 	data: () => ({
 		updateNotification: false
 	}),

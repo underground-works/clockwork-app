@@ -45,7 +45,7 @@ export default {
 	name: 'PerformanceTab',
 	components: { PerformanceLog, Profiler, Timeline },
 	data: () => ({
-		activeTab: 'timeline'
+		activePerformanceTab: 'timeline'
 	}),
 	computed: {
 		chartValues() {
@@ -74,9 +74,9 @@ export default {
 		}
 	},
 	methods: {
-		isTabActive(tab) { return this.activeTab == tab },
+		isTabActive(tab) { return this.activePerformanceTab == tab },
 		showTab(tab) {
-			this.activeTab = tab
+			this.activePerformanceTab = tab
 
 			if (tab == 'profiler') this.$profiler.loadRequest(this.$request)
 		}

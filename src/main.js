@@ -33,7 +33,7 @@ let $updateNotification = new UpdateNotification($store)
 
 let global = {
 	$requests, $platform, $authentication, $profiler, $requestsSearch, $settings, $store, $updateNotification,
-	$request: null, showIncomingRequests: true, defaultAppearance: 'light'
+	$request: null, activeTab: 'performance', showIncomingRequests: true, defaultAppearance: 'light'
 }
 
 $platform.init(global)

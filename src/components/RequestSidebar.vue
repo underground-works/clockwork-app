@@ -6,6 +6,9 @@
 				<template v-if="$request && $request.isCommand()">
 					Command
 				</template>
+				<template v-else-if="$request && $request.isQueueJob()">
+					Queue job
+				</template>
 				<template v-else>
 					Request
 				</template>
@@ -25,7 +28,11 @@
 		</div>
 
 		<div class="sidebar-content">
+			<parent-request></parent-request>
+			<exception-section></exception-section>
+
 			<command-tab v-if="$request && $request.isCommand()"></command-tab>
+			<queue-job-tab v-if="$request && $request.isQueueJob()"></queue-job-tab>
 			<request-tab v-else-if="$request"></request-tab>
 
 			<div class="sidebar-date" v-if="$request && $request.time">
@@ -39,11 +46,14 @@
 
 <script>
 import CommandTab from './Tabs/CommandTab'
+import ExceptionSection from './Sidebar/ExceptionSection'
+import ParentRequest from './Sidebar/ParentRequest'
+import QueueJobTab from './Tabs/QueueJobTab'
 import RequestTab from './Tabs/RequestTab'
 
 export default {
 	name: 'RequestSidebar',
-	components: { CommandTab, RequestTab },
+	components: { CommandTab, ExceptionSection, ParentRequest, QueueJobTab, RequestTab },
 	methods: {
 		togglePreserveLog() {
 			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
