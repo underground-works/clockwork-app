@@ -55,7 +55,8 @@ export default class Settings
 				editor: null,
 				showIncomingRequests: true,
 				hideCommandTypeRequests: this.platform instanceof Extension,
-				hideQueueJobTypeRequests: this.platform instanceof Extension
+				hideQueueJobTypeRequests: this.platform instanceof Extension,
+				hideTestTypeRequests: this.platform instanceof Extension
 			},
 			site: {
 				localPathMap: { real: null, local: null }

@@ -127,6 +127,8 @@ export default class Request
 			return `[CMD] ${this.commandName} (${this.commandLine})`
 		} else if (this.isQueueJob()) {
 			return `[QUEUE] ${this.jobName} (${this.jobDescription})`
+		} else if (this.isTest()) {
+			return `[TEST] ${this.testGroup} (${this.testName})`
 		} else {
 			return `${this.method} ${this.uri} (${this.controller})`
 		}
@@ -319,6 +321,8 @@ export default class Request
 	}
 
 	processTest() {
+		if (! this.testName) return
+
 		[ this.testGroup, this.testName ] = this.testName.includes('::')
 			? this.testName.split('::') : [ this.testName, '' ];
 	}

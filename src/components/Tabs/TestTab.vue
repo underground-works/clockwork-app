@@ -60,10 +60,14 @@ export default {
 	    margin-bottom: 3px;
 	    white-space: nowrap;
 	    margin-bottom: 5px;
-	    color: #586336;
+	    color: hsla(75, 65%, 30%, 1);
+
+	    @include dark { color: hsl(75, 76%, 70%); }
 
 	    &.assert-failed {
 	    	color: #c51f24;
+
+	    	@include dark { color: #ed797a; }
 	    }
 	}
 

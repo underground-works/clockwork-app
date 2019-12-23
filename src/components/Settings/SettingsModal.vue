@@ -83,6 +83,10 @@
 						<input type="checkbox" v-model="$settings.global.hideQueueJobTypeRequests" @change="save">
 						Hide queue jobs in requests list
 					</label>
+					<label class="controls-checkbox">
+						<input type="checkbox" v-model="$settings.global.hideTestTypeRequests" @change="save">
+						Hide tests in requests list
+					</label>
 				</div>
 			</div>
 		</div>
@@ -243,10 +247,10 @@ export default {
 }
 
 .settings-enter-active, .settings-leave-active {
-	transition: top .5s;
+	transition: top .33s;
 }
 
 .settings-enter, .settings-leave-to {
-	top: -350px;
+	top: -400px;
 }
 </style>

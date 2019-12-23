@@ -132,6 +132,10 @@ export default {
 				return this.$requests.items.filter(request => request.type != 'queue-job')
 			}
 
+			if (this.$settings.global.hideTestTypeRequests) {
+				return this.$requests.items.filter(request => request.type != 'test')
+			}
+
 			return this.$requests.items
 		}
 	},
