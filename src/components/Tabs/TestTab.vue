@@ -12,7 +12,12 @@
 					<template slot="body" slot-scope="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 							<td class="value test-assert">
-								<div class="test-assert-name" :class="{'assert-failed': ! item.passed}">{{item.name}}</div>
+								<div class="assert-name">
+									<div class="assert-name-content" :class="{'assert-failed': ! item.passed}">{{item.name}}</div>
+									<div class="assert-name-trace">
+										<stack-trace :trace="item.trace"></stack-trace>
+									</div>
+								</div>
 								<pretty-print :data="item.arguments"></pretty-print>
 							</td>
 						</tr>
@@ -54,24 +59,35 @@ export default {
 		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 	}
 
-	.test-assert-name {
-	    font-size: 11px;
-	    font-weight: 600;
-	    margin-bottom: 3px;
-	    white-space: nowrap;
-	    margin-bottom: 5px;
-	    color: hsla(75, 65%, 30%, 1);
-
-	    @include dark { color: hsl(75, 76%, 70%); }
-
-	    &.assert-failed {
-	    	color: #c51f24;
-
-	    	@include dark { color: #ed797a; }
-	    }
-	}
-
 	.test-assert {
+		.assert-name {
+			display: flex;
+			flex-wrap: wrap;
+
+			.assert-name-content {
+				flex: 1 0 auto;
+			    font-size: 11px;
+			    font-weight: 600;
+			    margin-bottom: 3px;
+				max-width: 100%;
+			    white-space: nowrap;
+			    margin-bottom: 5px;
+			    color: hsla(75, 65%, 30%, 1);
+
+			    @include dark { color: hsl(75, 76%, 70%); }
+
+			    &.assert-failed {
+			    	color: #c51f24;
+
+			    	@include dark { color: #ed797a; }
+			    }
+			}
+
+			.assert-name-trace {
+				flex: 0;
+			}
+		}
+
 		.pretty-jason {
 			font-size: 11px;
 		}
