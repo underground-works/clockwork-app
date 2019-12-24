@@ -110,7 +110,7 @@ export default class Extension
 
 			this.requests.setRemote(message.request.url, options)
 
-			if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests) {
+			if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests || ! this.settings.global.hideTestTypeRequests) {
 				this.startPollingRequests()
 			}
 		})
@@ -142,7 +142,7 @@ export default class Extension
 				this.requests.setRemote(request.url, options)
 				this.requests.loadId(options.id, Request.placeholder(options.id, request))
 
-				if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests) {
+				if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests || ! this.settings.global.hideTestTypeRequests) {
 					this.startPollingRequests()
 				}
 			}
@@ -216,7 +216,7 @@ export default class Extension
 	}
 
 	settingsChanged() {
-		if (this.settings.global.hideCommandTypeRequests && this.settings.global.hideQueueJobTypeRequests) {
+		if (this.settings.global.hideCommandTypeRequests && this.settings.global.hideQueueJobTypeRequests && this.settings.global.hideTestTypeRequests) {
 			this.stopPollingRequests()
 		} else {
 			this.startPollingRequests()

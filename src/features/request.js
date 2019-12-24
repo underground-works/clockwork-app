@@ -33,6 +33,7 @@ export default class Request
 		this.userData = this.processUserData(this.userData)
 		this.processCommand()
 		this.processQueueJob()
+		this.processTest()
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
@@ -109,11 +110,25 @@ export default class Request
 		return this.jobStatus == 'released'
 	}
 
+	isTest() {
+		return this.type == 'test'
+	}
+
+	isTestError() {
+		return [ 'failed', 'error' ].includes(this.testStatus)
+	}
+
+	isTestWarning() {
+		return [ 'warning' ].includes(this.testStatus)
+	}
+
 	get tooltip() {
 		if (this.isCommand()) {
 			return `[CMD] ${this.commandName} (${this.commandLine})`
 		} else if (this.isQueueJob()) {
 			return `[QUEUE] ${this.jobName} (${this.jobDescription})`
+		} else if (this.isTest()) {
+			return `[TEST] ${this.testGroup} (${this.testName})`
 		} else {
 			return `${this.method} ${this.uri} (${this.controller})`
 		}
@@ -303,6 +318,13 @@ export default class Request
 
 	processRedisCommands(data) {
 		return data instanceof Array ? data : []
+	}
+
+	processTest() {
+		if (! this.testName) return
+
+		[ this.testGroup, this.testName ] = this.testName.includes('::')
+			? this.testName.split('::') : [ this.testName, '' ];
 	}
 
 	processTimeline(data) {
