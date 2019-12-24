@@ -1,6 +1,6 @@
 <template>
 	<div class="stack-trace popover-container" v-click-outside="closePopover">
-		<a :href="file | editorLink(line)" v-if="file">
+		<a :href="file || trace[0].file | editorLink(line)" v-if="file || trace.length">
 			<shortened-text :full="trace ? shortPath : fullPath" @click.native="togglePopover($event)">{{shortPath}}</shortened-text>
 		</a>
 		<a href="#" v-else title="Stack trace">
@@ -30,15 +30,15 @@ import PrettyJason from '../../features/pretty-jason/pretty-jason'
 import ShortenedText from './ShortenedText'
 
 export default {
-	name: 'PrettyPrint',
+	name: 'StackTrace',
 	components: { ShortenedText },
 	props: [ 'trace', 'file', 'line' ],
 	data: () => ({
 		showPopover: false
 	}),
 	computed: {
-		fullPath() { return this.makeFullPath(this.file, this.line) },
-		shortPath() { return this.makeShortPath(this.file, this.line) }
+		fullPath() { return this.makeFullPath(this.file || this.trace[0].file, this.line || this.trace[0].line) },
+		shortPath() { return this.makeShortPath(this.file || this.trace[0].file, this.line || this.trace[0].line) }
 	},
 	methods: {
 		closePopover() {
