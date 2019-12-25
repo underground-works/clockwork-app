@@ -36,7 +36,11 @@
 						</div>
 					</td>
 					<td class="timeline-duration">{{item.durationRounded}} ms</td>
-					<td class="timeline-description">{{item.description}}</td>
+					<td class="timeline-description">
+						<slot name="table-description" :item="item">
+							{{item.description}}
+						</slot>
+					</td>
 				</tr>
 			</template>
 		</details-table>

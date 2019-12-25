@@ -1,21 +1,26 @@
 <template>
 	<div>
-		<timeline :items="$request.viewsData"></timeline>
+		<timeline :items="$request.viewsData">
+			<template slot="table-description" slot-scope="{ item }">
+				<div class="views-view-name">{{ item.description }}</div>
+				<pretty-print :data="item.data.data" v-if="item.data && item.data.data"></pretty-print>
+			</template>
+		</timeline>
 	</div>
 </template>
 
 <script>
 import Timeline from './Performance/Timeline'
-import DetailsTable from '../UI/DetailsTable'
 import PrettyPrint from '../UI/PrettyPrint'
-
-import Filter from '../../features/filter'
 
 export default {
 	name: 'ViewsTab',
-	components: { DetailsTable, PrettyPrint, Timeline },
-	data: () => ({
-		filter: new Filter([ { tag: 'name' } ])
-	})
+	components: { PrettyPrint, Timeline }
 }
 </script>
+
+<style lang="scss">
+.views-view-name {
+	margin-bottom: 3px;
+}
+</style>
