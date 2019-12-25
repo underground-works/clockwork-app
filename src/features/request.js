@@ -359,7 +359,10 @@ export default class Request
 
 	processViews(data) {
 		let views = Object.values(data).forEach(view => {
-			if (view.data && view.data.name) view.description = view.data.name
+			view.data = view.data || {}
+			view.description = view.data.name || view.description
+			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length
+				? view.data.data : undefined
 
 			return view
 		})

@@ -3,7 +3,7 @@
 		<timeline :items="$request.viewsData">
 			<template slot="table-description" slot-scope="{ item }">
 				<div class="views-view-name">{{ item.description }}</div>
-				<pretty-print :data="item.data.data" v-if="item.data && item.data.data"></pretty-print>
+				<pretty-print :data="item.data.data" v-if="item.data.data"></pretty-print>
 			</template>
 		</timeline>
 	</div>
