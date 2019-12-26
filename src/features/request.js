@@ -336,9 +336,14 @@ export default class Request
 		this.appendToTimeline(data, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, tags: [ 'cacheQueries' ] }))
 		this.appendToTimeline(data, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, tags: [ 'redisCommands' ] }))
 		this.appendToTimeline(data, this.queueJobs, job => ({ description: job.name, tags: [ 'queueJobs' ] }))
+		this.mergeToTimeline(data, this.viewsData)
 
 		data = data.sort((a, b) => a.start - b.start)
 
+		return this.createTimeline(data)
+	}
+
+	createTimeline(data) {
 		return Object.values(data).map((entry, i) => {
 			entry.style = 'style' + (i % 4 + 1)
 			entry.startPercentual = (entry.start - this.time) * 1000 / this.responseDuration * 100
@@ -386,19 +391,24 @@ export default class Request
 		})
 	}
 
+	mergeToTimeline(timeline, data) {
+		timeline.push(...data)
+	}
+
 	processViews(data) {
 		let views = Object.values(data).forEach(view => {
 			view.data = view.data || {}
 			view.description = view.data.name || view.description
 			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length
 				? view.data.data : undefined
+			view.tags = [ 'views' ]
 
 			if (view.data.memoryUsage) view.description += ` (${this.formatBytes(view.data.memoryUsage)})`
 
 			return view
 		})
 
-		return this.processTimeline(data)
+		return this.createTimeline(data)
 	}
 
 	processUserData(tabs) {

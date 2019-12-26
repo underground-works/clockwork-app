@@ -6,7 +6,7 @@
 					<font-awesome-icon icon="search"></font-awesome-icon>
 				</a>
 			</span>
-			<span class="timeline-control-group" v-if="tags">
+			<span class="timeline-control-group" v-if="tags.length">
 				<a v-for="tag in tags" href="#" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
 					<font-awesome-icon :icon="tag.icon"></font-awesome-icon>
 				</a>
@@ -73,7 +73,7 @@ import intersect from 'just-intersect'
 export default {
 	name: 'Timeline',
 	components: { DetailsTable },
-	props: [ 'items', 'tags' ],
+	props: { items: {}, tags: { default: () => [] } },
 	data: () => ({
 		view: 'chart',
 		hiddenTags: [],
@@ -129,7 +129,7 @@ export default {
 		},
 
 		resolveTags(tags) {
-			return tags.map(tag => this.tags.find(t => t.tag == tag))
+			return tags.map(tag => this.tags.find(t => t.tag == tag)).filter(tag => tag)
 		}
 	}
 }
