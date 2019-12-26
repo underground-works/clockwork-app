@@ -6,6 +6,11 @@
 					<font-awesome-icon icon="search"></font-awesome-icon>
 				</a>
 			</span>
+			<span class="timeline-control-group" v-if="availableTags.length">
+				<a v-for="tag in availableTags" href="#" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
+					<font-awesome-icon :icon="tag.icon"></font-awesome-icon>
+				</a>
+			</span>
 			<span class="timeline-control-group">
 				<a href="#" @click="view = 'chart'" :class="{ 'active': view == 'chart' }" title="Timeline view">
 					<font-awesome-icon icon="chart-bar"></font-awesome-icon>
@@ -16,7 +21,7 @@
 			</span>
 		</div>
 
-		<details-table :columns="['Timeline', 'Duration', 'Description']" :items="items" :filter="filter" filter-example="database query duration:>50">
+		<details-table :columns="columns" :items="filteredItems" :filter="filter" filter-example="database query duration:>50">
 			<template slot="header" slot-scope="{ filter }">
 				<th>Timeline</th>
 				<th class="timeline-duration">Duration</th>
@@ -29,8 +34,14 @@
 							<span v-for="item in legend" class="timeline-legend-time" :style="{ left: `${item.left}%` }">{{item.time}} ms</span>
 						</div>
 						<div class="timeline-bar" :class="item.style">
-							<div class="label" :style="{ 'text-align': item.labelAlign, 'margin-left': item.labelLeft, 'margin-right': item.labelRight }">
-								{{item.description}} ({{item.durationRounded}} ms)
+							<div class="label" :style="{ 'text-align': item.labelAlign, 'margin-left': item.labelLeft, 'margin-right': item.labelRight }" :title="`${item.description} (${item.durationRounded} ms)`">
+								<span class="timeline-item-tags">
+									<span v-for="tag in resolveTags(item.tags)">
+										<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+									</span>
+								</span>
+								{{item.description}}
+								({{item.durationRounded}} ms)
 							</div>
 							<div class="bar" :style="{ width: item.barWidth, 'margin-left': item.barLeft }"></div>
 						</div>
@@ -38,6 +49,11 @@
 					<td class="timeline-duration">{{item.durationRounded}} ms</td>
 					<td class="timeline-description">
 						<slot name="table-description" :item="item">
+							<span class="timeline-item-tags">
+								<span v-for="tag in resolveTags(item.tags)">
+									<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+								</span>
+							</span>
 							{{item.description}}
 						</slot>
 					</td>
@@ -52,18 +68,33 @@ import DetailsTable from '../../UI/DetailsTable'
 
 import Filter from '../../../features/filter'
 
+import intersect from 'just-intersect'
+
 export default {
 	name: 'Timeline',
 	components: { DetailsTable },
-	props: [ 'items' ],
+	props: { name: {}, items: {}, tags: { default: () => [] } },
 	data: () => ({
 		view: 'chart',
+		hiddenTags: [],
 
 		filter: new Filter([
 			{ tag: 'duration', type: 'number' }
 		], item => item.description)
 	}),
 	computed: {
+		availableTags() {
+			return this.tags.filter(tag => this.items.find(item => item.tags.includes(tag.tag)))
+		},
+
+		columns() {
+			return this.view == 'chart' ? [ 'Timeline' ] : [ 'Timeline', 'Duration', 'Description' ]
+		},
+
+		filteredItems() {
+			return this.items.filter(item => ! intersect(item.tags, this.hiddenTags).length)
+		},
+
 		legend() {
 			if (! this.$request) return []
 
@@ -91,6 +122,32 @@ export default {
 
 			return items
 		}
+	},
+	methods: {
+		toggleTag(tag) {
+			if (this.hiddenTags.includes(tag)) {
+				this.hiddenTags = this.hiddenTags.filter(t => t != tag)
+			} else {
+				this.hiddenTags.push(tag)
+			}
+
+			this.$settings.global.timelineHiddenTags[this.name] = this.hiddenTags
+			this.$settings.save()
+		},
+
+		resolveTags(tags) {
+			return tags.map(tag => this.tags.find(t => t.tag == tag)).filter(tag => tag)
+		}
+	},
+	mounted() {
+		this.hiddenTags = this.$settings.global.timelineHiddenTags[this.name] || []
 	}
 }
 </script>
+
+<style lang="scss">
+.timeline-item-tags {
+	font-size: 85%;
+	opacity: 0.77;
+}
+</style>

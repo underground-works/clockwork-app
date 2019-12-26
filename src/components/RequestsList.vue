@@ -533,14 +533,12 @@ export default {
 	.load-more {
 		align-items: center;
 		border-bottom: 1px solid rgb(209, 209, 209);
-		border-right: 1px solid rgb(209, 209, 209);
 		display: flex;
 		height: 36px;
 		justify-content: center;
 
 		@include dark {
 			border-bottom: 1px solid rgb(54, 54, 54);
-			border-right: 1px solid rgb(54, 54, 54);
 		}
 
 		a {

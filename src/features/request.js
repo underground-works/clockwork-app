@@ -28,9 +28,10 @@ export default class Request
 		this.redisCommands = this.processRedisCommands(this.redisCommands)
 		this.sessionData = this.createKeypairs(this.sessionData)
 		this.performanceMetrics = this.processPerformanceMetrics(this.performanceMetrics)
-		this.timeline = this.processTimeline(this.timelineData)
 		this.viewsData = this.processViews(this.viewsData)
 		this.userData = this.processUserData(this.userData)
+		this.timeline = this.processTimeline(this.timelineData)
+
 		this.processCommand()
 		this.processQueueJob()
 		this.processTest()
@@ -197,7 +198,9 @@ export default class Request
 	processEmails(data) {
 		if (! (data instanceof Object)) return []
 
-		return Object.values(data).filter(email => email.data instanceof Object).map(email => email.data)
+		return Object.values(data)
+			.filter(email => email.data instanceof Object)
+			.map(email => Object.assign({ time: email.start, duration: email.duration }, email.data))
 	}
 
 	processEvents(data) {
@@ -328,8 +331,22 @@ export default class Request
 	}
 
 	processTimeline(data) {
-		if (! (data instanceof Object)) return []
+		data = data instanceof Object ? Object.values(data) : []
 
+		this.appendToTimeline(data, this.databaseQueries, query => ({ description: query.query, tags: [ 'databaseQueries' ] }))
+		this.appendToTimeline(data, this.events, event => ({ description: event.event, tags: [ 'events' ] }))
+		this.appendToTimeline(data, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, tags: [ 'cacheQueries' ] }))
+		this.appendToTimeline(data, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, tags: [ 'redisCommands' ] }))
+		this.appendToTimeline(data, this.queueJobs, job => ({ description: job.name, tags: [ 'queueJobs' ] }))
+		this.mergeToTimeline(data, this.viewsData)
+		this.appendToTimeline(data, this.emails, email => ({ description: `${email.to} - ${email.subject}`, tags: [ 'emails' ] }))
+
+		data = data.sort((a, b) => a.start - b.start)
+
+		return this.createTimeline(data)
+	}
+
+	createTimeline(data) {
 		return Object.values(data).map((entry, i) => {
 			entry.style = 'style' + (i % 4 + 1)
 			entry.startPercentual = (entry.start - this.time) * 1000 / this.responseDuration * 100
@@ -353,8 +370,32 @@ export default class Request
 			entry.durationRounded = Math.round(entry.duration)
 			if (entry.durationRounded === 0) entry.durationRounded = '< 1'
 
+			entry.tags = entry.tags || []
+
 			return entry
 		})
+	}
+
+	appendToTimeline(timeline, data, mapItem) {
+		data.forEach(item => {
+			if (! item.time) return
+
+			let time = item.time instanceof Date ? item.time.getTime() / 1000 : item.time
+			let duration = item.duration || 0
+
+			timeline.push(Object.assign({
+				description: '',
+				start: time,
+				end: time + duration,
+				duration: duration,
+				data: [],
+				tags: []
+			}, mapItem(item)))
+		})
+	}
+
+	mergeToTimeline(timeline, data) {
+		timeline.push(...data)
 	}
 
 	processViews(data) {
@@ -363,13 +404,14 @@ export default class Request
 			view.description = view.data.name || view.description
 			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length
 				? view.data.data : undefined
+			view.tags = [ 'views' ]
 
 			if (view.data.memoryUsage) view.description += ` (${this.formatBytes(view.data.memoryUsage)})`
 
 			return view
 		})
 
-		return this.processTimeline(data)
+		return this.createTimeline(data)
 	}
 
 	processUserData(tabs) {

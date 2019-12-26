@@ -28,7 +28,7 @@
 				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')">Profiler</a>
 			</div>
 
-			<timeline :items="$request.timeline" v-show="isTabActive('timeline')"></timeline>
+			<timeline name="performance" :items="$request.timeline" :tags="timelineTags" v-show="isTabActive('timeline')"></timeline>
 			<profiler v-show="isTabActive('profiler')"></profiler>
 		</div>
 	</div>
@@ -45,7 +45,16 @@ export default {
 	name: 'PerformanceTab',
 	components: { PerformanceLog, Profiler, Timeline },
 	data: () => ({
-		activePerformanceTab: 'timeline'
+		activePerformanceTab: 'timeline',
+		timelineTags: [
+			{ tag: 'events', icon: [ 'fas', 'bullhorn' ], title: 'Events' },
+			{ tag: 'databaseQueries', icon: [ 'fas', 'database' ], title: 'Database' },
+			{ tag: 'cacheQueries', icon: [ 'fas', 'boxes' ], title: 'Cache' },
+			{ tag: 'redisCommands', icon: [ 'fas', 'cube' ], title: 'Redis' },
+			{ tag: 'queueJobs', icon: [ 'fas', 'history' ], title: 'Queue' },
+			{ tag: 'views', icon: [ 'fas', 'pencil-ruler' ], title: 'Views' },
+			{ tag: 'emails', icon: [ 'fas', 'envelope' ], title: 'Emails' }
+		]
 	}),
 	computed: {
 		chartValues() {

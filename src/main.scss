@@ -456,6 +456,10 @@ a {
 	.timeline {
 		position: relative;
 
+		table {
+			table-layout: fixed;
+		}
+
 		.timeline-duration, .timeline-description {
 			display: none;
 		}
@@ -557,6 +561,8 @@ a {
 			color: hsl(206, 30%, 30%);
 			font-size: 11.5px;
 			margin-bottom: 2px;
+			overflow: hidden;
+			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
 

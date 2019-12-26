@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<timeline :items="$request.viewsData">
+		<timeline name="views" :items="$request.viewsData">
 			<template slot="table-description" slot-scope="{ item }">
 				<div class="views-view-name">{{ item.description }}</div>
 				<pretty-print :data="item.data.data" v-if="item.data.data"></pretty-print>
