@@ -10,7 +10,7 @@
 						Status
 					</th>
 					<th class="duration">
-						Time<br><small>Database</small>
+						Time<br><small v-if="showDatabaseTime">Database</small>
 					</th>
 				</tr>
 			</thead>
@@ -102,7 +102,7 @@
 					</template>
 					<td class="duration" :title="`${request.responseDurationRounded} ms (${request.databaseDurationRounded} ms)`">
 						{{request.responseDurationRounded}} ms<br>
-						<small>{{request.databaseDurationRounded}} ms</small>
+						<small v-if="showDatabaseTime">{{request.databaseDurationRounded}} ms</small>
 					</td>
 				</tr>
 				<tr class="filler">
@@ -137,6 +137,10 @@ export default {
 			}
 
 			return this.$requests.items
+		},
+
+		showDatabaseTime() {
+			return this.requests.find(request => request.databaseDuration > 0)
 		}
 	},
 	mounted() {
