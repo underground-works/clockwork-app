@@ -1,7 +1,9 @@
 {
   "name": "Clockwork",
-  "version": "4.0.6",
+  "version": "4.1.0",
   "description": "php dev tools integrated to your browser",
+  "repository": "github:underground-works/clockwork-app",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -34,7 +36,7 @@
     "vue": "^2.6.11",
     "vue-chartkick": "^0.5.3",
     "vue-clipboard2": "^0.2.1",
-    "vue-moment": "^4.0.0",
+    "vue-moment": "^4.1.0",
     "vue-spinkit": "^1.7.10"
   },
   "devDependencies": {
