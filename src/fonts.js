@@ -3,7 +3,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
 	faIndent, faOutdent, faExclamationCircle, faExclamationTriangle, faCircle, faBan, faLink, faSearch, faChartBar,
 	faBars, faAngleUp, faAngleDown, faClock, faMicrochip, faPercent, faTimesCircle, faLock, faCog, faUser,
-	faArrowCircleDown, faListOl, faDatabase, faBullhorn
+	faArrowCircleDown, faListOl, faDatabase, faBullhorn, faBoxes
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -13,5 +13,5 @@ import {
 library.add(
 	faIndent, faOutdent, faExclamationCircle, faExclamationTriangle, faCircleO, faCircle, faBan, faLink, faSearch,
 	faChartBar, faBars, faAngleUp, faAngleDown, faClock, faMicrochip, faPercent, faTimesCircle, faLock, faCog, faUser,
-	faArrowCircleDown, faListOl, faDatabase, faBullhorn
+	faArrowCircleDown, faListOl, faDatabase, faBullhorn, faBoxes
 )

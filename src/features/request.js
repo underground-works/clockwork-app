@@ -333,6 +333,7 @@ export default class Request
 
 		this.appendToTimeline(data, this.databaseQueries, query => ({ description: query.query, tags: [ 'databaseQueries' ] }))
 		this.appendToTimeline(data, this.events, event => ({ description: event.event, tags: [ 'events' ] }))
+		this.appendToTimeline(data, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, tags: [ 'cacheQueries' ] }))
 
 		data = data.sort((a, b) => a.start - b.start)
 

@@ -21,7 +21,7 @@
 			</span>
 		</div>
 
-		<details-table :columns="['Timeline', 'Duration', 'Description']" :items="filteredItems" :filter="filter" filter-example="database query duration:>50">
+		<details-table :columns="columns" :items="filteredItems" :filter="filter" filter-example="database query duration:>50">
 			<template slot="header" slot-scope="{ filter }">
 				<th>Timeline</th>
 				<th class="timeline-duration">Duration</th>
@@ -83,6 +83,10 @@ export default {
 		], item => item.description)
 	}),
 	computed: {
+		columns() {
+			return this.view == 'chart' ? [ 'Timeline' ] : [ 'Timeline', 'Duration', 'Description' ]
+		},
+
 		filteredItems() {
 			return this.items.filter(item => ! intersect(item.tags, this.hiddenTags).length)
 		},
