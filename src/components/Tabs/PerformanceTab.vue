@@ -28,7 +28,7 @@
 				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')">Profiler</a>
 			</div>
 
-			<timeline :items="$request.timeline" v-show="isTabActive('timeline')"></timeline>
+			<timeline :items="$request.timeline" :tags="timelineTags" v-show="isTabActive('timeline')"></timeline>
 			<profiler v-show="isTabActive('profiler')"></profiler>
 		</div>
 	</div>
@@ -45,7 +45,10 @@ export default {
 	name: 'PerformanceTab',
 	components: { PerformanceLog, Profiler, Timeline },
 	data: () => ({
-		activePerformanceTab: 'timeline'
+		activePerformanceTab: 'timeline',
+		timelineTags: [
+			{ tag: 'databaseQueries', icon: [ 'fas', 'database' ], title: 'Database queries' }
+		]
 	}),
 	computed: {
 		chartValues() {

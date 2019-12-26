@@ -23,6 +23,7 @@
     "just-clone": "^3.1.0",
     "just-debounce-it": "^1.1.0",
     "just-extend": "^4.0.2",
+    "just-intersect": "^3.1.0",
     "just-map-values": "^1.1.0",
     "just-omit": "^1.1.0",
     "lodash": "^4.17.15",

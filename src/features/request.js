@@ -28,9 +28,10 @@ export default class Request
 		this.redisCommands = this.processRedisCommands(this.redisCommands)
 		this.sessionData = this.createKeypairs(this.sessionData)
 		this.performanceMetrics = this.processPerformanceMetrics(this.performanceMetrics)
-		this.timeline = this.processTimeline(this.timelineData)
 		this.viewsData = this.processViews(this.viewsData)
 		this.userData = this.processUserData(this.userData)
+		this.timeline = this.processTimeline(this.timelineData)
+
 		this.processCommand()
 		this.processQueueJob()
 		this.processTest()
@@ -328,7 +329,11 @@ export default class Request
 	}
 
 	processTimeline(data) {
-		if (! (data instanceof Object)) return []
+		data = data instanceof Object ? Object.values(data) : []
+
+		this.appendDatabaseToTimeline(data)
+
+		data = data.sort((a, b) => a.start - b.start)
 
 		return Object.values(data).map((entry, i) => {
 			entry.style = 'style' + (i % 4 + 1)
@@ -353,7 +358,24 @@ export default class Request
 			entry.durationRounded = Math.round(entry.duration)
 			if (entry.durationRounded === 0) entry.durationRounded = '< 1'
 
+			entry.tags = entry.tags || []
+
 			return entry
+		})
+	}
+
+	appendDatabaseToTimeline(data) {
+		this.databaseQueries.forEach(query => {
+			if (! query.time) return
+
+			data.push({
+				description: query.query,
+				start: query.time,
+				end: query.time + query.duration,
+				duration: query.duration,
+				data: [],
+				tags: [ 'databaseQueries' ]
+			})
 		})
 	}
 
