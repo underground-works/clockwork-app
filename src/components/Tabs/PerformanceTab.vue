@@ -47,7 +47,8 @@ export default {
 	data: () => ({
 		activePerformanceTab: 'timeline',
 		timelineTags: [
-			{ tag: 'databaseQueries', icon: [ 'fas', 'database' ], title: 'Database queries' }
+			{ tag: 'events', icon: [ 'fas', 'bullhorn' ], title: 'Events' },
+			{ tag: 'databaseQueries', icon: [ 'fas', 'database' ], title: 'Database' }
 		]
 	}),
 	computed: {

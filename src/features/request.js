@@ -331,7 +331,8 @@ export default class Request
 	processTimeline(data) {
 		data = data instanceof Object ? Object.values(data) : []
 
-		this.appendDatabaseToTimeline(data)
+		this.appendToTimeline(data, this.databaseQueries, query => ({ description: query.query, tags: [ 'databaseQueries' ] }))
+		this.appendToTimeline(data, this.events, event => ({ description: event.event, tags: [ 'events' ] }))
 
 		data = data.sort((a, b) => a.start - b.start)
 
@@ -364,18 +365,21 @@ export default class Request
 		})
 	}
 
-	appendDatabaseToTimeline(data) {
-		this.databaseQueries.forEach(query => {
-			if (! query.time) return
+	appendToTimeline(timeline, data, mapItem) {
+		data.forEach(item => {
+			if (! item.time) return
 
-			data.push({
-				description: query.query,
-				start: query.time,
-				end: query.time + query.duration,
-				duration: query.duration,
+			let time = item.time instanceof Date ? item.time.getTime() / 1000 : item.time
+			let duration = item.duration || 0
+
+			timeline.push(Object.assign({
+				description: '',
+				start: time,
+				end: time + duration,
+				duration: duration,
 				data: [],
-				tags: [ 'databaseQueries' ]
-			})
+				tags: []
+			}, mapItem(item)))
 		})
 	}
 
