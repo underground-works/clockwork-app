@@ -56,7 +56,8 @@ export default class Settings
 				showIncomingRequests: true,
 				hideCommandTypeRequests: this.platform instanceof Extension,
 				hideQueueJobTypeRequests: this.platform instanceof Extension,
-				hideTestTypeRequests: this.platform instanceof Extension
+				hideTestTypeRequests: this.platform instanceof Extension,
+				timelineHiddenTags: {}
 			},
 			site: {
 				localPathMap: { real: null, local: null }

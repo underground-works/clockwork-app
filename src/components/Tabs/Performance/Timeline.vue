@@ -73,7 +73,7 @@ import intersect from 'just-intersect'
 export default {
 	name: 'Timeline',
 	components: { DetailsTable },
-	props: { items: {}, tags: { default: () => [] } },
+	props: { name: {}, items: {}, tags: { default: () => [] } },
 	data: () => ({
 		view: 'chart',
 		hiddenTags: [],
@@ -126,11 +126,17 @@ export default {
 			} else {
 				this.hiddenTags.push(tag)
 			}
+
+			this.$settings.global.timelineHiddenTags[this.name] = this.hiddenTags
+			this.$settings.save()
 		},
 
 		resolveTags(tags) {
 			return tags.map(tag => this.tags.find(t => t.tag == tag)).filter(tag => tag)
 		}
+	},
+	mounted() {
+		this.hiddenTags = this.$settings.global.timelineHiddenTags[this.name] || []
 	}
 }
 </script>
