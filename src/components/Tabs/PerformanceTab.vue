@@ -28,7 +28,7 @@
 				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')">Profiler</a>
 			</div>
 
-			<timeline v-show="isTabActive('timeline')"></timeline>
+			<timeline :items="$request.timeline" v-show="isTabActive('timeline')"></timeline>
 			<profiler v-show="isTabActive('profiler')"></profiler>
 		</div>
 	</div>

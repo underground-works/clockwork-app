@@ -16,7 +16,7 @@
 			</span>
 		</div>
 
-		<details-table :columns="['Timeline', 'Duration', 'Description']" :items="$request.timeline" :filter="filter" filter-example="database query duration:>50">
+		<details-table :columns="['Timeline', 'Duration', 'Description']" :items="items" :filter="filter" filter-example="database query duration:>50">
 			<template slot="header" slot-scope="{ filter }">
 				<th>Timeline</th>
 				<th class="timeline-duration">Duration</th>
@@ -36,7 +36,11 @@
 						</div>
 					</td>
 					<td class="timeline-duration">{{item.durationRounded}} ms</td>
-					<td class="timeline-description">{{item.description}}</td>
+					<td class="timeline-description">
+						<slot name="table-description" :item="item">
+							{{item.description}}
+						</slot>
+					</td>
 				</tr>
 			</template>
 		</details-table>
@@ -51,6 +55,7 @@ import Filter from '../../../features/filter'
 export default {
 	name: 'Timeline',
 	components: { DetailsTable },
+	props: [ 'items' ],
 	data: () => ({
 		view: 'chart',
 

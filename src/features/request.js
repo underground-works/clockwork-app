@@ -29,7 +29,7 @@ export default class Request
 		this.sessionData = this.createKeypairs(this.sessionData)
 		this.performanceMetrics = this.processPerformanceMetrics(this.performanceMetrics)
 		this.timeline = this.processTimeline(this.timelineData)
-		this.views = this.processViews(this.viewsData)
+		this.viewsData = this.processViews(this.viewsData)
 		this.userData = this.processUserData(this.userData)
 		this.processCommand()
 		this.processQueueJob()
@@ -358,9 +358,18 @@ export default class Request
 	}
 
 	processViews(data) {
-		if (! (data instanceof Object)) return []
+		let views = Object.values(data).forEach(view => {
+			view.data = view.data || {}
+			view.description = view.data.name || view.description
+			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length
+				? view.data.data : undefined
 
-		return Object.values(data).filter(view => view.data instanceof Object).map(view => view.data)
+			if (view.data.memoryUsage) view.description += ` (${this.formatBytes(view.data.memoryUsage)})`
+
+			return view
+		})
+
+		return this.processTimeline(data)
 	}
 
 	processUserData(tabs) {

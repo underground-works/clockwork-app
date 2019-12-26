@@ -1,27 +1,26 @@
 <template>
 	<div>
-		<details-table :columns="['Name', 'Data']" :items="$request.views" :filter="filter" filter-example="&quot;Mike Jones&quot; name:welcome">
-			<template slot="body" slot-scope="{ items }">
-				<tr v-for="view, index in items" :key="`${$request.id}-${index}`">
-					<td>{{view.name}}</td>
-					<td><pretty-print :data="view.data"></pretty-print></td>
-				</tr>
+		<timeline :items="$request.viewsData">
+			<template slot="table-description" slot-scope="{ item }">
+				<div class="views-view-name">{{ item.description }}</div>
+				<pretty-print :data="item.data.data" v-if="item.data.data"></pretty-print>
 			</template>
-		</details-table>
+		</timeline>
 	</div>
 </template>
 
 <script>
-import DetailsTable from '../UI/DetailsTable'
+import Timeline from './Performance/Timeline'
 import PrettyPrint from '../UI/PrettyPrint'
-
-import Filter from '../../features/filter'
 
 export default {
 	name: 'ViewsTab',
-	components: { DetailsTable, PrettyPrint },
-	data: () => ({
-		filter: new Filter([ { tag: 'name' } ])
-	})
+	components: { PrettyPrint, Timeline }
 }
 </script>
+
+<style lang="scss">
+.views-view-name {
+	margin-bottom: 3px;
+}
+</style>
