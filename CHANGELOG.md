@@ -1,6 +1,32 @@
+4.1.0 (unreleased)
+
+- added support for command type requests, showing command name and exit code in requests list and arguments and options in sidebar
+- added command output tab showing ansi formatted command output
+- added support for queue-job type requests, showing job name and status in requests list and payload, connection, queue and options in sidebar
+- added support for dispatched jobs status in the queue tab and ability to show queue-job request details
+- added support for test type requests, showing test name and status in requests list and executed asserts in sidebar
+- added database quries, events, cache queries, queue jobs, redis commands, views and emails to the timeline
+- added tags support for timeline events with ability to hide individual tags
+- added support for parent requests, with ability to load and show parent request
+- added new settings modal, settings are now applied and saved right-away on change
+- added appearance setting (auto, light, dark), default auto option will use theme according to OS or Dev Tools settings
+- added settings to hide command, queue-job and test type requests
+- added setting to disable automatically showing incoming requests (idea by robclancy, thanks!)
+- improved requests list to mark ajax requests, incoming ajax requests are no longer automatially shown
+- improved search to support name (command, queue-job or test) and request type
+- improved views tab to use a timeline view instead of a simple table (idea by rhukster, thanks!)
+- improved views tab to support memory usage data
+- improved views tab to not show empty view data
+- improved requests switching behavior to show default performance tab if current selected tab is not available
+- improved requests list to keep requests sorted by request time
+- improved requests list to not show database timings if no shown requests have database timings (idea by rhukster, thanks!)
+- fixed PHPStorm editor links (implemented by zlodes, thanks!)
+- fixed pagination breaking timeline layout
+- fixed very long event descriptions breaking timeline layout
+
 4.0.6
 
-- fixed timeline and sidebar sections not rendering when showing too many records (partially implemented by Zuken)
+- fixed timeline and sidebar sections not rendering when showing too many records (partially implemented by Zuken, thanks!)
 
 4.0.5
 
