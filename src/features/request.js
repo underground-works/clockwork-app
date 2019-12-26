@@ -364,6 +364,8 @@ export default class Request
 			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length
 				? view.data.data : undefined
 
+			if (view.data.memoryUsage) view.description += ` (${this.formatBytes(view.data.memoryUsage)})`
+
 			return view
 		})
 
