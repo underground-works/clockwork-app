@@ -334,7 +334,8 @@ export default class Request
 		this.appendToTimeline(data, this.databaseQueries, query => ({ description: query.query, tags: [ 'databaseQueries' ] }))
 		this.appendToTimeline(data, this.events, event => ({ description: event.event, tags: [ 'events' ] }))
 		this.appendToTimeline(data, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, tags: [ 'cacheQueries' ] }))
-		this.appendToTimeline(data, this.redisCommands, query => ({ description: `${query.command} ${Object.values(query.parameters).join(' ')}`, tags: [ 'redisCommands' ] }))
+		this.appendToTimeline(data, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, tags: [ 'redisCommands' ] }))
+		this.appendToTimeline(data, this.queueJobs, job => ({ description: job.name, tags: [ 'queueJobs' ] }))
 
 		data = data.sort((a, b) => a.start - b.start)
 

@@ -50,7 +50,8 @@ export default {
 			{ tag: 'events', icon: [ 'fas', 'bullhorn' ], title: 'Events' },
 			{ tag: 'databaseQueries', icon: [ 'fas', 'database' ], title: 'Database' },
 			{ tag: 'cacheQueries', icon: [ 'fas', 'boxes' ], title: 'Cache' },
-			{ tag: 'redisCommands', icon: [ 'fas', 'cube' ], title: 'Redis' }
+			{ tag: 'redisCommands', icon: [ 'fas', 'cube' ], title: 'Redis' },
+			{ tag: 'queueJobs', icon: [ 'fas', 'history' ], title: 'Queue' }
 		]
 	}),
 	computed: {
