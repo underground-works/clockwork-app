@@ -52,7 +52,8 @@ export default {
 			{ tag: 'cacheQueries', icon: [ 'fas', 'boxes' ], title: 'Cache' },
 			{ tag: 'redisCommands', icon: [ 'fas', 'cube' ], title: 'Redis' },
 			{ tag: 'queueJobs', icon: [ 'fas', 'history' ], title: 'Queue' },
-			{ tag: 'views', icon: [ 'fas', 'pencil-ruler' ], title: 'Views' }
+			{ tag: 'views', icon: [ 'fas', 'pencil-ruler' ], title: 'Views' },
+			{ tag: 'emails', icon: [ 'fas', 'envelope' ], title: 'Emails' }
 		]
 	}),
 	computed: {

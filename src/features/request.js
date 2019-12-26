@@ -198,7 +198,9 @@ export default class Request
 	processEmails(data) {
 		if (! (data instanceof Object)) return []
 
-		return Object.values(data).filter(email => email.data instanceof Object).map(email => email.data)
+		return Object.values(data)
+			.filter(email => email.data instanceof Object)
+			.map(email => Object.assign({ time: email.start, duration: email.duration }, email.data))
 	}
 
 	processEvents(data) {
@@ -337,6 +339,7 @@ export default class Request
 		this.appendToTimeline(data, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, tags: [ 'redisCommands' ] }))
 		this.appendToTimeline(data, this.queueJobs, job => ({ description: job.name, tags: [ 'queueJobs' ] }))
 		this.mergeToTimeline(data, this.viewsData)
+		this.appendToTimeline(data, this.emails, email => ({ description: `${email.to} - ${email.subject}`, tags: [ 'emails' ] }))
 
 		data = data.sort((a, b) => a.start - b.start)
 
