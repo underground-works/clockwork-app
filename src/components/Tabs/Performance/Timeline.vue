@@ -6,8 +6,8 @@
 					<font-awesome-icon icon="search"></font-awesome-icon>
 				</a>
 			</span>
-			<span class="timeline-control-group" v-if="tags.length">
-				<a v-for="tag in tags" href="#" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
+			<span class="timeline-control-group" v-if="availableTags.length">
+				<a v-for="tag in availableTags" href="#" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
 					<font-awesome-icon :icon="tag.icon"></font-awesome-icon>
 				</a>
 			</span>
@@ -83,6 +83,10 @@ export default {
 		], item => item.description)
 	}),
 	computed: {
+		availableTags() {
+			return this.tags.filter(tag => this.items.find(item => item.tags.includes(tag.tag)))
+		},
+
 		columns() {
 			return this.view == 'chart' ? [ 'Timeline' ] : [ 'Timeline', 'Duration', 'Description' ]
 		},
