@@ -12,6 +12,7 @@
 - added appearance setting (auto, light, dark), default auto option will use theme according to OS or Dev Tools settings
 - added settings to hide command, queue-job and test type requests
 - added setting to disable automatically showing incoming requests (idea by robclancy, thanks!)
+- added "what's new" overlay showing new features when Clockwork app gets updated
 - improved requests list to mark ajax requests, incoming ajax requests are no longer automatially shown
 - improved search to support name (command, queue-job or test) and request type
 - improved views tab to use a timeline view instead of a simple table (idea by rhukster, thanks!)
@@ -23,6 +24,7 @@
 - fixed PHPStorm editor links (implemented by zlodes, thanks!)
 - fixed pagination breaking timeline layout
 - fixed very long event descriptions breaking timeline layout
+- updated npm dependencies
 
 4.0.6
 
