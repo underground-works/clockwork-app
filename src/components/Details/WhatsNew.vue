@@ -1,7 +1,7 @@
 <template>
 	<div class="whats-new" v-if="shown">
 		<div class="whats-new-content">
-			<h1>Clockwork was just updated!</h1>
+			<h1>Clockwork has just been updated!</h1>
 
 			<template v-for="note in release.notes">
 				<div class="whats-new-section">
