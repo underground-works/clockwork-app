@@ -1,12 +1,7 @@
 <template>
 	<div class="stack-trace popover-container" v-click-outside="closePopover">
-		<a :href="file || trace[0].file | editorLink(line)" v-if="file || trace.length">
+		<a :href="file || trace[0].file | editorLink(line)" v-if="file || (trace && trace.length)">
 			<shortened-text :full="trace ? shortPath : fullPath" @click.native="togglePopover($event)">{{shortPath}}</shortened-text>
-		</a>
-		<a href="#" v-else title="Stack trace">
-			<span @click="togglePopover($event)">
-				<font-awesome-icon icon="list-ol"></font-awesome-icon>
-			</span>
 		</a>
 		<div class="popover" ref="popover" v-show="showPopover" v-if="trace">
 			<div class="popover-content">
@@ -37,8 +32,8 @@ export default {
 		showPopover: false
 	}),
 	computed: {
-		fullPath() { return this.makeFullPath(this.file || this.trace[0].file, this.line || this.trace[0].line) },
-		shortPath() { return this.makeShortPath(this.file || this.trace[0].file, this.line || this.trace[0].line) }
+		fullPath() { return this.makeFullPath(this.file || this.trace[0]?.file, this.line || this.trace[0]?.line) },
+		shortPath() { return this.makeShortPath(this.file || this.trace[0]?.file, this.line || this.trace[0]?.line) }
 	},
 	methods: {
 		closePopover() {
