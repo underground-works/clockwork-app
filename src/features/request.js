@@ -349,7 +349,9 @@ export default class Request
 	createTimeline(data) {
 		return Object.values(data).map((entry, i) => {
 			entry.style = 'style' + (i % 4 + 1)
+			entry.start = entry.start || this.time
 			entry.startPercentual = (entry.start - this.time) * 1000 / this.responseDuration * 100
+			entry.duration = entry.duration || (this.time + this.responseDuration - entry.start)
 			entry.durationPercentual = entry.duration / this.responseDuration * 100
 
 			entry.barLeft = `${entry.startPercentual}%`
