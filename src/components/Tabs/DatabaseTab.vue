@@ -48,7 +48,7 @@
 							<stack-trace class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
 						</div>
 					</td>
-					<td class="database-duration">{{query.duration}} ms</td>
+					<td class="database-duration">{{query.duration | round(3)}} ms</td>
 				</tr>
 			</template>
 		</details-table>

@@ -8,7 +8,7 @@ export default class TextFilters
 	}
 
 	round(input, precision = 0) {
-		return Number.parseFloat(input).toFixed(precision)
+		return parseFloat(parseFloat(input).toFixed(precision))
 	}
 
 	shortClass(className) {
