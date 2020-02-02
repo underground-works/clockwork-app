@@ -124,19 +124,21 @@ export default {
 	}),
 	computed: {
 		requests() {
+			let requests = this.$requests.items
+
 			if (this.$settings.global.hideCommandTypeRequests) {
-				return this.$requests.items.filter(request => request.type != 'command')
+				requests = requests.filter(request => request.type != 'command')
 			}
 
 			if (this.$settings.global.hideQueueJobTypeRequests) {
-				return this.$requests.items.filter(request => request.type != 'queue-job')
+				requests = requests.filter(request => request.type != 'queue-job')
 			}
 
 			if (this.$settings.global.hideTestTypeRequests) {
-				return this.$requests.items.filter(request => request.type != 'test')
+				requests = requests.filter(request => request.type != 'test')
 			}
 
-			return this.$requests.items
+			return requests
 		},
 
 		showDatabaseTime() {
