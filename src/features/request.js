@@ -401,7 +401,9 @@ export default class Request
 	}
 
 	processViews(data) {
-		let views = Object.values(data).forEach(view => {
+		data = data instanceof Object ? Object.values(data) : []
+
+		let views = data.forEach(view => {
 			view.data = view.data || {}
 			view.description = view.data.name || view.description
 			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length

@@ -198,7 +198,13 @@ export default class Extension
 	pollRequests() {
 		clearTimeout(this.pollTimeout)
 
-		this.requests.withQuery({ 'type[]': 'command' }, () => {
+		let types = [
+			this.settings.global.hideCommandTypeRequests ? null : 'command',
+			this.settings.global.hideQueueJobTypeRequests ? null : 'queue-job',
+			this.settings.global.hideTestTypeRequests ? null : 'test'
+		].filter(Boolean)
+
+		this.requests.withQuery({ 'type[]': types }, () => {
 			this.requests.loadNext().then(() => {
 				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
 			}).catch(() => {

@@ -77,9 +77,9 @@ export default class Requests
 
 	// loads requests after the last request, if the count isn't specified loads all requests
 	loadNext(count, id, update = true) {
-		if (! id && ! this.items.length) return Promise.resolve([])
+		id = id || this.last(request => ! request.loading)?.id
 
-		id = id || this.last(request => ! request.loading).id
+		if (! id) return Promise.resolve([])
 
 		return this.load(`${id}/next` + (count ? `/${count}` : ''), promise => {
 			return promise.then(data => {
