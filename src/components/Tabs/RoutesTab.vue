@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<details-table :columns="columns" :items="$request.routes" :filter="filter" filter-example="OrderController method:post uri:order">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="route, index in items" :key="`${$request.id}-${index}`">
@@ -27,6 +27,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'RoutesTab',
 	components: { DetailsTable },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'method', apply: (item, tagValue) => {

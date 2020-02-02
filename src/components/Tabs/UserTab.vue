@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<div v-for="section, sectionIndex in userTab.sections" :key="`${$request.id}-${sectionIndex}`">
 			<div v-if="section.showAs == 'counters'" class="counters-row">
 				<div v-for="item, index in section.data" class="counter" :key="`${$request.id}-${index}`">
@@ -34,7 +34,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'UserTab',
 	components: { DetailsTable, PrettyPrint },
-	props: [ 'userTab' ],
+	props: [ 'active', 'userTab' ],
 	// computed: {
 	// 	filters() {
 	// 		return this.userTab.sections.map(section => {

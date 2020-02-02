@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<div class="counters-row">
 			<div class="counter">
 				<div class="counter-value">{{$request.databaseQueriesCount}}</div>
@@ -65,6 +65,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'DatabaseTab',
 	components: { DetailsTable, ShortenedText, StackTrace },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'model' },

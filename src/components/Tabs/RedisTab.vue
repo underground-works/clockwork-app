@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<details-table :columns="columns" :items="$request.redisCommands" :filter="filter" filter-example="command:zrange connection:eshop file:StatsController.php duration:&gt;50">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="query, index in items" :key="`${$request.id}-${index}`">
@@ -30,6 +30,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'RedisTab',
 	components: { DetailsTable, PrettyPrint, StackTrace },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'connection' },

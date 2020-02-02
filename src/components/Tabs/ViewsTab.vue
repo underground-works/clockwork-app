@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<timeline name="views" :items="$request.viewsData">
 			<template slot="table-description" slot-scope="{ item }">
 				<div class="views-view-name">{{ item.description }}</div>
@@ -15,7 +15,8 @@ import PrettyPrint from '../UI/PrettyPrint'
 
 export default {
 	name: 'ViewsTab',
-	components: { PrettyPrint, Timeline }
+	components: { PrettyPrint, Timeline },
+	props: [ 'active' ]
 }
 </script>
 

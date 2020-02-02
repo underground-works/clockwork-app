@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<div class="counters-row">
 			<div class="performance-chart-container">
 				<div class="performance-chart">
@@ -44,6 +44,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'PerformanceTab',
 	components: { PerformanceLog, Profiler, Timeline },
+	props: [ 'active' ],
 	data: () => ({
 		activePerformanceTab: 'timeline',
 		timelineTags: [

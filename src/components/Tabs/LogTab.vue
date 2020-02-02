@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<details-table :columns="['Time', 'Level', 'Message']" :items="log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message, index in items" :class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }" :key="`${$request.id}-${index}`">
@@ -37,6 +37,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'LogTab',
 	components: { DetailsTable, PrettyPrint, StackTrace },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'time', type: 'date' },

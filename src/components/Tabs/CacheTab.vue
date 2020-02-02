@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<div class="counters-row">
 			<div class="counter" v-show="$request.cacheQueries.length">
 				<div class="counter-value">{{$request.cacheQueries.length}}</div>
@@ -63,6 +63,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'CacheTab',
 	components: { DetailsTable, PrettyPrint, StackTrace },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'action', apply: (item, tagValue) => {

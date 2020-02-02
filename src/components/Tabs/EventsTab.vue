@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<details-table :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="event, index in items" :key="`${$request.id}-${index}`">
@@ -49,6 +49,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'EventsTab',
 	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'time', type: 'date' },

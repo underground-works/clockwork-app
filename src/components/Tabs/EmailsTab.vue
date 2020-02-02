@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<details-table :columns="['To', 'Subject', 'Headers']" :items="$request.emails" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="email, index in items" :key="`${$request.id}-${index}`">
@@ -22,6 +22,7 @@ import Filter from '../../features/filter'
 export default {
 	name: 'EmailsTab',
 	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'to' }

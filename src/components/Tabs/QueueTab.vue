@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<details-table :columns="columns" :items="queueJobs" :filter="filter" filter-example="Underground.works name:GenerateInvoice queue:priority">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="job, index in items" :key="`${$request.id}-${index}`">
@@ -49,6 +49,7 @@ import extend from 'just-extend'
 export default {
 	name: 'QueueTab',
 	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
+	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'connection' },
@@ -83,24 +84,29 @@ export default {
 			this.global.$request = this.$requests.findId(job.id)
 		},
 
-		async loadQueueJobRequest(id, attempt = 0) {
+		async loadQueueJobRequest(job, attempt = 0) {
 			if (attempt == 12) return
+			if (job.loadRequestTimeout) return
 
-			let request = this.$requests.findId(id) || await this.$requests.loadId(id, false)
+			let request = this.$requests.findId(job.id) || await this.$requests.loadId(job.id, false)
 
-			if (! request) return setTimeout(() => this.loadQueueJobRequest(id, attempt + 1), 5000)
+			if (! request) {
+				return job.loadRequestTimeout = setTimeout(() => {
+					job.loadRequestTimeout = null
+					this.loadQueueJobRequest(job, attempt + 1)
+				}, 5000)
+			}
 
-			this.$set(this.jobRequests, id, request)
+			this.$set(this.jobRequests, job.id, request)
 		}
 	},
 	watch: {
-		'$request': {
-			handler() {
-				this.$request.queueJobs.forEach(job => {
-					if (job.id) this.loadQueueJobRequest(job.id)
-				})
-			},
-			immediate: true
+		active(val) {
+			if (! val) return
+
+			this.$request.queueJobs.forEach(job => {
+				if (job.id) this.loadQueueJobRequest(job)
+			})
 		}
 	}
 }

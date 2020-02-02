@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-show="active">
 		<div class="command-output" v-html="formattedOutput"></div>
 	</div>
 </template>
@@ -9,6 +9,7 @@ import AnsiToHtml from 'ansi-to-html'
 
 export default {
 	name: 'OutputTab',
+	props: [ 'active' ],
 	computed: {
 		formattedOutput() { return this.ansiToHtml.toHtml(this.$request.commandOutput || '') }
 	},
