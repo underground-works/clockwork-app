@@ -24,6 +24,8 @@
 - fixed PHPStorm editor links (implemented by zlodes, thanks!)
 - fixed pagination breaking timeline layout
 - fixed very long event descriptions breaking timeline layout
+- fixed stack traces rendering as icons with empty popups when no trace is available
+- fixed missing number rounding filter
 - updated npm dependencies
 
 4.0.6
