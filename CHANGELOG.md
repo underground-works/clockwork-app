@@ -15,6 +15,7 @@
 - added "what's new" overlay showing new features when Clockwork app gets updated
 - improved requests list to mark ajax requests, incoming ajax requests are no longer automatially shown
 - improved search to support name (command, queue-job or test) and request type
+- improved database tab to show bindings if available (idea by tminich, thanks!)
 - improved views tab to use a timeline view instead of a simple table (idea by rhukster, thanks!)
 - improved views tab to support memory usage data
 - improved views tab to not show empty view data

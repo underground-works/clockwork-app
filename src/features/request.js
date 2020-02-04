@@ -190,6 +190,7 @@ export default class Request
 			query.model = query.model || '-'
 			query.shortModel = query.model ? query.model.split('\\').pop() : '-'
 			query.tags = query.tags instanceof Array ? query.tags : []
+			query.bindings = this.optionalNonEmptyObject(query.bindings)
 
 			return query
 		})
@@ -500,5 +501,9 @@ export default class Request
 		let pow = Math.floor(Math.log(bytes) / Math.log(1024))
 
 		return `${Math.round(bytes / Math.round(Math.pow(1024, pow)))} ${units[pow]}`
+	}
+
+	optionalNonEmptyObject(input, defaultValue) {
+		return input instanceof Object && Object.keys(input).filter(key => key != '__type__').length ? input : defaultValue
 	}
 }

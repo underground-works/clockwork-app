@@ -44,11 +44,18 @@
 					<td v-if="columns.includes('Connection')">{{query.connection}}</td>
 					<td>
 						<div class="database-query">
-							<div class="database-query-content">{{query.query}}</div>
+							<div class="database-query-content">
+								<div>{{query.query}}</div>
+								<div class="database-query-bindings" v-if="query.bindings">
+									<pretty-print :data="query.bindings"></pretty-print>
+								</div>
+							</div>
 							<stack-trace class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
 						</div>
 					</td>
-					<td class="database-duration">{{query.duration | round(3)}} ms</td>
+					<td class="database-duration">
+						<span v-if="query.duration">{{query.duration | round(3)}} ms</span>
+					</td>
 				</tr>
 			</template>
 		</details-table>
@@ -57,6 +64,7 @@
 
 <script>
 import DetailsTable from '../UI/DetailsTable'
+import PrettyPrint from '../UI/PrettyPrint'
 import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
 
@@ -64,7 +72,7 @@ import Filter from '../../features/filter'
 
 export default {
 	name: 'DatabaseTab',
-	components: { DetailsTable, ShortenedText, StackTrace },
+	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
@@ -116,5 +124,9 @@ export default {
 
 		.database-query-path > a { color: hsl(38, 42%, 68%) !important; }
 	}
+}
+
+.database-query-bindings {
+	margin-top: 2px;
 }
 </style>

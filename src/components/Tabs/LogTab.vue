@@ -9,7 +9,7 @@
 						<div class="log-message">
 							<div class="log-message-content">
 								<pretty-print :data="message.message"></pretty-print>
-								<div v-show="message.context">
+								<div class="log-message-context" v-show="message.context">
 									<pretty-print :data="message.context"></pretty-print>
 								</div>
 							</div>
@@ -65,3 +65,9 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+.log-message-context {
+	margin-top: 2px;
+}
+</style>
