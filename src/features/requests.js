@@ -116,7 +116,12 @@ export default class Requests
 	}
 
 	merge(requests) {
-		this.items = this.items.concat(requests).sort((a, b) => a.time - b.time)
+		requests = requests.filter(request => ! this.findId(request.id))
+
+		if (! requests.length) return
+
+		this.items = this.items.concat(requests)
+		this.sort()
 	}
 
 	sort() {
