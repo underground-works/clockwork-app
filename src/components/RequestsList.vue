@@ -152,14 +152,6 @@ export default {
 		isActive(id) { return this.$request?.id == id },
 		showRequest(request) {
 			this.global.$request = request
-
-			if (this.$request?.error?.error == 'requires-authentication') {
-				this.$authentication.request(this.$request.error.message, this.$request.error.requires)
-			}
-
-			let lastPageRequest = this.$requests.last(request => ! request.isAjax()) || this.$requests.last()
-			let lastPageRequestIndex = this.$requests.all().indexOf(lastPageRequest)
-			this.global.showIncomingRequests = this.$requests.all().slice(lastPageRequestIndex).includes(request)
 		},
 		loadMoreRequests() {
 			this.loadingMoreRequests = true
@@ -188,6 +180,18 @@ export default {
 				}
 			},
 			deep: true
+		},
+
+		$request: {
+			handler(request) {
+				if (this.$request?.error?.error == 'requires-authentication') {
+					this.$authentication.request(this.$request.error.message, this.$request.error.requires)
+				}
+
+				let lastPageRequest = this.$requests.last(request => ! request.isAjax()) || this.$requests.last()
+				let lastPageRequestIndex = this.$requests.all().indexOf(lastPageRequest)
+				this.global.showIncomingRequests = this.$requests.all().slice(lastPageRequestIndex).includes(request)
+			}
 		}
 	}
 }
