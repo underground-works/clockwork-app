@@ -26,6 +26,12 @@ export default class Standalone
 	}
 
 	setMetadataUrl() {
+		if (process.env.NODE_ENV == 'development') {
+			return this.requests.setRemote(
+				process.env.VUE_APP_STANDALONE_REMOTE_HOST, { path: process.env.VUE_APP_STANDALONE_REMOTE_PATH }
+			)
+		}
+
 		this.requests.setRemote(
 			window.location.href, { path: URI(window.location.href.split('/').slice(0, -1).join('/')).path() + '/' }
 		)
