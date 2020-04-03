@@ -43,41 +43,40 @@ import PrettyPrint from './PrettyPrint'
 export default {
 	name: 'DetailsTable',
 	components: { DetailsTableFilterToggle, PrettyPrint },
-	props: [ 'columns', 'filter', 'filterExample', 'items', 'noHeader' ],
+	props: { columns: {}, filter: {}, filterExample: {}, items: {}, noHeader: {}, perPage: { default: 30 } },
 	data: () => ({
-		showItemsCount: 30,
-		showItemsFirst: 0
+		firstShown: 0
 	}),
 	computed: {
 		filteredItems() {
 			return this.filter.filter(this.items)
 		},
 		shownItems() {
-			if (this.showItemsFirst > this.filteredItems.length) {
-				this.showItemsFirst = Math.max(this.filteredItems.length - this.showItemsCount, 0)
+			if (this.firstShown > this.filteredItems.length) {
+				this.firstShown = Math.max(this.filteredItems.length - this.perPage, 0)
 			}
 
-			return this.filteredItems.slice(this.showItemsFirst, this.showItemsFirst + this.showItemsCount)
+			return this.filteredItems.slice(this.firstShown, this.firstShown + this.perPage)
 		},
 		hasPreviousItems() {
-			return this.showItemsFirst > 0
+			return this.firstShown > 0
 		},
 		previousItemsCount() {
-			return this.showItemsFirst
+			return this.firstShown
 		},
 		hasNextItems() {
-			return this.showItemsFirst + this.showItemsCount < this.filteredItems.length
+			return this.firstShown + this.perPage < this.filteredItems.length
 		},
 		nextItemsCount() {
-			return this.filteredItems.length - this.showItemsCount - this.showItemsFirst
+			return this.filteredItems.length - this.perPage - this.firstShown
 		},
 	},
 	methods: {
 		showPreviousItems() {
-			this.showItemsFirst -= this.showItemsCount
+			this.firstShown -= this.perPage
 		},
 		showNextItems() {
-			this.showItemsFirst += this.showItemsCount
+			this.firstShown += this.perPage
 
 			// scroll the first scrollable parent to top of the table
 			let firstScrollableParent = this.$el.parentElement
@@ -92,7 +91,7 @@ export default {
 		}
 	},
 	watch: {
-		filteredItems() { this.showItemsFirst = 0 }
+		filteredItems() { this.firstShown = 0 }
 	}
 }
 </script>

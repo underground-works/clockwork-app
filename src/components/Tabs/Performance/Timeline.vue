@@ -21,7 +21,7 @@
 			</span>
 		</div>
 
-		<details-table :columns="columns" :items="filteredItems" :filter="filter" filter-example="database query duration:>50">
+		<details-table :columns="columns" :items="filteredItems" :filter="filter" filter-example="database query duration:>50" :per-page="100">
 			<template slot="header" slot-scope="{ filter }">
 				<th>Timeline</th>
 				<th class="timeline-duration">Duration</th>
