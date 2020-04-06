@@ -12,8 +12,8 @@ export default class UpdateNotification
 
 	latest() {
 		return {
-			version: '4.0.0',
-			url: 'https://underground.works/blog/clockwork-4.0-released-with-ui-improvements-requests-search-and-more'
+			version: '4.1.0',
+			url: 'https://underground.works/blog/clockwork-4.1-released-with-commands-queue-jobs-tests-profiling-and-more'
 		}
 	}
 
