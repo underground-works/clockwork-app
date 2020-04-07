@@ -1,3 +1,7 @@
+4.1.1 (unreleased)
+
+- fixed pretty printing showing objects with empty string keys as infinitely recursive (reported by mahagr, thanks!)
+
 4.1
 
 - added support for command type requests, showing command name and exit code in requests list and arguments and options in sidebar

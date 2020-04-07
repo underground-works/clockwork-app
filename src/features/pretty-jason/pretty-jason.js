@@ -164,7 +164,7 @@ export default class PrettyJason
 
 		let parent = node
 		while (parent = parent.parentNode) {
-			if (parent.tagName != 'LI' || ! parent.dataset.key) continue
+			if (parent.tagName != 'LI' || ! ('key' in parent.dataset)) continue
 			if (parent.classList.contains('pretty-jason')) break
 
 			let segment = parent.dataset.key
