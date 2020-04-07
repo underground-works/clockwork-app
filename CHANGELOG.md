@@ -1,4 +1,4 @@
-4.1.0 (unreleased)
+4.1
 
 - added support for command type requests, showing command name and exit code in requests list and arguments and options in sidebar
 - added command output tab showing ansi formatted command output
@@ -28,6 +28,11 @@
 - fixed stack traces rendering as icons with empty popups when no trace is available
 - fixed missing number rounding filter
 - updated npm dependencies
+
+4.0.7
+
+- fixed requests list behavior when "preserve log" is disabled (reported by Vai2kas, thanks!)
+- fixed PHPStorm editor links (implemented by zlodes, thanks!)
 
 4.0.6
 
