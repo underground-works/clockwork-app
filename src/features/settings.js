@@ -28,6 +28,10 @@ export default class Settings
 		return this.settings.site[this.requests.remoteUrl]
 	}
 
+	get persistent() {
+		return this.store.persistent
+	}
+
 	toggle() {
 		this.shown = ! this.shown
 	}

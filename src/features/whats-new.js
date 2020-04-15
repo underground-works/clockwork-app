@@ -1,5 +1,20 @@
 export default class WhatsNew
 {
+	constructor(settings) {
+		this.settings = settings
+	}
+
+	get show() {
+		// show the what's new content only when not already seen and the seen state can be persisted
+		return this.settings.global.seenReleaseNotesVersion != WhatsNew.latestRelease.version
+			&& this.settings.persistent
+	}
+
+	seen() {
+		this.settings.global.seenReleaseNotesVersion = WhatsNew.latestRelease.version
+		this.settings.save()
+	}
+
 	static get latestRelease() {
 		return WhatsNew.releases[0]
 	}

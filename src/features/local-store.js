@@ -3,6 +3,8 @@ import extend from 'just-extend'
 export default class LocalStore
 {
 	constructor() {
+		this.persistent = true
+
 		this.load()
 	}
 
@@ -20,7 +22,9 @@ export default class LocalStore
 	load() {
 		try {
 			this.data = JSON.parse(localStorage.getItem('clockwork'))
-		} catch (e) {}
+		} catch (e) {
+			this.persistent = false
+		}
 
 		if (! (this.data instanceof Object)) this.data = {}
 
