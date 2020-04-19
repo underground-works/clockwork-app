@@ -9,7 +9,7 @@ export default class Standalone
 		this.requests = global.$requests
 		this.authentication = global.$authentication
 		this.profiler = global.$profiler
-		this.store = global.$store
+		this.settings = global.$settings
 
 		this.useProperTheme()
 		this.setMetadataUrl()
@@ -103,7 +103,7 @@ export default class Standalone
 		clearTimeout(this.pollTimeout)
 
 		this.requests.loadNext().then(() => {
-			if (! this.store.get('preserveLog')) {
+			if (! this.settings.global.preserveLog) {
 				this.requests.setItems(this.requests.all().slice(-1))
 			}
 

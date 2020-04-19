@@ -42,10 +42,14 @@ export default {
 		filter: new Filter([ { tag: 'name' } ])
 	}),
 	computed: {
-		expanded() { return this.$store.get(`sidebarSection.${this.name}`, true) }
+		expanded() {
+			return this.$settings.global.requestSidebarCollapsedSections[this.name] !== false
+		}
 	},
 	methods: {
-		toggle() { this.$store.set(`sidebarSection.${this.name}`, ! this.expanded) }
+		toggle() {
+			this.$settings.global.requestSidebarCollapsedSections[this.name] = ! this.expanded
+		}
 	}
 }
 </script>

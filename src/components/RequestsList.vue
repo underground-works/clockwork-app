@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ 'split-view-pane split-view-requests': true, 'large': $store.data.requestSidebarCollapsed }">
+	<div :class="{ 'split-view-pane split-view-requests': true, 'large': $settings.global.requestSidebarCollapsed }">
 		<table class="requests-header" id="requests-header">
 			<thead>
 				<tr>
@@ -76,7 +76,7 @@
 							<small>{{request.testName}}</small>
 						</template>
 						<template v-else>
-							<small v-if="$store.data.requestSidebarCollapsed">{{request.controller}}</small>
+							<small v-if="$settings.global.requestSidebarCollapsed">{{request.controller}}</small>
 							<small v-else>{{request.controller | shortClass}}</small>
 						</template>
 					</td>
@@ -161,11 +161,11 @@ export default {
 			})
 		},
 		shouldShowFirstRequest() {
-			return ! this.$store.get('preserveLog')
+			return ! this.$settings.global.preserveLog
 				&& (! this.$request || ! this.$requests.findId(this.$request.id))
 		},
 		shouldShowIncomingRequest() {
-			return this.$store.get('preserveLog')
+			return this.$settings.global.preserveLog
 				&& (! this.$request || (this.$settings.global.showIncomingRequests && this.global.showIncomingRequests))
 		}
 	},

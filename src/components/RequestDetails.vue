@@ -3,10 +3,10 @@
 
 		<div class="details-header">
 			<div class="icons">
-				<a href="#" title="Toggle requests" v-show="! $store.data.requestsListCollapsed" @click="toggleRequestsList">
+				<a href="#" title="Toggle requests" v-show="! $settings.global.requestsListCollapsed" @click="toggleRequestsList">
 					<font-awesome-icon icon="outdent"></font-awesome-icon>
 				</a>
-				<a href="#" title="Toggle requests" v-show="$store.data.requestsListCollapsed" @click="toggleRequestsList">
+				<a href="#" title="Toggle requests" v-show="$settings.global.requestsListCollapsed" @click="toggleRequestsList">
 					<font-awesome-icon icon="indent"></font-awesome-icon>
 				</a>
 				<a href="#" title="Search requests" @click="$requestsSearch.toggle()">
@@ -30,17 +30,17 @@
 			</div>
 
 			<div class="icons">
-				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="$store.data.requestSidebarCollapsed">
-					<font-awesome-icon :icon="$store.data.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
+				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="$settings.global.requestSidebarCollapsed">
+					<font-awesome-icon :icon="$settings.global.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
-				<a href="#" title="Clear" @click="clear" v-show="$store.data.requestSidebarCollapsed">
+				<a href="#" title="Clear" @click="clear" v-show="$settings.global.requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
 				</a>
 				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
 					<font-awesome-icon icon="cog"></font-awesome-icon>
 				</a>
 				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
-					<font-awesome-icon :icon="$store.data.requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
+					<font-awesome-icon :icon="$settings.global.requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
 				</a>
 			</div>
 		</div>
@@ -149,13 +149,16 @@ export default {
 			this.global.showIncomingRequests = false
 		},
 		toggleRequestsList() {
-			this.$store.set('requestsListCollapsed', ! this.$store.get('requestsListCollapsed'))
+			this.$settings.global.requestsListCollapsed = ! this.$settings.global.requestsListCollapsed
+			this.$settings.save()
 		},
 		toggleRequestSidebar() {
-			this.$store.set('requestSidebarCollapsed', ! this.$store.get('requestSidebarCollapsed'))
+			this.$settings.global.requestSidebarCollapsed = ! this.$settings.global.requestSidebarCollapsed
+			this.$settings.save()
 		},
 		togglePreserveLog() {
-			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
+			this.$settings.global.preserveLog = ! this.$settings.global.preserveLog
+			this.$settings.save()
 		},
 		toggleSettingsModal() {
 			this.$settings.toggle()

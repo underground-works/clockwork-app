@@ -1,7 +1,7 @@
 <template>
 	<div class="messages-overlay">
-		<parent-request compact="true" v-show="$store.data.requestSidebarCollapsed"></parent-request>
-		<exception-section compact="true" v-show="$store.data.requestSidebarCollapsed"></exception-section>
+		<parent-request compact="true" v-show="$settings.global.requestSidebarCollapsed"></parent-request>
+		<exception-section compact="true" v-show="$settings.global.requestSidebarCollapsed"></exception-section>
 
 		<div class="update-notification" v-if="updateNotification">
 			<span>

@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ 'request-sidebar': true, 'large': $store.data.requestsListCollapsed }">
+	<div :class="{ 'request-sidebar': true, 'large': $settings.global.requestsListCollapsed }">
 
 		<div class="sidebar-header">
 			<div class="sidebar-title">
@@ -22,7 +22,7 @@
 					<font-awesome-icon icon="link"></font-awesome-icon>
 				</a>
 				<a href="#" title="Preserve log" @click="togglePreserveLog">
-					<font-awesome-icon :icon="$store.data.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
+					<font-awesome-icon :icon="$settings.global.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
 				</a>
 				<a href="#" title="Clear" @click="clear">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
@@ -61,7 +61,8 @@ export default {
 	components: { CommandTab, ExceptionSection, ParentRequest, QueueJobTab, RequestTab, TestTab },
 	methods: {
 		togglePreserveLog() {
-			this.$store.set('preserveLog', ! this.$store.get('preserveLog'))
+			this.$settings.global.preserveLog = ! this.$settings.global.preserveLog
+			this.$settings.save()
 		},
 		clear() { this.$requests.clear() }
 	}
