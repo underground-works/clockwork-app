@@ -192,6 +192,16 @@ export default {
 				let lastPageRequestIndex = this.$requests.all().indexOf(lastPageRequest)
 				this.global.showIncomingRequests = this.$requests.all().slice(lastPageRequestIndex).includes(request)
 			}
+		},
+
+		'$request.loading': {
+			handler(loading) {
+				if (loading) return
+
+				if (this.$request?.error?.error == 'requires-authentication') {
+					this.$authentication.request(this.$request.error.message, this.$request.error.requires)
+				}
+			}
 		}
 	}
 }
