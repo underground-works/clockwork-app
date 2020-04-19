@@ -1,5 +1,7 @@
 4.1.1 (unreleased)
 
+- added support for the "chrome.storage" api as a fall-back persistent settings storage if localStorage is not available
+- improved behavior if we have no persistent storage, warning is now shown in the settings modal and what's new message is no longer shown (reported by ci_trex, thanks!)
 - fixed pretty printing showing objects with empty string keys as infinitely recursive (reported by mahagr, thanks!)
 
 4.1
