@@ -8,7 +8,7 @@
 					<a href="#" @click.prevent="showPersistWarning = true">More info</a>
 				</div>
 				<div class="warning-details" v-if="showPersistWarning">
-					Clockwork uses the "local storage" api to persist your settings. Please make sure to allow access to "local storage" for this app.
+					Clockwork uses the "local storage" api to persist your settings. Please make sure the access to "local storage" is allowed for this app.
 				</div>
 			</div>
 
