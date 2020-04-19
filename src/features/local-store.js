@@ -18,7 +18,7 @@ export default class LocalStore
 	async get(key, defaultValue) {
 		await this.load()
 
-		if (this.data[key] == undefined) this.set(key, defaultValue)
+		if (this.data[key] == undefined) await this.set(key, defaultValue)
 
 		return this.data[key]
 	}
