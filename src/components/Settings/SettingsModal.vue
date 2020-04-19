@@ -4,7 +4,7 @@
 			<div class="settings-warning" v-if="! $settings.persistent">
 				<div class="warning-text">
 					<span class="warning-label">Warning</span>
-					<span>Settings can not be saved.</span>
+					<span>Settings can't be saved.</span>
 					<a href="#" @click.prevent="showPersistWarning = true">More info</a>
 				</div>
 				<div class="warning-details" v-if="showPersistWarning">
