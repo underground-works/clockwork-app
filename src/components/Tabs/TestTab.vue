@@ -1,6 +1,6 @@
 <template>
 	<div class="request-tab test-tab">
-		<div class="test-status-message" v-if="$request.testStatusMessage">
+		<div class="test-status-message" :class="{'error': $request.isTestError(), 'warning': $request.isTestWarning()}" v-if="$request.testStatusMessage">
 			{{$request.testStatusMessage}}
 		</div>
 
@@ -51,12 +51,30 @@ export default {
 .test-tab {
 	.test-status-message {
 		border-bottom: 1px solid rgb(209, 209, 209);
-		background: rgb(255, 235, 235);
-		color: rgb(197, 31, 36);
 	    padding: 12px 10px;
 	    font-size: 13px;
 
 		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
+
+		&.error {
+			background: rgb(255, 235, 235);
+			color: rgb(197, 31, 36);
+
+			@include dark {
+				background: hsl(0, 100%, 11%);
+				color: rgb(237, 121, 122);
+			}
+		}
+
+		&.warning {
+			background: rgb(255, 250, 226);
+			color: rgb(168, 89, 25);
+
+			@include dark {
+				background: hsl(50, 100%, 11%);
+				color: rgb(250, 216, 159);
+			}
+		}
 	}
 
 	.test-assert {
