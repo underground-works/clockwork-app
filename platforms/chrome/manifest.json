@@ -21,6 +21,7 @@
 
 	"permissions": [
 		"cookies",
+		"storage",
 		"tabs",
 		"webNavigation",
 		"webRequest",

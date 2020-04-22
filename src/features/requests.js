@@ -3,15 +3,12 @@ import URI from 'urijs'
 
 export default class Requests
 {
-	constructor(store) {
-		this.store = store
+	constructor() {
+		this.settings = null
 		this.items = []
 
-		this.tokens = this.store.get('requests.tokens')
 		this.query = {}
 		this.exclusive = {}
-
-		if (! (this.tokens instanceof Object)) this.tokens = {}
 	}
 
 	// returns all requests up to the first placeholder, or everything if there are no placeholders
@@ -164,8 +161,8 @@ export default class Requests
 	}
 
 	setAuthenticationToken(token) {
-		this.tokens[this.remoteUrl] = token
-		this.store.set('requests.tokens', this.tokens)
+		this.settings.site.authToken = token
+		this.settings.save()
 	}
 
 	setQuery(query) {
@@ -185,7 +182,7 @@ export default class Requests
 		if (exclusive) return this.loadExclusive(uri, configure)
 
 		let url = URI(`${this.remoteUrl}${uri}`).addQuery(this.query).toString()
-		let headers = Object.assign({}, this.remoteHeaders, { 'X-Clockwork-Auth': this.tokens[this.remoteUrl] })
+		let headers = Object.assign({}, this.remoteHeaders, { 'X-Clockwork-Auth': this.settings.site.authToken })
 
 		return configure(this.client('GET', url, {}, headers).then(data => {
 			if (! data) return []

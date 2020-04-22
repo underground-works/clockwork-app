@@ -1,8 +1,8 @@
 <template>
 	<div class="application split-view" :class="appearance">
-		<requests-list v-show="! $store.data.requestsListCollapsed"></requests-list>
+		<requests-list v-show="! $settings.global.requestsListCollapsed"></requests-list>
 		<request-details></request-details>
-		<request-sidebar v-show="! $store.data.requestSidebarCollapsed"></request-sidebar>
+		<request-sidebar v-show="! $settings.global.requestSidebarCollapsed"></request-sidebar>
 
 		<whats-new></whats-new>
 	</div>

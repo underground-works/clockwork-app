@@ -1,43 +1,74 @@
-import extend from 'just-extend'
-
 export default class LocalStore
 {
 	constructor() {
+		this.backend = null
+
+		if (this.isLocalStorageAvailable()) {
+			this.backend = 'local-storage'
+		} else if (this.isBrowserStorageAvailable()) {
+			this.backend = 'browser-storage'
+		}
+
+		this.persistent = !! this.backend
+		this.data = null
+
 		this.load()
 	}
 
-	get(key, defaultValue) {
-		if (this.data[key] == undefined) this.set(key, defaultValue)
+	async get(key, defaultValue) {
+		await this.load()
+
+		if (this.data[key] == undefined) await this.set(key, defaultValue)
 
 		return this.data[key]
 	}
 
-	set(key, value) {
+	async set(key, value) {
+		await this.load()
+
 		this.data[key] = value
 		this.save()
 	}
 
 	load() {
-		try {
-			this.data = JSON.parse(localStorage.getItem('clockwork'))
-		} catch (e) {}
+		if (this.data) return Promise.resolve()
 
-		if (! (this.data instanceof Object)) this.data = {}
+		return new Promise(accept => {
+			if (this.backend == 'local-storage') {
+				this.loaded(accept, localStorage.getItem('clockwork'))
+			} else if (this.backend == 'browser-storage') {
+				(window.browser || window.chrome).storage.local.get(['clockwork'], data => {
+					this.loaded(accept, data.clockwork)
+				})
+			} else {
+				this.loaded(accept)
+			}
+		})
+	}
 
-		this.data = extend({}, this.defaults(), this.data)
+	loaded(accept, json) {
+		try { this.data = JSON.parse(json) } catch (e) {}
+
+		this.data = this.data instanceof Object ? this.data : {}
+
+		accept()
 	}
 
 	save() {
-		try {
-			localStorage.setItem('clockwork', JSON.stringify(this.data))
-		} catch (e) {}
+		if (this.backend == 'local-storage') {
+			try { localStorage.setItem('clockwork', JSON.stringify(this.data)) } catch (e) {}
+		} else if (this.backend == 'browser-storage') {
+			(window.browser || window.chrome).storage.local.set({ clockwork: JSON.stringify(this.data) })
+		}
 	}
 
-	defaults() {
-		return {
-			preserveLog: true,
-			requestsListCollapsed: false,
-			requestSidebarCollapsed: false
-		}
+	isLocalStorageAvailable() {
+		try { localStorage } catch (e) { return false }
+
+		return true
+	}
+
+	isBrowserStorageAvailable() {
+		return (window.browser && browser.storage) || (window.chrome && chrome.storage)
 	}
 }

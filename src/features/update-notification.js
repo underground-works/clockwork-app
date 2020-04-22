@@ -1,13 +1,13 @@
 export default class UpdateNotification
 {
-	constructor(store) {
-		this.store = store
+	constructor(settings) {
+		this.settings = settings
 
 		this.serverVersion = null
 	}
 
 	get ignoredUpdates() {
-		return this.store.get('update-notification.ignored-updates') || {}
+		return this.settings.global.ignoredUpdateNotifications || {}
 	}
 
 	latest() {

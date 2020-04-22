@@ -1,6 +1,17 @@
 <template>
 	<transition name="settings">
 		<div class="settings-modal" v-show="$settings.shown">
+			<div class="settings-warning" v-if="! $settings.persistent">
+				<div class="warning-text">
+					<span class="warning-label">Warning</span>
+					<span>Settings can't be saved.</span>
+					<a href="#" @click.prevent="showPersistWarning = true">More info</a>
+				</div>
+				<div class="warning-details" v-if="showPersistWarning">
+					Clockwork uses the "local storage" api to persist your settings. Please make sure the access to "local storage" is allowed for this app.
+				</div>
+			</div>
+
 			<div class="controls-group">
 				<label for="settings-editor">Appearance</label>
 
@@ -97,6 +108,7 @@
 export default {
 	name: 'SettingsModal',
 	data: () => ({
+		showPersistWarning: false
 	}),
 	methods: {
 		setAppearance(appearance) {
@@ -122,7 +134,7 @@ export default {
 	font-size: 13px;
 	left: 5%;
 	max-width: 600px;
-	padding: 32px 35px 1px;
+	padding: 30px 35px 1px;
 	position: absolute;
 	text-align: left;
 	top: 0;
@@ -176,7 +188,8 @@ export default {
 
 		&[type="checkbox"] {
 			height: auto;
-			margin-right: 3px;
+			margin: 0 3px 0 0;
+			vertical-align: middle;
 		}
 	}
 
@@ -207,9 +220,14 @@ export default {
 
 	.controls-checkbox {
 		display: inline-block;
-		margin-bottom: 5px;
+		margin-bottom: 10px;
+		margin-top: 0;
 		text-align: left;
 		width: 100%;
+
+		&:last-child {
+			margin: 0;
+		}
 	}
 
 	.appearance-controls {
@@ -244,6 +262,53 @@ export default {
 			}
 		}
 	}
+
+	.settings-warning {
+		background: rgb(255, 235, 235);
+		color: rgb(197, 31, 36);
+		margin-left: -35px;
+		padding: 10px 15px;
+		width: calc(100% + 70px);
+
+		.warning-text {
+			display: flex;
+		}
+
+		.warning-details {
+			font-size: 90%;
+			margin-top: 5px;
+		}
+
+		.warning-label {
+			border: 1px solid hsl(358, 55%, 70%);
+			border-radius: 6px;
+			color: hsl(358, 55%, 70%);
+			font-size: 90%;
+			font-weight: 500;
+			margin-right: 5px;
+			text-transform: uppercase;
+			padding: 1px 3px;
+		}
+
+		a {
+			color: hsl(358, 55%, 70%);
+			margin-left: auto;
+		}
+
+		@include dark {
+			background: hsl(0, 100%, 11%);
+			color: rgb(237, 121, 122);
+
+			.warning-label {
+				border: 1px solid hsl(359, 38%, 62%);
+				color: hsl(359, 38%, 62%);
+			}
+
+			a {
+				color: hsl(359, 38%, 62%);
+			}
+		}
+	}
 }
 
 .settings-enter-active, .settings-leave-active {
@@ -251,6 +316,6 @@ export default {
 }
 
 .settings-enter, .settings-leave-to {
-	top: -400px;
+	top: -500px;
 }
 </style>

@@ -10,8 +10,10 @@ export default class Settings
 		this.requests = requests
 		this.platform = platform
 
+		this.requests.settings = this
+
 		this.shown = false
-		this.settings = {}
+		this.settings = this.defaults()
 
 		this.load()
 	}
@@ -28,6 +30,10 @@ export default class Settings
 		return this.settings.site[this.requests.remoteUrl]
 	}
 
+	get persistent() {
+		return this.store.persistent
+	}
+
 	toggle() {
 		this.shown = ! this.shown
 	}
@@ -38,9 +44,9 @@ export default class Settings
 		this.platform.settingsChanged()
 	}
 
-	load() {
+	async load() {
 		let defaults = this.defaults()
-		let settings = this.store.get('settings', {})
+		let settings = await this.store.get('settings', {})
 
 		this.settings = {
 			global: extend(true, defaults.global, settings.global || {}),
@@ -57,8 +63,13 @@ export default class Settings
 				hideCommandTypeRequests: this.platform instanceof Extension,
 				hideQueueJobTypeRequests: this.platform instanceof Extension,
 				hideTestTypeRequests: this.platform instanceof Extension,
-				timelineHiddenTags: {},
-				seenReleaseNotesVersion: null
+				ignoredUpdateNotifications: {},
+				preserveLog: true,
+				requestsListCollapsed: false,
+				requestSidebarCollapsed: false,
+				requestSidebarCollapsedSections: {},
+				seenReleaseNotesVersion: null,
+				timelineHiddenTags: {}
 			},
 			site: {
 				localPathMap: { real: null, local: null }

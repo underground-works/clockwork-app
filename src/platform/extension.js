@@ -14,7 +14,6 @@ export default class Extension
 		this.requests = global.$requests
 		this.profiler = global.$profiler
 		this.settings = global.$settings
-		this.store = global.$store
 		this.updateNotification = global.$updateNotification
 
 		this.useProperTheme()
@@ -120,7 +119,7 @@ export default class Extension
 			if (message.action !== 'navigationStarted') return;
 
 			// preserve log is enabled
-			if (this.store.get('preserveLog')) return
+			if (this.settings.global.preserveLog) return
 
 			// navigation event from a different tab
 			if (message.details.tabId != this.api.devtools.inspectedWindow.tabId) return

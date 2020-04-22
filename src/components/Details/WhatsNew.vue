@@ -1,5 +1,5 @@
 <template>
-	<div class="whats-new" v-if="shown">
+	<div class="whats-new" v-if="$whatsNew.show">
 		<div class="whats-new-content">
 			<h1>Clockwork has just been updated!</h1>
 
@@ -29,18 +29,13 @@ import WhatsNew from '../../features/whats-new'
 export default {
 	name: 'WhatsNew',
 	computed: {
-		shown() {
-			return this.$settings.global.seenReleaseNotesVersion != WhatsNew.latestRelease.version
-		},
-
 		release() {
 			return WhatsNew.latestRelease
 		}
 	},
 	methods: {
 		close() {
-			this.$settings.global.seenReleaseNotesVersion = WhatsNew.latestRelease.version
-			this.$settings.save()
+			this.$whatsNew.seen()
 		}
 	}
 }
