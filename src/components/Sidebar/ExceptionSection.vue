@@ -50,8 +50,8 @@ export default {
 		align-items: center;
 		background: rgb(255, 235, 235);
 		color: rgb(197, 31, 36);
-	    display: flex;
-	    padding: 6px 10px;
+		display: flex;
+		padding: 6px 10px;
 
 		&:nth-child(even) { background: hsl(0, 100%, 94%); }
 		&:first-child { padding-top: 12px; }
@@ -65,21 +65,22 @@ export default {
 		}
 
 		h3 {
-		    border-bottom: 0;
-		    font-size: 14px;
-		    margin: 0 0 5px;
+			border-bottom: 0;
+			font-size: 14px;
+			margin: 0 0 5px;
+			word-break: break-all;
 		}
 
-	    .exception-message {
-		    flex: 1;
-    	    font-size: 12px;
-		    line-height: 1.5;
-	    }
+		.exception-message {
+			flex: 1;
+			font-size: 12px;
+			line-height: 1.33;
+		}
 
 		.exception-previous, .exception-trace > a {
 			color: rgb(197, 31, 36);
-		    font-size: 12px;
-		    margin: 0 4px;
+			font-size: 12px;
+			margin: 0 4px;
 
 			@include dark { color: rgb(237, 121, 122); }
 		}
