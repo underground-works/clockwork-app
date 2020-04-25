@@ -12,7 +12,7 @@ export default class UpdateNotification
 
 	latest() {
 		return {
-			version: '4.1.0',
+			version: '4.1.2',
 			url: 'https://underground.works/blog/clockwork-4.1-released-with-commands-queue-jobs-tests-profiling-and-more'
 		}
 	}
