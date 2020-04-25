@@ -23,7 +23,7 @@ export default class WhatsNew
 		return [
 			{
 				version: '4.1',
-				url: 'https://underground.works/blog/clockwork-4.1-released-with-commands-queue-jobs-and-tests-profiling',
+				url: 'https://underground.works/blog/clockwork-4.1-released-with-commands-queue-jobs-tests-profiling-and-more',
 				notes: [
 					{
 						title: 'Commands profiling',
