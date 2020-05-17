@@ -26,6 +26,7 @@
 
 			<div class="content-content">
 				<events-tab :active="activeTab == 'events'"></events-tab>
+				<models-tab :active="activeTab == 'models'"></models-tab>
 				<database-tab :active="activeTab == 'database'"></database-tab>
 				<cache-tab :active="activeTab == 'cache'"></cache-tab>
 				<redis-tab :active="activeTab == 'redis'"></redis-tab>
@@ -84,6 +85,7 @@ import DatabaseTab from './Tabs/DatabaseTab'
 import EmailsTab from './Tabs/EmailsTab'
 import EventsTab from './Tabs/EventsTab'
 import LogTab from './Tabs/LogTab'
+import ModelsTab from './Tabs/ModelsTab'
 import OutputTab from './Tabs/OutputTab'
 import PerformanceTab from './Tabs/PerformanceTab'
 import RedisTab from './Tabs/RedisTab'
@@ -95,8 +97,8 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, OutputTab,
-		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
+		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, ModelsTab,
+		OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
 		tabs() {
@@ -104,6 +106,7 @@ export default {
 				{ text: 'Performance', name: 'performance', icon: 'activity', shown: true },
 				{ text: 'Log', name: 'log', icon: 'edit-2', shown: this.shownTabs.log },
 				{ text: 'Events', name: 'events', icon: 'zap', shown: this.shownTabs.events },
+				{ text: 'Models', name: 'models', icon: 'disc', shown: this.shownTabs.models },
 				{ text: 'Database', name: 'database', icon: 'database', shown: this.shownTabs.database },
 				{ text: 'Cache', name: 'cache', icon: 'paperclip', shown: this.shownTabs.cache },
 				{ text: 'Redis', name: 'redis', icon: 'layers', shown: this.shownTabs.redis },
@@ -128,6 +131,8 @@ export default {
 		shownTabs() {
 			return {
 				log: this.$request?.log?.length > 0,
+				models: [ 'modelsRetrieved', 'modelsCreated', 'modelsUpdated', 'modelsDeleted' ].some(prop => this.$request?.[prop])
+					|| this.$request?.modelsActions.length > 0,
 				database: this.$request?.databaseQueriesCount > 0 || this.$request?.databaseQueries?.length > 0,
 				cache: [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
 					|| this.$request?.cacheQueries.length > 0,
