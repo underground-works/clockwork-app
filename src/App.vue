@@ -18,9 +18,7 @@ export default {
 	name: 'App',
 	components: { RequestDetails, RequestSidebar, RequestsList, WhatsNew },
 	computed: {
-		appearance() {
-			return this.$settings.global.appearance != 'auto' ? this.$settings.global.appearance : this.defaultAppearance
-		}
+		appearance() { return this.$settings.appearance }
 	}
 }
 </script>

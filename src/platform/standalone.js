@@ -22,7 +22,7 @@ export default class Standalone
 
 	useProperTheme() {
 		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			this.global.defaultAppearance = 'dark'
+			this.settings.defaultAppearance = 'dark'
 		}
 	}
 

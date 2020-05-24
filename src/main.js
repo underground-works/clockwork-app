@@ -37,7 +37,7 @@ let $whatsNew = new WhatsNew($settings)
 let global = {
 	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $store, $updateNotification,
 	$whatsNew,
-	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true, defaultAppearance: 'light'
+	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true
 }
 
 $platform.init(global)
