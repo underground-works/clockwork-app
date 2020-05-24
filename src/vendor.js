@@ -10,6 +10,8 @@ Vue.config.devtools = true
 Vue.config.performance = true
 Vue.config.productionTip = false
 
+VueClipboard.config.autoSetContainer = true
+
 Vue.use(VueClipboard)
 Vue.use(VueMoment)
 Vue.use(vClickOutside)

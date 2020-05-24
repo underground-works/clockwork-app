@@ -42,12 +42,8 @@ export default class Standalone
 		this.requests.setClient((method, url, data, headers) => {
 			let isProfiling = this.profiler.isProfiling
 
-			let body = new FormData
-			Object.entries(data).forEach(([ key, value ]) => body.append(key, value))
-
 			let makeRequest = () => {
-				return fetch(url, { method, body: Object.keys(data).length ? body : null, headers })
-					.then(response => response.json().then(data => ({ response, data })))
+				return this.fetch(method, url, data, headers)
 					.then(({ response, data }) => {
 						if (response.status == 403) {
 							throw { error: 'requires-authentication', message: data.message, requires: data.requires }
@@ -68,6 +64,14 @@ export default class Standalone
 
 			return isProfiling ? this.profiler.disableProfiling().then(makeRequest) : makeRequest()
 		})
+	}
+
+	fetch(method, url, data, headers) {
+		let body = new FormData
+		Object.entries(data).forEach(([ key, value ]) => body.append(key, value))
+
+		return fetch(url, { method, body: Object.keys(data).length ? body : null, headers })
+			.then(response => response.json().then(data => ({ response, data })))
 	}
 
 	setCookie(name, value, expiration) {

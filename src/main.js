@@ -15,6 +15,7 @@ import Profiler from './features/profiler'
 import Requests from './features/requests'
 import RequestsSearch from './features/requests-search'
 import Settings from './features/settings'
+import Sharing from './features/sharing'
 import TextFilters from './features/text-filters'
 import UpdateNotification from './features/update-notification'
 import WhatsNew from './features/whats-new'
@@ -30,13 +31,14 @@ let $editorLinks = new EditorLinks($settings)
 let $onDemand = new OnDemand($platform, $settings)
 let $profiler = new Profiler($requests, $platform)
 let $requestsSearch = new RequestsSearch($requests)
+let $sharing = new Sharing($platform, $settings)
 let $textFilters = new TextFilters
 let $updateNotification = new UpdateNotification($settings)
 let $whatsNew = new WhatsNew($settings)
 
 let global = {
-	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $store, $updateNotification,
-	$whatsNew,
+	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $sharing, $store,
+	$updateNotification, $whatsNew,
 	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true
 }
 

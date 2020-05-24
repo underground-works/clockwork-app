@@ -83,6 +83,7 @@ export default class Settings
 					asserts: false
 				},
 				seenReleaseNotesVersion: null,
+				shareTermsAccepted: false,
 				timelineCondensed: { performance: true, views: false },
 				timelineHiddenTags: {},
 				viewsTimelineCondensed: false

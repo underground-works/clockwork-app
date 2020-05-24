@@ -11,6 +11,12 @@
 			<tab-bar :tabs="tabs" :active-tab="activeTab" @tab-selected="showTab"></tab-bar>
 
 			<div class="icons">
+				<div class="popover-container" v-click-outside="closeSharing">
+					<a href="#" title="Share" @click="$sharing.toggle($request)" v-if="$request">
+						<font-awesome-icon icon="share"></font-awesome-icon>
+					</a>
+					<sharing-popover></sharing-popover>
+				</div>
 				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
 					<icon name="settings"></icon>
 				</a>
@@ -19,6 +25,8 @@
 				</a>
 			</div>
 		</div>
+
+		<sharing-terms></sharing-terms>
 
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
@@ -78,6 +86,8 @@
 <script>
 import MessagesOverlay from './Details/MessagesOverlay'
 import SettingsModal from './Settings/SettingsModal'
+import SharingPopover from './Sharing/SharingPopover'
+import SharingTerms from './Sharing/SharingTerms'
 import TabBar from './Details/TabBar'
 
 import CacheTab from './Tabs/CacheTab'
@@ -97,8 +107,8 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EventsTab, LogTab, ModelsTab, NotificationsTab,
-		OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
+		MessagesOverlay, SettingsModal, SharingPopover, SharingTerms, TabBar, CacheTab, DatabaseTab, EventsTab,
+		LogTab, ModelsTab, NotificationsTab, OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
 		tabs() {
@@ -147,6 +157,9 @@ export default {
 		}
 	},
 	methods: {
+		share() {
+			this.$sharing.share(this.$request)
+		},
 		showTab(tab) {
 			this.global.activeDetailsTab = tab
 			this.global.showIncomingRequests = false
@@ -161,6 +174,9 @@ export default {
 		},
 		toggleSettingsModal() {
 			this.$settings.toggle()
+		},
+		closeSharing() {
+			this.$sharing.shown = false
 		}
 	}
 }

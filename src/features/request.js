@@ -9,6 +9,8 @@ export default class Request
 	constructor(data) {
 		Object.assign(this, data)
 
+		this.json = JSON.stringify(data)
+
 		this.time = parseFloat(this.time)
 		this.responseDuration = parseFloat(this.responseDuration)
 		this.responseDurationRounded = this.responseDuration ? Math.round(this.responseDuration) : 0
@@ -66,6 +68,8 @@ export default class Request
 	}
 
 	resolve(request, fields) {
+		this.json = JSON.stringify(request)
+
 		return Object.assign(this, fields ? pick(request, fields) : request, { loading: false, error: undefined })
 	}
 
