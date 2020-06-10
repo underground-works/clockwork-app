@@ -7,6 +7,7 @@
 					<span>Settings can't be saved.</span>
 					<a href="#" @click.prevent="showPersistWarning = true">More info</a>
 				</div>
+
 				<div class="warning-details" v-if="showPersistWarning">
 					Clockwork uses the "local storage" api to persist your settings. Please make sure the access to "local storage" is allowed for this app.
 				</div>
@@ -116,6 +117,10 @@
 					</label>
 				</div>
 			</div>
+
+			<div class="settings-footer">
+				Version {{$credits.version}} &bullet; <a href="#" @click.prevent="showCredits">Credits</a>
+			</div>
 		</div>
 	</modal>
 </template>
@@ -138,6 +143,11 @@ export default {
 		save() {
 			this.$settings.save()
 			this.$onDemand.enableProfiling()
+		},
+
+		showCredits() {
+			this.$settings.toggle()
+			this.$credits.toggle()
 		}
 	}
 }
@@ -310,6 +320,19 @@ export default {
 			a {
 				color: hsl(359, 38%, 62%);
 			}
+		}
+	}
+
+	.settings-footer {
+		font-size: 80%;
+		margin: 10px 0;
+		// text-align: center;
+		// margin-left: -20px;
+		text-align: right;
+		margin-right: -20px;
+
+		a {
+			text-decoration: none;
 		}
 	}
 }

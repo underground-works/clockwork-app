@@ -64,7 +64,7 @@ export default class Extension
 		})
 	}
 
-	fetch(method, url, data, headers) {
+	fetch(method, url, data = {}, headers = {}) {
 		return new Promise((accept, reject) => {
 			this.api.runtime.sendMessage(
 				{ action: 'fetch', method, url, data, headers }, message => accept(message)

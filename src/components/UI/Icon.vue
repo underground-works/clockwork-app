@@ -19,7 +19,9 @@ import CpuIcon from 'feather-icons/dist/icons/cpu.svg'
 import DatabaseIcon from 'feather-icons/dist/icons/database.svg'
 import DiscIcon from 'feather-icons/dist/icons/disc.svg'
 import Edit2Icon from 'feather-icons/dist/icons/edit-2.svg'
+import GithubIcon from 'feather-icons/dist/icons/github.svg'
 import HashIcon from 'feather-icons/dist/icons/hash.svg'
+import HeartIcon from 'feather-icons/dist/icons/heart.svg'
 import HelpCircleIcon from 'feather-icons/dist/icons/help-circle.svg'
 import ImageIcon from 'feather-icons/dist/icons/image.svg'
 import InfoIcon from 'feather-icons/dist/icons/info.svg'
@@ -40,6 +42,7 @@ import SmileIcon from 'feather-icons/dist/icons/smile.svg'
 import StarIcon from 'feather-icons/dist/icons/star.svg'
 import TerminalIcon from 'feather-icons/dist/icons/terminal.svg'
 import Trash2Icon from 'feather-icons/dist/icons/trash-2.svg'
+import TwitterIcon from 'feather-icons/dist/icons/twitter.svg'
 import UserIcon from 'feather-icons/dist/icons/user.svg'
 import UsersIcon from 'feather-icons/dist/icons/users.svg'
 import XIcon from 'feather-icons/dist/icons/x.svg'
@@ -51,9 +54,9 @@ export default {
 	components: {
 		ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, CheckCircleIcon, ChevronDownIcon,
 		ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, DiscIcon, Edit2Icon,
-		HashIcon, HelpCircleIcon, ImageIcon, InfoIcon, LayersIcon, LinkIcon, LockIcon, MailIcon, MapIcon, MenuIcon,
-		PaperclipIcon, PercentIcon, PieChartIcon, SearchIcon, SettingsIcon, ShareIcon, SlashIcon, SmileIcon, StarIcon,
-		TerminalIcon, Trash2Icon, UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
+		GithubIcon, HashIcon, HeartIcon, HelpCircleIcon, ImageIcon, InfoIcon, LayersIcon, LinkIcon, LockIcon, MailIcon,
+		MapIcon, MenuIcon, PaperclipIcon, PercentIcon, PieChartIcon, SearchIcon, SettingsIcon, ShareIcon, SlashIcon,
+		SmileIcon, StarIcon, TerminalIcon, Trash2Icon, TwitterIcon, UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
 	},
 	props: [ 'name' ],
 	computed: {

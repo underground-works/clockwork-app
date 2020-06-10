@@ -73,6 +73,7 @@
 		</div>
 
 		<settings-modal></settings-modal>
+		<credits-modal></credits-modal>
 		<sharing-modal></sharing-modal>
 		<sharing-delete-modal></sharing-delete-modal>
 		<messages-overlay></messages-overlay>
@@ -80,6 +81,7 @@
 </template>
 
 <script>
+import CreditsModal from './Settings/CreditsModal'
 import DetailsRequest from './Details/DetailsRequest'
 import MessagesOverlay from './Details/MessagesOverlay'
 import SettingsModal from './Settings/SettingsModal'
@@ -104,9 +106,9 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		DetailsRequest, MessagesOverlay, SettingsModal, SharingModal, SharingDeleteModal, TabBar, CacheTab, DatabaseTab,
-		EventsTab, LogTab, ModelsTab, NotificationsTab, OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab,
-		UserTab, ViewsTab
+		CreditsModal, DetailsRequest, MessagesOverlay, SettingsModal, SharingModal, SharingDeleteModal, TabBar,
+		CacheTab, DatabaseTab, EventsTab, LogTab, ModelsTab, NotificationsTab, OutputTab, PerformanceTab, RedisTab,
+		QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
 		tabs() {
