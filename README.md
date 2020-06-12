@@ -1,6 +1,6 @@
 <p align="center">
-	<img width="300px" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/title.png">
-	<img width="100%" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/screenshot.png">
+	<img width="300px" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/title.png">
+	<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/screenshot.png">
 </p>
 
 > Clockwork is a development tool for PHP available right in your browser. Clockwork gives you an insight into your application runtime - including request data, performance metrics, log entries, database queries, cache queries, redis commands, dispatched events, queued jobs, rendered views and more - for HTTP requests, commands, queue jobs and tests.
@@ -11,22 +11,22 @@
 
 <p align="center">
 	<a href="https://underground.works/clockwork">
-		<img width="100%" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/features-1.png">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-1.png">
 	</a>
 	<a href="https://underground.works/clockwork">
-		<img width="100%" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/features-2.png">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-2.png">
 	</a>
 	<a href="https://underground.works/clockwork">
-		<img width="100%" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/features-3.png">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-3.png">
 	</a>
 	<a href="https://underground.works/clockwork">
-		<img width="100%" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/features-4.png">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-4.png">
 	</a>
 	<a href="https://underground.works/clockwork">
-		<img width="100%" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/features-5.png">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-5.png">
 	</a>
 	<a href="https://underground.works/clockwork">
-		<img width="100%" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/features-6.png">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-6.png">
 	</a>
 </p>
 
@@ -64,6 +64,6 @@ To make a development build with source-maps append `-dev` to the target, eg. `b
 
 <p align="center">
 	<a href="https://underground.works">
-		<img width="150px" src="https://github.com/itsgoingd/clockwork/raw/readme/.github/assets/footer.png">
+		<img width="150px" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/footer.png">
 	</a>
 </p>
