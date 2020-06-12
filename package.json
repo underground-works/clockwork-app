@@ -1,7 +1,7 @@
 {
   "name": "Clockwork",
   "version": "4.1.1",
-  "description": "php dev tools integrated to your browser",
+  "description": "php dev tools in your browser",
   "repository": "github:underground-works/clockwork-app",
   "license": "MIT",
   "scripts": {
