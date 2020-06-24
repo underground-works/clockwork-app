@@ -192,6 +192,19 @@ export default class Request
 			query.tags = query.tags instanceof Array ? query.tags : []
 			query.bindings = this.optionalNonEmptyObject(query.bindings)
 
+			let match
+			if (match = query.query.match(/^SELECT .*? FROM .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `SELECT FROM ${match[1]}`
+			} else if (match = query.query.match(/^INSERT INTO .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `INSERT INTO ${match[1]}`
+			} else if (match = query.query.match(/^UPDATE .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `UPDATE ${match[1]}`
+			} else if (match = query.query.match(/^DELETE FROM .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `DELETE FROM ${match[1]}`
+			} else {
+				query.shortQuery = query.query
+			}
+
 			return query
 		})
 	}
@@ -332,19 +345,23 @@ export default class Request
 	}
 
 	processTimeline(data) {
-		data = data instanceof Object ? Object.values(data) : []
+		let timeline = data instanceof Object ? Object.values(data) : []
 
-		this.appendToTimeline(data, this.databaseQueries, query => ({ description: query.query, tags: [ 'databaseQueries' ] }))
-		this.appendToTimeline(data, this.events, event => ({ description: event.event, tags: [ 'events' ] }))
-		this.appendToTimeline(data, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, tags: [ 'cacheQueries' ] }))
-		this.appendToTimeline(data, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, tags: [ 'redisCommands' ] }))
-		this.appendToTimeline(data, this.queueJobs, job => ({ description: job.name, tags: [ 'queueJobs' ] }))
-		this.mergeToTimeline(data, this.viewsData)
-		this.appendToTimeline(data, this.emails, email => ({ description: `${email.to} - ${email.subject}`, tags: [ 'emails' ] }))
+		if (! data || ! data.total) {
+			this.appendToTimeline(timeline, [ { description: 'Total time', time: this.time, duration: this.responseDuration, color: 'grey' } ], item => item)
+		}
 
-		data = data.sort((a, b) => a.start - b.start)
+		this.appendToTimeline(timeline, this.databaseQueries, query => ({ name: query.shortQuery, description: query.query, color: 'red', tags: [ 'databaseQueries' ] }))
+		this.appendToTimeline(timeline, this.events, event => ({ description: event.event, color: 'purple', tags: [ 'events' ] }))
+		this.appendToTimeline(timeline, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, color: 'green', tags: [ 'cacheQueries' ] }))
+		this.appendToTimeline(timeline, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, color: 'green', tags: [ 'redisCommands' ] }))
+		this.appendToTimeline(timeline, this.queueJobs, job => ({ description: job.name, color: 'purple', tags: [ 'queueJobs' ] }))
+		this.mergeToTimeline(timeline, this.viewsData)
+		this.appendToTimeline(timeline, this.emails, email => ({ description: `${email.to} - ${email.subject}`, color: 'purple', tags: [ 'emails' ] }))
 
-		return this.createTimeline(data)
+		timeline = timeline.sort((a, b) => a.start - b.start)
+
+		return timeline
 	}
 
 	createTimeline(data) {
