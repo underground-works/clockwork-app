@@ -359,9 +359,13 @@ export default class Request
 		this.mergeToTimeline(timeline, this.viewsData)
 		this.appendToTimeline(timeline, this.emails, email => ({ description: `${email.to} - ${email.subject}`, color: 'purple', tags: [ 'emails' ] }))
 
-		timeline = timeline.sort((a, b) => a.start - b.start)
+		timeline.forEach(event => {
+			if (! event.start) event.start = this.time
+			if (! event.duration) event.duration = 0
+			if (! event.end) event.end = event.start + event.duration / 1000
+		})
 
-		return timeline
+		return timeline.sort((a, b) => a.start - b.start)
 	}
 
 	createTimeline(data) {
@@ -406,7 +410,7 @@ export default class Request
 			timeline.push(Object.assign({
 				description: '',
 				start: time,
-				end: time + duration,
+				end: time + duration / 1000,
 				duration: duration,
 				data: [],
 				tags: []

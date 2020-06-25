@@ -1,5 +1,5 @@
 <template>
-	<div class="split-view-pane split-view-details">
+	<div class="split-view-pane split-view-details popover-viewport">
 
 		<div class="details-header">
 			<div class="icons">

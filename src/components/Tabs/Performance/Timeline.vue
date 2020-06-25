@@ -20,7 +20,7 @@
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="item, index in items">
 					<td class="timeline-graph">
-						<div class="timeline-event" :class="item.eventClass" :style="item.eventStyle">
+						<div class="timeline-event popover-container" :class="item.eventClass" :style="item.eventStyle" @click="showPopover(index)">
 							<div class="event-label" :class="item.labelClass" :style="item.labelStyle" :title="`${item.description} (${item.duration} ms)`">
 								<span class="label-tags">
 									<span v-for="tag in resolveTags(item.tags)">
@@ -31,8 +31,53 @@
 							</div>
 
 							<div class="event-bar">
-								<div class="bar-light" :style="child.style" v-for="child in item.children"></div>
+								<div class="bar-light" :style="childBar.style" v-for="childBar in item.childrenBars"></div>
 							</div>
+
+							<popover class="timeline-popover" ref="popovers">
+								<div class="popover-header">
+									<h1>{{item.name}}</h1>
+
+									<div class="header-tags">
+										<span v-for="tag in resolveTags(item.tags)">
+											<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+										</span>
+									</div>
+								</div>
+
+								<div class="popover-description" v-if="item.description != item.name">
+									{{item.description}}
+								</div>
+
+								<div class="popover-timings">
+									<div class="timings-timing timing-total">
+										<div class="timing-value">
+											{{item.duration}} ms
+										</div>
+										<div class="timing-label">
+											Total
+										</div>
+									</div>
+
+									<div class="timings-timing timing-self">
+										<div class="timing-value">
+											{{ item.durationSelf ? `${item.durationSelf} ms` : '–' }}
+										</div>
+										<div class="timing-label">
+											Self
+										</div>
+									</div>
+
+									<div class="timings-timing timing-children">
+										<div class="timing-value">
+											{{ item.durationChildren ? `${item.durationChildren} ms` : '–' }}
+										</div>
+										<div class="timing-label">
+											Children
+										</div>
+									</div>
+								</div>
+							</popover>
 						</div>
 					</td>
 					<td class="timeline-description">
@@ -58,15 +103,17 @@
 
 <script>
 import DetailsTable from '../../UI/DetailsTable'
+import Popover from '../../UI/Popover'
 
 import Filter from '../../../features/filter'
 
+import clone from 'just-clone'
 import debounce from 'just-debounce-it'
 import intersect from 'just-intersect'
 
 export default {
 	name: 'Timeline',
-	components: { DetailsTable },
+	components: { DetailsTable, Popover },
 	props: { name: {}, events: {}, startTime: {}, endTime: {}, tags: { default: () => [] } },
 	data: () => ({
 		showDetails: false,
@@ -111,24 +158,56 @@ export default {
 			this.showDetails = ! this.showDetails
 		},
 
-		refreshEvents() {
-			if (! this.$refs.timelineChart || ! this.events) return this.presentedEvents = []
+		showPopover(index) {
+			this.$refs.popovers[index].toggle()
+		},
 
+		refreshEvents() {
+			if (! this.events || ! this.$refs.timelineChart) return this.presentedEvents = []
+
+			let events = clone(Object.values(this.events))
+
+			events = this.structureEvents(events)
+			events = this.presentEvents(events)
+			events = this.flattenEvents(events)
+
+			this.presentedEvents = events
+		},
+
+		structureEvents(events) {
+			events = [ ...events ].reverse()
+
+			events = events.reduce((events, event) => {
+				let parent = events.find(item => item != event && item.start <= event.start && event.end <= item.end)
+
+				if (! parent) return events
+
+				parent.children = [ ...(parent.children || []), event ]
+				event.parent = parent
+
+				return events.filter(e => e !== event)
+			}, events)
+
+			return events.reverse()
+		},
+
+		presentEvents(events) {
 			let timelineWidth = this.$refs.timelineChart.offsetWidth - 16
 
-			this.presentedEvents = Object.values(this.events).map((event, i) => {
+			return events.map((event, i) => {
 				let name = event.name || event.description
 				let description = event.description
 
 				let start = event.start || this.startTime
 				let startRelative = (event.start - this.startTime) * 1000 / (this.endTime - this.startTime)
 
-				let duration = event.duration || 1
+				let duration = event.duration || 0
 				let durationRelative = duration / (this.endTime - this.startTime)
+				let durationRaw = duration
 
-				let end = start + duration / 1000
+				let end = event.end || start + duration / 1000
 
-				duration = Math.round(duration) || '<1'
+				duration = duration > 1 ? Math.round(duration) : '<1'
 
 				let offset = startRelative * timelineWidth
 				let width = durationRelative * timelineWidth
@@ -148,19 +227,30 @@ export default {
 				if (width > 200) labelClass = 'inside'
 
 				let tags = event.tags || []
-				let children = []
+
+				let children = this.presentEvents(event.children || [])
+
+				let childrenBars = children.map(item => ({
+					style: { 'left': `${item.offset - offset}px`, width: `${item.width}px` }
+				}))
+
+				let durationChildren = children.reduce((total, event) => total + event.durationRaw, 0)
+				let durationSelf = event.duration - durationChildren
+
+				durationChildren = (durationChildren <= 0 || durationChildren > 1) ? Math.round(durationChildren) : '<1'
+				durationSelf = durationSelf > 1 ? Math.round(durationSelf) : '<1'
 
 				return {
 					name, description, duration, eventClass, eventStyle, labelClass, labelStyle, tags, children,
-					start, duration, end, offset, width
+					start, duration, durationSelf, durationChildren, durationRaw, end, offset, width, childrenBars
 				}
 			})
+		},
 
-			this.presentedEvents.forEach(event => {
-				event.children = this.presentedEvents
-					.filter(item => item != event && event.start <= item.start && item.end <= event.end )
-					.map(item => ({ style: { 'left': `${item.offset - event.offset}px`, width: `${item.width}px` } }))
-			})
+		flattenEvents(events) {
+			return events
+				.reduce((events, event) => [ ...events, event, ...this.flattenEvents(event.children || []) ], [])
+				.sort((a, b) => a.start - b.start)
 		}
 	},
 	watch: {
@@ -264,6 +354,7 @@ export default {
 	}
 
 	.timeline-event {
+		cursor: pointer;
 		height: 18px;
 		position: relative;
 
@@ -325,100 +416,200 @@ export default {
 		&.blue {
 			.event-bar {
 				background: rgb(66, 149, 197);
-
 				@include dark { background: rgb(100, 157, 202); }
 
 				.bar-light {
 					background: rgb(120, 177, 222);
-
 					@include dark { background: rgb(46, 129, 177); }
 				}
 			}
 
 			.event-label {
 				color: rgb(66, 149, 197);
-
 				@include dark { color: rgb(120, 177, 222); }
+			}
+
+			.timeline-popover {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(66, 149, 197);
+						@include dark { background: rgb(100, 157, 202); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(66, 149, 197) 50%, rgb(120, 177, 222) 50%);
+							@include dark { background: linear-gradient(to right, rgb(100, 157, 202) 50%, rgb(46, 129, 177) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(120, 177, 222);
+							@include dark { background: rgb(46, 129, 177); }
+						}
+					}
+				}
 			}
 		}
 
 		&.red {
 			.event-bar {
 				background: rgb(209, 107, 108);
-
 				@include dark { background: rgb(211, 130, 131); }
 
 				.bar-light {
 					background: rgb(231, 150, 151);
-
 					@include dark { background: rgb(189, 87, 88); }
 				}
 			}
 
 			.event-label {
 				color: rgb(209, 107, 108);
-
 				@include dark { color: rgb(211, 130, 131); }
+			}
+
+			.timeline-popover {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(209, 107, 108);
+						@include dark { background: rgb(211, 130, 131); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(209, 107, 108) 50%, rgb(231, 150, 151) 50%);
+							@include dark { background: linear-gradient(to right, rgb(211, 130, 131) 50%, rgb(189, 87, 88) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(231, 150, 151);
+							@include dark { background: rgb(189, 87, 88); }
+						}
+					}
+				}
 			}
 		}
 
 		&.green {
 			.event-bar {
 				background: rgb(152, 186, 81);
-
 				@include dark { background: rgb(157, 182, 89); }
 
 				.bar-light {
 					background: rgb(177, 202, 109);
-
 					@include dark { background: rgb(132, 166, 61); }
 				}
 			}
 
 			.event-label {
 				color: rgb(152, 186, 81);
-
 				@include dark { color: rgb(157, 182, 89); }
+			}
+
+			.timeline-popover {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(152, 186, 81);
+						@include dark { background: rgb(157, 182, 89); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(152, 186, 81) 50%, rgb(177, 202, 109) 50%);
+							@include dark { background: linear-gradient(to right, rgb(157, 182, 89) 50%, rgb(132, 166, 61) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(177, 202, 109);
+							@include dark { background: rgb(132, 166, 61); }
+						}
+					}
+				}
 			}
 		}
 
 		&.purple {
 			.event-bar {
 				background: rgb(151, 114, 181);
-
 				@include dark { background: rgb(166, 128, 210); }
 
 				.bar-light {
 					background: rgb(186, 148, 230);
-
 					@include dark { background: rgb(131, 94, 161); }
 				}
 			}
 
 			.event-label {
 				color: rgb(151, 114, 181);
-
 				@include dark { color: rgb(166, 128, 210); }
+			}
+
+			.timeline-popover {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(151, 114, 181);
+						@include dark { background: rgb(166, 128, 210); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(151, 114, 181) 50%, rgb(186, 148, 230) 50%);
+							@include dark { background: linear-gradient(to right, rgb(166, 128, 210) 50%, rgb(131, 94, 161) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(186, 148, 230);
+							@include dark { background: rgb(131, 94, 161); }
+						}
+					}
+				}
 			}
 		}
 
 		&.grey {
 			.event-bar {
 				background: hsl(240, 5, 27);
-
 				@include dark { background: hsl(240, 5, 52); }
 
 				.bar-light {
 					background: hsl(240, 5, 62);
-
 					@include dark { background: hsl(240, 5, 37); }
 				}
 			}
 
 			.event-label {
 				color: hsl(240, 5, 27);
-
 				@include dark { color: hsl(240, 5, 52); }
+			}
+
+			.timeline-popover {
+				.timings-timing {
+					.timing-label:before {
+						background: hsl(240, 5, 27);
+						@include dark { background: hsl(240, 5, 52); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, hsl(240, 5, 27) 50%, hsl(240, 5, 62) 50%);
+							@include dark { background: linear-gradient(to right, hsl(240, 5, 52) 50%, hsl(240, 5, 37) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: hsl(240, 5, 62);
+							@include dark { background: hsl(240, 5, 37); }
+						}
+					}
+				}
 			}
 		}
 	}
@@ -430,6 +621,99 @@ export default {
 
 	.timeline-size-monitor {
 		visibility: hidden;
+	}
+
+	.timeline-popover {
+		.popover-content {
+			padding-bottom: 0;
+		}
+
+		.popover-header {
+			display: flex;
+			padding: 12px;
+
+			h1 {
+				flex: 1;
+				font-size: 110%;
+				margin: 0;
+				text-align: left;
+			}
+
+			.header-tags {
+				color: #777;
+			}
+		}
+
+		.popover-description {
+			background: rgba(#333, 0.03);
+			border-top: 1px solid rgba(#333, 0.1);
+			padding: 12px;
+			text-align: left;
+
+			@include dark {
+				background: rgba(#ddd, 0.03);
+				border-color: rgba(#eee, 0.1);
+			}
+		}
+
+		.popover-timings {
+			border-top: 1px solid rgba(#333, 0.1);
+			display: flex;
+
+			@include dark { border-color: rgba(#eee, 0.1); }
+
+			.timings-timing {
+				border-right: 1px solid rgba(#333, 0.1);
+				flex: 1;
+				padding: 10px 0;
+
+				@include dark { border-color: rgba(#eee, 0.1); }
+
+				&:last-child { border-right: 0; }
+
+				.timing-value {
+					font-size: 110%;
+				}
+
+				.timing-label {
+					color: #777;
+					margin-top: 5px;
+					font-size: 95%;
+
+					&:before {
+						content: '';
+						display: inline-block;
+						border-radius: 5px;
+						background: rgb(66, 149, 197);
+						width: 14px;
+						height: 8px;
+						vertical-align: 0px;
+
+						@include dark { background: rgb(100, 157, 202); }
+					}
+				}
+
+				&.timing-total {
+					.timing-value {
+						font-weight: 600;
+					}
+
+					.timing-label:before {
+						background: linear-gradient(to right, rgb(66, 149, 197) 50%, rgb(120, 177, 222) 50%);
+
+						@include dark { background: linear-gradient(to right, rgb(100, 157, 202) 50%, rgb(46, 129, 177) 50%); }
+					}
+				}
+
+				&.timing-children {
+					.timing-label:before {
+						background: rgb(120, 177, 222);
+
+						@include dark { background: rgb(46, 129, 177); }
+					}
+				}
+			}
+		}
 	}
 }
 </style>
