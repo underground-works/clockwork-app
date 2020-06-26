@@ -12,6 +12,13 @@
 			</div>
 
 			<div class="header-group">
+				<label class="timeline-condense">
+					<input type="checkbox" v-model="condense">
+					Condense
+				</label>
+			</div>
+
+			<div class="header-group">
 				<div class="timeline-search">
 					<input type="search" v-model="filter.input" placeholder="Search...">
 					<font-awesome-icon icon="search"></font-awesome-icon>
@@ -25,64 +32,68 @@
 			</div>
 		</div>
 
-		<details-table :columns="columns" :items="filteredEvents" :filter="filter" :no-header="! showDetails" filter-example="database query duration:>50" :per-page="100">
+		<details-table :columns="columns" :items="presentedEvents" :filter="filter" :no-header="! showDetails" filter-example="database query duration:>50" :per-page="100">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="item, index in items">
 					<td class="timeline-graph">
-						<div class="timeline-event popover-container" :class="item.eventClass" :style="item.eventStyle" @click="showPopover(index)">
-							<div class="event-label" :class="item.labelClass" :style="item.labelStyle" :title="`${item.description} (${item.duration} ms)`">
-								<span class="label-tags">
+						<div class="timeline-event-group popover-container" :style="item.groupStyle" @click="showPopover(index)">
+							<div class="event-label" :class="item.labelClass" :style="item.labelStyle">
+								<span class="label-tags" v-if="! item.condensed">
 									<span v-for="tag in resolveTags(item.tags)">
 										<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
 									</span>
 								</span>
-								{{item.name}} {{item.duration|formatTiming}} ms
+								{{item.label}}
 							</div>
 
-							<div class="event-bar">
-								<div class="bar-light" :style="childBar.style" v-for="childBar in item.childrenBars"></div>
+							<div class="timeline-event" :class="item.eventClass" :style="item.eventStyle" v-for='item, index in item.events'>
+								<div class="event-bar">
+									<div class="bar-light" :style="childBar.style" v-for="childBar in item.childrenBars"></div>
+								</div>
 							</div>
 
 							<popover class="timeline-popover" ref="popovers">
-								<div class="popover-header">
-									<h1>{{item.name}}</h1>
+								<div class="popover-event" :class="item.eventClass" v-for="item in item.events">
+									<div class="popover-header">
+										<h1>{{item.name}}</h1>
 
-									<div class="header-tags">
-										<span v-for="tag in resolveTags(item.tags)">
-											<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
-										</span>
-									</div>
-								</div>
-
-								<div class="popover-description" v-if="item.description != item.name">
-									{{item.description}}
-								</div>
-
-								<div class="popover-timings">
-									<div class="timings-timing timing-total">
-										<div class="timing-value">
-											{{item.duration|formatTiming}} ms
-										</div>
-										<div class="timing-label">
-											Total
+										<div class="header-tags">
+											<span v-for="tag in resolveTags(item.tags)">
+												<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+											</span>
 										</div>
 									</div>
 
-									<div class="timings-timing timing-self">
-										<div class="timing-value">
-											{{item.durationSelf|formatTiming}} ms
-										</div>
-										<div class="timing-label">
-											Self
-										</div>
+									<div class="popover-description" v-if="item.description != item.name">
+										{{item.description}}
 									</div>
 
-									<div class="timings-timing timing-children">
-										<div class="timing-value">
-											{{ item.durationChildren ? `${item.durationChildren|formatTiming} ms` : '–' }}
+									<div class="popover-timings">
+										<div class="timings-timing timing-total">
+											<div class="timing-value">
+												{{item.duration|formatTiming}} ms
+											</div>
+											<div class="timing-label">
+												Total
+											</div>
 										</div>
-										<div class="timing-label">
-											Children
+
+										<div class="timings-timing timing-self">
+											<div class="timing-value">
+												{{item.durationSelf|formatTiming}} ms
+											</div>
+											<div class="timing-label">
+												Self
+											</div>
+										</div>
+
+										<div class="timings-timing timing-children">
+											<div class="timing-value">
+												{{ item.durationChildren ? `${item.durationChildren|formatTiming} ms` : '–' }}
+											</div>
+											<div class="timing-label">
+												Children
+											</div>
 										</div>
 									</div>
 								</div>
@@ -90,16 +101,16 @@
 						</div>
 					</td>
 					<td class="timeline-description">
-						<span class="description-tags">
+						<span class="description-tags" v-if="! item.condensed">
 							<span v-for="tag in resolveTags(item.tags)">
 								<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
 							</span>
 						</span>
-						{{item.description}}
+						{{item.condensed ? item.label : item.events[0].description}}
 					</td>
-					<td class="timeline-timing timing-total">{{item.duration|formatTiming}} ms</td>
-					<td class="timeline-timing">{{item.durationSelf|formatTiming}} ms</td>
-					<td class="timeline-timing">{{ item.durationChildren ? `${item.durationChildren|formatTiming} ms` : '–' }}</td>
+					<td class="timeline-timing timing-total">{{item.condensed ? '' : `${item.events[0].duration|formatTiming} ms`}}</td>
+					<td class="timeline-timing">{{item.condensed ? '' : `${item.events[0].durationSelf|formatTiming} ms`}}</td>
+					<td class="timeline-timing">{{item.condensed ? '' : (item.events[0].durationChildren ? `${item.events[0].durationChildren|formatTiming} ms` : '–')}}</td>
 				</tr>
 
 				<tr class="timeline-size-monitor">
@@ -121,12 +132,14 @@ import Filter from '../../../features/filter'
 import clone from 'just-clone'
 import debounce from 'just-debounce-it'
 import intersect from 'just-intersect'
+import unique from 'just-unique'
 
 export default {
 	name: 'Timeline',
 	components: { DetailsTable, Popover },
 	props: { name: {}, events: {}, startTime: {}, endTime: {}, tags: { default: () => [] } },
 	data: () => ({
+		condense: true,
 		showDetails: false,
 		hiddenTags: [],
 
@@ -138,7 +151,7 @@ export default {
 	}),
 	computed: {
 		availableTags() {
-			return this.tags.filter(tag => this.presentedEvents.find(item => item.tags.includes(tag.tag)))
+			return this.tags.filter(tag => this.events.find(item => item.tags && item.tags.includes(tag.tag)))
 		},
 
 		columns() {
@@ -152,7 +165,9 @@ export default {
 		},
 
 		filteredEvents() {
-			return this.presentedEvents.filter(item => ! intersect(item.tags, this.hiddenTags).length)
+			if (! this.events) return []
+
+			return Object.values(this.events).filter(item => ! intersect(item.tags || [], this.hiddenTags).length)
 		}
 	},
 	methods: {
@@ -180,15 +195,15 @@ export default {
 		},
 
 		refreshEvents() {
-			if (! this.events || ! this.$refs.timelineChart) return this.presentedEvents = []
+			if (! this.filteredEvents || ! this.$refs.timelineChart) return this.presentedEvents = []
 
-			let events = clone(Object.values(this.events))
+			let events = clone(this.filteredEvents)
 
 			events = this.structureEvents(events)
 			events = this.presentEvents(events)
 			events = this.flattenEvents(events)
 
-			this.presentedEvents = events
+			this.presentedEvents = this.condense ? this.condenseEvents(events) : events
 		},
 
 		structureEvents(events) {
@@ -231,12 +246,14 @@ export default {
 				if (offset + width > timelineWidth) offset = timelineWidth - width
 
 				let eventClass = event.color || 'blue'
-				let eventStyle = { 'margin-left': `${offset}px`, width: `${width}px` }
+				let eventStyle = { 'left': `0px`, width: `${width}px` }
 
 				let labelWidth = startRelative > 0.5 ? offset : timelineWidth - width - offset
 
 				let labelClass = startRelative > 0.5 ? 'before' : 'after'
 				let labelStyle = { width: `${labelWidth}px` }
+
+				labelClass += ' ' + (event.color || 'blue')
 
 				if (width > 200) labelClass = 'inside'
 
@@ -245,30 +262,63 @@ export default {
 				let children = this.presentEvents(event.children || [])
 
 				let childrenBars = children.map(item => ({
-					style: { 'left': `${item.offset - offset}px`, width: `${item.width}px` }
+					style: { 'left': `${item.events[0].offset - offset}px`, width: `${item.events[0].width}px` }
 				}))
 
 				let durationChildren = children.reduce((total, event) => total + event.duration, 0)
 				let durationSelf = event.duration - durationChildren
 
+				let groupStyle = { 'margin-left': `${offset}px`, width: `${width}px` }
+
 				return {
-					name, description, duration, eventClass, eventStyle, labelClass, labelStyle, tags, children,
-					start, duration, durationSelf, durationChildren, end, offset, width, childrenBars
+					groupStyle,
+					label: `${name} ${this.$options.filters.formatTiming(duration)} ms`,
+					labelClass, labelStyle,
+					events: [ {
+						name, description, duration, eventClass, eventStyle, tags, children,
+						start, duration, durationSelf, durationChildren, end, offset, width, childrenBars
+					} ],
+					tags: [ ...tags ],
+					offset
 				}
 			})
 		},
 
 		flattenEvents(events) {
 			return events
-				.reduce((events, event) => [ ...events, event, ...this.flattenEvents(event.children || []) ], [])
-				.sort((a, b) => a.start - b.start)
+				.reduce((events, group) => [ ...events, group, ...this.flattenEvents(group.events.flatMap(event => event.children)) ], [])
+				.sort((a, b) => a.events[0].start - b.events[0].start)
+		},
+
+		condenseEvents(events) {
+			let condenseBelow = (this.endTime - this.startTime) / 20
+
+			return events.reduce((events, group) => {
+				if (group.events[0].duration >= condenseBelow) return [ ...events, group ]
+
+				let lastGroup = events[events.length - 1]
+
+				if (events.length && lastGroup.condensed && lastGroup.events[lastGroup.events.length - 1].end < group.events[0].end) {
+					lastGroup.events = lastGroup.events.concat(group.events)
+					lastGroup.tags = unique(lastGroup.tags.concat(group.tags))
+					lastGroup.label = `${lastGroup.events.length} events`
+
+					group.events.forEach(event => event.eventStyle.left = `${event.offset - lastGroup.offset}px`)
+
+					return events
+				} else {
+					group.condensed = true
+					return [ ...events, group ]
+				}
+			}, [])
 		}
 	},
 	filters: {
 		formatTiming(value) { return (value <= 0 || value > 1) ? Math.round(value) : '<1' }
 	},
 	watch: {
-		events() { this.refreshEvents() }
+		filteredEvents() { this.refreshEvents() },
+		condense() { this.refreshEvents() }
 	},
 	mounted() {
 		this.hiddenTags = this.$settings.global.timelineHiddenTags[this.name] || []
@@ -331,7 +381,7 @@ export default {
 			width: 20%;
 		}
 
-		.timeline-event {
+		.timeline-event-group {
 			.event-label {
 				display: none;
 			}
@@ -358,6 +408,20 @@ export default {
 			display: flex;
 			height: 100%;
 			margin: 0 4px;
+		}
+
+		.timeline-condense {
+			align-items: center;
+			background: hsl(30, 1, 16);
+			border-radius: 4px;
+			display: flex;
+			font-size: 95%;
+			height: 100%;
+			padding: 0 8px;
+
+			input {
+				margin: 0 5px 0 0;
+			}
 		}
 
 		.timeline-search {
@@ -421,7 +485,7 @@ export default {
 		padding: 8px;
 	}
 
-	.timeline-event {
+	.timeline-event-group {
 		cursor: pointer;
 		height: 18px;
 		position: relative;
@@ -442,7 +506,7 @@ export default {
 
 			&.inside {
 				color: #fff !important;
-				position: relative;
+				position: absolute;
 				text-align: center;
 				width: 100% !important;
 			}
@@ -460,7 +524,37 @@ export default {
 			&.after {
 				left: 100%;
 			}
+
+			&.blue {
+				color: rgb(66, 149, 197);
+				@include dark { color: rgb(120, 177, 222); }
+			}
+
+			&.red {
+				color: rgb(209, 107, 108);
+				@include dark { color: rgb(211, 130, 131); }
+			}
+
+			&.green {
+				color: rgb(152, 186, 81);
+				@include dark { color: rgb(157, 182, 89); }
+			}
+
+			&.purple {
+				color: rgb(151, 114, 181);
+				@include dark { color: rgb(166, 128, 210); }
+			}
+
+			&.grey {
+				color: hsl(240, 5, 27);
+				@include dark { color: hsl(240, 5, 52); }
+			}
 		}
+	}
+
+	.timeline-event {
+		height: 100%;
+		position: absolute;
 
 		.event-bar {
 			background: rgb(66, 149, 197);
@@ -492,34 +586,6 @@ export default {
 					@include dark { background: rgb(46, 129, 177); }
 				}
 			}
-
-			.event-label {
-				color: rgb(66, 149, 197);
-				@include dark { color: rgb(120, 177, 222); }
-			}
-
-			.timeline-popover {
-				.timings-timing {
-					.timing-label:before {
-						background: rgb(66, 149, 197);
-						@include dark { background: rgb(100, 157, 202); }
-					}
-
-					&.timing-total {
-						.timing-label:before {
-							background: linear-gradient(to right, rgb(66, 149, 197) 50%, rgb(120, 177, 222) 50%);
-							@include dark { background: linear-gradient(to right, rgb(100, 157, 202) 50%, rgb(46, 129, 177) 50%); }
-						}
-					}
-
-					&.timing-children {
-						.timing-label:before {
-							background: rgb(120, 177, 222);
-							@include dark { background: rgb(46, 129, 177); }
-						}
-					}
-				}
-			}
 		}
 
 		&.red {
@@ -530,34 +596,6 @@ export default {
 				.bar-light {
 					background: rgb(231, 150, 151);
 					@include dark { background: rgb(189, 87, 88); }
-				}
-			}
-
-			.event-label {
-				color: rgb(209, 107, 108);
-				@include dark { color: rgb(211, 130, 131); }
-			}
-
-			.timeline-popover {
-				.timings-timing {
-					.timing-label:before {
-						background: rgb(209, 107, 108);
-						@include dark { background: rgb(211, 130, 131); }
-					}
-
-					&.timing-total {
-						.timing-label:before {
-							background: linear-gradient(to right, rgb(209, 107, 108) 50%, rgb(231, 150, 151) 50%);
-							@include dark { background: linear-gradient(to right, rgb(211, 130, 131) 50%, rgb(189, 87, 88) 50%); }
-						}
-					}
-
-					&.timing-children {
-						.timing-label:before {
-							background: rgb(231, 150, 151);
-							@include dark { background: rgb(189, 87, 88); }
-						}
-					}
 				}
 			}
 		}
@@ -572,34 +610,6 @@ export default {
 					@include dark { background: rgb(132, 166, 61); }
 				}
 			}
-
-			.event-label {
-				color: rgb(152, 186, 81);
-				@include dark { color: rgb(157, 182, 89); }
-			}
-
-			.timeline-popover {
-				.timings-timing {
-					.timing-label:before {
-						background: rgb(152, 186, 81);
-						@include dark { background: rgb(157, 182, 89); }
-					}
-
-					&.timing-total {
-						.timing-label:before {
-							background: linear-gradient(to right, rgb(152, 186, 81) 50%, rgb(177, 202, 109) 50%);
-							@include dark { background: linear-gradient(to right, rgb(157, 182, 89) 50%, rgb(132, 166, 61) 50%); }
-						}
-					}
-
-					&.timing-children {
-						.timing-label:before {
-							background: rgb(177, 202, 109);
-							@include dark { background: rgb(132, 166, 61); }
-						}
-					}
-				}
-			}
 		}
 
 		&.purple {
@@ -612,34 +622,6 @@ export default {
 					@include dark { background: rgb(131, 94, 161); }
 				}
 			}
-
-			.event-label {
-				color: rgb(151, 114, 181);
-				@include dark { color: rgb(166, 128, 210); }
-			}
-
-			.timeline-popover {
-				.timings-timing {
-					.timing-label:before {
-						background: rgb(151, 114, 181);
-						@include dark { background: rgb(166, 128, 210); }
-					}
-
-					&.timing-total {
-						.timing-label:before {
-							background: linear-gradient(to right, rgb(151, 114, 181) 50%, rgb(186, 148, 230) 50%);
-							@include dark { background: linear-gradient(to right, rgb(166, 128, 210) 50%, rgb(131, 94, 161) 50%); }
-						}
-					}
-
-					&.timing-children {
-						.timing-label:before {
-							background: rgb(186, 148, 230);
-							@include dark { background: rgb(131, 94, 161); }
-						}
-					}
-				}
-			}
 		}
 
 		&.grey {
@@ -650,34 +632,6 @@ export default {
 				.bar-light {
 					background: hsl(240, 5, 62);
 					@include dark { background: hsl(240, 5, 37); }
-				}
-			}
-
-			.event-label {
-				color: hsl(240, 5, 27);
-				@include dark { color: hsl(240, 5, 52); }
-			}
-
-			.timeline-popover {
-				.timings-timing {
-					.timing-label:before {
-						background: hsl(240, 5, 27);
-						@include dark { background: hsl(240, 5, 52); }
-					}
-
-					&.timing-total {
-						.timing-label:before {
-							background: linear-gradient(to right, hsl(240, 5, 27) 50%, hsl(240, 5, 62) 50%);
-							@include dark { background: linear-gradient(to right, hsl(240, 5, 52) 50%, hsl(240, 5, 37) 50%); }
-						}
-					}
-
-					&.timing-children {
-						.timing-label:before {
-							background: hsl(240, 5, 62);
-							@include dark { background: hsl(240, 5, 37); }
-						}
-					}
 				}
 			}
 		}
@@ -700,6 +654,130 @@ export default {
 	.timeline-popover {
 		.popover-content {
 			padding-bottom: 0;
+		}
+
+		.popover-event {
+			border-bottom: 1px solid rgba(#333, 0.1);
+			margin-bottom: 5px;
+
+			@include dark { border-color: rgba(#eee, 0.1); }
+
+			&:last-child { border-bottom: 0; }
+
+			&.blue {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(66, 149, 197);
+						@include dark { background: rgb(100, 157, 202); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(66, 149, 197) 50%, rgb(120, 177, 222) 50%);
+							@include dark { background: linear-gradient(to right, rgb(100, 157, 202) 50%, rgb(46, 129, 177) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(120, 177, 222);
+							@include dark { background: rgb(46, 129, 177); }
+						}
+					}
+				}
+			}
+
+			&.red {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(209, 107, 108);
+						@include dark { background: rgb(211, 130, 131); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(209, 107, 108) 50%, rgb(231, 150, 151) 50%);
+							@include dark { background: linear-gradient(to right, rgb(211, 130, 131) 50%, rgb(189, 87, 88) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(231, 150, 151);
+							@include dark { background: rgb(189, 87, 88); }
+						}
+					}
+				}
+			}
+
+			&.green {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(152, 186, 81);
+						@include dark { background: rgb(157, 182, 89); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(152, 186, 81) 50%, rgb(177, 202, 109) 50%);
+							@include dark { background: linear-gradient(to right, rgb(157, 182, 89) 50%, rgb(132, 166, 61) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(177, 202, 109);
+							@include dark { background: rgb(132, 166, 61); }
+						}
+					}
+				}
+			}
+
+			&.purple {
+				.timings-timing {
+					.timing-label:before {
+						background: rgb(151, 114, 181);
+						@include dark { background: rgb(166, 128, 210); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, rgb(151, 114, 181) 50%, rgb(186, 148, 230) 50%);
+							@include dark { background: linear-gradient(to right, rgb(166, 128, 210) 50%, rgb(131, 94, 161) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: rgb(186, 148, 230);
+							@include dark { background: rgb(131, 94, 161); }
+						}
+					}
+				}
+			}
+
+			&.grey {
+				.timings-timing {
+					.timing-label:before {
+						background: hsl(240, 5, 27);
+						@include dark { background: hsl(240, 5, 52); }
+					}
+
+					&.timing-total {
+						.timing-label:before {
+							background: linear-gradient(to right, hsl(240, 5, 27) 50%, hsl(240, 5, 62) 50%);
+							@include dark { background: linear-gradient(to right, hsl(240, 5, 52) 50%, hsl(240, 5, 37) 50%); }
+						}
+					}
+
+					&.timing-children {
+						.timing-label:before {
+							background: hsl(240, 5, 62);
+							@include dark { background: hsl(240, 5, 37); }
+						}
+					}
+				}
+			}
 		}
 
 		.popover-header {
