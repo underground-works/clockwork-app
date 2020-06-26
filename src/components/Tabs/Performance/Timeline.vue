@@ -1,22 +1,31 @@
 <template>
 	<div class="timeline" :class="{ 'table-view': showDetails }">
-		<div class="timeline-controls">
-			<span class="timeline-control-group">
+		<div class="timeline-header">
+			<div class="header-title">
+				Timeline
+			</div>
+
+			<div class="header-group">
 				<a v-for="tag in availableTags" href="#" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
 					<font-awesome-icon :icon="tag.icon"></font-awesome-icon>
 				</a>
-			</span>
-			<span class="timeline-control-group">
-				<a href="#" class="toggle-filter" @click="filter.toggle()">
+			</div>
+
+			<div class="header-group">
+				<div class="timeline-search">
+					<input type="search" v-model="filter.input" placeholder="Search...">
 					<font-awesome-icon icon="search"></font-awesome-icon>
-				</a>
+				</div>
+			</div>
+
+			<div class="header-group">
 				<a href="#" title="Toggle details" @click.prevent="toggleDetails">
 					<font-awesome-icon :icon="showDetails ? 'indent' : 'outdent'"></font-awesome-icon>
 				</a>
-			</span>
+			</div>
 		</div>
 
-		<details-table :columns="columns" :items="filteredEvents" :filter="filter" :no-header="true" filter-example="database query duration:>50" :per-page="100">
+		<details-table :columns="columns" :items="filteredEvents" :filter="filter" :no-header="! showDetails" filter-example="database query duration:>50" :per-page="100">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="item, index in items">
 					<td class="timeline-graph">
@@ -27,7 +36,7 @@
 										<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
 									</span>
 								</span>
-								{{item.name}} {{item.duration}} ms
+								{{item.name}} {{item.duration|formatTiming}} ms
 							</div>
 
 							<div class="event-bar">
@@ -52,7 +61,7 @@
 								<div class="popover-timings">
 									<div class="timings-timing timing-total">
 										<div class="timing-value">
-											{{item.duration}} ms
+											{{item.duration|formatTiming}} ms
 										</div>
 										<div class="timing-label">
 											Total
@@ -61,7 +70,7 @@
 
 									<div class="timings-timing timing-self">
 										<div class="timing-value">
-											{{ item.durationSelf ? `${item.durationSelf} ms` : '–' }}
+											{{item.durationSelf|formatTiming}} ms
 										</div>
 										<div class="timing-label">
 											Self
@@ -70,7 +79,7 @@
 
 									<div class="timings-timing timing-children">
 										<div class="timing-value">
-											{{ item.durationChildren ? `${item.durationChildren} ms` : '–' }}
+											{{ item.durationChildren ? `${item.durationChildren|formatTiming} ms` : '–' }}
 										</div>
 										<div class="timing-label">
 											Children
@@ -88,12 +97,14 @@
 						</span>
 						{{item.description}}
 					</td>
-					<td class="timeline-duration">{{item.duration}} ms</td>
+					<td class="timeline-timing timing-total">{{item.duration|formatTiming}} ms</td>
+					<td class="timeline-timing">{{item.durationSelf|formatTiming}} ms</td>
+					<td class="timeline-timing">{{ item.durationChildren ? `${item.durationChildren|formatTiming} ms` : '–' }}</td>
 				</tr>
 
 				<tr class="timeline-size-monitor">
 					<td class="timeline-graph" ref="timelineChart"></td>
-					<td class="timeline-duration"></td>
+					<td class="timeline-timing"></td>
 					<td class="timeline-description"></td>
 				</tr>
 			</template>
@@ -131,7 +142,13 @@ export default {
 		},
 
 		columns() {
-			return this.showDetails ? [ 'Timeline', 'Duration', 'Description' ] : [ 'Timeline' ]
+			return [
+				{ name: ' ', sortBy: 'start', class: 'timeline-graph' },
+				{ name: 'Event', sortBy: 'name', class: 'timeline-description' },
+				{ name: 'Total', sortBy: 'duration', class: 'timeline-timing' },
+				{ name: 'Self', sortBy: 'durationSelf', class: 'timeline-timing' },
+				{ name: 'Child', sortBy: 'durationChild', class: 'timeline-timing' }
+			]
 		},
 
 		filteredEvents() {
@@ -203,11 +220,8 @@ export default {
 
 				let duration = event.duration || 0
 				let durationRelative = duration / (this.endTime - this.startTime)
-				let durationRaw = duration
 
 				let end = event.end || start + duration / 1000
-
-				duration = duration > 1 ? Math.round(duration) : '<1'
 
 				let offset = startRelative * timelineWidth
 				let width = durationRelative * timelineWidth
@@ -234,15 +248,12 @@ export default {
 					style: { 'left': `${item.offset - offset}px`, width: `${item.width}px` }
 				}))
 
-				let durationChildren = children.reduce((total, event) => total + event.durationRaw, 0)
+				let durationChildren = children.reduce((total, event) => total + event.duration, 0)
 				let durationSelf = event.duration - durationChildren
-
-				durationChildren = (durationChildren <= 0 || durationChildren > 1) ? Math.round(durationChildren) : '<1'
-				durationSelf = durationSelf > 1 ? Math.round(durationSelf) : '<1'
 
 				return {
 					name, description, duration, eventClass, eventStyle, labelClass, labelStyle, tags, children,
-					start, duration, durationSelf, durationChildren, durationRaw, end, offset, width, childrenBars
+					start, duration, durationSelf, durationChildren, end, offset, width, childrenBars
 				}
 			})
 		},
@@ -252,6 +263,9 @@ export default {
 				.reduce((events, event) => [ ...events, event, ...this.flattenEvents(event.children || []) ], [])
 				.sort((a, b) => a.start - b.start)
 		}
+	},
+	filters: {
+		formatTiming(value) { return (value <= 0 || value > 1) ? Math.round(value) : '<1' }
 	},
 	watch: {
 		events() { this.refreshEvents() }
@@ -276,6 +290,14 @@ export default {
 	table {
 		table-layout: fixed;
 
+		.toggle-filter {
+			display: none !important;
+		}
+
+		th {
+			font-size: 95% !important;
+		}
+
 		tbody {
 			tr:nth-child(even) {
 				background: hsl(240, 20, 97) !important;
@@ -289,7 +311,7 @@ export default {
 		}
 	}
 
-	.timeline-duration, .timeline-description {
+	.timeline-timing, .timeline-description {
 		display: none;
 	}
 
@@ -301,7 +323,7 @@ export default {
 	}
 
 	&.table-view {
-		.timeline-duration, .timeline-description {
+		.timeline-timing, .timeline-description {
 			display: table-cell;
 		}
 
@@ -316,30 +338,76 @@ export default {
 		}
 	}
 
-	.timeline-controls {
+	.timeline-header {
+		align-items: center;
 		display: flex;
 		font-size: 14px;
+		height: 24px;
 		justify-content: space-between;
-		margin-bottom: 5px;
+		margin-bottom: 10px;
 
-		.timeline-control-group {
+		.header-title {
+			flex: 1;
+			font-size: 105%;
+			font-weight: 600;
+			margin: 0 10px;
+		}
+
+		.header-group {
+			align-items: center;
+			display: flex;
+			height: 100%;
 			margin: 0 4px;
 		}
 
-		.toggle-filter {
-			position: static;
-			visibility: visible;
+		.timeline-search {
+			margin: 0 4px;
+			position: relative;
+
+			input {
+				background: #eee;
+				border: 0;
+				border-radius: 4px;
+				font-size: 13px;
+				height: 24px;
+				padding-left: 30px;
+				width: 180px;
+
+				@include dark {
+					background: rgb(93, 92, 91);
+					color: rgb(233, 233, 233);
+
+					&::placeholder {
+						color: rgb(167, 166, 165);
+						opacity: 1;
+					}
+				}
+			}
+
+			.fa-search {
+				left: 7px;
+				position: absolute;
+				top: 5px;
+			}
 		}
 
 		a {
-			margin: 0 5px;
+			align-items: center;
+			border-radius: 4px;
+			display: flex;
+			height: 100%;
+			justify-content: center;
+			margin: 0 2px;
 			text-decoration: none;
+			width: 24px;
 
-			&.active {
-				color: rgb(37, 140, 219);
+			&.active, &:hover {
+				background: rgb(37, 140, 219);
+				color: #f5f5f5;
 
 				@include dark {
-					color: hsl(31, 98%, 48%);
+					background: hsl(31, 98%, 44%);
+					color: #fff;
 				}
 			}
 
@@ -375,6 +443,7 @@ export default {
 			&.inside {
 				color: #fff !important;
 				position: relative;
+				text-align: center;
 				width: 100% !important;
 			}
 
@@ -395,7 +464,7 @@ export default {
 
 		.event-bar {
 			background: rgb(66, 149, 197);
-			border-radius: 2px;
+			border-radius: 3px;
 			height: 100%;
 			left: 0;
 			overflow: hidden;
@@ -614,9 +683,14 @@ export default {
 		}
 	}
 
-	.timeline-duration {
+	.timeline-timing {
+		padding-right: 10px !important;
 		text-align: right;
-		width: 100px;
+		width: 80px;
+
+		&.timing-total {
+			font-weight: 600;
+		}
 	}
 
 	.timeline-size-monitor {
@@ -630,7 +704,7 @@ export default {
 
 		.popover-header {
 			display: flex;
-			padding: 12px;
+			padding: 12px 12px 14px;
 
 			h1 {
 				flex: 1;

@@ -30,9 +30,9 @@ export default {
 
 			this.classList = []
 
-			if (popoverViewportRect.left > popoverContainerRect.left + popoverContainerRect.width / 2 - 150) {
+			if (popoverViewportRect.left > popoverContainerRect.left + popoverContainerRect.width / 2 - 200) {
 				this.classList = [ 'left-aligned' ]
-			} else if (popoverViewportRect.right < popoverContainerRect.left + popoverContainerRect.width / 2 + 150) {
+			} else if (popoverViewportRect.right < popoverContainerRect.left + popoverContainerRect.width / 2 + 200) {
 				this.classList = [ 'right-aligned' ]
 			}
 		},
@@ -52,11 +52,11 @@ export default {
 }
 
 .popover {
-	left: calc(50% - 150px);
+	left: calc(50% - 200px);
 	padding-top: 17px;
 	position: absolute;
 	top: 100%;
-	width: 300px;
+	width: 400px;
 	z-index: 666;
 
 	&.left-aligned {
@@ -92,7 +92,7 @@ export default {
 	.popover-content {
 		background: hsl(240, 20, 99);
 		border-radius: 8px;
-		box-shadow: 0 1px 4px rgba(#333, 0.4);
+		box-shadow: 0 1px 5px rgba(#333, 0.4);
 		max-height: 400px;
 		overflow: auto;
 		padding: 5px 0;
