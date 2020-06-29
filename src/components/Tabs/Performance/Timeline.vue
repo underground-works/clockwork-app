@@ -34,44 +34,45 @@
 
 		<details-table :columns="columns" :items="presentedEvents" :filter="filter" :no-header="! showDetails" filter-example="database query duration:>50" :per-page="100">
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="item, index in items">
+				<tr v-for="group, index in items">
 					<td class="timeline-graph">
-						<div class="timeline-event-group popover-container" :style="item.groupStyle" @click="showPopover(index)">
-							<div class="event-label" :class="item.labelClass" :style="item.labelStyle">
-								<span class="label-tags" v-if="! item.condensed">
-									<span v-for="tag in resolveTags(item.tags)">
+						<div class="timeline-event-group popover-container" :style="group.groupStyle" @click="showPopover(index)">
+							<div class="event-label" :class="group.labelClass" :style="group.labelStyle">
+								<span class="label-tags" v-if="group.tags">
+									<span v-for="tag in resolveTags(group.tags)">
 										<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
 									</span>
 								</span>
-								{{item.label}}
+								{{group.label}}
+								<span v-if="! group.condensed">{{group.duration|formatTiming}}</span>
 							</div>
 
-							<div class="timeline-event" :class="item.eventClass" :style="item.eventStyle" v-for='item, index in item.events'>
+							<div class="timeline-event" :class="event.eventClass" :style="event.eventStyle" v-for='event, index in group.events'>
 								<div class="event-bar">
-									<div class="bar-light" :style="childBar.style" v-for="childBar in item.childrenBars"></div>
+									<div class="bar-light" :style="section.style" v-for="section in event.childrenSections"></div>
 								</div>
 							</div>
 
 							<popover class="timeline-popover" ref="popovers">
-								<div class="popover-event" :class="item.eventClass" v-for="item in item.events">
+								<div class="popover-event" :class="event.eventClass" v-for="event in group.events">
 									<div class="popover-header">
-										<h1>{{item.name}}</h1>
+										<h1>{{event.name}}</h1>
 
 										<div class="header-tags">
-											<span v-for="tag in resolveTags(item.tags)">
+											<span v-for="tag in resolveTags(event.tags)">
 												<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
 											</span>
 										</div>
 									</div>
 
-									<div class="popover-description" v-if="item.description != item.name">
-										{{item.description}}
+									<div class="popover-description" v-if="event.description != event.name">
+										{{event.description}}
 									</div>
 
 									<div class="popover-timings">
 										<div class="timings-timing timing-total">
 											<div class="timing-value">
-												{{item.duration|formatTiming}} ms
+												{{event.duration|formatTiming}}
 											</div>
 											<div class="timing-label">
 												Total
@@ -80,7 +81,7 @@
 
 										<div class="timings-timing timing-self">
 											<div class="timing-value">
-												{{item.durationSelf|formatTiming}} ms
+												{{event.durationSelf|formatTiming}}
 											</div>
 											<div class="timing-label">
 												Self
@@ -89,7 +90,7 @@
 
 										<div class="timings-timing timing-children">
 											<div class="timing-value">
-												{{ item.durationChildren ? `${item.durationChildren|formatTiming} ms` : '–' }}
+												{{event.durationChildren|formatTiming('ms', '–')}}
 											</div>
 											<div class="timing-label">
 												Children
@@ -101,16 +102,16 @@
 						</div>
 					</td>
 					<td class="timeline-description">
-						<span class="description-tags" v-if="! item.condensed">
-							<span v-for="tag in resolveTags(item.tags)">
+						<span class="description-tags" v-if="group.tags">
+							<span v-for="tag in resolveTags(group.tags)">
 								<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
 							</span>
 						</span>
-						{{item.condensed ? item.label : item.events[0].description}}
+						{{group.description}}
 					</td>
-					<td class="timeline-timing timing-total">{{item.condensed ? '' : `${item.events[0].duration|formatTiming} ms`}}</td>
-					<td class="timeline-timing">{{item.condensed ? '' : `${item.events[0].durationSelf|formatTiming} ms`}}</td>
-					<td class="timeline-timing">{{item.condensed ? '' : (item.events[0].durationChildren ? `${item.events[0].durationChildren|formatTiming} ms` : '–')}}</td>
+					<td class="timeline-timing timing-total">{{group.duration|formatTiming}}</td>
+					<td class="timeline-timing">{{group.durationSelf}}</td>
+					<td class="timeline-timing">{{group.durationChildren|formatTiming('ms', group.condensed ? '' : '–')}}</td>
 				</tr>
 
 				<tr class="timeline-size-monitor">
@@ -137,12 +138,12 @@ import unique from 'just-unique'
 export default {
 	name: 'Timeline',
 	components: { DetailsTable, Popover },
-	props: { name: {}, events: {}, startTime: {}, endTime: {}, tags: { default: () => [] } },
+	props: { name: {}, timeline: {}, startTime: {}, endTime: {}, tags: { default: () => [] } },
 	data: () => ({
 		condense: true,
 		showDetails: false,
-		hiddenTags: [],
 
+		hiddenTags: [],
 		presentedEvents: [],
 
 		filter: new Filter([
@@ -151,7 +152,7 @@ export default {
 	}),
 	computed: {
 		availableTags() {
-			return this.tags.filter(tag => this.events.find(item => item.tags && item.tags.includes(tag.tag)))
+			return this.tags.filter(tag => this.timeline.events.find(item => item.tags && item.tags.includes(tag.tag)))
 		},
 
 		columns() {
@@ -162,12 +163,6 @@ export default {
 				{ name: 'Self', sortBy: 'durationSelf', class: 'timeline-timing' },
 				{ name: 'Child', sortBy: 'durationChild', class: 'timeline-timing' }
 			]
-		},
-
-		filteredEvents() {
-			if (! this.events) return []
-
-			return Object.values(this.events).filter(item => ! intersect(item.tags || [], this.hiddenTags).length)
 		}
 	},
 	methods: {
@@ -195,130 +190,26 @@ export default {
 		},
 
 		refreshEvents() {
-			if (! this.filteredEvents || ! this.$refs.timelineChart) return this.presentedEvents = []
+			if (! this.timeline) return []
 
-			let events = clone(this.filteredEvents)
-
-			events = this.structureEvents(events)
-			events = this.presentEvents(events)
-			events = this.flattenEvents(events)
-
-			this.presentedEvents = this.condense ? this.condenseEvents(events) : events
-		},
-
-		structureEvents(events) {
-			events = [ ...events ].reverse()
-
-			events = events.reduce((events, event) => {
-				let parent = events.find(item => item != event && item.start <= event.start && event.end <= item.end)
-
-				if (! parent) return events
-
-				parent.children = [ ...(parent.children || []), event ]
-				event.parent = parent
-
-				return events.filter(e => e !== event)
-			}, events)
-
-			return events.reverse()
-		},
-
-		presentEvents(events) {
 			let timelineWidth = this.$refs.timelineChart.offsetWidth - 16
 
-			return events.map((event, i) => {
-				let name = event.name || event.description
-				let description = event.description
-
-				let start = event.start || this.startTime
-				let startRelative = (event.start - this.startTime) * 1000 / (this.endTime - this.startTime)
-
-				let duration = event.duration || 0
-				let durationRelative = duration / (this.endTime - this.startTime)
-
-				let end = event.end || start + duration / 1000
-
-				let offset = startRelative * timelineWidth
-				let width = durationRelative * timelineWidth
-
-				if (width < 3) width = 3
-				if (width > timelineWidth) width = timelineWidth
-				if (offset + width > timelineWidth) offset = timelineWidth - width
-
-				let eventClass = event.color || 'blue'
-				let eventStyle = { 'left': `0px`, width: `${width}px` }
-
-				let labelWidth = startRelative > 0.5 ? offset : timelineWidth - width - offset
-
-				let labelClass = startRelative > 0.5 ? 'before' : 'after'
-				let labelStyle = { width: `${labelWidth}px` }
-
-				labelClass += ' ' + (event.color || 'blue')
-
-				if (width > 200) labelClass = 'inside'
-
-				let tags = event.tags || []
-
-				let children = this.presentEvents(event.children || [])
-
-				let childrenBars = children.map(item => ({
-					style: { 'left': `${item.events[0].offset - offset}px`, width: `${item.events[0].width}px` }
-				}))
-
-				let durationChildren = children.reduce((total, event) => total + event.duration, 0)
-				let durationSelf = event.duration - durationChildren
-
-				let groupStyle = { 'margin-left': `${offset}px`, width: `${width}px` }
-
-				return {
-					groupStyle,
-					label: `${name} ${this.$options.filters.formatTiming(duration)} ms`,
-					labelClass, labelStyle,
-					events: [ {
-						name, description, duration, eventClass, eventStyle, tags, children,
-						start, duration, durationSelf, durationChildren, end, offset, width, childrenBars
-					} ],
-					tags: [ ...tags ],
-					offset
-				}
-			})
-		},
-
-		flattenEvents(events) {
-			return events
-				.reduce((events, group) => [ ...events, group, ...this.flattenEvents(group.events.flatMap(event => event.children)) ], [])
-				.sort((a, b) => a.events[0].start - b.events[0].start)
-		},
-
-		condenseEvents(events) {
-			let condenseBelow = (this.endTime - this.startTime) / 20
-
-			return events.reduce((events, group) => {
-				if (group.events[0].duration >= condenseBelow) return [ ...events, group ]
-
-				let lastGroup = events[events.length - 1]
-
-				if (events.length && lastGroup.condensed && lastGroup.events[lastGroup.events.length - 1].end < group.events[0].end) {
-					lastGroup.events = lastGroup.events.concat(group.events)
-					lastGroup.tags = unique(lastGroup.tags.concat(group.tags))
-					lastGroup.label = `${lastGroup.events.length} events`
-
-					group.events.forEach(event => event.eventStyle.left = `${event.offset - lastGroup.offset}px`)
-
-					return events
-				} else {
-					group.condensed = true
-					return [ ...events, group ]
-				}
-			}, [])
+			this.presentedEvents = this.timeline
+				.filter(this.filter, this.hiddenTags)
+				.present(timelineWidth, this.condense)
 		}
 	},
 	filters: {
-		formatTiming(value) { return (value <= 0 || value > 1) ? Math.round(value) : '<1' }
+		formatTiming(value, unit = 'ms', placeholder = '') {
+			if (value === null || value === undefined) return placeholder
+
+			return (value <= 0 || value > 1) ? `${Math.round(value)} ${unit}` : `<1 ${unit}`
+		}
 	},
 	watch: {
-		filteredEvents() { this.refreshEvents() },
-		condense() { this.refreshEvents() }
+		condense() { this.refreshEvents() },
+		timeline() { this.refreshEvents() },
+		hiddenTags() { this.refreshEvents() }
 	},
 	mounted() {
 		this.hiddenTags = this.$settings.global.timelineHiddenTags[this.name] || []

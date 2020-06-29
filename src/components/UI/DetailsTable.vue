@@ -10,7 +10,7 @@
 					</th>
 				</slot>
 			</tr>
-			<tr class="filter" v-show="filter.shown">
+			<tr class="filter" v-show="filter.shown" v-if="filter">
 				<td :colspan="columns.length">
 					<label>
 						<font-awesome-icon icon="search"></font-awesome-icon>
@@ -49,7 +49,7 @@ export default {
 	}),
 	computed: {
 		filteredItems() {
-			return this.filter.filter(this.items)
+			return this.filter ? this.filter.filter(this.items) : this.items
 		},
 		shownItems() {
 			if (this.firstShown > this.filteredItems.length) {

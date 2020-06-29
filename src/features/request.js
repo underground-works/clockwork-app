@@ -1,3 +1,5 @@
+import { Timeline } from './timeline'
+
 import clone from 'just-clone'
 import URI from 'urijs'
 
@@ -345,27 +347,66 @@ export default class Request
 	}
 
 	processTimeline(data) {
-		let timeline = data instanceof Object ? Object.values(data) : []
+		let timeline = new Timeline(
+			Object.values(this.optionalNonEmptyObject(data, {})),
+			this.time,
+			this.time + this.responseDuration
+		)
 
-		if (! data || ! data.total) {
-			this.appendToTimeline(timeline, [ { description: 'Total time', time: this.time, duration: this.responseDuration, color: 'grey' } ], item => item)
-		}
+		if (data && ! data.total) timeline.appendTotalEvent()
 
-		this.appendToTimeline(timeline, this.databaseQueries, query => ({ name: query.shortQuery, description: query.query, color: 'red', tags: [ 'databaseQueries' ] }))
-		this.appendToTimeline(timeline, this.events, event => ({ description: event.event, color: 'purple', tags: [ 'events' ] }))
-		this.appendToTimeline(timeline, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, color: 'green', tags: [ 'cacheQueries' ] }))
-		this.appendToTimeline(timeline, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, color: 'green', tags: [ 'redisCommands' ] }))
-		this.appendToTimeline(timeline, this.queueJobs, job => ({ description: job.name, color: 'purple', tags: [ 'queueJobs' ] }))
-		this.mergeToTimeline(timeline, this.viewsData)
-		this.appendToTimeline(timeline, this.emails, email => ({ description: `${email.to} - ${email.subject}`, color: 'purple', tags: [ 'emails' ] }))
+		this.databaseQueries.forEach(query => timeline.append({
+			start: query.time,
+			duration: query.duration,
+			name: query.shortQuery,
+			description: query.query,
+			color: 'red',
+			tags: [ 'databaseQueries' ]
+		}))
 
-		timeline.forEach(event => {
-			if (! event.start) event.start = this.time
-			if (! event.duration) event.duration = 0
-			if (! event.end) event.end = event.start + event.duration / 1000
-		})
+		this.events.forEach(event => timeline.append({
+			start: event.time,
+			duration: event.duration,
+			description: event.event,
+			color: 'purple',
+			tags: [ 'events' ]
+		}))
 
-		return timeline.sort((a, b) => a.start - b.start)
+		this.cacheQueries.forEach(query => timeline.append({
+			start: query.time,
+			duration: query.duration,
+			description: `${query.type.toUpperCase()} ${query.key}`,
+			color: 'green',
+			tags: [ 'cacheQueries' ]
+		}))
+
+		this.redisCommands.forEach(command => timeline.append({
+			start: command.time,
+			duration: command.duration,
+			description: `${command.command} ${Object.values(command.parameters).join(' ')}`,
+			color: 'green',
+			tags: [ 'redisCommands' ]
+		}))
+
+		this.queueJobs.forEach(job => timeline.append({
+			start: job.time,
+			duration: job.duration,
+			description: job.name,
+			color: 'purple',
+			tags: [ 'queueJobs' ]
+		}))
+
+		// this.mergeToTimeline(timeline, this.viewsData)
+
+		this.emails.forEach(email => timeline.append({
+			start: email.time,
+			duration: email.duration,
+			description: `${email.to} - ${email.subject}`,
+			color: 'purple',
+			tags: [ 'emails' ]
+		}))
+
+		return timeline
 	}
 
 	createTimeline(data) {
