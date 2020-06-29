@@ -50,37 +50,47 @@ export class Timeline {
 		return timeline
 	}
 
-	present(width, condense = false)
+	condense()
 	{
 		let timeline = this.copy()
 
-		timeline.width = width
+		let condenseBelow = (timeline.endTime - timeline.startTime) / 20
 
-		timeline.events = timeline.events.map(event => new TimelineEventGroup(event.present(timeline)))
+		timeline.events = timeline.events.reduce((events, event) => {
+			if (event.duration >= condenseBelow) return [ ...events, event ]
 
-		if (condense) timeline.condense()
+			let lastEvent = events[events.length - 1]
 
-		return timeline.events
-	}
-
-	condense()
-	{
-		let condenseBelow = (this.endTime - this.startTime) / 20
-
-		this.events = this.events.reduce((events, group) => {
-			if (group.duration >= condenseBelow) return [ ...events, group ]
-
-			let lastGroup = events[events.length - 1]
-
-			if (lastGroup && lastGroup.duration < condenseBelow && lastGroup.end < group.end) {
-				lastGroup.merge(group)
+			if (lastEvent instanceof TimelineEventGroup && lastEvent.end <= event.start) {
+				lastEvent.push(event)
 				return events
 			}
 
-			return [ ...events, group ]
+			return [ ...events, new TimelineEventGroup(event)]
 		}, [])
 
-		return this
+		return timeline
+	}
+
+	present(width)
+	{
+		return this.events.map(group => {
+			if (! (group instanceof TimelineEventGroup)) group = new TimelineEventGroup(group)
+
+			return group.present(this, width)
+		})
+	}
+
+	findChildren(event)
+	{
+		return this.events.flatMap(event => event instanceof TimelineEventGroup ? event.events : event)
+			.reduce((children, item) => {
+				if (item !== event && event.contains(item) && children.every(child => ! child.contains(item))) {
+					children.push(item)
+				}
+
+				return children
+			}, [])
 	}
 }
 
@@ -96,7 +106,7 @@ export class TimelineEvent {
 		this.tags = data.tags || []
 	}
 
-	present(timeline)
+	present(timeline, timelineWidth)
 	{
 		if (this.presented) return this
 
@@ -105,24 +115,24 @@ export class TimelineEvent {
 		this.startRelative = (this.start - timeline.startTime) * 1000 / (timeline.endTime - timeline.startTime)
 		this.durationRelative = this.duration / (timeline.endTime - timeline.startTime)
 
-		this.offset = this.startRelative * timeline.width
-		this.width = this.durationRelative * timeline.width
+		this.offset = this.startRelative * timelineWidth
+		this.width = this.durationRelative * timelineWidth
 
 		if (this.width < 3) this.width = 3
-		if (this.width > timeline.width) this.width = timeline.width
-		if (this.width + this.offset > timeline.width) this.offset = timeline.width - this.width
+		if (this.width > timelineWidth) this.width = timelineWidth
+		if (this.width + this.offset > timelineWidth) this.offset = timelineWidth - this.width
 
 		this.eventClass = this.color
 		this.eventStyle = { 'left': `0px`, width: `${this.width}px` }
 
-		this.labelWidth = this.startRelative > 0.5 ? this.offset : timeline.width - this.width - this.offset
+		this.labelWidth = this.startRelative > 0.5 ? this.offset : timelineWidth - this.width - this.offset
 
 		this.labelClass = this.startRelative > 0.5 ? [ 'before', this.color ] : [ 'after', this.color ]
 		this.labelStyle = { width: `${this.labelWidth}px` }
 
 		if (this.width > 200) this.labelClass = [ 'inside', this.color ]
 
-		let children = this.findChildren(timeline).map(event => event.present(timeline))
+		let children = timeline.findChildren(this).map(event => event.present(timeline, timelineWidth))
 
 		this.childrenSections = children.map(event => ({
 			style: { 'left': `${event.offset - this.offset}px`, width: `${event.width}px` }
@@ -140,25 +150,12 @@ export class TimelineEvent {
 	{
 		return this.start <= event.start && event.end <= this.end
 	}
-
-	findChildren(timeline)
-	{
-		return timeline.events.reduce((children, event) => {
-			if (event !== this && this.contains(event) && children.every(child => ! child.contains(event))) {
-				children.push(event)
-			}
-
-			return children
-		}, [])
-	}
 }
 
 export class TimelineEventGroup {
 	constructor(events)
 	{
 		this.events = events instanceof Array ? events : [ events ]
-
-		this.groupStyle = { 'margin-left': `${this.events[0].offset}px`, width: `${this.events[0].width}px` }
 	}
 
 	get condensed() { return this.events.length > 1 }
@@ -175,10 +172,21 @@ export class TimelineEventGroup {
 	get description() { return this.condensed ? this.label : this.events[0].description }
 	get tags() { return this.condensed ? [] : this.events[0].tags }
 
-	merge(group)
-	{
-		this.events = this.events.concat(group.events)
+	get groupStyle() { return { 'margin-left': `${this.events[0].offset}px`, width: `${this.events[0].width}px` } }
 
-		this.events.forEach(event => event.eventStyle.left = `${event.offset - this.events[0].offset}px`)
+	push(event)
+	{
+		this.events.push(event)
+	}
+
+	present(timeline, timelineWidth)
+	{
+		this.events.forEach(event => {
+			event.present(timeline, timelineWidth)
+
+			event.eventStyle.left = `${event.offset - this.events[0].offset}px`
+		})
+
+		return this
 	}
 }

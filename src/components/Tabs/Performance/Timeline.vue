@@ -193,10 +193,11 @@ export default {
 			if (! this.timeline) return []
 
 			let timelineWidth = this.$refs.timelineChart.offsetWidth - 16
+			let timeline = this.timeline.filter(this.filter, this.hiddenTags)
 
-			this.presentedEvents = this.timeline
-				.filter(this.filter, this.hiddenTags)
-				.present(timelineWidth, this.condense)
+			if (this.condense) timeline = timeline.condense()
+
+			this.presentedEvents = timeline.present(timelineWidth)
 		}
 	},
 	filters: {
