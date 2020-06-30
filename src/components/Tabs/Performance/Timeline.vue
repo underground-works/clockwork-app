@@ -171,9 +171,6 @@ export default {
 			} else {
 				this.hiddenTags.push(tag)
 			}
-
-			this.$settings.global.timelineHiddenTags[this.name] = this.hiddenTags
-			this.$settings.save()
 		},
 
 		resolveTags(tags) {
@@ -207,11 +204,26 @@ export default {
 		}
 	},
 	watch: {
-		condense() { this.refreshEvents() },
-		timeline() { this.refreshEvents() },
-		hiddenTags() { this.refreshEvents() }
+		condense() {
+			this.refreshEvents()
+
+			this.$settings.global.timelineCondensed[this.name] = this.condense
+			this.$settings.save()
+		},
+
+		hiddenTags() {
+			this.refreshEvents()
+
+			this.$settings.global.timelineHiddenTags[this.name] = this.hiddenTags
+			this.$settings.save()
+		},
+
+		timeline() {
+			this.refreshEvents()
+		}
 	},
 	mounted() {
+		this.condense = this.$settings.global.timelineCondensed[this.name] || false
 		this.hiddenTags = this.$settings.global.timelineHiddenTags[this.name] || []
 
 		this.refreshEvents()
