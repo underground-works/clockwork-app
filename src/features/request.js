@@ -9,6 +9,7 @@ export default class Request
 		Object.assign(this, data)
 
 		this.time = parseFloat(this.time)
+		this.responseDuration = parseFloat(this.responseDuration)
 		this.responseDurationRounded = this.responseDuration ? Math.round(this.responseDuration) : 0
 		this.databaseDurationRounded = this.databaseDuration ? Math.round(this.databaseDuration) : 0
 		this.memoryUsageFormatted = this.memoryUsage ? this.formatBytes(this.memoryUsage) : undefined

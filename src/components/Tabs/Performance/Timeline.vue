@@ -43,7 +43,7 @@
 										<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
 									</span>
 								</span>
-								{{group.label}}
+								{{group.name}}
 								<span v-if="! group.condensed">{{group.duration|formatTiming}}</span>
 							</div>
 
