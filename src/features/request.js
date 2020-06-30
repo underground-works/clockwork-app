@@ -1,3 +1,5 @@
+import { Timeline } from './timeline'
+
 import clone from 'just-clone'
 import URI from 'urijs'
 
@@ -7,6 +9,7 @@ export default class Request
 		Object.assign(this, data)
 
 		this.time = parseFloat(this.time)
+		this.responseDuration = parseFloat(this.responseDuration)
 		this.responseDurationRounded = this.responseDuration ? Math.round(this.responseDuration) : 0
 		this.databaseDurationRounded = this.databaseDuration ? Math.round(this.databaseDuration) : 0
 		this.memoryUsageFormatted = this.memoryUsage ? this.formatBytes(this.memoryUsage) : undefined
@@ -192,6 +195,19 @@ export default class Request
 			query.tags = query.tags instanceof Array ? query.tags : []
 			query.bindings = this.optionalNonEmptyObject(query.bindings)
 
+			let match
+			if (match = query.query.match(/^SELECT .*? FROM .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `SELECT FROM ${match[1]}`
+			} else if (match = query.query.match(/^INSERT INTO .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `INSERT INTO ${match[1]}`
+			} else if (match = query.query.match(/^UPDATE .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `UPDATE ${match[1]}`
+			} else if (match = query.query.match(/^DELETE FROM .?([A-Za-z-_]+)/)) {
+				query.shortQuery = `DELETE FROM ${match[1]}`
+			} else {
+				query.shortQuery = query.query
+			}
+
 			return query
 		})
 	}
@@ -332,91 +348,80 @@ export default class Request
 	}
 
 	processTimeline(data) {
-		data = data instanceof Object ? Object.values(data) : []
+		let timeline = new Timeline(
+			Object.values(this.optionalNonEmptyObject(data, {})),
+			this.time,
+			this.time + this.responseDuration
+		)
 
-		this.appendToTimeline(data, this.databaseQueries, query => ({ description: query.query, tags: [ 'databaseQueries' ] }))
-		this.appendToTimeline(data, this.events, event => ({ description: event.event, tags: [ 'events' ] }))
-		this.appendToTimeline(data, this.cacheQueries, query => ({ description: `${query.type.toUpperCase()} ${query.key}`, tags: [ 'cacheQueries' ] }))
-		this.appendToTimeline(data, this.redisCommands, command => ({ description: `${command.command} ${Object.values(command.parameters).join(' ')}`, tags: [ 'redisCommands' ] }))
-		this.appendToTimeline(data, this.queueJobs, job => ({ description: job.name, tags: [ 'queueJobs' ] }))
-		this.mergeToTimeline(data, this.viewsData)
-		this.appendToTimeline(data, this.emails, email => ({ description: `${email.to} - ${email.subject}`, tags: [ 'emails' ] }))
+		if (data && ! data.total) timeline.appendTotalEvent()
 
-		data = data.sort((a, b) => a.start - b.start)
+		this.databaseQueries.forEach(query => timeline.append({
+			start: query.time,
+			duration: query.duration,
+			name: query.shortQuery,
+			description: query.query,
+			color: 'red',
+			tags: [ 'databaseQueries' ]
+		}))
 
-		return this.createTimeline(data)
-	}
+		this.events.forEach(event => timeline.append({
+			start: event.time,
+			duration: event.duration,
+			description: event.event,
+			color: 'purple',
+			tags: [ 'events' ]
+		}))
 
-	createTimeline(data) {
-		return Object.values(data).map((entry, i) => {
-			entry.style = 'style' + (i % 4 + 1)
-			entry.start = entry.start || this.time
-			entry.startPercentual = (entry.start - this.time) * 1000 / this.responseDuration * 100
-			entry.duration = entry.duration || (this.time + this.responseDuration - entry.start)
-			entry.durationPercentual = entry.duration / this.responseDuration * 100
+		this.cacheQueries.forEach(query => timeline.append({
+			start: query.time,
+			duration: query.duration,
+			description: `${query.type.toUpperCase()} ${query.key}`,
+			color: 'green',
+			tags: [ 'cacheQueries' ]
+		}))
 
-			entry.barLeft = `${entry.startPercentual}%`
-			entry.barWidth = entry.startPercentual + entry.durationPercentual < 100
-				? `${entry.durationPercentual}%` : `${100 - entry.startPercentual}%`
+		this.redisCommands.forEach(command => timeline.append({
+			start: command.time,
+			duration: command.duration,
+			description: `${command.command} ${Object.values(command.parameters).join(' ')}`,
+			color: 'green',
+			tags: [ 'redisCommands' ]
+		}))
 
-			entry.labelAlign = 'left'
-			entry.labelLeft = entry.barLeft
-			entry.labelRight = 'auto'
+		this.queueJobs.forEach(job => timeline.append({
+			start: job.time,
+			duration: job.duration,
+			description: job.name,
+			color: 'purple',
+			tags: [ 'queueJobs' ]
+		}))
 
-			if (entry.startPercentual > 50) {
-				entry.labelAlign = 'right'
-				entry.labelLeft = 'auto'
-				entry.labelRight = entry.durationPercentual < 1
-					? `calc(100% - ${entry.barLeft} - 8px)` : `calc(100% - ${entry.barLeft} - ${entry.barWidth})`
-			}
+		this.emails.forEach(email => timeline.append({
+			start: email.time,
+			duration: email.duration,
+			description: `${email.to} - ${email.subject}`,
+			color: 'purple',
+			tags: [ 'emails' ]
+		}))
 
-			entry.durationRounded = Math.round(entry.duration)
-			if (entry.durationRounded === 0) entry.durationRounded = '< 1'
+		timeline.merge(this.viewsData)
 
-			entry.tags = entry.tags || []
-
-			return entry
-		})
-	}
-
-	appendToTimeline(timeline, data, mapItem) {
-		data.forEach(item => {
-			if (! item.time) return
-
-			let time = item.time instanceof Date ? item.time.getTime() / 1000 : item.time
-			let duration = item.duration || 0
-
-			timeline.push(Object.assign({
-				description: '',
-				start: time,
-				end: time + duration,
-				duration: duration,
-				data: [],
-				tags: []
-			}, mapItem(item)))
-		})
-	}
-
-	mergeToTimeline(timeline, data) {
-		timeline.push(...data)
+		return timeline
 	}
 
 	processViews(data) {
-		data = data instanceof Object ? Object.values(data) : []
+		let views = Object.values(this.optionalNonEmptyObject(data, {})).map(view => ({
+			start: view.start,
+			duration: view.duration,
+			name: view.data?.name || view.description,
+			description: (view.data?.name || view.description) + (view.data?.memoryUsage ? ` (${this.formatBytes(view.data.memoryUsage)})` : ''),
+			data: this.optionalNonEmptyObject(view.data?.data),
+			color: 'purple',
+			tags: [ 'views' ]
+		}))
 
-		let views = data.forEach(view => {
-			view.data = view.data || {}
-			view.description = view.data.name || view.description
-			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length
-				? view.data.data : undefined
-			view.tags = [ 'views' ]
-
-			if (view.data.memoryUsage) view.description += ` (${this.formatBytes(view.data.memoryUsage)})`
-
-			return view
-		})
-
-		return this.createTimeline(data)
+		return new Timeline(views, this.time, this.time + this.responseDuration)
 	}
 
 	processUserData(tabs) {

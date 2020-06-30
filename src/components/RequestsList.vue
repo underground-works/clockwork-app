@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ 'split-view-pane split-view-requests': true, 'large': $settings.global.requestSidebarCollapsed }">
+	<div :class="{ 'split-view-pane split-view-requests': true, 'large': $settings.global.requestSidebarCollapsed }" class="popover-viewport">
 		<table class="requests-header" id="requests-header">
 			<thead>
 				<tr>

@@ -69,7 +69,9 @@ export default class Settings
 				requestSidebarCollapsed: false,
 				requestSidebarCollapsedSections: {},
 				seenReleaseNotesVersion: null,
-				timelineHiddenTags: {}
+				timelineCondensed: { performance: true, views: false },
+				timelineHiddenTags: {},
+				viewsTimelineCondensed: false
 			},
 			site: {
 				localPathMap: { real: null, local: null }

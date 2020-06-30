@@ -3,14 +3,14 @@
 		<thead>
 			<tr v-if="! noHeader">
 				<slot name="header" :filter="filter">
-					<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())">
+					<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())" :class="column.class">
 						{{ column.name || column }}
 						<font-awesome-icon v-show="filter.sortedBy == (column.sortBy || column.toLowerCase())" :icon="filter.sortedDesc ? 'angle-down' : 'angle-up'"></font-awesome-icon>
 						<details-table-filter-toggle :filter="filter" v-if="index == columns.length - 1"></details-table-filter-toggle>
 					</th>
 				</slot>
 			</tr>
-			<tr class="filter" v-show="filter.shown">
+			<tr class="filter" v-show="filter.shown" v-if="filter">
 				<td :colspan="columns.length">
 					<label>
 						<font-awesome-icon icon="search"></font-awesome-icon>
@@ -49,7 +49,7 @@ export default {
 	}),
 	computed: {
 		filteredItems() {
-			return this.filter.filter(this.items)
+			return this.filter ? this.filter.filter(this.items) : this.items
 		},
 		shownItems() {
 			if (this.firstShown > this.filteredItems.length) {

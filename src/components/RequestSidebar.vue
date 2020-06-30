@@ -1,5 +1,5 @@
 <template>
-	<div :class="{ 'request-sidebar': true, 'large': $settings.global.requestsListCollapsed }">
+	<div :class="{ 'request-sidebar': true, 'large': $settings.global.requestsListCollapsed }" class="popover-viewport">
 
 		<div class="sidebar-header">
 			<div class="sidebar-title">
