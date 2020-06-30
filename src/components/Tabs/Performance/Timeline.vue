@@ -429,8 +429,8 @@ $timeline-colors-dark: (
 				color: hsl(206, 30%, 30%);
 				font-size: 12px;
 				line-height: 18px;
-				margin: 0 6px;
 				overflow: hidden;
+				padding: 0 6px;
 				position: absolute;
 				text-overflow: ellipsis;
 				white-space: nowrap;
