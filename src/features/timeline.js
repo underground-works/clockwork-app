@@ -2,24 +2,21 @@ import clone from 'just-clone'
 import intersect from 'just-intersect'
 
 export class Timeline {
-	constructor(events, startTime, endTime)
-	{
+	constructor(events, startTime, endTime) {
 		this.startTime = startTime
 		this.endTime = endTime
 
 		this.events = events.map(data => new TimelineEvent(data))
 	}
 
-	append(data)
-	{
+	append(data) {
 		data.start = data.start || this.startTime
 
 		this.events.push(new TimelineEvent(data))
 		this.sort()
 	}
 
-	appendTotalEvent()
-	{
+	appendTotalEvent() {
 		this.append({
 			description: 'Total time',
 			start: this.startTime,
@@ -28,20 +25,17 @@ export class Timeline {
 		})
 	}
 
-	copy()
-	{
+	copy() {
 		return new Timeline(clone(this.events), this.startTime, this.endTime)
 	}
 
-	sort()
-	{
+	sort() {
 		this.events = this.events.sort((a, b) => a.start - b.start)
 
 		return this
 	}
 
-	filter(filter, hiddenTags)
-	{
+	filter(filter, hiddenTags) {
 		let timeline = this.copy()
 
 		timeline.events = filter.filter(timeline.events)
@@ -50,8 +44,7 @@ export class Timeline {
 		return timeline
 	}
 
-	condense()
-	{
+	condense() {
 		let timeline = this.copy()
 
 		let condenseBelow = (timeline.endTime - timeline.startTime) / 20
@@ -72,8 +65,7 @@ export class Timeline {
 		return timeline
 	}
 
-	present(width)
-	{
+	present(width) {
 		return this.events.map(group => {
 			if (! (group instanceof TimelineEventGroup)) group = new TimelineEventGroup(group)
 
@@ -81,8 +73,7 @@ export class Timeline {
 		})
 	}
 
-	findChildren(event)
-	{
+	findChildren(event) {
 		return this.events.flatMap(event => event instanceof TimelineEventGroup ? event.events : event)
 			.reduce((children, item) => {
 				if (item !== event && event.contains(item) && children.every(child => ! child.contains(item))) {
@@ -95,8 +86,7 @@ export class Timeline {
 }
 
 export class TimelineEvent {
-	constructor(data)
-	{
+	constructor(data) {
 		this.name = data.name
 		this.description = data.description || ''
 		this.start = data.start instanceof Date ? data.start.getTime() / 1000 : data.start
@@ -106,8 +96,7 @@ export class TimelineEvent {
 		this.tags = data.tags || []
 	}
 
-	present(timeline, timelineWidth)
-	{
+	present(timeline, timelineWidth) {
 		if (this.presented) return this
 
 		this.name = this.name || this.description
@@ -146,15 +135,13 @@ export class TimelineEvent {
 		return this
 	}
 
-	contains(event)
-	{
+	contains(event) {
 		return this.start <= event.start && event.end <= this.end
 	}
 }
 
 export class TimelineEventGroup {
-	constructor(events)
-	{
+	constructor(events) {
 		this.events = events instanceof Array ? events : [ events ]
 	}
 
@@ -174,13 +161,11 @@ export class TimelineEventGroup {
 
 	get groupStyle() { return { 'margin-left': `${this.events[0].offset}px`, width: `${this.events[0].width}px` } }
 
-	push(event)
-	{
+	push(event) {
 		this.events.push(event)
 	}
 
-	present(timeline, timelineWidth)
-	{
+	present(timeline, timelineWidth) {
 		this.events.forEach(event => {
 			event.present(timeline, timelineWidth)
 
