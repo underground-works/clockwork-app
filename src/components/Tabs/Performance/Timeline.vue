@@ -102,12 +102,14 @@
 						</div>
 					</td>
 					<td class="timeline-description">
-						<span class="description-tags" v-if="group.tags">
-							<span v-for="tag in resolveTags(group.tags)">
-								<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+						<slot name="table-description" :item="group">
+							<span class="description-tags" v-if="group.tags">
+								<span v-for="tag in resolveTags(group.tags)">
+									<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+								</span>
 							</span>
-						</span>
-						{{group.description}}
+							{{group.description}}
+						</slot>
 					</td>
 					<td class="timeline-timing timing-total">{{group.duration|formatTiming}}</td>
 					<td class="timeline-timing">{{group.durationSelf|formatTiming}}</td>
@@ -135,7 +137,7 @@ import debounce from 'just-debounce-it'
 export default {
 	name: 'Timeline',
 	components: { DetailsTable, Popover },
-	props: { name: {}, timeline: {}, startTime: {}, endTime: {}, tags: { default: () => [] } },
+	props: { name: {}, timeline: {}, tags: { default: () => [] } },
 	data: () => ({
 		condense: true,
 		showDetails: false,

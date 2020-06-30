@@ -1,9 +1,9 @@
 <template>
 	<div v-show="active">
-		<timeline name="views" :items="$request.viewsData">
+		<timeline name="views" :timeline="$request.viewsData">
 			<template slot="table-description" slot-scope="{ item }">
 				<div class="views-view-name">{{ item.description }}</div>
-				<pretty-print :data="item.data.data" v-if="item.data.data"></pretty-print>
+				<pretty-print :data="item.data" v-if="item.data"></pretty-print>
 			</template>
 		</timeline>
 	</div>

@@ -136,7 +136,7 @@ export default {
 				redis: this.$request?.redisCommands?.length > 0,
 				queue: this.$request?.queueJobs?.length > 0,
 				events: this.$request?.events?.length > 0,
-				views: this.$request?.viewsData?.length > 0,
+				views: this.$request?.viewsData?.events.length > 0,
 				emails: this.$request?.emails?.length > 0,
 				routes: this.$request?.routes?.length > 0,
 				output: this.$request?.commandOutput?.length > 0

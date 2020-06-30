@@ -25,6 +25,11 @@ export class Timeline {
 		})
 	}
 
+	merge(timeline) {
+		this.events = this.events.concat(timeline.events)
+		this.sort()
+	}
+
 	copy() {
 		return new Timeline(clone(this.events), this.startTime, this.endTime)
 	}
@@ -47,7 +52,7 @@ export class Timeline {
 	condense() {
 		let timeline = this.copy()
 
-		let condenseBelow = (timeline.endTime - timeline.startTime) / 20
+		let condenseBelow = (timeline.endTime - timeline.startTime) / 64
 
 		timeline.events = timeline.events.reduce((events, event) => {
 			if (event.duration >= condenseBelow) return [ ...events, event ]
@@ -94,6 +99,7 @@ export class TimelineEvent {
 		this.color = data.color || 'blue'
 		this.end = this.start + this.duration / 1000
 		this.tags = data.tags || []
+		this.data = data.data
 	}
 
 	present(timeline, timelineWidth) {
@@ -189,6 +195,7 @@ export class TimelineEventGroup {
 		this.groupStyle = { 'margin-left': `${this.offset}px`, width: `${this.width}px` }
 
 		this.tags = this.condensed ? [] : this.firstEvent.tags
+		this.data = this.condensed ? undefined : this.firstEvent.data
 
 		return this
 	}

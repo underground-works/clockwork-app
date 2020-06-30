@@ -397,8 +397,6 @@ export default class Request
 			tags: [ 'queueJobs' ]
 		}))
 
-		// this.mergeToTimeline(timeline, this.viewsData)
-
 		this.emails.forEach(email => timeline.append({
 			start: email.time,
 			duration: email.duration,
@@ -407,79 +405,23 @@ export default class Request
 			tags: [ 'emails' ]
 		}))
 
+		timeline.merge(this.viewsData)
+
 		return timeline
 	}
 
-	createTimeline(data) {
-		return Object.values(data).map((entry, i) => {
-			entry.style = 'style' + (i % 4 + 1)
-			entry.start = entry.start || this.time
-			entry.startPercentual = (entry.start - this.time) * 1000 / this.responseDuration * 100
-			entry.duration = entry.duration || (this.time + this.responseDuration - entry.start)
-			entry.durationPercentual = entry.duration / this.responseDuration * 100
-
-			entry.barLeft = `${entry.startPercentual}%`
-			entry.barWidth = entry.startPercentual + entry.durationPercentual < 100
-				? `${entry.durationPercentual}%` : `${100 - entry.startPercentual}%`
-
-			entry.labelAlign = 'left'
-			entry.labelLeft = entry.barLeft
-			entry.labelRight = 'auto'
-
-			if (entry.startPercentual > 50) {
-				entry.labelAlign = 'right'
-				entry.labelLeft = 'auto'
-				entry.labelRight = entry.durationPercentual < 1
-					? `calc(100% - ${entry.barLeft} - 8px)` : `calc(100% - ${entry.barLeft} - ${entry.barWidth})`
-			}
-
-			entry.durationRounded = Math.round(entry.duration)
-			if (entry.durationRounded === 0) entry.durationRounded = '< 1'
-
-			entry.tags = entry.tags || []
-
-			return entry
-		})
-	}
-
-	appendToTimeline(timeline, data, mapItem) {
-		data.forEach(item => {
-			if (! item.time) return
-
-			let time = item.time instanceof Date ? item.time.getTime() / 1000 : item.time
-			let duration = item.duration || 0
-
-			timeline.push(Object.assign({
-				description: '',
-				start: time,
-				end: time + duration / 1000,
-				duration: duration,
-				data: [],
-				tags: []
-			}, mapItem(item)))
-		})
-	}
-
-	mergeToTimeline(timeline, data) {
-		timeline.push(...data)
-	}
-
 	processViews(data) {
-		data = data instanceof Object ? Object.values(data) : []
+		let views = Object.values(this.optionalNonEmptyObject(data, {})).map(view => ({
+			start: view.start,
+			duration: view.duration,
+			name: view.data?.name || view.description,
+			description: (view.data?.name || view.description) + (view.data?.memoryUsage ? ` (${this.formatBytes(view.data.memoryUsage)})` : ''),
+			data: this.optionalNonEmptyObject(view.data?.data),
+			color: 'purple',
+			tags: [ 'views' ]
+		}))
 
-		let views = data.forEach(view => {
-			view.data = view.data || {}
-			view.description = view.data.name || view.description
-			view.data.data = view.data.data instanceof Object && Object.keys(view.data.data).filter(key => key != '__type__').length
-				? view.data.data : undefined
-			view.tags = [ 'views' ]
-
-			if (view.data.memoryUsage) view.description += ` (${this.formatBytes(view.data.memoryUsage)})`
-
-			return view
-		})
-
-		return this.createTimeline(data)
+		return new Timeline(views, this.time, this.time + this.responseDuration)
 	}
 
 	processUserData(tabs) {
