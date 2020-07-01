@@ -1,20 +1,22 @@
 <template>
 	<div :class="{ 'split-view-pane split-view-requests': true, 'large': $settings.global.requestSidebarCollapsed }" class="popover-viewport">
-		<table class="requests-header" id="requests-header">
-			<thead>
-				<tr>
-					<th class="controller">
-						Path<br><small>Controller</small>
-					</th>
-					<th class="status">
-						Status
-					</th>
-					<th class="duration">
-						Time<br><small v-if="showDatabaseTime">Database</small>
-					</th>
-				</tr>
-			</thead>
-		</table>
+		<div class="requests-header" id="requests-header">
+			<table>
+				<thead>
+					<tr>
+						<th class="controller">
+							Path<br><small>Controller</small>
+						</th>
+						<th class="status">
+							Status
+						</th>
+						<th class="duration">
+							Time<br><small v-if="showDatabaseTime">Database</small>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
 		<div class="requests-search" v-show="$requestsSearch.shown">
 			<label>
 				<font-awesome-icon icon="search"></font-awesome-icon>
@@ -31,86 +33,77 @@
 					loading...
 				</p>
 			</div>
-			<table id="requests" ref="requestsTable">
-				<tr class="sizing">
-					<td class="controller"></td>
-					<td class="status"></td>
-					<td class="duration"></td>
-				</tr>
-				<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
-					<td class="controller" :title="request.tooltip">
-						<div class="notifications-count">
-							<span class="warnings-count" v-show="request.warningsCount">
-								<font-awesome-icon icon="exclamation-triangle"></font-awesome-icon> {{request.warningsCount}}
-							</span>
-							<span class="errors-count" v-show="request.errorsCount">
-								<font-awesome-icon icon="exclamation-circle"></font-awesome-icon> {{request.errorsCount}}
-							</span>
-						</div>
-						<big>
+			<div class="requests-table" ref="requestsTable">
+				<table id="requests">
+					<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
+						<td class="controller" :title="request.tooltip">
+							<big>
+								<span class="request-alert alert-errors" v-if="request.errorsCount">
+									<font-awesome-icon icon="exclamation-circle"></font-awesome-icon>
+								</span>
+								<span class="request-alert alert-warnings" v-else-if="request.warningsCount">
+									<font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
+								</span>
+
+								<template v-if="request.isCommand()">
+									<span class="type-text">CMD</span>
+									{{request.commandName}}
+								</template>
+								<template v-else-if="request.isQueueJob()">
+									<span class="type-text">QUEUE</span>
+									{{request.jobName}}
+								</template>
+								<template v-else-if="request.isTest()">
+									<span class="type-text">TEST</span>
+									{{request.testGroup}}
+								</template>
+								<template v-else>
+									<span v-if="request.isAjax()" class="type-text">AJAX</span>
+									<span class="method-text">{{request.method}}</span> {{request.uri}}
+								</template>
+							</big>
+							<br>
 							<template v-if="request.isCommand()">
-								<span class="type-text">CMD</span>
-								{{request.commandName}}
+								<small>{{request.commandLine}}</small>
 							</template>
 							<template v-else-if="request.isQueueJob()">
-								<span class="type-text">QUEUE</span>
-								{{request.jobName}}
+								<small>{{request.jobDescription}}</small>
 							</template>
 							<template v-else-if="request.isTest()">
-								<span class="type-text">TEST</span>
-								{{request.testGroup}}
+								<small>{{request.testName}}</small>
 							</template>
 							<template v-else>
-								<span v-if="request.isAjax()" class="type-text">AJAX</span>
-								<span class="method-text">{{request.method}}</span> {{request.uri}}
+								<small v-if="$settings.global.requestSidebarCollapsed">{{request.controller}}</small>
+								<small v-else>{{request.controller | shortClass}}</small>
 							</template>
-						</big>
-						<br>
+						</td>
 						<template v-if="request.isCommand()">
-							<small>{{request.commandLine}}</small>
+							<td class="status" :title="request.commandExitCode">
+								<span :class="{ 'status-text': true, 'client-error': request.isCommandWarning(), 'server-error': request.isCommandError() }">{{request.commandExitCode}}</span>
+							</td>
 						</template>
 						<template v-else-if="request.isQueueJob()">
-							<small>{{request.jobDescription}}</small>
+							<td class="status" :title="request.jobStatus">
+								<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isQueueJobWarning(), 'server-error': request.isQueueJobError() }">{{request.jobStatus}}</span>
+							</td>
 						</template>
 						<template v-else-if="request.isTest()">
-							<small>{{request.testName}}</small>
+							<td class="status" :title="request.testStatus">
+								<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isTestWarning(), 'server-error': request.isTestError() }">{{request.testStatus}}</span>
+							</td>
 						</template>
 						<template v-else>
-							<small v-if="$settings.global.requestSidebarCollapsed">{{request.controller}}</small>
-							<small v-else>{{request.controller | shortClass}}</small>
+							<td class="status" :title="request.responseStatus">
+								<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
+							</td>
 						</template>
-					</td>
-					<template v-if="request.isCommand()">
-						<td class="status" :title="request.commandExitCode">
-							<span :class="{ 'status-text': true, 'client-error': request.isCommandWarning(), 'server-error': request.isCommandError() }">{{request.commandExitCode}}</span>
+						<td class="duration" :title="`${request.responseDurationRounded} ms (${request.databaseDurationRounded} ms)`">
+							{{request.responseDurationRounded}} ms<br>
+							<small v-if="showDatabaseTime">{{request.databaseDurationRounded}} ms</small>
 						</td>
-					</template>
-					<template v-else-if="request.isQueueJob()">
-						<td class="status" :title="request.jobStatus">
-							<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isQueueJobWarning(), 'server-error': request.isQueueJobError() }">{{request.jobStatus}}</span>
-						</td>
-					</template>
-					<template v-else-if="request.isTest()">
-						<td class="status" :title="request.testStatus">
-							<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isTestWarning(), 'server-error': request.isTestError() }">{{request.testStatus}}</span>
-						</td>
-					</template>
-					<template v-else>
-						<td class="status" :title="request.responseStatus">
-							<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
-						</td>
-					</template>
-					<td class="duration" :title="`${request.responseDurationRounded} ms (${request.databaseDurationRounded} ms)`">
-						{{request.responseDurationRounded}} ms<br>
-						<small v-if="showDatabaseTime">{{request.databaseDurationRounded}} ms</small>
-					</td>
-				</tr>
-				<tr class="filler">
-					<td class="controller"></td>
-					<td class="status"></td>
-					<td class="duration"></td>
-				</tr>
-			</table>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 </template>
@@ -221,18 +214,6 @@ export default {
 
 	@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
-	&.large {
-		.notifications-count {
-			flex-direction: row;
-
-			.errors-count {
-				margin-left: 5px;
-
-				svg { margin-right: 0; }
-			}
-		}
-	}
-
 	@media screen and (min-width: 900px) {
 		border-bottom: 0;
 		border-right: 1px solid rgb(209, 209, 209);
@@ -255,50 +236,27 @@ export default {
 	}
 
 	tr {
-		height: 28px;
-
 		&:first-child td {
-			border-top: 1px solid rgb(209, 209, 209);
-
-			@include dark { border-top: 1px solid rgb(54, 54, 54); }
-		}
-
-		&:nth-child(even):not(.filler) {
-			background: rgb(243, 243, 243);
-
-			@include dark { background: rgb(24, 24, 24); }
-
-			.notifications-count {
-				background: rgba(243, 243, 243, 0.8);
-
-				@include dark { background: rgba(27, 27, 27, 0.8); }
-			}
+			border-top: 1px solid transparent;
 		}
 
 		&.selected {
 			td {
 				background: rgb(39, 134, 243) !important;
+				border-top: 1px solid transparent;
 				color: white;
 
-				@include dark { background: hsl(31, 98%, 48%) !important; }
+				@include dark { background: #de7402 !important; }
+			}
+
+			& + tr td {
+				border-top: 1px solid transparent;
 			}
 
 			small {
 				color: white;
 
 				@include dark { color: white; }
-			}
-
-			.notifications-count {
-				background: rgb(39, 134, 243) !important;
-
-				.errors-count, .warnings-count, .warnings-count svg {
-					color: #fff;
-
-					@include dark { color: #fff; }
-				}
-
-				@include dark { background: hsl(31, 98%, 48%) !important; }
 			}
 
 			.method-text {
@@ -316,42 +274,34 @@ export default {
 					color: #fff;
 				}
 			}
-		}
 
-		&.sizing {
-			height: 0;
-
-			td {
-				border-top: 0;
-				padding: 0;
-
-				@include dark {
-					border-top: 0;
-				}
+			.request-alert {
+				color: #fff;
+				@include dark { color: #fff; }
 			}
 		}
 
-		&.filler {
-			height: auto;
+		td {
+			border-top: 1px solid rgb(243, 243, 243);
+
+			@include dark { border-color: #242424; }
+
+			&:first-child { border-radius: 6px 0 0 6px; }
+			&:last-child { border-radius: 0 6px 6px 0; }
 		}
 	}
 
 	th {
-		border-bottom: 1px solid rgb(209, 209, 209);
 		font-weight: normal;
 		height: 30px;
 		line-height: 1.1;
-		padding: 2px 4px;
+		padding: 2px 6px;
 		white-space: nowrap;
-
-		@include dark {
-			border-bottom: 1px solid rgb(54, 54, 54);
-		}
 	}
 
 	td {
 		overflow: hidden;
-		padding: 8px 6px;
+		padding: 7px 6px 8px;
 		vertical-align: middle;
 		white-space: nowrap;
 	}
@@ -440,46 +390,29 @@ export default {
 		}
 	}
 
-	.notifications-count {
-		align-items: center;
-		background: hsla(0, 0%, 98%, 0.8);
-		display: flex;
-		flex-direction: column;
-		float: right;
-		height: 100%;
-	    justify-content: center;
-		letter-spacing: -0.5px;
-	    margin-right: -6px;
-	    padding: 0 6px;
-		position: relative;
+	.request-alert {
+		font-size: 90%;
+		margin-right: 4px;
 
-		.errors-count {
+		&.alert-errors {
 			color: rgb(179, 73, 46);
-
 			@include dark { color: #ed797a; }
-
-			svg { margin-right: 1px; }
 		}
 
-		.warnings-count {
-			color: #a85919;
-
+		&.alert-warnings {
+			color: rgb(244, 189, 0);
 			@include dark { color: #fad89f; }
-
-			svg {
-				color: rgb(244, 189, 0);
-
-				@include dark { color: #fad89f; }
-			}
-		}
-
-		@include dark {
-			background: rgba(#1b1b1b, 0.8);
 		}
 	}
 
 	.requests-header {
+		border-bottom: 1px solid rgb(209, 209, 209);
 		height: 31px;
+		padding: 0 4px;
+
+		@include dark {
+			border-bottom: 1px solid rgb(54, 54, 54);
+		}
 	}
 
 	.requests-search {
@@ -537,29 +470,25 @@ export default {
 	}
 
 	.requests-container {
-		background: hsl(0, 0%, 98%);
+		background: hsl(240, 20, 99);
 		height: calc(100% - 31px);
 		overflow: auto;
-
-		table {
-			height: 100%;
-		}
+		padding: 4px;
 
 		@include dark {
 			background: #1b1b1b;
 		}
 	}
 
+	.requests-table {
+		height: 100%;
+	}
+
 	.load-more {
 		align-items: center;
-		border-bottom: 1px solid rgb(209, 209, 209);
 		display: flex;
 		height: 36px;
 		justify-content: center;
-
-		@include dark {
-			border-bottom: 1px solid rgb(54, 54, 54);
-		}
 
 		a {
 			color: rgb(64, 64, 64);
