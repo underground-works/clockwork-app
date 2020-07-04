@@ -286,8 +286,8 @@ export default {
 
 			@include dark { border-color: #242424; }
 
-			&:first-child { border-radius: 6px 0 0 6px; }
-			&:last-child { border-radius: 0 6px 6px 0; }
+			&:first-child { border-radius: 8px 0 0 8px; }
+			&:last-child { border-radius: 0 8px 8px 0; }
 		}
 	}
 

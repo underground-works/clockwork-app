@@ -83,7 +83,7 @@ export default {
 
 	.session-user {
 		align-items: center;
-		border-bottom: 1px solid rgb(209, 209, 209);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 		display: flex;
 		font-size: 110%;
 		padding: 8px 10px;

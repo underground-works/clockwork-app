@@ -1,6 +1,6 @@
 <template>
 	<div v-show="active">
-		<details-table :columns="['Time', 'Level', 'Message']" :items="log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
+		<details-table title="Messages" :columns="['Time', 'Level', 'Message']" :items="log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message, index in items" :class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }" :key="`${$request.id}-${index}`">
 					<td class="log-date">{{message.time | moment('HH:mm:ss')}}</td>
@@ -67,7 +67,109 @@ export default {
 </script>
 
 <style lang="scss">
-.log-message-context {
-	margin-top: 2px;
+@import '../../mixins.scss';
+
+.details-table {
+	.log-row {
+		&.error {
+			background: rgb(255, 235, 235);
+			color: rgb(197, 31, 36);
+
+			&:nth-child(even) {
+				background: hsl(0, 100%, 94%);
+			}
+
+			.log-message-path {
+				color: hsl(358, 55%, 70%);
+			}
+
+			@include dark {
+				background: hsl(0, 100%, 11%);
+				color: rgb(237, 121, 122);
+
+				&:nth-child(even) {
+					background: hsl(0, 100%, 9%);
+				}
+
+				.log-message-path {
+					color: hsl(359, 38%, 62%);
+				}
+			}
+		}
+
+		&.warning {
+			background: rgb(255, 250, 226);
+			color: rgb(168, 89, 25);
+
+			&:nth-child(even) {
+				background: hsl(50, 100%, 88%);
+			}
+
+			.log-message-path {
+				color: hsl(27, 55%, 65%);
+			}
+
+			@include dark {
+				background: hsl(50, 100%, 11%);
+				color: rgb(250, 216, 159);
+
+				&:nth-child(even) {
+					background: hsl(50, 100%, 9%);
+				}
+
+				.log-message-path {
+					color: hsl(38, 42%, 68%);
+				}
+			}
+		}
+	}
+
+	.log-date, .log-level {
+		width: 70px;
+	}
+
+	.log-message {
+		display: flex;
+		flex-wrap: wrap;
+
+		.log-message-content {
+			flex: 1 0 auto;
+			max-width: 100%;
+		}
+
+		.log-message-exception {
+			flex: 0;
+			font-size: 90%;
+			margin: 3px 5px 0 0;
+			white-space: nowrap;
+
+			.exception-previous {
+				border: 1px solid #aaa;
+				border-radius: 4px;
+				text-decoration: none;
+				padding: 2px 4px;
+				margin-right: 5px;
+
+			    @include dark {
+					border-color: gray;
+			    }
+			}
+		}
+
+		.log-message-context {
+			margin-top: 4px;
+		}
+
+		.log-message-path {
+			color: #aaa;
+			flex: 0;
+			font-size: 90%;
+			margin-top: 3px;
+
+			@include dark {
+				color: #777;
+			}
+		}
+	}
 }
 </style>

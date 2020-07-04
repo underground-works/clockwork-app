@@ -50,18 +50,22 @@
 
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
-			<events-tab :active="activeDetailsTab == 'events'"></events-tab>
-			<database-tab :active="activeDetailsTab == 'database'"></database-tab>
-			<cache-tab :active="activeDetailsTab == 'cache'"></cache-tab>
-			<redis-tab :active="activeDetailsTab == 'redis'"></redis-tab>
-			<queue-tab :active="activeDetailsTab == 'queue'"></queue-tab>
-			<log-tab :active="activeDetailsTab == 'log'"></log-tab>
-			<performance-tab :active="activeDetailsTab == 'performance'"></performance-tab>
-			<views-tab :active="activeDetailsTab == 'views'"></views-tab>
-			<emails-tab :active="activeDetailsTab == 'emails'"></emails-tab>
-			<routes-tab :active="activeDetailsTab == 'routes'"></routes-tab>
-			<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeDetailsTab == `user-${userTab.key}`"></user-tab>
-			<output-tab :active="activeDetailsTab == 'output'"></output-tab>
+			<div class="content-header"></div>
+
+			<div class="content-content">
+				<events-tab :active="activeDetailsTab == 'events'"></events-tab>
+				<database-tab :active="activeDetailsTab == 'database'"></database-tab>
+				<cache-tab :active="activeDetailsTab == 'cache'"></cache-tab>
+				<redis-tab :active="activeDetailsTab == 'redis'"></redis-tab>
+				<queue-tab :active="activeDetailsTab == 'queue'"></queue-tab>
+				<log-tab :active="activeDetailsTab == 'log'"></log-tab>
+				<performance-tab :active="activeDetailsTab == 'performance'"></performance-tab>
+				<views-tab :active="activeDetailsTab == 'views'"></views-tab>
+				<emails-tab :active="activeDetailsTab == 'emails'"></emails-tab>
+				<routes-tab :active="activeDetailsTab == 'routes'"></routes-tab>
+				<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeDetailsTab == `user-${userTab.key}`"></user-tab>
+				<output-tab :active="activeDetailsTab == 'output'"></output-tab>
+			</div>
 
 		</div>
 

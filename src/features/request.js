@@ -307,21 +307,21 @@ export default class Request
 	processPerformanceMetrics(data) {
 		if (! data) {
 			return [
-				{ name: 'Database', value: this.databaseDurationRounded, style: 'style2' },
-				{ name: 'Cache', value: this.cacheTime, style: 'style3' },
-				{ name: 'Other', value: (this.responseDurationRounded || 0) - (this.databaseDurationRounded || 0) - (this.cacheTime || 0), style: 'style1' }
+				{ name: 'Database', value: this.databaseDurationRounded, color: 'red' },
+				{ name: 'Cache', value: this.cacheTime, color: 'green' },
+				{ name: 'Other', value: (this.responseDurationRounded || 0) - (this.databaseDurationRounded || 0) - (this.cacheTime || 0), color: 'blue' }
 			].filter(metric => metric.value > 0)
 		}
 
 		data = data.filter(metric => metric instanceof Object)
 			.map((metric, index) => {
-				metric.style = 'style' + (index + 2)
+				metric.color = 'purple'
 				return metric
 			})
 
 		let metricsSum = data.reduce((sum, metric) => { return sum + metric.value }, 0)
 
-		data.push({ name: 'Other', value: this.responseDurationRounded - metricsSum, style: 'style1' })
+		data.push({ name: 'Other', value: this.responseDurationRounded - metricsSum, color: 'blue' })
 
 		return data
 	}

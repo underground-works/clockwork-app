@@ -1,6 +1,6 @@
 <template>
 	<div v-show="active">
-		<details-table :columns="columns" :items="$request.routes" :filter="filter" filter-example="OrderController method:post uri:order">
+		<details-table title="Routes" :columns="columns" :items="$request.routes" :filter="filter" filter-example="OrderController method:post uri:order">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="route, index in items" :key="`${$request.id}-${index}`">
 					<td>{{route.method}}</td>

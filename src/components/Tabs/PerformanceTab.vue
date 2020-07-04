@@ -6,9 +6,9 @@
 					<pie-chart :donut="true" :data="chartValues" :colors="chartColors" :library="chartOptions" height="60px"></pie-chart>
 				</div>
 			</div>
-			<div v-for="metric, index in $request.performanceMetrics" class="counter performance-chart-legend" :class="metric.style" :key="`${$request.id}-${index}`">
+			<div v-for="metric, index in $request.performanceMetrics" class="counter performance-chart-legend" :key="`${$request.id}-${index}`">
 				<div class="counter-value">{{metric.value}} ms</div>
-				<div class="counter-title">{{metric.name}}</div>
+				<div class="counter-title has-mark" :class="`mark-${metric.color}`">{{metric.name}}</div>
 			</div>
 			<div class="counter" v-if="$request.responseDurationRounded">
 				<div class="counter-value">{{$request.responseDurationRounded}} ms</div>
@@ -63,15 +63,15 @@ export default {
 		},
 		chartColors() {
 			let colors = {
-				style1: { light: '#78b1de', dark: '#649dca' },
-				style2: { light: '#e79697', dark: '#d38283' },
-				style3: { light: '#b1ca6d', dark: '#9db659' },
-				style4: { light: '#ba94e6', dark: '#a680d2' }
+				blue: { light: '#78b1de', dark: '#649dca' },
+				red: { light: '#e79697', dark: '#d38283' },
+				green: { light: '#b1ca6d', dark: '#9db659' },
+				purple: { light: '#ba94e6', dark: '#a680d2' }
 			}
 
 			let appearance = this.$settings.global.appearance != 'auto' ? this.$settings.global.appearance : this.defaultAppearance
 
-			return this.$request?.performanceMetrics.map(metric => colors[metric.style][appearance])
+			return this.$request?.performanceMetrics.map(metric => colors[metric.color][appearance])
 		},
 		chartOptions() {
 			let appearance = this.$settings.global.appearance != 'auto' ? this.$settings.global.appearance : this.defaultAppearance
@@ -94,3 +94,79 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss">
+@import '../../mixins.scss';
+
+$performance-colors-light: (
+	blue:   rgb(66, 149, 197),
+	red:    rgb(209, 107, 108),
+	green:  rgb(152, 186, 81),
+	purple: rgb(151, 114, 181),
+	grey:   hsl(240, 5, 27)
+);
+
+$performance-colors-dark: (
+	blue:   rgb(100, 157, 202),
+	red:    rgb(211, 130, 131),
+	green:  rgb(157, 182, 89),
+	purple: rgb(166, 128, 210),
+	grey:   hsl(240, 5, 52)
+);
+
+.performance-chart-container {
+	flex: 0 1 100px;
+}
+
+.performance-chart {
+	height: 60px;
+	margin: 0 auto;
+	position: relative;
+	width: 60px;
+}
+
+.performance-chart-legend {
+	@each $color, $value in $performance-colors-light {
+		.mark-#{$color}:before {
+			background: $value;
+		}
+	}
+
+	@include dark {
+		@each $color, $value in $performance-colors-dark {
+			.mark-#{$color}:before {
+				background: $value;
+			}
+		}
+	}
+}
+
+.performance-tabs {
+	display: flex;
+	flex: 1;
+	justify-content: center;
+	padding: 8px 0 4px;
+
+	.performance-tab {
+		color: rgb(64, 64, 64);
+		cursor: default;
+		font-size: 12px;
+		line-height: 31px;
+		padding: 0 31px;
+		text-align: center;
+		text-decoration: none;
+
+		&.active {
+			color: rgb(37, 140, 219);
+
+			@include dark {
+				color: hsl(31, 98%, 48%);
+			}
+		}
+
+		@include dark {
+			color: rgb(158, 158, 158);
+		}
+	}
+}
+</style>

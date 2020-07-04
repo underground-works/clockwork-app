@@ -143,6 +143,7 @@ export default {
 	}
 
 	.sidebar-content {
+		background: #fcfcfd;
 		flex: 1;
 		overflow: auto;
 	}

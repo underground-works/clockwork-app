@@ -67,7 +67,11 @@ export default class Settings
 				preserveLog: true,
 				requestsListCollapsed: false,
 				requestSidebarCollapsed: false,
-				requestSidebarCollapsedSections: {},
+				requestSidebarCollapsedSections: {
+					headers: false, data: false, getData: false, postData: false, cookies: false, middleware: false,
+					session: false, arguments: false, options: false, payload: false, queue: false, connection: false,
+					asserts: false
+				},
 				seenReleaseNotesVersion: null,
 				timelineCondensed: { performance: true, views: false },
 				timelineHiddenTags: {},
