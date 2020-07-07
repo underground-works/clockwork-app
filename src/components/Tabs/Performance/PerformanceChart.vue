@@ -42,19 +42,19 @@ export default {
 @import '../../../mixins.scss';
 
 $performance-chart-colors-light: (
-	blue:   rgb(66, 149, 197),
-	red:    rgb(209, 107, 108),
-	green:  rgb(152, 186, 81),
-	purple: rgb(151, 114, 181),
-	grey:   hsl(240, 5, 27)
+	blue:   ( normal: rgb(66, 149, 197),  alternative: rgb(120, 177, 222) ),
+	red:    ( normal: rgb(209, 107, 108), alternative: rgb(231, 150, 151) ),
+	green:  ( normal: rgb(152, 186, 81),  alternative: rgb(177, 202, 109) ),
+	purple: ( normal: rgb(151, 114, 181), alternative: rgb(186, 148, 230) ),
+	grey:   ( normal: hsl(240, 5, 27),    alternative: hsl(240, 5, 62) )
 );
 
 $performance-chart-colors-dark: (
-	blue:   rgb(100, 157, 202),
-	red:    rgb(211, 130, 131),
-	green:  rgb(157, 182, 89),
-	purple: rgb(166, 128, 210),
-	grey:   hsl(240, 5, 52)
+	blue:   ( normal: rgb(100, 157, 202), alternative: rgb(46, 129, 177) ),
+	red:    ( normal: rgb(211, 130, 131), alternative: rgb(189, 87, 88) ),
+	green:  ( normal: rgb(157, 182, 89),  alternative: rgb(132, 166, 61) ),
+	purple: ( normal: rgb(166, 128, 210), alternative: rgb(131, 94, 161) ),
+	grey:   ( normal: hsl(240, 5, 52),    alternative: hsl(240, 5, 37) )
 );
 
 .performance-chart {
@@ -76,14 +76,14 @@ $performance-chart-colors-dark: (
 
 		@each $color, $value in $performance-chart-colors-light {
 			&.section-#{$color} {
-				background: $value;
+				background: linear-gradient(to bottom, map-get($value, 'alternative'), map-get($value, 'normal'));
 			}
 		}
 
 		@include dark {
 			@each $color, $value in $performance-chart-colors-dark {
 				&.section-#{$color} {
-					background: $value;
+					background: linear-gradient(to bottom, map-get($value, 'alternative'), map-get($value, 'normal'));
 				}
 			}
 		}
