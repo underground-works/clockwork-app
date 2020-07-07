@@ -21,9 +21,6 @@
 				<a href="#" v-if="$request && $request.url" v-clipboard:copy="$request.url" title="Copy url">
 					<font-awesome-icon icon="link"></font-awesome-icon>
 				</a>
-				<a href="#" title="Preserve log" @click="togglePreserveLog">
-					<font-awesome-icon :icon="$settings.global.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
-				</a>
 				<a href="#" title="Clear" @click="clear">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
 				</a>
@@ -60,10 +57,6 @@ export default {
 	name: 'RequestSidebar',
 	components: { CommandTab, ExceptionSection, ParentRequest, QueueJobTab, RequestTab, TestTab },
 	methods: {
-		togglePreserveLog() {
-			this.$settings.global.preserveLog = ! this.$settings.global.preserveLog
-			this.$settings.save()
-		},
 		clear() { this.$requests.clear() }
 	}
 }

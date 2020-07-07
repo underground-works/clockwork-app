@@ -30,9 +30,6 @@
 			</div>
 
 			<div class="icons">
-				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="$settings.global.requestSidebarCollapsed">
-					<font-awesome-icon :icon="$settings.global.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
-				</a>
 				<a href="#" title="Clear" @click="clear" v-show="$settings.global.requestSidebarCollapsed">
 					<font-awesome-icon icon="ban"></font-awesome-icon>
 				</a>
@@ -158,10 +155,6 @@ export default {
 		},
 		toggleRequestSidebar() {
 			this.$settings.global.requestSidebarCollapsed = ! this.$settings.global.requestSidebarCollapsed
-			this.$settings.save()
-		},
-		togglePreserveLog() {
-			this.$settings.global.preserveLog = ! this.$settings.global.preserveLog
 			this.$settings.save()
 		},
 		toggleSettingsModal() {

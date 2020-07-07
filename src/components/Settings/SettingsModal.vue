@@ -77,7 +77,11 @@
 				<div class="controls">
 					<label class="controls-checkbox">
 						<input type="checkbox" v-model="$settings.global.showIncomingRequests" @change="save">
-						Automatically show incoming requests
+						Show incoming requests
+					</label>
+					<label class="controls-checkbox">
+						<input type="checkbox" v-model="$settings.global.preserveLog" @change="save">
+						Keep requests log
 					</label>
 				</div>
 			</div>
