@@ -17,23 +17,19 @@
 				</thead>
 			</table>
 		</div>
-		<div class="requests-search" v-show="$requestsSearch.shown">
-			<label>
-				<font-awesome-icon icon="search"></font-awesome-icon>
-				<input type="search" placeholder="Search..." v-model="$requestsSearch.input" @input="$requestsSearch.searchDebounced">
-				<span class="example" v-show="! $requestsSearch.input">eg. /api/users method:post status:500</span>
-			</label>
-		</div>
 		<div class="requests-container" ref="requestsContainer">
 			<div class="requests-content">
-				<div class="load-more" ref="loadMore">
-					<p class="load" v-show="! loadingMoreRequests">
-						<a href="#" @click="loadMoreRequests">load more</a>
-					</p>
-					<p class="loading" v-show="loadingMoreRequests">
-						loading...
-					</p>
+				<div class="content-above" ref="contentAbove">
+					<div class="requests-search">
+						<input type="search" v-model="$requestsSearch.input" @input="$requestsSearch.searchDebounced" placeholder="Search...">
+						<font-awesome-icon icon="search"></font-awesome-icon>
+					</div>
+
+					<a href="#" class="button" @click.prevent="loadMoreRequests">
+						{{loadingMoreRequests ? 'Loading...' : 'Load more'}}
+					</a>
 				</div>
+
 				<div class="requests-table" ref="requestsTable">
 					<table id="requests">
 						<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
@@ -146,7 +142,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.$refs.requestsContainer.scrollTop = this.$refs.loadMore.offsetHeight + 1
+		this.$refs.requestsContainer.scrollTop = this.$refs.contentAbove.offsetHeight
 	},
 	methods: {
 		isActive(id) { return this.$request?.id == id },
@@ -177,7 +173,7 @@ export default {
 					this.showRequest(this.$requests.first())
 				} else if (this.shouldShowIncomingRequest()) {
 					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
-					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.loadMore.offsetHeight
+					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.contentAbove.offsetHeight
 				}
 			},
 			deep: true
@@ -424,56 +420,34 @@ export default {
 	}
 
 	.requests-search {
-		border-bottom: 1px solid #d1d1d1;
-		padding: 6px 2px;
+		font-size: 14px;
+		margin-bottom: 10px;
+		position: relative;
 
-		@include dark {
-			border-bottom: 1px solid rgb(54, 54, 54);
-		}
+		input {
+			background: #eee;
+			border: 0;
+			border-radius: 4px;
+			font-size: 13px;
+			height: 24px;
+			padding-left: 30px;
+			width: 100%;
 
-		label {
-			align-items: center;
-			display: flex;
-			position: relative;
+			@include dark {
+				background: rgb(93, 92, 91);
+				color: rgb(233, 233, 233);
+
+				&::placeholder {
+					color: rgb(167, 166, 165);
+					opacity: 1;
+				}
+			}
 		}
 
 		.fa-search {
-			color: #696969;
-			margin: 0 4px;
-		}
-
-		input {
-			background: transparent;
-			border: none;
-			width: 100%;
-
-			&:focus {
-				outline: none;
-			}
-
-			&::placeholder {
-				color: #a9a9a9;
-
-				@include dark {
-					color: #777;
-				}
-			}
-
-			@include dark {
-				color: #b2b2b2;
-			}
-		}
-
-		.example {
-			color: #a9a9a9;
-			font-size: 11px;
-			pointer-events: none;
+			left: 7px;
 			position: absolute;
-			right: 0;
-
-			@include dark {
-				color: #777;
-			}
+			top: 5px;
 		}
 	}
 
@@ -491,35 +465,15 @@ export default {
 	.requests-content {
 		display: flex;
 		flex-direction: column;
-		min-height: calc(100% + 36px);
+		min-height: calc(100% + 75px);
+
+		.content-above {
+			padding: 6px 0 10px;
+		}
 	}
 
 	.requests-table {
 		margin-bottom: auto;
-	}
-
-	.load-more {
-		align-items: center;
-		display: flex;
-		height: 36px;
-		justify-content: center;
-
-		a {
-			color: rgb(64, 64, 64);
-			text-decoration: none;
-
-			&:hover {
-				color: rgb(37, 140, 219);
-
-				@include dark {
-					color: hsl(31, 98%, 48%);
-				}
-			}
-
-			@include dark {
-				color: rgb(178, 178, 178);
-			}
-		}
 	}
 
 	.requests-clear {

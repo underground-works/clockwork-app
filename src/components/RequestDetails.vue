@@ -9,9 +9,6 @@
 				<a href="#" title="Toggle requests" v-show="$settings.global.requestsListCollapsed" @click="toggleRequestsList">
 					<font-awesome-icon icon="indent"></font-awesome-icon>
 				</a>
-				<a href="#" title="Search requests" @click="$requestsSearch.toggle()">
-					<font-awesome-icon icon="search"></font-awesome-icon>
-				</a>
 			</div>
 
 			<div class="details-header-tabs">
