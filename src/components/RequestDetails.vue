@@ -30,9 +30,6 @@
 			</div>
 
 			<div class="icons">
-				<a href="#" title="Clear" @click="clear" v-show="$settings.global.requestSidebarCollapsed">
-					<font-awesome-icon icon="ban"></font-awesome-icon>
-				</a>
 				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
 					<font-awesome-icon icon="cog"></font-awesome-icon>
 				</a>
@@ -159,8 +156,7 @@ export default {
 		},
 		toggleSettingsModal() {
 			this.$settings.toggle()
-		},
-		clear() { this.$requests.clear() }
+		}
 	}
 }
 </script>

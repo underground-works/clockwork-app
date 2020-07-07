@@ -21,9 +21,6 @@
 				<a href="#" v-if="$request && $request.url" v-clipboard:copy="$request.url" title="Copy url">
 					<font-awesome-icon icon="link"></font-awesome-icon>
 				</a>
-				<a href="#" title="Clear" @click="clear">
-					<font-awesome-icon icon="ban"></font-awesome-icon>
-				</a>
 			</div>
 		</div>
 
@@ -55,10 +52,7 @@ import TestTab from './Tabs/TestTab'
 
 export default {
 	name: 'RequestSidebar',
-	components: { CommandTab, ExceptionSection, ParentRequest, QueueJobTab, RequestTab, TestTab },
-	methods: {
-		clear() { this.$requests.clear() }
-	}
+	components: { CommandTab, ExceptionSection, ParentRequest, QueueJobTab, RequestTab, TestTab }
 }
 </script>
 

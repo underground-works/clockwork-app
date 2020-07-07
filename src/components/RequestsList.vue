@@ -25,84 +25,91 @@
 			</label>
 		</div>
 		<div class="requests-container" ref="requestsContainer">
-			<div class="load-more" ref="loadMore">
-				<p class="load" v-show="! loadingMoreRequests">
-					<a href="#" @click="loadMoreRequests">load more</a>
-				</p>
-				<p class="loading" v-show="loadingMoreRequests">
-					loading...
-				</p>
-			</div>
-			<div class="requests-table" ref="requestsTable">
-				<table id="requests">
-					<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
-						<td class="controller" :title="request.tooltip">
-							<big>
-								<span class="request-alert alert-errors" v-if="request.errorsCount">
-									<font-awesome-icon icon="exclamation-circle"></font-awesome-icon>
-								</span>
-								<span class="request-alert alert-warnings" v-else-if="request.warningsCount">
-									<font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
-								</span>
+			<div class="requests-content">
+				<div class="load-more" ref="loadMore">
+					<p class="load" v-show="! loadingMoreRequests">
+						<a href="#" @click="loadMoreRequests">load more</a>
+					</p>
+					<p class="loading" v-show="loadingMoreRequests">
+						loading...
+					</p>
+				</div>
+				<div class="requests-table" ref="requestsTable">
+					<table id="requests">
+						<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
+							<td class="controller" :title="request.tooltip">
+								<big>
+									<span class="request-alert alert-errors" v-if="request.errorsCount">
+										<font-awesome-icon icon="exclamation-circle"></font-awesome-icon>
+									</span>
+									<span class="request-alert alert-warnings" v-else-if="request.warningsCount">
+										<font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
+									</span>
 
+									<template v-if="request.isCommand()">
+										<span class="type-text">CMD</span>
+										{{request.commandName}}
+									</template>
+									<template v-else-if="request.isQueueJob()">
+										<span class="type-text">QUEUE</span>
+										{{request.jobName}}
+									</template>
+									<template v-else-if="request.isTest()">
+										<span class="type-text">TEST</span>
+										{{request.testGroup}}
+									</template>
+									<template v-else>
+										<span v-if="request.isAjax()" class="type-text">AJAX</span>
+										<span class="method-text">{{request.method}}</span> {{request.uri}}
+									</template>
+								</big>
+								<br>
 								<template v-if="request.isCommand()">
-									<span class="type-text">CMD</span>
-									{{request.commandName}}
+									<small>{{request.commandLine}}</small>
 								</template>
 								<template v-else-if="request.isQueueJob()">
-									<span class="type-text">QUEUE</span>
-									{{request.jobName}}
+									<small>{{request.jobDescription}}</small>
 								</template>
 								<template v-else-if="request.isTest()">
-									<span class="type-text">TEST</span>
-									{{request.testGroup}}
+									<small>{{request.testName}}</small>
 								</template>
 								<template v-else>
-									<span v-if="request.isAjax()" class="type-text">AJAX</span>
-									<span class="method-text">{{request.method}}</span> {{request.uri}}
+									<small v-if="$settings.global.requestSidebarCollapsed">{{request.controller}}</small>
+									<small v-else>{{request.controller | shortClass}}</small>
 								</template>
-							</big>
-							<br>
+							</td>
 							<template v-if="request.isCommand()">
-								<small>{{request.commandLine}}</small>
+								<td class="status" :title="request.commandExitCode">
+									<span :class="{ 'status-text': true, 'client-error': request.isCommandWarning(), 'server-error': request.isCommandError() }">{{request.commandExitCode}}</span>
+								</td>
 							</template>
 							<template v-else-if="request.isQueueJob()">
-								<small>{{request.jobDescription}}</small>
+								<td class="status" :title="request.jobStatus">
+									<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isQueueJobWarning(), 'server-error': request.isQueueJobError() }">{{request.jobStatus}}</span>
+								</td>
 							</template>
 							<template v-else-if="request.isTest()">
-								<small>{{request.testName}}</small>
+								<td class="status" :title="request.testStatus">
+									<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isTestWarning(), 'server-error': request.isTestError() }">{{request.testStatus}}</span>
+								</td>
 							</template>
 							<template v-else>
-								<small v-if="$settings.global.requestSidebarCollapsed">{{request.controller}}</small>
-								<small v-else>{{request.controller | shortClass}}</small>
+								<td class="status" :title="request.responseStatus">
+									<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
+								</td>
 							</template>
-						</td>
-						<template v-if="request.isCommand()">
-							<td class="status" :title="request.commandExitCode">
-								<span :class="{ 'status-text': true, 'client-error': request.isCommandWarning(), 'server-error': request.isCommandError() }">{{request.commandExitCode}}</span>
+							<td class="duration" :title="`${request.responseDurationRounded} ms (${request.databaseDurationRounded} ms)`">
+								{{request.responseDurationRounded}} ms<br>
+								<small v-if="showDatabaseTime">{{request.databaseDurationRounded}} ms</small>
 							</td>
-						</template>
-						<template v-else-if="request.isQueueJob()">
-							<td class="status" :title="request.jobStatus">
-								<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isQueueJobWarning(), 'server-error': request.isQueueJobError() }">{{request.jobStatus}}</span>
-							</td>
-						</template>
-						<template v-else-if="request.isTest()">
-							<td class="status" :title="request.testStatus">
-								<span :class="{ 'status-text': true, 'status-text-small': true, 'client-error': request.isTestWarning(), 'server-error': request.isTestError() }">{{request.testStatus}}</span>
-							</td>
-						</template>
-						<template v-else>
-							<td class="status" :title="request.responseStatus">
-								<span :class="{ 'status-text': true, 'client-error': request.isClientError(), 'server-error': request.isServerError() }">{{request.responseStatus}}</span>
-							</td>
-						</template>
-						<td class="duration" :title="`${request.responseDurationRounded} ms (${request.databaseDurationRounded} ms)`">
-							{{request.responseDurationRounded}} ms<br>
-							<small v-if="showDatabaseTime">{{request.databaseDurationRounded}} ms</small>
-						</td>
-					</tr>
-				</table>
+						</tr>
+					</table>
+				</div>
+
+				<a href="#" class="button requests-clear" @click.prevent="clear">
+					<font-awesome-icon icon="ban"></font-awesome-icon>
+					Clear
+				</a>
 			</div>
 		</div>
 	</div>
@@ -160,7 +167,8 @@ export default {
 		shouldShowIncomingRequest() {
 			return this.$settings.global.preserveLog
 				&& (! this.$request || (this.$settings.global.showIncomingRequests && this.global.showIncomingRequests))
-		}
+		},
+		clear() { this.$requests.clear() }
 	},
 	watch: {
 		requests: {
@@ -169,7 +177,7 @@ export default {
 					this.showRequest(this.$requests.first())
 				} else if (this.shouldShowIncomingRequest()) {
 					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
-					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight
+					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.loadMore.offsetHeight
 				}
 			},
 			deep: true
@@ -480,8 +488,14 @@ export default {
 		}
 	}
 
+	.requests-content {
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100% + 36px);
+	}
+
 	.requests-table {
-		height: 100%;
+		margin-bottom: auto;
 	}
 
 	.load-more {
@@ -506,6 +520,12 @@ export default {
 				color: rgb(178, 178, 178);
 			}
 		}
+	}
+
+	.requests-clear {
+		margin-bottom: 4px;
+		margin-top: 5px;
+		font-size: 12px;
 	}
 }
 </style>

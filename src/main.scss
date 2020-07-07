@@ -55,6 +55,24 @@ a {
 	}
 }
 
+.button {
+	align-items: center;
+	background: hsl(30, 1, 96);
+	border-radius: 4px;
+	display: flex;
+	justify-content: center;
+	padding: 8px;
+	text-decoration: none;
+
+	@include dark {
+		background: hsl(30, 1, 16);
+	}
+
+	.svg-inline--fa {
+		margin-right: 5px;
+	}
+}
+
 // Split view
 
 .split-view {
