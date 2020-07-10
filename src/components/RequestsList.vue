@@ -22,7 +22,7 @@
 				<div class="content-above" ref="contentAbove">
 					<div class="requests-search">
 						<input type="search" v-model="$requestsSearch.input" @input="$requestsSearch.searchDebounced" placeholder="Search...">
-						<font-awesome-icon icon="search"></font-awesome-icon>
+						<icon name="search"></icon>
 					</div>
 
 					<a href="#" class="button" @click.prevent="loadMoreRequests">
@@ -35,12 +35,8 @@
 						<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
 							<td class="controller" :title="request.tooltip">
 								<big>
-									<span class="request-alert alert-errors" v-if="request.errorsCount">
-										<font-awesome-icon icon="exclamation-circle"></font-awesome-icon>
-									</span>
-									<span class="request-alert alert-warnings" v-else-if="request.warningsCount">
-										<font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
-									</span>
+									<icon name="alert-circle" class="request-alert alert-errors" v-if="request.errorsCount"></icon>
+									<icon name="alert-triangle" class="request-alert alert-warnings" v-else-if="request.warningsCount"></icon>
 
 									<template v-if="request.isCommand()">
 										<span class="type-text">CMD</span>
@@ -103,7 +99,7 @@
 				</div>
 
 				<a href="#" class="button requests-clear" @click.prevent="clear">
-					<font-awesome-icon icon="ban"></font-awesome-icon>
+					<icon name="slash"></icon>
 					Clear
 				</a>
 			</div>
@@ -430,7 +426,7 @@ export default {
 			border-radius: 4px;
 			font-size: 13px;
 			height: 24px;
-			padding-left: 30px;
+			padding-left: 28px;
 			width: 100%;
 
 			@include dark {
@@ -444,7 +440,7 @@ export default {
 			}
 		}
 
-		.fa-search {
+		.ui-icon {
 			left: 7px;
 			position: absolute;
 			top: 5px;

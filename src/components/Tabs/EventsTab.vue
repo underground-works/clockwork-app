@@ -30,7 +30,7 @@
 						</div>
 					</td>
 					<td class="fired-event-actions">
-						<font-awesome-icon :icon="isEventExpanded(event) ? 'angle-up' : 'angle-down'" @click="toggleEvent(event)"></font-awesome-icon>
+						<icon :name="isEventExpanded(event) ? 'chevron-up' : 'chevron-down'" @click="toggleEvent(event)"></icon>
 					</td>
 				</tr>
 			</template>

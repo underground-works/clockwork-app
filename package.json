@@ -16,11 +16,8 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",
-    "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-regular-svg-icons": "^5.12.0",
-    "@fortawesome/free-solid-svg-icons": "^5.12.0",
-    "@fortawesome/vue-fontawesome": "^0.1.9",
     "ansi-to-html": "^0.6.13",
+    "feather-icons": "^4.28.0",
     "just-clone": "^3.1.0",
     "just-debounce-it": "^1.1.0",
     "just-extend": "^4.0.2",
@@ -36,7 +33,8 @@
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.2.1",
     "vue-moment": "^4.1.0",
-    "vue-spinkit": "^1.7.10"
+    "vue-spinkit": "^1.7.10",
+    "vue-svg-loader": "^0.16.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
@@ -48,13 +46,6 @@
     "node-sass": "^4.13.0",
     "sass-loader": "^7.3.1",
     "vue-template-compiler": "^2.6.11"
-  },
-  "vue": {
-    "publicPath": "./",
-    "outputDir": "build",
-    "configureWebpack": {
-      "devtool": "inline-cheap-module-source-map"
-    }
   },
   "postcss": {
     "plugins": {

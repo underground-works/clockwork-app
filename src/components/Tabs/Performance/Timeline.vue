@@ -4,7 +4,7 @@
 			<template slot="toolbar" slot-scope="{ filter }">
 				<div class="header-group">
 					<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
-						<font-awesome-icon :icon="tag.icon"></font-awesome-icon>
+						<icon :name="tag.icon"></icon>
 					</a>
 				</div>
 
@@ -18,13 +18,13 @@
 				<div class="header-group">
 					<div class="header-search">
 						<input type="search" v-model="filter.input" placeholder="Search...">
-						<font-awesome-icon icon="search"></font-awesome-icon>
+						<icon name="search"></icon>
 					</div>
 				</div>
 
 				<div class="header-group">
 					<a href="#" title="Toggle details" class="header-item" @click.prevent="toggleDetails">
-						<font-awesome-icon :icon="showDetails ? 'indent' : 'outdent'"></font-awesome-icon>
+						<icon :name="showDetails ? 'chevron-right' : 'chevron-left'"></icon>
 					</a>
 				</div>
 			</template>
@@ -35,7 +35,7 @@
 							<div class="group-label" :class="group.labelClass" :style="group.labelStyle">
 								<span class="label-tags" v-if="group.tags">
 									<span v-for="tag in resolveTags(group.tags)">
-										<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+										<icon :name="tag.icon" :title="tag.title"></icon>
 									</span>
 								</span>
 								{{group.name}}
@@ -55,7 +55,7 @@
 
 										<div class="header-tags">
 											<span v-for="tag in resolveTags(event.tags)">
-												<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+												<icon :name="tag.icon" :title="tag.title"></icon>
 											</span>
 										</div>
 									</div>
@@ -100,7 +100,7 @@
 						<slot name="table-description" :item="group">
 							<span class="description-tags" v-if="group.tags">
 								<span v-for="tag in resolveTags(group.tags)">
-									<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+									<icon :name="tag.icon" :title="tag.title"></icon>
 								</span>
 							</span>
 							{{group.description}}

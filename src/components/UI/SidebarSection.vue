@@ -2,14 +2,14 @@
 	<div class="sidebar-section">
 		<div class="section-header">
 			<div class="header-title" @click="toggle">
-				<font-awesome-icon :icon="expanded ? 'angle-down' : 'angle-up'"></font-awesome-icon>
+				<icon :name="expanded ? 'chevron-down' : 'chevron-up'"></icon>
 				{{title}}
 			</div>
 
 			<div class="header-group">
 				<div class="header-search">
 					<input type="search" v-model="filter.input" placeholder="Search...">
-					<font-awesome-icon icon="search"></font-awesome-icon>
+					<icon name="search"></icon>
 				</div>
 			</div>
 		</div>
@@ -81,10 +81,9 @@ export default {
 			font-weight: 600;
 			margin-right: 10px;
 
-			.fa-angle-down, .fa-angle-up {
+			.ui-icon {
 				color: #111;
-				font-size: 85%;
-				margin-right: 5px;
+				margin-right: 2px;
 			}
 		}
 
@@ -97,7 +96,7 @@ export default {
 				border-radius: 4px;
 				font-size: 13px;
 				height: 24px;
-				padding-left: 30px;
+				padding-left: 28px;
 				width: 180px;
 
 				@include dark {
@@ -111,7 +110,7 @@ export default {
 				}
 			}
 
-			.fa-search {
+			.ui-icon {
 				left: 7px;
 				position: absolute;
 				top: 5px;

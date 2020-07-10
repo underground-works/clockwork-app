@@ -27,7 +27,7 @@
 					</td>
 					<td>
 						<a href="#" @click.prevent="showJob(job)" title="Show details" v-if="job.request">
-							<font-awesome-icon icon="search"></font-awesome-icon>
+							<icon name="search"></icon>
 						</a>
 					</td>
 				</tr>

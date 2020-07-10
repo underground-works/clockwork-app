@@ -1,6 +1,6 @@
 <template>
 	<a href="#" class="toggle-filter" @click.stop="filter.toggle($event)">
-		<font-awesome-icon icon="search"></font-awesome-icon>
+		<icon name="search"></icon>
 	</a>
 </template>
 

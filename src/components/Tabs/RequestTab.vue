@@ -37,7 +37,7 @@
 		<sidebar-section title="Session" name="session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
 			<template slot="above-table">
 				<div class="session-user" v-if="$request.authenticatedUser">
-					<font-awesome-icon icon="user"></font-awesome-icon>
+					<icon name="user"></icon>
 					<div>
 						<span class="name" v-if="$request.authenticatedUser.name && $request.authenticatedUser.name.trim()">{{$request.authenticatedUser.name}}</span>
 						<span :class="$request.authenticatedUser.name && $request.authenticatedUser.name.trim() ? 'dimmed' : ''">{{$request.authenticatedUser.username}}</span>
@@ -90,10 +90,10 @@ export default {
 
 		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
 
-		.fa-user {
-			color: rgb(128, 128, 128);
-			font-size: 110%;
-			margin-right: 8px;
+		.ui-icon {
+			color: #666;
+			font-size: 120%;
+			margin-right: 5px;
 		}
 
 		.name {

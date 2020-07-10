@@ -6,27 +6,27 @@
 				<tr>
 					<th @click="filter.sortBy(`self[${$profiler.metric}]`)">
 						Self
-						<font-awesome-icon v-show="filter.sortedBy == `self[${$profiler.metric}]`" :icon="filter.sortedDesc ? 'angle-down' : 'angle-up'"></font-awesome-icon>
+						<icon v-show="filter.sortedBy == `self[${$profiler.metric}]`" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
 					</th>
 					<th @click="filter.sortBy(`inclusive[${$profiler.metric}]`)">
 						Inclusive
-						<font-awesome-icon v-show="filter.sortedBy == `inclusive[${$profiler.metric}]`" :icon="filter.sortedDesc ? 'angle-down' : 'angle-up'"></font-awesome-icon>
+						<icon v-show="filter.sortedBy == `inclusive[${$profiler.metric}]`" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
 					</th>
 					<th @click="filter.sortBy('function')">
 						Function
-						<font-awesome-icon v-show="filter.sortedBy == 'function'" :icon="filter.sortedDesc ? 'angle-down' : 'angle-up'"></font-awesome-icon>
+						<icon v-show="filter.sortedBy == 'function'" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
 						<div class="profiler-controls">
 							<span class="profiler-control-group">
 								<a href="#" class="toggle-filter" @click.prevent.stop="filter.toggle()">
-									<font-awesome-icon icon="search"></font-awesome-icon>
+									<icon name="search"></icon>
 								</a>
 							</span>
 							<span class="profiler-control-group profiler-show-metric">
 								<a href="#" @click.prevent.stop="$profiler.showMetric(0)" :class="{ 'active': $profiler.metric == 0 }" title="Execution time">
-									<font-awesome-icon icon="clock"></font-awesome-icon>
+									<icon name="clock"></icon>
 								</a>
 								<a href="#" @click.prevent.stop="$profiler.showMetric(1)" :class="{ 'active': $profiler.metric == 1 }" title="Memory usage">
-									<font-awesome-icon icon="microchip"></font-awesome-icon>
+									<icon name="cpu"></icon>
 								</a>
 							</span>
 							<span class="profiler-control-group">
@@ -35,7 +35,7 @@
 									<span v-if="$profiler.metric == 1">kB</span>
 								</a>
 								<a href="#" @click.prevent.stop="$profiler.showPercentual()" :class="{ 'active': $profiler.percentual }" title="Percentual">
-									<font-awesome-icon icon="percent"></font-awesome-icon>
+									<icon name="percent"></icon>
 								</a>
 							</span>
 							<span class="profiler-control-group profiler-shown-fraction">
@@ -51,7 +51,7 @@
 							</span>
 							<span class="profiler-control-group">
 								<a href="#" @click.prevent="$profiler.disableProfiling()" title="Disable profiler">
-									<font-awesome-icon icon="times-circle"></font-awesome-icon>
+									<icon name="x-circle"></icon>
 								</a>
 							</span>
 						</div>
@@ -60,7 +60,7 @@
 				<tr class="filter" v-show="filter.shown">
 					<td colspan="3">
 						<label>
-							<font-awesome-icon icon="search"></font-awesome-icon>
+							<icon name="search"></icon>
 							<input type="search" placeholder="Filter..." v-model="filter.input">
 							<span class="example" v-show="! filter.input">eg. "preg_match" self:>500</span>
 						</label>

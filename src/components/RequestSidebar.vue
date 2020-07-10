@@ -19,7 +19,7 @@
 
 			<div class="sidebar-actions">
 				<a href="#" v-if="$request && $request.url" v-clipboard:copy="$request.url" title="Copy url">
-					<font-awesome-icon icon="link"></font-awesome-icon>
+					<icon name="link"></icon>
 				</a>
 			</div>
 		</div>

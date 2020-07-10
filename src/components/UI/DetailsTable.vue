@@ -2,7 +2,7 @@
 	<div class="details-table">
 		<div class="table-header" v-if="! noHeader">
 			<div class="header-title">
-				<font-awesome-icon icon="bars"></font-awesome-icon>
+				<icon name="menu"></icon>
 				{{title}}
 				<span class="title-badge" v-if="badge">{{badge}}</span>
 			</div>
@@ -11,7 +11,7 @@
 				<div class="header-group">
 					<div class="header-search">
 						<input type="search" v-model="filter.input" placeholder="Search...">
-						<font-awesome-icon icon="search"></font-awesome-icon>
+						<icon name="search"></icon>
 					</div>
 				</div>
 			</slot>
@@ -23,7 +23,7 @@
 					<slot name="header" :filter="filter">
 						<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())" :class="column.class">
 							{{ column.name || column }}
-							<font-awesome-icon v-show="filter.sortedBy == (column.sortBy || column.toLowerCase())" :icon="filter.sortedDesc ? 'angle-down' : 'angle-up'"></font-awesome-icon>
+							<icon v-show="filter.sortedBy == (column.sortBy || column.toLowerCase())" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
 						</th>
 					</slot>
 				</tr>
@@ -133,9 +133,8 @@ export default {
 			font-weight: 600;
 			margin-right: 10px;
 
-			.fa-bars {
+			.ui-icon {
 				color: #111;
-				font-size: 85%;
 				margin-right: 5px;
 			}
 
@@ -228,7 +227,7 @@ export default {
 				border-radius: 4px;
 				font-size: 13px;
 				height: 24px;
-				padding-left: 30px;
+				padding-left: 28px;
 				width: 180px;
 
 				@include dark {
@@ -242,7 +241,7 @@ export default {
 				}
 			}
 
-			.fa-search {
+			.ui-icon {
 				left: 7px;
 				position: absolute;
 				top: 5px;
@@ -254,9 +253,8 @@ export default {
 		font-size: 12px;
 
 		thead {
-			.fa-angle-down, .fa-angle-up {
-				font-weight: bold;
-				margin-left: 4px;
+			.ui-icon {
+				font-size: 110%;
 			}
 		}
 

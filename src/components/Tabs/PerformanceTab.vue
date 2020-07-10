@@ -48,13 +48,13 @@ export default {
 	data: () => ({
 		activePerformanceTab: 'timeline',
 		timelineTags: [
-			{ tag: 'events', icon: [ 'fas', 'bullhorn' ], title: 'Events' },
-			{ tag: 'databaseQueries', icon: [ 'fas', 'database' ], title: 'Database' },
-			{ tag: 'cacheQueries', icon: [ 'fas', 'boxes' ], title: 'Cache' },
-			{ tag: 'redisCommands', icon: [ 'fas', 'cube' ], title: 'Redis' },
-			{ tag: 'queueJobs', icon: [ 'fas', 'history' ], title: 'Queue' },
-			{ tag: 'views', icon: [ 'fas', 'pencil-ruler' ], title: 'Views' },
-			{ tag: 'emails', icon: [ 'fas', 'envelope' ], title: 'Emails' }
+			{ tag: 'events', icon: 'zap', title: 'Events' },
+			{ tag: 'databaseQueries', icon: 'database', title: 'Database' },
+			{ tag: 'cacheQueries', icon: 'paperclip', title: 'Cache' },
+			{ tag: 'redisCommands', icon: 'layers', title: 'Redis' },
+			{ tag: 'queueJobs', icon: 'clock', title: 'Queue' },
+			{ tag: 'views', icon: 'image', title: 'Views' },
+			{ tag: 'emails', icon: 'mail', title: 'Emails' }
 		]
 	}),
 	methods: {

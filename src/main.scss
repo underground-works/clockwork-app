@@ -68,7 +68,7 @@ a {
 		background: hsl(30, 1, 16);
 	}
 
-	.svg-inline--fa {
+	.ui-icon {
 		margin-right: 5px;
 	}
 }
@@ -317,7 +317,7 @@ a {
 			.profiler-show-metric {
 				font-size: 105%;
 
-				.fa-clock-o {
+				.ui-icon {
 					font-size: 110%;
 				}
 			}
@@ -500,7 +500,7 @@ a {
 		background: rgb(31, 31, 31);
 	}
 
-	.fa-exclamation-circle, .fa-lock {
+	.ui-icon {
 		color: #696969;
 		font-size: 46px;
 	}
@@ -566,7 +566,7 @@ a {
 			}
 		}
 
-		.fa-lock {
+		.ui-icon {
 			animation: shake 0.77s linear;
 		}
 

@@ -7,7 +7,7 @@
 			</div>
 			<div>
 				<a href="#" class="exception-previous" @click.prevent="showPreviousException(exception)" v-if="exception.previous" title="Show previous">
-					<font-awesome-icon icon="arrow-circle-down"></font-awesome-icon>
+					<icon name="arrow-down-circle"></icon>
 				</a>
 				<stack-trace class="exception-trace" :trace="exception.trace"></stack-trace>
 			</div>

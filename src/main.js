@@ -2,7 +2,6 @@ import App from './App.vue'
 import Vue from 'vue'
 
 import './vendor'
-import './fonts'
 // import './registerServiceWorker'
 
 import Extension from './platform/extension'
@@ -49,6 +48,10 @@ Vue.mixin({
 		return result
 	}, {})
 })
+
+import Icon from './components/UI/Icon'
+
+Vue.component('icon', Icon)
 
 new Vue({
   render: h => h(App)
