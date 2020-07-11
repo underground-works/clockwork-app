@@ -104,11 +104,11 @@ a {
 }
 
 .details-header {
-	background: #fff;
-	border-bottom: 1px solid rgb(204, 204, 204);
+	background: hsl(240, 20, 90);
+	border-bottom: 1px solid hsl(240, 20, 85);
 	display: flex;
 	flex-shrink: 0;
-	height: 31px;
+	height: 34px;
 	position: relative;
 	z-index: 500;
 
@@ -120,28 +120,6 @@ a {
 	.details-header-tabs {
 		display: flex;
 		flex: 1;
-
-		.details-header-tab {
-			color: rgb(64, 64, 64);
-			cursor: default;
-			flex: 1;
-			font-size: 12px;
-			line-height: 31px;
-			text-align: center;
-			text-decoration: none;
-
-			&.active {
-				color: rgb(37, 140, 219);
-
-				@include dark {
-					color: hsl(31, 98%, 48%);
-				}
-			}
-
-			@include dark {
-				color: rgb(158, 158, 158);
-			}
-		}
 	}
 
 	.icons {
@@ -153,7 +131,7 @@ a {
 		a {
 			padding: 0 5px;
 
-			&.active {
+			&.active, &:hover {
 				color: rgb(37, 140, 219);
 
 				@include dark {
@@ -197,7 +175,7 @@ a {
 		display: flex;
 		border-radius: 8px;
 		background: #fff;
-		box-shadow: 0 2px 5px rgba(162, 172, 180, 0.25), 0 0 2px rgba(162, 172, 180, 0.5);
+		box-shadow: 0 0 1px 1px hsl(240, 20, 90), 0 2px 4px 0 hsl(240, 20, 90);
 		margin-bottom: 20px;
 
 		.counters-group {
@@ -214,7 +192,7 @@ a {
 		}
 
 		.counter {
-			border-right: 1px solid rgba(0, 0, 0, 0.1);
+			border-right: 1px solid hsl(240, 20, 92);
 			cursor: default;
 			flex: 0 1 120px;
 			padding: 12px 28px 13px;

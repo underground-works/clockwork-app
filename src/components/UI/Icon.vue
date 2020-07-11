@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import ActivityIcon from 'feather-icons/dist/icons/activity.svg'
 import AlertCircleIcon from 'feather-icons/dist/icons/alert-circle.svg'
 import AlertTriangleIcon from 'feather-icons/dist/icons/alert-triangle.svg'
 import ArrowDownCircleIcon from 'feather-icons/dist/icons/arrow-down-circle.svg'
@@ -15,11 +16,13 @@ import ChevronUpIcon from 'feather-icons/dist/icons/chevron-up.svg'
 import ClockIcon from 'feather-icons/dist/icons/clock.svg'
 import CpuIcon from 'feather-icons/dist/icons/cpu.svg'
 import DatabaseIcon from 'feather-icons/dist/icons/database.svg'
+import Edit2Icon from 'feather-icons/dist/icons/edit-2.svg'
 import ImageIcon from 'feather-icons/dist/icons/image.svg'
 import LayersIcon from 'feather-icons/dist/icons/layers.svg'
 import LinkIcon from 'feather-icons/dist/icons/link.svg'
 import LockIcon from 'feather-icons/dist/icons/lock.svg'
 import MailIcon from 'feather-icons/dist/icons/mail.svg'
+import MapIcon from 'feather-icons/dist/icons/map.svg'
 import MenuIcon from 'feather-icons/dist/icons/menu.svg'
 import PaperclipIcon from 'feather-icons/dist/icons/paperclip.svg'
 import PercentIcon from 'feather-icons/dist/icons/percent.svg'
@@ -33,9 +36,10 @@ import ZapIcon from 'feather-icons/dist/icons/zap.svg'
 export default {
 	name: 'Icon',
 	components: {
-		AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon,
-		ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, ImageIcon, LayersIcon, LinkIcon, LockIcon, MailIcon, MenuIcon,
-		PaperclipIcon, PercentIcon, SearchIcon, SettingsIcon, SlashIcon, UserIcon, XCircleIcon, ZapIcon
+		ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, ChevronDownIcon, ChevronLeftIcon,
+		ChevronRightIcon, ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, Edit2Icon, ImageIcon, LayersIcon, LinkIcon,
+		LockIcon, MailIcon, MapIcon, MenuIcon, PaperclipIcon, PercentIcon, SearchIcon, SettingsIcon, SlashIcon,
+		UserIcon, XCircleIcon, ZapIcon
 	},
 	props: [ 'name' ],
 	computed: {
@@ -52,6 +56,7 @@ export default {
 	vertical-align: -0.125em;
 
 	svg {
+		display: block;
 		height: 100%;
 		width: 100%;
 	}

@@ -138,7 +138,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.$refs.requestsContainer.scrollTop = this.$refs.contentAbove.offsetHeight
+		this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetTop
 	},
 	methods: {
 		isActive(id) { return this.$request?.id == id },
@@ -216,7 +216,7 @@ export default {
 
 	@media screen and (min-width: 900px) {
 		border-bottom: 0;
-		border-right: 1px solid rgb(209, 209, 209);
+		border-right: 1px solid hsl(240, 20, 85);
 		height: 100%;
 		width: 300px;
 
@@ -286,16 +286,18 @@ export default {
 
 			@include dark { border-color: #242424; }
 
-			&:first-child { border-radius: 8px 0 0 8px; }
-			&:last-child { border-radius: 0 8px 8px 0; }
+			&:first-child { border-radius: 6px 0 0 6px; }
+			&:last-child { border-radius: 0 6px 6px 0; }
 		}
 	}
 
 	th {
-		font-weight: normal;
+		color: #333;
+	    font-size: 90%;
+	    font-weight: 600;
 		height: 30px;
 		line-height: 1.1;
-		padding: 2px 6px;
+	    padding: 8px;
 		white-space: nowrap;
 	}
 
@@ -406,9 +408,8 @@ export default {
 	}
 
 	.requests-header {
-		border-bottom: 1px solid rgb(209, 209, 209);
-		height: 31px;
-		padding: 0 4px;
+		background: hsl(240, 20, 99);
+		padding: 2px 4px;
 
 		@include dark {
 			border-bottom: 1px solid rgb(54, 54, 54);
@@ -461,15 +462,16 @@ export default {
 	.requests-content {
 		display: flex;
 		flex-direction: column;
-		min-height: calc(100% + 75px);
+		min-height: calc(100% + 69px);
 
 		.content-above {
-			padding: 6px 0 10px;
+			padding-top: 6px;
 		}
 	}
 
 	.requests-table {
 		margin-bottom: auto;
+		margin-top: 10px;
 	}
 
 	.requests-clear {

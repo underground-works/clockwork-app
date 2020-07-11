@@ -7,10 +7,13 @@
 			</div>
 
 			<div class="header-group">
-				<div class="header-search">
-					<input type="search" v-model="filter.input" placeholder="Search...">
+				<div class="header-search" v-if="expandedSearch">
+					<input type="search" v-model="filter.input" placeholder="Search..." ref="searchInput">
 					<icon name="search"></icon>
 				</div>
+				<a href="#" class="header-item" @click.prevent="expandSearch" v-else>
+					<icon name="search"></icon>
+				</a>
 			</div>
 		</div>
 
@@ -45,7 +48,8 @@ export default {
 	components: { DetailsTable, PrettyPrint },
 	props: [ 'title', 'name', 'filterExample', 'items' ],
 	data: () => ({
-		filter: new Filter([ { tag: 'name' } ])
+		filter: new Filter([ { tag: 'name' } ]),
+		expandedSearch: false
 	}),
 	computed: {
 		expanded() {
@@ -55,6 +59,11 @@ export default {
 	methods: {
 		toggle() {
 			this.$settings.global.requestSidebarCollapsedSections[this.name] = ! this.expanded
+		},
+
+		expandSearch() {
+			this.expandedSearch = true
+			this.$nextTick(() => this.$refs.searchInput.focus())
 		}
 	}
 }
@@ -67,7 +76,7 @@ export default {
 	.section-header {
 		align-items: center;
 		background: #fff;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+		border-bottom: 1px solid hsl(240, 20, 92);
 		border-radius: 8px 8px 0 0;
 		display: flex;
 		font-size: 14px;
@@ -84,6 +93,43 @@ export default {
 			.ui-icon {
 				color: #111;
 				margin-right: 2px;
+			}
+		}
+
+		.header-item {
+			align-items: center;
+			border-radius: 4px;
+			display: flex;
+			height: 24px;
+			justify-content: center;
+			margin-right: 4px;
+			text-decoration: none;
+			width: 24px;
+
+			@include dark {
+				color: rgb(158, 158, 158);
+			}
+
+			&:hover {
+				color: rgb(37, 140, 219);
+
+				@include dark {
+					color: hsl(31, 98%, 44%);
+				}
+			}
+
+			&.active {
+				background: rgb(37, 140, 219);
+				color: #f5f5f5;
+
+				@include dark {
+					background: hsl(31, 98%, 44%);
+					color: #fff;
+				}
+			}
+
+			&:last-child {
+				margin-right: 0;
 			}
 		}
 
@@ -119,7 +165,7 @@ export default {
 	}
 
 	.details-table {
-		border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+		border-bottom: 1px solid hsl(240, 20, 92);
 		border-radius: 0;
 		box-shadow: none;
 		margin-bottom: 0;

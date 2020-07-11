@@ -111,7 +111,7 @@ export default {
 .details-table {
 	background: hsl(240, 20, 99);
 	border-radius: 8px;
-	box-shadow: 0 2px 5px rgba(162, 172, 180, 0.25), 0 0 2px rgba(162, 172, 180, 0.5);
+	box-shadow: 0 0 1px 1px hsl(240, 20, 90), 0 2px 4px 0 hsl(240, 20, 90);
 	margin-bottom: 20px;
 	padding-bottom: 10px;
 
@@ -120,7 +120,7 @@ export default {
 	.table-header {
 		align-items: center;
 		background: #fff;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+		border-bottom: 1px solid hsl(240, 20, 92);
 		border-radius: 8px 8px 0 0;
 		display: flex;
 		font-size: 14px;

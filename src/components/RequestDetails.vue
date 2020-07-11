@@ -9,18 +9,18 @@
 			</div>
 
 			<div class="details-header-tabs">
-				<tab-handle name="performance" :active="activeDetailsTab == 'performance'" @tab-selected="showTab">Performance</tab-handle>
-				<tab-handle name="log" :active="activeDetailsTab == 'log'" @tab-selected="showTab" v-show="shownTabs.log">Log</tab-handle>
-				<tab-handle name="events" :active="activeDetailsTab == 'events'" @tab-selected="showTab" v-show="shownTabs.events">Events</tab-handle>
-				<tab-handle name="database" :active="activeDetailsTab == 'database'" @tab-selected="showTab" v-show="shownTabs.database">Database</tab-handle>
-				<tab-handle name="cache" :active="activeDetailsTab == 'cache'" @tab-selected="showTab" v-show="shownTabs.cache">Cache</tab-handle>
-				<tab-handle name="redis" :active="activeDetailsTab == 'redis'" @tab-selected="showTab" v-show="shownTabs.redis">Redis</tab-handle>
-				<tab-handle name="queue" :active="activeDetailsTab == 'queue'" @tab-selected="showTab" v-show="shownTabs.queue">Queue</tab-handle>
-				<tab-handle name="views" :active="activeDetailsTab == 'views'" @tab-selected="showTab" v-show="shownTabs.views">Views</tab-handle>
-				<tab-handle name="emails" :active="activeDetailsTab == 'emails'" @tab-selected="showTab" v-show="shownTabs.emails">Emails</tab-handle>
-				<tab-handle name="routes" :active="activeDetailsTab == 'routes'" @tab-selected="showTab" v-show="shownTabs.routes">Routes</tab-handle>
-				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" :active="activeDetailsTab == `user-${userTab.key}`" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
-				<tab-handle name="output" :active="activeDetailsTab == 'output'" @tab-selected="showTab" v-show="shownTabs.output">Output</tab-handle>
+				<tab-handle name="performance" icon="activity" :active="activeDetailsTab == 'performance'" @tab-selected="showTab">Performance</tab-handle>
+				<tab-handle name="log" icon="edit-2" :active="activeDetailsTab == 'log'" @tab-selected="showTab" v-if="shownTabs.log">Log</tab-handle>
+				<tab-handle name="events" icon="zap" :active="activeDetailsTab == 'events'" @tab-selected="showTab" v-if="shownTabs.events">Events</tab-handle>
+				<tab-handle name="database" icon="database" :active="activeDetailsTab == 'database'" @tab-selected="showTab" v-if="shownTabs.database">Database</tab-handle>
+				<tab-handle name="cache" icon="paperclip" :active="activeDetailsTab == 'cache'" @tab-selected="showTab" v-if="shownTabs.cache">Cache</tab-handle>
+				<tab-handle name="redis" icon="layers" :active="activeDetailsTab == 'redis'" @tab-selected="showTab" v-if="shownTabs.redis">Redis</tab-handle>
+				<tab-handle name="queue" icon="clock" :active="activeDetailsTab == 'queue'" @tab-selected="showTab" v-if="shownTabs.queue">Queue</tab-handle>
+				<tab-handle name="views" icon="image" :active="activeDetailsTab == 'views'" @tab-selected="showTab" v-if="shownTabs.views">Views</tab-handle>
+				<tab-handle name="emails" icon="mail" :active="activeDetailsTab == 'emails'" @tab-selected="showTab" v-if="shownTabs.emails">Emails</tab-handle>
+				<tab-handle name="routes" icon="map" :active="activeDetailsTab == 'routes'" @tab-selected="showTab" v-if="shownTabs.routes">Routes</tab-handle>
+				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" icon="menu" :active="activeDetailsTab == `user-${userTab.key}`" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
+				<tab-handle name="output" :active="activeDetailsTab == 'output'" @tab-selected="showTab" v-if="shownTabs.output">Output</tab-handle>
 			</div>
 
 			<div class="icons">
