@@ -7,7 +7,7 @@ export default class WhatsNew
 	get show() {
 		// show the what's new content only when not already seen and the seen state can be persisted
 		return this.settings.global.seenReleaseNotesVersion != WhatsNew.latestRelease.version
-			&& this.settings.persistent
+			&& this.settings.persistent && this.settings.loaded
 	}
 
 	seen() {

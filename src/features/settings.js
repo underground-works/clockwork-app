@@ -13,6 +13,7 @@ export default class Settings
 		this.requests.settings = this
 
 		this.shown = false
+		this.loaded = false
 		this.settings = this.defaults()
 
 		this.load()
@@ -52,6 +53,8 @@ export default class Settings
 			global: extend(true, defaults.global, settings.global || {}),
 			site: mapValues(settings.site || {}, settings => extend(true, {}, defaults.site, settings || {}))
 		}
+
+		this.loaded = true
 	}
 
 	defaults() {

@@ -1,6 +1,6 @@
 <template>
-	<transition name="settings">
-		<div class="settings-modal" v-show="$settings.shown">
+	<modal icon="settings" title="Settings" :shown.sync="$settings.shown">
+		<div class="settings-modal">
 			<div class="settings-warning" v-if="! $settings.persistent">
 				<div class="warning-text">
 					<span class="warning-label">Warning</span>
@@ -105,12 +105,15 @@
 				</div>
 			</div>
 		</div>
-	</transition>
+	</modal>
 </template>
 
 <script>
+import Modal from '../UI/Modal'
+
 export default {
 	name: 'SettingsModal',
+	components: { Modal },
 	data: () => ({
 		showPersistWarning: false
 	}),
@@ -131,19 +134,10 @@ export default {
 @import '../../mixins.scss';
 
 .settings-modal {
-	background: #fff;
-	border: 1px solid rgb(209, 209, 209);
-	border-radius: 5px;
-	box-shadow: 0 0 4px #e5e5e5;
 	font-size: 13px;
-	left: 5%;
 	max-width: 600px;
-	padding: 30px 35px 1px;
-	position: absolute;
-	text-align: left;
-	top: 0;
+	padding-top: 10px;
 	width: 90%;
-	z-index: 300;
 
 	@include dark {
 		background: rgb(31, 31, 31);
@@ -313,13 +307,5 @@ export default {
 			}
 		}
 	}
-}
-
-.settings-enter-active, .settings-leave-active {
-	transition: top .33s;
-}
-
-.settings-enter, .settings-leave-to {
-	top: -500px;
 }
 </style>
