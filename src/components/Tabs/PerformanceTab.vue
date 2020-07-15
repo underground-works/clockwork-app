@@ -19,14 +19,20 @@
 
 		<performance-chart :metrics="$request.performanceMetrics"></performance-chart>
 
-		<performance-log></performance-log>
-
 		<div tabs="performance">
 			<div class="performance-tabs">
-				<a class="performance-tab" :class="{ 'active': isTabActive('timeline') }" href="#" @click.prevent="showTab('timeline')">Timeline</a>
-				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')">Profiler</a>
+				<a class="performance-tab" :class="{ 'active': isTabActive('issues') }" href="#" @click.prevent="showTab('issues')" v-if="databaseSlowQueries.length || performanceIssues.length">
+					<icon name="alert-triangle"></icon> Issues
+				</a>
+				<a class="performance-tab" :class="{ 'active': isTabActive('timeline') }" href="#" @click.prevent="showTab('timeline')">
+					<icon name="pie-chart"></icon> Timeline
+				</a>
+				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')">
+					<icon name="clock"></icon> Profiler
+				</a>
 			</div>
 
+			<performance-log :issues="performanceIssues" :slow-queries="databaseSlowQueries" v-show="isTabActive('issues')"></performance-log>
 			<timeline name="performance" :timeline="$request.timeline" :tags="timelineTags" v-show="isTabActive('timeline')"></timeline>
 			<profiler v-show="isTabActive('profiler')"></profiler>
 		</div>
@@ -46,7 +52,7 @@ export default {
 	components: { PerformanceChart, PerformanceLog, Profiler, Timeline },
 	props: [ 'active' ],
 	data: () => ({
-		activePerformanceTab: 'timeline',
+		selectedPerformanceTab: null,
 		timelineTags: [
 			{ tag: 'events', icon: 'zap', title: 'Events' },
 			{ tag: 'databaseQueries', icon: 'database', title: 'Database' },
@@ -57,10 +63,29 @@ export default {
 			{ tag: 'emails', icon: 'mail', title: 'Emails' }
 		]
 	}),
+	computed: {
+		activePerformanceTab() {
+			let activeTab = this.selectedPerformanceTab || 'issues'
+
+			if (activeTab == 'issues' && ! this.databaseSlowQueries.length && ! this.performanceIssues.length) return 'timeline'
+
+			return activeTab
+		},
+
+		databaseSlowQueries() {
+			return this.$request.databaseQueries.filter(query => query.tags.includes('slow'))
+		},
+
+		performanceIssues() {
+			return this.$request.log.filter(message => message.context?.performance).map(message => {
+				return extend({}, message, { context: omit(message.context, [ 'performance', 'trace' ]) })
+			})
+		}
+	},
 	methods: {
 		isTabActive(tab) { return this.activePerformanceTab == tab },
 		showTab(tab) {
-			this.activePerformanceTab = tab
+			this.selectedPerformanceTab = tab
 
 			if (tab == 'profiler') this.$profiler.loadRequest(this.$request)
 		}
@@ -107,27 +132,40 @@ $performance-colors-dark: (
 	display: flex;
 	flex: 1;
 	justify-content: center;
-	padding: 8px 0 4px;
+	margin-bottom: 15px;
+	margin-top: 30px;
 
 	.performance-tab {
+		align-items: center;
+	    border-radius: 12px;
 		color: rgb(64, 64, 64);
 		cursor: default;
+		display: flex;
 		font-size: 12px;
-		line-height: 31px;
-		padding: 0 31px;
+		line-height: 26px;
+		padding: 0 26px;
 		text-align: center;
 		text-decoration: none;
 
+		@include dark {
+			color: rgb(158, 158, 158);
+		}
+
+		&:hover {
+			color: #258cdb;
+		}
+
 		&.active {
-			color: rgb(37, 140, 219);
+		    background: #258cdb;
+		    color: #f5f5f5;
 
 			@include dark {
 				color: hsl(31, 98%, 48%);
 			}
 		}
 
-		@include dark {
-			color: rgb(158, 158, 158);
+		.ui-icon {
+		    margin-right: 5px;
 		}
 	}
 }

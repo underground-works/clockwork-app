@@ -26,6 +26,7 @@ import MapIcon from 'feather-icons/dist/icons/map.svg'
 import MenuIcon from 'feather-icons/dist/icons/menu.svg'
 import PaperclipIcon from 'feather-icons/dist/icons/paperclip.svg'
 import PercentIcon from 'feather-icons/dist/icons/percent.svg'
+import PieChartIcon from 'feather-icons/dist/icons/pie-chart.svg'
 import SearchIcon from 'feather-icons/dist/icons/search.svg'
 import SettingsIcon from 'feather-icons/dist/icons/settings.svg'
 import SlashIcon from 'feather-icons/dist/icons/slash.svg'
@@ -40,8 +41,8 @@ export default {
 	components: {
 		ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, ChevronDownIcon, ChevronLeftIcon,
 		ChevronRightIcon, ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, Edit2Icon, ImageIcon, LayersIcon, LinkIcon,
-		LockIcon, MailIcon, MapIcon, MenuIcon, PaperclipIcon, PercentIcon, SearchIcon, SettingsIcon, SlashIcon,
-		StarIcon, UserIcon, XIcon, XCircleIcon, ZapIcon
+		LockIcon, MailIcon, MapIcon, MenuIcon, PaperclipIcon, PercentIcon, PieChartIcon, SearchIcon, SettingsIcon,
+		SlashIcon, StarIcon, UserIcon, XIcon, XCircleIcon, ZapIcon
 	},
 	props: [ 'name' ],
 	computed: {

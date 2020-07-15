@@ -169,7 +169,7 @@ export default {
 					this.showRequest(this.$requests.first())
 				} else if (this.shouldShowIncomingRequest()) {
 					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
-					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.contentAbove.offsetHeight
+					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.requestsTable.offsetTop
 				}
 			},
 			deep: true
