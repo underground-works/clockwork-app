@@ -89,6 +89,9 @@ export default {
 
 			if (tab == 'profiler') this.$profiler.loadRequest(this.$request)
 		}
+	},
+	watch: {
+		$request() { if (this.activePerformanceTab == 'profiler') this.$profiler.loadRequest(this.$request) }
 	}
 }
 </script>

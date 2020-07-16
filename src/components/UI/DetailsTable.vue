@@ -185,6 +185,10 @@ export default {
 				}
 			}
 
+			&:last-child {
+				margin-right: 0;
+			}
+
 			&.active {
 				background: rgb(37, 140, 219);
 				color: #f5f5f5;
@@ -195,8 +199,11 @@ export default {
 				}
 			}
 
-			&:last-child {
-				margin-right: 0;
+			&.item-text {
+				font-size: 12px;
+				min-width: 24px;
+				padding: 0 4px;
+				width: auto;
 			}
 		}
 

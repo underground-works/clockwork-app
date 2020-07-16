@@ -59,6 +59,7 @@ a {
 	align-items: center;
 	background: hsl(30, 1, 96);
 	border-radius: 4px;
+	color: dimgrey;
 	display: flex;
 	justify-content: center;
 	padding: 6px 12px;
@@ -66,6 +67,10 @@ a {
 
 	@include dark {
 		background: hsl(30, 1, 16);
+	}
+
+	&:hover {
+		color: #3b3b3b;
 	}
 
 	.ui-icon {
@@ -276,116 +281,6 @@ a {
 			&.link {
 				font-size: 90%;
 				padding: 0;
-			}
-		}
-	}
-
-	// Performance tab
-
-	.profiler {
-		.profiler-controls {
-			position: absolute;
-			right: 0;
-			top: 4px;
-
-			.profiler-control-group {
-				margin: 0 5px;
-			}
-
-			.profiler-show-metric {
-				font-size: 105%;
-
-				.ui-icon {
-					font-size: 110%;
-				}
-			}
-
-			.profiler-shown-fraction {
-				font-size: 85%;
-			}
-
-			.toggle-filter {
-				position: static;
-				visibility: visible;
-			}
-
-			a {
-				margin: 0 2px;
-				text-decoration: none;
-
-				&.active {
-					color: rgb(37, 140, 219);
-
-					@include dark {
-						color: hsl(31, 98%, 48%);
-					}
-				}
-
-				@include dark {
-					color: rgb(158, 158, 158);
-				}
-			}
-		}
-
-		.profiler-metric {
-			white-space: nowrap;
-		}
-
-		.profiler-function {
-			display: flex;
-			flex-wrap: wrap;
-
-			.profiler-function-name {
-				flex: 1 1 auto;
-				word-break: break-all;
-			}
-
-			.profiler-path {
-				color: #aaa;
-				flex: 0;
-				font-size: 90%;
-				margin-top: 3px;
-			}
-		}
-	}
-
-	.profiler-loading, .profiler-not-available {
-		align-items: center;
-		display: flex;
-		flex-direction: column;
-		font-size: 16px;
-		padding: 40px 0;
-		text-align: center;
-		width: 100%;
-
-		.message {
-			color: #aaa;
-			font-size: 75%;
-			margin: 10px 0 0 0;
-		}
-	}
-
-	.profiler-not-available {
-		font-size: 15px;
-		line-height: 1.5;
-
-		.message {
-			font-size: 90%;
-			margin: 15px 0 0;
-		}
-
-		a {
-			color: #aaa;
-			cursor: pointer;
-		}
-
-		.profiler-enable {
-			a {
-				color: rgb(37, 140, 219);
-
-				@include dark {
-					color: hsl(31, 98%, 48%);
-				}
 			}
 		}
 	}
