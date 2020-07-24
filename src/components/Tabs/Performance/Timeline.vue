@@ -1,6 +1,6 @@
 <template>
 	<div class="timeline" :class="{ 'show-details': showDetails }">
-		<details-table title="Timeline" :columns="columns" :items="presentedEvents" :filter="filter" :no-table-head="! showDetails" filter-example="database query duration:>50" :per-page="100">
+		<details-table title="Timeline" icon="pie-chart" :columns="columns" :items="presentedEvents" :filter="filter" :no-table-head="! showDetails" filter-example="database query duration:>50" :per-page="100">
 			<template slot="toolbar" slot-scope="{ filter }">
 				<div class="header-group">
 					<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">

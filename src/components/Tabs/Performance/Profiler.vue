@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<details-table title="Profiler" :columns="['Self', 'Inclusive', 'Function']" :items="$profiler.functions" :filter="filter" :per-page="100" class="profiler">
+		<details-table title="Profiler" icon="clock" :columns="['Self', 'Inclusive', 'Function']" :items="$profiler.functions" :filter="filter" :per-page="100" class="profiler">
 			<template slot="toolbar" slot-scope="{ filter }">
 				<div class="header-group">
 					<label class="header-toggle">

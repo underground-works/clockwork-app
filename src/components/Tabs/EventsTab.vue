@@ -1,6 +1,6 @@
 <template>
 	<div v-show="active">
-		<details-table title="Events" :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
+		<details-table title="Events" icon="zap" :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="event, index in items" :key="`${$request.id}-${index}`">
 					<td>{{event.time | moment('HH:mm:ss')}}</td>

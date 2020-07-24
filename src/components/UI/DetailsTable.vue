@@ -2,7 +2,7 @@
 	<div class="details-table">
 		<div class="table-header" v-if="! noHeader">
 			<div class="header-title">
-				<icon name="menu"></icon>
+				<icon :name="icon"></icon>
 				{{title}}
 				<span class="title-badge" v-if="badge">{{badge}}</span>
 			</div>
@@ -52,7 +52,10 @@ import PrettyPrint from './PrettyPrint'
 export default {
 	name: 'DetailsTable',
 	components: { DetailsTableFilterToggle, PrettyPrint },
-	props: { badge: {}, columns: {}, filter: {}, filterExample: {}, items: {}, noHeader: {}, noTableHead: {}, perPage: { default: 30 }, title: {} },
+	props: {
+		badge: {}, columns: {}, filter: {}, filterExample: {}, icon: { default: 'menu' }, items: {}, noHeader: {},
+		noTableHead: {}, perPage: { default: 30 }, title: {}
+	},
 	data: () => ({
 		firstShown: 0
 	}),

@@ -1,6 +1,6 @@
 <template>
 	<div class="performance-log">
-		<details-table title="Performance issues" :badge="issues.length" :columns="['Message']" :items="issues" :filter="performanceLogFilter" filter-example="query failed file:Controller.php time:>13:08:29" v-if="issues.length">
+		<details-table title="Performance issues" icon="alert-triangle" :badge="issues.length" :columns="['Message']" :items="issues" :filter="performanceLogFilter" filter-example="query failed file:Controller.php time:>13:08:29" v-if="issues.length">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message, index in items" class="log-row" :key="`${$request.id}-${index}`">
 					<td>
@@ -18,7 +18,7 @@
 			</template>
 		</details-table>
 
-		<details-table title="Slow database queries" :badge="slowQueries.length" :columns="databaseSlowQueriesColumns" :items="slowQueries" :filter="databaseSlowQueriesFilter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100" v-if="slowQueries.length">
+		<details-table title="Slow database queries" icon="database" :badge="slowQueries.length" :columns="databaseSlowQueriesColumns" :items="slowQueries" :filter="databaseSlowQueriesFilter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100" v-if="slowQueries.length">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="query, index in items" :key="`${$request.id}-${index}`">
 					<td>

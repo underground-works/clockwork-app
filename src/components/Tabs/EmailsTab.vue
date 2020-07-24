@@ -1,6 +1,6 @@
 <template>
 	<div v-show="active">
-		<details-table title="Emails" :columns="['To', 'Subject', 'Headers']" :items="$request.emails" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works">
+		<details-table title="Emails" icon="mail" :columns="['To', 'Subject', 'Headers']" :items="$request.emails" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="email, index in items" :key="`${$request.id}-${index}`">
 					<td>{{email.to}}</td>
