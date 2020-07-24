@@ -54,14 +54,11 @@
 
 				<tr v-if="$profiler.loading || $profiler.parsing">
 					<td colspan="3">
-						<div class="profiler-loading">
-							<spinner name="fading-circle"></spinner>
+						<div class="profiler-content">
+							<spinner name="fading-circle" :no-fade-in="true"></spinner>
 
-							<p class="message" v-show="$profiler.loading">
-								Loading profile...
-							</p>
-							<p class="message" v-show="$profiler.parsing">
-								Processing profile...
+							<p>
+								{{$profiler.loading ? 'Loading profile...' : 'Processing profile...'}}
 							</p>
 						</div>
 					</td>
@@ -69,15 +66,17 @@
 
 				<tr v-if="! $profiler.available">
 					<td colspan="3">
-						<div class="profiler-not-available">
-							<p>
+						<div class="profiler-content">
+							<h1>
 								Profile is not present for current request.
-							</p>
-							<p class="message">
+							</h1>
+
+							<p>
 								Profiling requires the Xdebug php extension.<br>
 								<a href="https://underground.works/clockwork/#docs-xdebug-profiler" target="_blank">Read more about how to set up Xdebug</a>
 							</p>
-							<p class="message profiler-enable">
+
+							<p class="content-actions">
 								<a href="#" class="button" @click="$profiler.enableProfiling()" v-show="! $profiler.isProfiling">
 									Enable profiler
 								</a>
@@ -152,25 +151,19 @@ export default {
 			margin-top: 3px;
 		}
 	}
-}
 
-.profiler-loading, .profiler-not-available {
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	font-size: 16px;
-	padding: 80px 0;
-	text-align: center;
-	width: 100%;
+	.profiler-content {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		font-size: 14px;
+		padding: 80px 0;
+		text-align: center;
+		width: 100%;
 
-	.message {
-		font-size: 90%;
-		margin: 10px 0 0 0;
+		h1 {
+			font-size: 110%;
+		}
 	}
-}
-
-.profiler-not-available {
-	font-size: 15px;
-	line-height: 1.5;
 }
 </style>

@@ -63,6 +63,10 @@ export default class Profiler
 	}
 
 	parseProfile() {
+		if (! this.request.xdebug.profileData) {
+			return this.available = false
+		}
+
 		this.ready = false
 		this.parsing = true
 
