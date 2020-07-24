@@ -139,11 +139,11 @@ export default {
 			}
 
 			.title-badge {
-				background: rgb(37, 140, 219);
+				background: rgb(39, 134, 243);
 				color: #f5f5f5;
 				border-radius: 8px;
 				margin-left: 4px;
-				padding: 0 8px;
+				padding: 1px 8px;
 
 				@include dark {
 					background: hsl(31, 98%, 44%);
@@ -190,7 +190,7 @@ export default {
 			}
 
 			&.active {
-				background: rgb(37, 140, 219);
+				background: rgb(39, 134, 243);
 				color: #f5f5f5;
 
 				@include dark {
@@ -263,9 +263,6 @@ export default {
 			.ui-icon {
 				font-size: 110%;
 			}
-		}
-
-		tbody {
 		}
 
 		tr {

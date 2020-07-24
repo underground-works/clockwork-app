@@ -159,7 +159,7 @@ $performance-colors-dark: (
 		}
 
 		&.active {
-		    background: #258cdb;
+		    background: rgb(39, 134, 243);
 		    color: #f5f5f5;
 
 			@include dark {

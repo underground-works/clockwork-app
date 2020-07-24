@@ -30,7 +30,9 @@
 						</div>
 					</td>
 					<td class="fired-event-actions">
-						<icon :name="isEventExpanded(event) ? 'chevron-up' : 'chevron-down'" @click="toggleEvent(event)"></icon>
+						<a href="#" @click.prevent="toggleEvent(event)">
+							<icon :name="isEventExpanded(event) ? 'chevron-up' : 'chevron-down'"></icon>
+						</a>
 					</td>
 				</tr>
 			</template>

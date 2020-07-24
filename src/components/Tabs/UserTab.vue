@@ -31,15 +31,6 @@ export default {
 	name: 'UserTab',
 	components: { DetailsTable, PrettyPrint },
 	props: [ 'active', 'userTab' ],
-	// computed: {
-	// 	filters() {
-	// 		return this.userTab.sections.map(section => {
-	// 			if (section.showAs == 'table') {
-	// 				return new Filter(section.data[0].map(item => ({ tag: item.key })))
-	// 			}
-	// 		})
-	// 	}
-	// },
 	data: () => ({
 		filters: []
 	}),
@@ -55,12 +46,5 @@ export default {
 			immediate: true
 		}
 	}
-	// mounted() {
-	// 	this.filters = this.userTab.sections.map(section => {
-	// 		if (section.showAs == 'table') {
-	// 			return new Filter(section.data[0].map(item => ({ tag: item.key })))
-	// 		}
-	// 	})
-	// }
 }
 </script>
