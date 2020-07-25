@@ -129,8 +129,8 @@ export default {
 	background: #fffae2;
 	border-radius: 8px;
 	color: #a85919;
-	font-size: 9px;
-	padding: 2px 6px;
+	font-size: 11px;
+	padding: 2px 8px;
 	text-transform: uppercase;
 
 	@include dark {

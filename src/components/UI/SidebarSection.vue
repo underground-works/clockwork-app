@@ -59,6 +59,7 @@ export default {
 	methods: {
 		toggle() {
 			this.$settings.global.requestSidebarCollapsedSections[this.name] = ! this.expanded
+			this.$settings.save()
 		},
 
 		expandSearch() {

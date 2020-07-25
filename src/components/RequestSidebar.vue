@@ -154,6 +154,7 @@ export default {
 		.header-info {
 			flex: 1;
 			margin-right: 5px;
+			overflow: hidden;
 
 			&:hover {
 				.info-copy {
@@ -163,12 +164,16 @@ export default {
 
 			.info-main {
 				font-size: 110%;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 
 			.info-details {
 				color: dimgray;
 				font-size: 95%;
 				margin-top: 5px;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 
 			.info-copy {
