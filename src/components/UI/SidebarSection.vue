@@ -85,7 +85,7 @@ export default {
 
 		@include dark {
 			background: #252527;
-			border-bottom: 1px solid rgb(54, 54, 54);
+			border-bottom: 1px solid rgb(52, 52, 54);
 		}
 
 		.header-title {
@@ -179,7 +179,7 @@ export default {
 		padding-bottom: 0;
 
 		@include dark {
-			border-bottom: 1px solid rgb(54, 54, 54);
+			border-bottom: 1px solid rgb(52, 52, 54);
 			box-shadow: none;
 		}
 

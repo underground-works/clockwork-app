@@ -215,7 +215,7 @@ export default {
 
 	@include dark {
 		background: #1b1b1b;
-		border-bottom: 1px solid rgb(54, 54, 54);
+		border-bottom: 1px solid hsl(240, 17%, 20%);
 	}
 
 	@media screen and (min-width: 900px) {
@@ -224,7 +224,7 @@ export default {
 		height: 100%;
 		width: 300px;
 
-		@include dark { border-right: 1px solid rgb(54, 54, 54); }
+		@include dark { border-right: 1px solid hsl(240, 17%, 20%); }
 		&.large { width: 400px; }
 	}
 

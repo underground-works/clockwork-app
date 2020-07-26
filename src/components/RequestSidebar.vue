@@ -106,7 +106,7 @@ export default {
 
 	@include dark {
 		background: #1b1b1b;
-		border-top: 1px solid rgb(54, 54, 54);
+		border-top: 1px solid hsl(240, 17%, 20%);
 	}
 
 	&.large { height: 33%; }
@@ -118,7 +118,7 @@ export default {
 		width: 300px;
 
 		@include dark {
-			border-left: 1px solid rgb(54, 54, 54);
+			border-left: 1px solid hsl(240, 17%, 20%);
 			border-top: 0;
 		}
 
@@ -146,7 +146,7 @@ export default {
 		width: 100%;
 
 		@include dark {
-			border-bottom: 1px solid rgb(54, 54, 54);
+			border-bottom: 1px solid rgb(52, 52, 54);
 		}
 
 		.header-info {

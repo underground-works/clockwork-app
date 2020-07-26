@@ -8,20 +8,7 @@
 				</a>
 			</div>
 
-			<div class="details-header-tabs">
-				<tab-handle name="performance" icon="activity" :active="activeDetailsTab == 'performance'" @tab-selected="showTab">Performance</tab-handle>
-				<tab-handle name="log" icon="edit-2" :active="activeDetailsTab == 'log'" @tab-selected="showTab" v-if="shownTabs.log">Log</tab-handle>
-				<tab-handle name="events" icon="zap" :active="activeDetailsTab == 'events'" @tab-selected="showTab" v-if="shownTabs.events">Events</tab-handle>
-				<tab-handle name="database" icon="database" :active="activeDetailsTab == 'database'" @tab-selected="showTab" v-if="shownTabs.database">Database</tab-handle>
-				<tab-handle name="cache" icon="paperclip" :active="activeDetailsTab == 'cache'" @tab-selected="showTab" v-if="shownTabs.cache">Cache</tab-handle>
-				<tab-handle name="redis" icon="layers" :active="activeDetailsTab == 'redis'" @tab-selected="showTab" v-if="shownTabs.redis">Redis</tab-handle>
-				<tab-handle name="queue" icon="clock" :active="activeDetailsTab == 'queue'" @tab-selected="showTab" v-if="shownTabs.queue">Queue</tab-handle>
-				<tab-handle name="views" icon="image" :active="activeDetailsTab == 'views'" @tab-selected="showTab" v-if="shownTabs.views">Views</tab-handle>
-				<tab-handle name="emails" icon="mail" :active="activeDetailsTab == 'emails'" @tab-selected="showTab" v-if="shownTabs.emails">Emails</tab-handle>
-				<tab-handle name="routes" icon="map" :active="activeDetailsTab == 'routes'" @tab-selected="showTab" v-if="shownTabs.routes">Routes</tab-handle>
-				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" icon="menu" :active="activeDetailsTab == `user-${userTab.key}`" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
-				<tab-handle name="output" :active="activeDetailsTab == 'output'" @tab-selected="showTab" v-if="shownTabs.output">Output</tab-handle>
-			</div>
+			<tab-bar :tabs="tabs" :active-tab="activeTab" @tab-selected="showTab"></tab-bar>
 
 			<div class="icons">
 				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
@@ -41,18 +28,18 @@
 			<div class="content-header"></div>
 
 			<div class="content-content">
-				<events-tab :active="activeDetailsTab == 'events'"></events-tab>
-				<database-tab :active="activeDetailsTab == 'database'"></database-tab>
-				<cache-tab :active="activeDetailsTab == 'cache'"></cache-tab>
-				<redis-tab :active="activeDetailsTab == 'redis'"></redis-tab>
-				<queue-tab :active="activeDetailsTab == 'queue'"></queue-tab>
-				<log-tab :active="activeDetailsTab == 'log'"></log-tab>
-				<performance-tab :active="activeDetailsTab == 'performance'"></performance-tab>
-				<views-tab :active="activeDetailsTab == 'views'"></views-tab>
-				<emails-tab :active="activeDetailsTab == 'emails'"></emails-tab>
-				<routes-tab :active="activeDetailsTab == 'routes'"></routes-tab>
-				<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeDetailsTab == `user-${userTab.key}`"></user-tab>
-				<output-tab :active="activeDetailsTab == 'output'"></output-tab>
+				<events-tab :active="activeTab == 'events'"></events-tab>
+				<database-tab :active="activeTab == 'database'"></database-tab>
+				<cache-tab :active="activeTab == 'cache'"></cache-tab>
+				<redis-tab :active="activeTab == 'redis'"></redis-tab>
+				<queue-tab :active="activeTab == 'queue'"></queue-tab>
+				<log-tab :active="activeTab == 'log'"></log-tab>
+				<performance-tab :active="activeTab == 'performance'"></performance-tab>
+				<views-tab :active="activeTab == 'views'"></views-tab>
+				<emails-tab :active="activeTab == 'emails'"></emails-tab>
+				<routes-tab :active="activeTab == 'routes'"></routes-tab>
+				<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeTab == `user-${userTab.key}`"></user-tab>
+				<output-tab :active="activeTab == 'output'"></output-tab>
 			</div>
 
 		</div>
@@ -90,7 +77,7 @@
 <script>
 import MessagesOverlay from './Details/MessagesOverlay'
 import SettingsModal from './Settings/SettingsModal'
-import TabHandle from './Details/TabHandle'
+import TabBar from './Details/TabBar'
 
 import CacheTab from './Tabs/CacheTab'
 import DatabaseTab from './Tabs/DatabaseTab'
@@ -108,15 +95,34 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, TabHandle, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, OutputTab,
+		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, OutputTab,
 		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
-		activeDetailsTab() {
-			if (! this.$request) return
-			if (this.shownTabs[this.global.activeTab] === false) return 'performance'
+		tabs() {
+			return [
+				{ text: 'Performance', name: 'performance', icon: 'activity', shown: true },
+				{ text: 'Log', name: 'log', icon: 'edit-2', shown: this.shownTabs.log },
+				{ text: 'Events', name: 'events', icon: 'zap', shown: this.shownTabs.events },
+				{ text: 'Database', name: 'database', icon: 'database', shown: this.shownTabs.database },
+				{ text: 'Cache', name: 'cache', icon: 'paperclip', shown: this.shownTabs.cache },
+				{ text: 'Redis', name: 'redis', icon: 'layers', shown: this.shownTabs.redis },
+				{ text: 'Queue', name: 'queue', icon: 'clock', shown: this.shownTabs.queue },
+				{ text: 'Views', name: 'views', icon: 'image', shown: this.shownTabs.views },
+				{ text: 'Emails', name: 'emails', icon: 'mail', shown: this.shownTabs.emails },
+				{ text: 'Routes', name: 'routes', icon: 'map', shown: this.shownTabs.routes }
+			].concat(
+				this.$request?.userData?.map(userTab => ({ text: userTab.title, name: `user-${userTab.key}`, icon: 'menu' }))
+			).concat([
+				{ text: 'Output', name: 'output', shown: this.shownTabs.output }
+			]).filter(Boolean)
+		},
 
-			return this.global.activeTab
+		activeTab() {
+			if (! this.$request) return
+			if (this.shownTabs[this.global.activeDetailsTab] === false) return 'performance'
+
+			return this.global.activeDetailsTab
 		},
 
 		shownTabs() {
@@ -137,7 +143,7 @@ export default {
 	},
 	methods: {
 		showTab(tab) {
-			this.global.activeTab = tab
+			this.global.activeDetailsTab = tab
 			this.global.showIncomingRequests = false
 		},
 		toggleRequestsList() {

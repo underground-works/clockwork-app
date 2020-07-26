@@ -1,15 +1,15 @@
 <template>
-	<a @click="selectTab" class="details-header-tab" :class="{'active':active}" href="#">
-		<icon :name="icon" v-if="icon"></icon>
-		<slot></slot>
-		<div class="tab-badge" v-if="badge">{{badge}}</div>
+	<a @click="selectTab" class="details-header-tab" :class="{'active':active, 'short':short}" href="#">
+		<icon :name="icon" :title="text" v-if="icon"></icon>
+		<div class="tab-title" v-show="! short">{{text}}</div>
+		<div class="tab-badge" v-show="badge && ! short">{{badge}}</div>
 	</a>
 </template>
 
 <script>
 export default {
 	name: 'TabHandle',
-	props: [ 'name', 'icon', 'badge', 'active' ],
+	props: [ 'text', 'name', 'icon', 'badge', 'active', 'short' ],
 	methods: {
 		selectTab() { this.$emit('tab-selected', this.name) }
 	}
@@ -21,6 +21,7 @@ export default {
 
 .details-header-tab {
 	align-items: center;
+	border-bottom: 1px solid hsl(240, 20, 85);
 	border-left: 1px solid transparent;
 	border-right: 1px solid hsl(240, 20, 85);
 	color: rgb(64, 64, 64);
@@ -35,6 +36,7 @@ export default {
 	transition: all 0.1s;
 
 	@include dark {
+		border-bottom: 1px solid hsl(240, 17%, 20%);
 		border-right: 1px solid hsl(240, 17%, 20%);
 		color: rgb(158, 158, 158);
 	}
@@ -42,7 +44,7 @@ export default {
 	&:first-child {
 		border-left: 1px solid hsl(240, 20, 85);
 
-		@include dark { border-left: 1px solid rgb(54, 54, 54); }
+		@include dark { border-left: 1px solid hsl(240, 17%, 20%); }
 	}
 
 	&:hover {
@@ -71,6 +73,15 @@ export default {
 			background: transparent;
 			border: 1px solid #258cdb;
 			color: #258cdb;
+		}
+	}
+
+	&.short {
+		flex: 0;
+		width: 40px;
+
+		.ui-icon {
+			margin-right: 0;
 		}
 	}
 

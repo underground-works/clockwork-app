@@ -110,7 +110,6 @@ a {
 
 .details-header {
 	background: hsl(240, 20, 90);
-	border-bottom: 1px solid hsl(240, 20, 85);
 	display: flex;
 	flex-shrink: 0;
 	height: 34px;
@@ -119,19 +118,24 @@ a {
 
 	@include dark {
 		background: hsl(240, 17%, 10%);
-		border-bottom: 1px solid rgb(54, 54, 54);
 	}
 
 	.details-header-tabs {
 		display: flex;
 		flex: 1;
+		overflow: hidden;
 	}
 
 	.icons {
 		align-items: center;
+		border-bottom: 1px solid hsl(240, 20, 85);
 		display: flex;
 		font-size: 15px;
 		padding: 0 5px;
+
+		@include dark {
+			border-bottom: 1px solid hsl(240, 17%, 20%);
+		}
 
 		a {
 			padding: 0 5px;
