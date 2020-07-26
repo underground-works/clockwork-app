@@ -66,13 +66,23 @@ $performance-chart-colors-dark: (
 	margin: 0 auto 20px;
 	width: calc(100% - 2px);
 
-	@include dark { background: hsl(240, 5, 52); }
+	@include dark {
+		background: hsl(240, 5, 52);
+		box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
+	}
 
 	.chart-section {
 		height: 100%;
 
-		&:first-child { border-radius: 4px 0 0 4px; }
-		&:last-child { border-radius: 0 4px 4px 0; }
+		&:first-child {
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+		}
+
+		&:last-child {
+			border-top-right-radius: 4px;
+			border-bottom-right-radius: 4px;
+		}
 
 		@each $color, $value in $performance-chart-colors-light {
 			&.section-#{$color} {
@@ -83,7 +93,7 @@ $performance-chart-colors-dark: (
 		@include dark {
 			@each $color, $value in $performance-chart-colors-dark {
 				&.section-#{$color} {
-					background: linear-gradient(to bottom, map-get($value, 'alternative'), map-get($value, 'normal'));
+					background: linear-gradient(to bottom, map-get($value, 'normal'), map-get($value, 'alternative'));
 				}
 			}
 		}

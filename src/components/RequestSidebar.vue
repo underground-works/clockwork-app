@@ -97,7 +97,7 @@ export default {
 @import '../mixins.scss';
 
 .request-sidebar {
-	background: #fcfcfd;
+	background: hsl(240, 20, 99);
 	border-top: 1px solid rgb(209, 209, 209);
 	display: flex;
 	flex-direction: column;
@@ -138,7 +138,6 @@ export default {
 
 	.sidebar-header {
 		align-items: center;
-		background: hsl(240, 20, 99);
 		border-bottom: 1px solid hsl(240, 20, 92);
 		display: flex;
 		flex-shrink: 0;
@@ -147,7 +146,6 @@ export default {
 		width: 100%;
 
 		@include dark {
-			background: #1f1f1f;
 			border-bottom: 1px solid rgb(54, 54, 54);
 		}
 
@@ -260,7 +258,6 @@ export default {
 	}
 
 	.sidebar-content {
-		background: #fcfcfd;
 		display: flex;
 		flex: 1;
 		flex-direction: column;

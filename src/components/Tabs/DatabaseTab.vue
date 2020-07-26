@@ -106,7 +106,7 @@ export default {
 .counter.database-slow-query {
 	.has-mark:before {
 		background-color: hsl(27, 55%, 65%);
-		@include dark { background-color: hsl(38, 42%, 68%); }
+		@include dark { background-color: hsl(38, 42%, 38%); }
 	}
 }
 

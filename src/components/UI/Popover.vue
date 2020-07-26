@@ -101,7 +101,7 @@ export default {
 
 		@include dark {
 			background: hsl(240, 3, 13);
-			box-shadow: 0 1px 5px hsl(240, 3, 26);
+			box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
 		}
 
 		&:before, &:after {

@@ -78,11 +78,15 @@ export default {
 		align-items: center;
 		background: #fff;
 		border-bottom: 1px solid hsl(240, 20, 92);
-		border-radius: 8px 8px 0 0;
 		display: flex;
 		font-size: 14px;
 		justify-content: space-between;
 		padding: 8px 8px 8px 12px;
+
+		@include dark {
+			background: #252527;
+			border-bottom: 1px solid rgb(54, 54, 54);
+		}
 
 		.header-title {
 			cursor: pointer;
@@ -94,6 +98,8 @@ export default {
 			.ui-icon {
 				color: #111;
 				margin-right: 2px;
+
+				@include dark { color: #b2b2b2; }
 			}
 		}
 
@@ -147,7 +153,7 @@ export default {
 				width: 180px;
 
 				@include dark {
-					background: rgb(93, 92, 91);
+					background: rgb(63, 62, 61);
 					color: rgb(233, 233, 233);
 
 					&::placeholder {
@@ -171,6 +177,11 @@ export default {
 		box-shadow: none;
 		margin-bottom: 0;
 		padding-bottom: 0;
+
+		@include dark {
+			border-bottom: 1px solid rgb(54, 54, 54);
+			box-shadow: none;
+		}
 
 		td {
 			vertical-align: top;

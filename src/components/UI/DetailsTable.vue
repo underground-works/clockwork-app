@@ -118,7 +118,10 @@ export default {
 	margin-bottom: 20px;
 	padding-bottom: 10px;
 
-	@include dark { background: hsl(240, 2, 15); }
+	@include dark {
+		background: hsl(240, 2, 15);
+		box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
+	}
 
 	.table-header {
 		align-items: center;
@@ -130,6 +133,11 @@ export default {
 		justify-content: space-between;
 		padding: 8px 8px 8px 12px;
 
+		@include dark {
+			background: #252527;
+			border-bottom: 1px solid rgb(52, 52, 54);
+		}
+
 		.header-title {
 			flex: 1;
 			font-size: 13px;
@@ -139,6 +147,8 @@ export default {
 			.ui-icon {
 				color: #111;
 				margin-right: 5px;
+
+				@include dark { color: #b2b2b2; }
 			}
 
 			.title-badge {
@@ -220,7 +230,7 @@ export default {
 			padding: 0 8px;
 
 			@include dark {
-				background: hsl(30, 1, 16);
+				background: hsl(30, 1, 19);
 			}
 
 			input {
@@ -241,7 +251,7 @@ export default {
 				width: 180px;
 
 				@include dark {
-					background: rgb(93, 92, 91);
+					background: rgb(63, 62, 61);
 					color: rgb(233, 233, 233);
 
 					&::placeholder {
@@ -271,12 +281,12 @@ export default {
 		tr {
 			&:nth-child(even) {
 				background: hsl(240, 20, 97);
-				@include dark { background: hsl(240, 2, 15); }
+				@include dark { background: hsl(240, 2, 13); }
 			}
 
 			&:nth-child(odd) {
 				background: hsl(240, 20, 99);
-				@include dark { background: hsl(240, 2, 15); }
+				@include dark { background: hsl(240, 2, 14); }
 			}
 		}
 
@@ -287,6 +297,8 @@ export default {
 			padding: 8px 0;
 			text-align: center;
 			white-space: nowrap;
+
+			@include dark { color: #b2b2b2; }
 		}
 
 		td {

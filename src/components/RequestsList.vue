@@ -204,6 +204,7 @@ export default {
 @import '../mixins.scss';
 
 .split-view-requests {
+	background: hsl(240, 20, 99);
 	border-bottom: 1px solid rgb(209, 209, 209);
 	cursor: default;
 	display: flex;
@@ -212,7 +213,10 @@ export default {
 	height: 25%;
 	width: 100%;
 
-	@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
+	@include dark {
+		background: #1b1b1b;
+		border-bottom: 1px solid rgb(54, 54, 54);
+	}
 
 	@media screen and (min-width: 900px) {
 		border-bottom: 0;
@@ -238,6 +242,8 @@ export default {
 	tr {
 		&:first-child td {
 			border-top: 1px solid transparent;
+
+			@include dark { border-top: 1px solid transparent; }
 		}
 
 		&.selected {
@@ -284,7 +290,9 @@ export default {
 		td {
 			border-top: 1px solid rgb(243, 243, 243);
 
-			@include dark { border-color: #242424; }
+			@include dark {
+				border-top: 1px solid #242424;
+			}
 
 			&:first-child { border-radius: 6px 0 0 6px; }
 			&:last-child { border-radius: 0 6px 6px 0; }
@@ -299,6 +307,10 @@ export default {
 		line-height: 1.1;
 	    padding: 8px;
 		white-space: nowrap;
+
+		@include dark {
+			color: #b2b2b2;
+		}
 	}
 
 	td {
@@ -408,12 +420,7 @@ export default {
 	}
 
 	.requests-header {
-		background: hsl(240, 20, 99);
 		padding: 2px 4px;
-
-		@include dark {
-			border-bottom: 1px solid rgb(54, 54, 54);
-		}
 	}
 
 	.requests-search {
@@ -431,7 +438,7 @@ export default {
 			width: 100%;
 
 			@include dark {
-				background: rgb(93, 92, 91);
+				background: rgb(63, 62, 61);
 				color: rgb(233, 233, 233);
 
 				&::placeholder {
@@ -449,14 +456,9 @@ export default {
 	}
 
 	.requests-container {
-		background: hsl(240, 20, 99);
 		height: calc(100% - 31px);
 		overflow: auto;
 		padding: 4px;
-
-		@include dark {
-			background: #1b1b1b;
-		}
 	}
 
 	.requests-content {

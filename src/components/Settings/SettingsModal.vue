@@ -139,12 +139,6 @@ export default {
 	padding-top: 10px;
 	width: 90%;
 
-	@include dark {
-		background: rgb(31, 31, 31);
-		border: 1px solid #404040;
-		box-shadow: 0 0 4px #292929;
-	}
-
 	a {
 		padding: 0;
 	}
@@ -174,8 +168,8 @@ export default {
 		height: 26px;
 
 		@include dark {
-			background: rgb(93, 92, 91);
-			border-color: rgb(124, 122, 120);
+			background: rgb(63, 62, 61);
+			border-color: rgb(93, 92, 91);
 			color: rgb(233, 233, 233);
 
 			&::placeholder {
@@ -193,8 +187,8 @@ export default {
 
 	select {
 		@include dark {
-			background: rgb(106, 104, 102);
-			border: 1px solid rgb(124, 122, 120);
+			background: rgb(63, 62, 61);
+			border: 1px solid rgb(93, 92, 91);
 			border-radius: 5px;
 		}
 	}

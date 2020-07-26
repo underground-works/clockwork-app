@@ -156,6 +156,8 @@ $performance-colors-dark: (
 
 		&:hover {
 			color: #258cdb;
+
+			@include dark { color: #f27e02; }
 		}
 
 		&.active {
@@ -163,7 +165,8 @@ $performance-colors-dark: (
 		    color: #f5f5f5;
 
 			@include dark {
-				color: hsl(31, 98%, 48%);
+				background: #de7402;
+				color: #fff;
 			}
 		}
 

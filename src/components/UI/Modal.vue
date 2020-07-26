@@ -49,6 +49,8 @@ export default {
 	transition: opacity 0.2s;
 	width: 100%;
 	z-index: 666;
+
+	@include dark { background: hsla(240, 20, 20, 0.6); }
 }
 
 .modal {
@@ -61,7 +63,7 @@ export default {
 
 	@include dark {
 		background: rgb(31, 31, 31);
-		box-shadow: 0 0 4px #292929;
+		box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
 	}
 
 	.modal-header {
@@ -76,6 +78,8 @@ export default {
 			.ui-icon {
 				color: #111;
 				margin-right: 5px;
+
+				@include dark { color: #b2b2b2; }
 			}
 		}
 

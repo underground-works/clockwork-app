@@ -35,16 +35,23 @@ export default {
 	transition: all 0.1s;
 
 	@include dark {
+		border-right: 1px solid hsl(240, 17%, 20%);
 		color: rgb(158, 158, 158);
 	}
 
 	&:first-child {
 		border-left: 1px solid hsl(240, 20, 85);
+
+		@include dark { border-left: 1px solid rgb(54, 54, 54); }
 	}
 
 	&:hover {
 		background: hsl(240, 20, 91);
 		color: rgb(37, 140, 219);
+
+		@include dark {
+			background: hsl(240, 17%, 12%);
+		}
 	}
 
 	&.active {
@@ -56,6 +63,7 @@ export default {
 		padding-bottom: 1px;
 
 		@include dark {
+			background: hsl(240, 2, 15);
 			color: hsl(31, 98%, 48%);
 		}
 
