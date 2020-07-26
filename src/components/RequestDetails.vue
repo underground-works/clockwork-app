@@ -114,7 +114,7 @@ export default {
 			].concat(
 				this.$request?.userData?.map(userTab => ({ text: userTab.title, name: `user-${userTab.key}`, icon: 'menu' }))
 			).concat([
-				{ text: 'Output', name: 'output', shown: this.shownTabs.output }
+				{ text: 'Output', name: 'output', icon: 'terminal', shown: this.shownTabs.output }
 			]).filter(Boolean)
 		},
 
