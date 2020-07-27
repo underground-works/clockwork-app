@@ -1,6 +1,6 @@
 <template>
 	<div v-show="active">
-		<div class="counters-row">
+		<div class="counters-row performance-metrics">
 			<div class="counter" v-if="$request.responseDurationRounded">
 				<div class="counter-value">{{$request.responseDurationRounded}} ms</div>
 				<div class="counter-title">Response time</div>
@@ -100,20 +100,24 @@ export default {
 @import '../../mixins.scss';
 
 $performance-colors-light: (
-	blue:   rgb(66, 149, 197),
-	red:    rgb(209, 107, 108),
-	green:  rgb(152, 186, 81),
-	purple: rgb(151, 114, 181),
+	blue:   hsl(212, 89%, 55%),
+	red:    hsl(359, 57%, 55%),
+	green:  hsl(109, 52%, 45%),
+	purple: hsl(273, 57%, 55%),
 	grey:   hsl(240, 5, 27)
 );
 
 $performance-colors-dark: (
-	blue:   rgb(100, 157, 202),
-	red:    rgb(211, 130, 131),
-	green:  rgb(157, 182, 89),
-	purple: rgb(166, 128, 210),
-	grey:   hsl(240, 5, 52)
+	blue:   hsl(212, 76%, 60%),
+	red:    hsl(359, 45%, 60%),
+	green:  hsl(109, 40%, 50%),
+	purple: hsl(273, 45%, 60%),
+	grey:   hsl(240, 5, 60)
 );
+
+.performance-metrics {
+	margin-bottom: 15px !important;
+}
 
 .performance-chart-legend {
 	@each $color, $value in $performance-colors-light {
@@ -135,7 +139,7 @@ $performance-colors-dark: (
 	display: flex;
 	flex: 1;
 	justify-content: center;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 	margin-top: 30px;
 
 	.performance-tab {

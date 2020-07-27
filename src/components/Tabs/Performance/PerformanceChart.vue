@@ -42,27 +42,27 @@ export default {
 @import '../../../mixins.scss';
 
 $performance-chart-colors-light: (
-	blue:   ( normal: rgb(66, 149, 197),  alternative: rgb(120, 177, 222) ),
-	red:    ( normal: rgb(209, 107, 108), alternative: rgb(231, 150, 151) ),
-	green:  ( normal: rgb(152, 186, 81),  alternative: rgb(177, 202, 109) ),
-	purple: ( normal: rgb(151, 114, 181), alternative: rgb(186, 148, 230) ),
+	blue:   ( normal: hsl(212, 89%, 55%), alternative: hsl(212, 88%, 70%) ),
+	red:    ( normal: hsl(359, 57%, 55%), alternative: hsl(359, 57%, 70%) ),
+	green:  ( normal: hsl(109, 52%, 45%), alternative: hsl(109, 52%, 60%) ),
+	purple: ( normal: hsl(273, 57%, 55%), alternative: hsl(273, 57%, 70%) ),
 	grey:   ( normal: hsl(240, 5, 27),    alternative: hsl(240, 5, 62) )
 );
 
 $performance-chart-colors-dark: (
-	blue:   ( normal: rgb(100, 157, 202), alternative: rgb(46, 129, 177) ),
-	red:    ( normal: rgb(211, 130, 131), alternative: rgb(189, 87, 88) ),
-	green:  ( normal: rgb(157, 182, 89),  alternative: rgb(132, 166, 61) ),
-	purple: ( normal: rgb(166, 128, 210), alternative: rgb(131, 94, 161) ),
-	grey:   ( normal: hsl(240, 5, 52),    alternative: hsl(240, 5, 37) )
+	blue:   ( normal: hsl(212, 76%, 60%), alternative: hsl(212, 77%, 50%) ),
+	red:    ( normal: hsl(359, 45%, 60%), alternative: hsl(359, 45%, 50%) ),
+	green:  ( normal: hsl(109, 40%, 50%), alternative: hsl(109, 40%, 40%) ),
+	purple: ( normal: hsl(273, 45%, 60%), alternative: hsl(273, 45%, 50%) ),
+	grey:   ( normal: hsl(240, 5, 60),    alternative: hsl(240, 5, 40) )
 );
 
 .performance-chart {
 	background: hsl(240, 5, 27);
-	border-radius: 4px;
+	border-radius: 3px;
 	box-shadow: 0 2px 5px rgba(162, 172, 180, 0.25), 0 0 2px rgba(162, 172, 180, 0.5);
 	display: flex;
-	height: 8px;
+	height: 6px;
 	margin: 0 auto 20px;
 	width: calc(100% - 2px);
 
