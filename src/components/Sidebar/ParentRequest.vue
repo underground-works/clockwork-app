@@ -62,6 +62,10 @@ export default {
 	@include dark { border-bottom: 1px solid rgb(52, 52, 54); }
 
 	&.compact {
+		background: rgba(#fff, 0.9);
+
+		@include dark { background: rgba(#1e1e1e, 0.9);  }
+
 		.parent-title { padding-right: 4px; }
 		.parent-title, .parent-name { display: inline; }
 	}

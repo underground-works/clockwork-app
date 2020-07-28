@@ -20,9 +20,6 @@
 			</div>
 		</div>
 
-		<settings-modal></settings-modal>
-		<messages-overlay></messages-overlay>
-
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
 			<div class="content-header"></div>
@@ -71,6 +68,9 @@
 				</p>
 			</form>
 		</div>
+
+		<settings-modal></settings-modal>
+		<messages-overlay></messages-overlay>
 	</div>
 </template>
 

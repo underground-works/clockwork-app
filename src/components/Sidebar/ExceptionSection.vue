@@ -2,6 +2,7 @@
 	<div class="exception-section" :class="{ 'compact': compact }" v-if="$request && $request.exceptions.length">
 		<div class="exception-info" v-for="exception, index in $request.exceptions" :key="`${$request.id}-${index}`">
 			<div class="exception-message">
+				<icon name="alert-circle" v-if="compact"></icon>
 				<h3>{{exception.type}} <small v-if="exception.code">#{{exception.code}}</small></h3>
 				{{exception.message}}
 			</div>
@@ -40,9 +41,24 @@ export default {
 	@include dark { border-bottom: 1px solid rgb(52, 52, 54); }
 
 	&.compact {
-		.exception-message h3 {
-			display: inline;
-			padding-right: 4px;
+		.exception-info {
+			background: rgba(255, 235, 235, 0.9);
+
+			@include dark { background: hsla(0, 100%, 11%, 0.9); }
+		}
+
+		.exception-message {
+			font-size: 13px !important;
+
+			h3 {
+				display: inline;
+				font-size: 13px;
+				padding-right: 4px;
+			}
+
+			.ui-icon {
+				margin-right: 5px;
+			}
 		}
 	}
 
