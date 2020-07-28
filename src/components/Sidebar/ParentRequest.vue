@@ -53,13 +53,13 @@ export default {
 
 .parent-request {
 	align-items: center;
-	border-bottom: 1px solid rgb(209, 209, 209);
+	border-bottom: 1px solid hsl(240, 20, 92);
 	display: flex;
 	font-size: 12px;
 	font-weight: 600;
-	padding: 12px 10px;
+	padding: 8px 10px;
 
-	@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
+	@include dark { border-bottom: 1px solid rgb(52, 52, 54); }
 
 	&.compact {
 		.parent-title { padding-right: 4px; }
@@ -67,8 +67,8 @@ export default {
 	}
 
 	.parent-title {
-		font-size: 11px;
-		margin-bottom: 3px;
+		font-size: 10px;
+		margin-bottom: 2px;
 	}
 
 	.parent-method {
@@ -101,8 +101,11 @@ export default {
 
 	a {
 		color: rgb(37, 140, 219);
+		font-size: 11px;
 		font-weight: normal;
+		padding: 0 6px;
 		text-decoration: none;
+		text-transform: uppercase;
 
 		@include dark { color: hsl(31, 98%, 48%); }
 	}

@@ -35,9 +35,9 @@ export default {
 @import '../../mixins.scss';
 
 .exception-section {
-	border-bottom: 1px solid rgb(209, 209, 209);
+	border-bottom: 1px solid hsl(240, 20, 92);
 
-	@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
+	@include dark { border-bottom: 1px solid rgb(52, 52, 54); }
 
 	&.compact {
 		.exception-message h3 {

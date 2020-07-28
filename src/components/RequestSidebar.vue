@@ -1,5 +1,6 @@
 <template>
 	<div :class="{ 'request-sidebar': true, 'large': $settings.global.requestsListCollapsed }" class="popover-viewport">
+		<parent-request></parent-request>
 
 		<div class="sidebar-header" v-if="$request">
 			<div class="header-info" :title="$request.tooltip">
@@ -60,10 +61,9 @@
 			</div>
 		</div>
 
-		<div class="sidebar-content">
-			<parent-request></parent-request>
-			<exception-section></exception-section>
+		<exception-section></exception-section>
 
+		<div class="sidebar-content">
 			<command-tab v-if="$request && $request.isCommand()"></command-tab>
 			<queue-job-tab v-if="$request && $request.isQueueJob()"></queue-job-tab>
 			<test-tab v-if="$request && $request.isTest()"></test-tab>
@@ -169,7 +169,7 @@ export default {
 			.info-details {
 				color: dimgray;
 				font-size: 95%;
-				margin-top: 5px;
+				margin-top: 4px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}
@@ -199,9 +199,9 @@ export default {
 			background: hsla(206, 47%, 86%, 1);
 			border-radius: 3px;
 			color: hsla(205, 29%, 30%, 1);
-			font-size: 80%;
+			font-size: 75%;
 			margin-right: 2px;
-			padding: 1px 3px;
+			padding: 2px 4px;
 			vertical-align: 1px;
 
 			@include dark {
