@@ -249,6 +249,10 @@ $timeline-colors-dark: (
 );
 
 .timeline {
+	table {
+		table-layout: fixed;
+	}
+
 	.timeline-timing, .timeline-description {
 		display: none;
 	}

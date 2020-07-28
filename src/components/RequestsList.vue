@@ -225,13 +225,11 @@ export default {
 		width: 300px;
 
 		@include dark { border-right: 1px solid hsl(240, 17%, 20%); }
-		&.large { width: 400px; }
+		&.large { width: 380px; }
 	}
 
 	@media screen and (min-width: 1100px) {
 		width: 320px;
-
-		&.large { width: 420px; }
 	}
 
 	table {

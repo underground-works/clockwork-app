@@ -5,12 +5,16 @@ export class Timeline {
 	constructor(events, startTime, endTime) {
 		this.startTime = startTime
 		this.endTime = endTime
+		this.events = []
 
-		this.events = events.map(data => new TimelineEvent(data))
+		events.map(data => this.append(data))
 	}
 
 	append(data) {
 		data.start = data.start || this.startTime
+
+		if (data.start < this.startTime) data.start = this.startTime
+		if (data.end > this.endTime) data.end = this.endTime
 
 		this.events.push(new TimelineEvent(data))
 		this.sort()

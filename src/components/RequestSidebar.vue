@@ -132,7 +132,7 @@ export default {
 		width: 360px;
 
 		&.large {
-			width: 460px;
+			width: 420px;
 		}
 	}
 
