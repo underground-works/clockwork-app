@@ -17,6 +17,7 @@
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.10.4",
     "ansi-to-html": "^0.6.14",
+    "core-js": "^3.6.5",
     "feather-icons": "^4.28.0",
     "just-clone": "^3.1.0",
     "just-debounce-it": "^1.1.0",
@@ -37,14 +38,14 @@
     "vue-svg-loader": "^0.16.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-plugin-pwa": "^3.12.1",
-    "@vue/cli-service": "^3.12.1",
+    "@vue/cli-plugin-babel": "^4.4.6",
+    "@vue/cli-plugin-pwa": "^4.4.6",
+    "@vue/cli-service": "^4.4.6",
     "cp-cli": "^2.0.0",
     "del-cli": "^1.1.0",
     "move-cli": "^1.2.1",
     "node-sass": "^4.14.1",
-    "sass-loader": "^7.3.1",
+    "sass-loader": "^9.0.2",
     "vue-template-compiler": "^2.6.11"
   },
   "postcss": {
