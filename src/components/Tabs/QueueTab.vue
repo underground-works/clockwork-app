@@ -1,6 +1,6 @@
 <template>
 	<div v-show="active">
-		<details-table :columns="columns" :items="queueJobs" :filter="filter" filter-example="Underground.works name:GenerateInvoice queue:priority">
+		<details-table title="Jobs" icon="clock" :columns="columns" :items="queueJobs" :filter="filter" filter-example="Underground.works name:GenerateInvoice queue:priority">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="job, index in items" :key="`${$request.id}-${index}`">
 					<td v-if="columns.includes('Queue')">{{job.queue}}</td>
@@ -27,7 +27,7 @@
 					</td>
 					<td>
 						<a href="#" @click.prevent="showJob(job)" title="Show details" v-if="job.request">
-							<font-awesome-icon icon="search"></font-awesome-icon>
+							<icon name="search"></icon>
 						</a>
 					</td>
 				</tr>
@@ -129,8 +129,8 @@ export default {
 	background: #fffae2;
 	border-radius: 8px;
 	color: #a85919;
-	font-size: 9px;
-	padding: 2px 6px;
+	font-size: 11px;
+	padding: 2px 8px;
 	text-transform: uppercase;
 
 	@include dark {

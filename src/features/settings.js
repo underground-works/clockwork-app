@@ -13,6 +13,7 @@ export default class Settings
 		this.requests.settings = this
 
 		this.shown = false
+		this.loaded = false
 		this.settings = this.defaults()
 
 		this.load()
@@ -52,6 +53,8 @@ export default class Settings
 			global: extend(true, defaults.global, settings.global || {}),
 			site: mapValues(settings.site || {}, settings => extend(true, {}, defaults.site, settings || {}))
 		}
+
+		this.loaded = true
 	}
 
 	defaults() {
@@ -67,7 +70,11 @@ export default class Settings
 				preserveLog: true,
 				requestsListCollapsed: false,
 				requestSidebarCollapsed: false,
-				requestSidebarCollapsedSections: {},
+				requestSidebarCollapsedSections: {
+					headers: false, data: false, getData: false, postData: false, cookies: false, middleware: false,
+					session: false, arguments: false, options: false, payload: false, queue: false, connection: false,
+					asserts: false
+				},
 				seenReleaseNotesVersion: null,
 				timelineCondensed: { performance: true, views: false },
 				timelineHiddenTags: {},

@@ -8,11 +8,7 @@
 				</div>
 			</div>
 
-			<h3 v-if="section.title">
-				{{section.title}}
-			</h3>
-
-			<details-table :columns="section.data[0].map(item => item.key)" :items="section.data" :filter="filters[sectionIndex]" v-if="section.showAs == 'table'">
+			<details-table :title="section.title" :columns="section.data[0].map(item => item.key)" :items="section.data" :filter="filters[sectionIndex]" v-if="section.showAs == 'table'">
 				<template slot="body" slot-scope="{ items }">
 					<tr v-for="item in items">
 						<td v-for="item in item">
@@ -35,15 +31,6 @@ export default {
 	name: 'UserTab',
 	components: { DetailsTable, PrettyPrint },
 	props: [ 'active', 'userTab' ],
-	// computed: {
-	// 	filters() {
-	// 		return this.userTab.sections.map(section => {
-	// 			if (section.showAs == 'table') {
-	// 				return new Filter(section.data[0].map(item => ({ tag: item.key })))
-	// 			}
-	// 		})
-	// 	}
-	// },
 	data: () => ({
 		filters: []
 	}),
@@ -59,12 +46,5 @@ export default {
 			immediate: true
 		}
 	}
-	// mounted() {
-	// 	this.filters = this.userTab.sections.map(section => {
-	// 		if (section.showAs == 'table') {
-	// 			return new Filter(section.data[0].map(item => ({ tag: item.key })))
-	// 		}
-	// 	})
-	// }
 }
 </script>

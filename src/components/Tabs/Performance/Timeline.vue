@@ -1,38 +1,33 @@
 <template>
 	<div class="timeline" :class="{ 'show-details': showDetails }">
-		<div class="timeline-header">
-			<div class="header-title">
-				Timeline
-			</div>
-
-			<div class="header-group">
-				<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
-					<font-awesome-icon :icon="tag.icon"></font-awesome-icon>
-				</a>
-			</div>
-
-			<div class="header-group">
-				<label class="header-condense">
-					<input type="checkbox" v-model="condense">
-					Condense
-				</label>
-			</div>
-
-			<div class="header-group">
-				<div class="header-search">
-					<input type="search" v-model="filter.input" placeholder="Search...">
-					<font-awesome-icon icon="search"></font-awesome-icon>
+		<details-table title="Timeline" icon="pie-chart" :columns="columns" :items="presentedEvents" :filter="filter" :no-table-head="! showDetails" filter-example="database query duration:>50" :per-page="100">
+			<template slot="toolbar" slot-scope="{ filter }">
+				<div class="header-group">
+					<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
+						<icon :name="tag.icon"></icon>
+					</a>
 				</div>
-			</div>
 
-			<div class="header-group">
-				<a href="#" title="Toggle details" class="header-item" @click.prevent="toggleDetails">
-					<font-awesome-icon :icon="showDetails ? 'indent' : 'outdent'"></font-awesome-icon>
-				</a>
-			</div>
-		</div>
+				<div class="header-group">
+					<label class="header-toggle">
+						<input type="checkbox" v-model="condense">
+						Condense
+					</label>
+				</div>
 
-		<details-table :columns="columns" :items="presentedEvents" :filter="filter" :no-header="! showDetails" filter-example="database query duration:>50" :per-page="100">
+				<div class="header-group">
+					<div class="header-search">
+						<input type="search" v-model="filter.input" placeholder="Search...">
+						<icon name="search"></icon>
+					</div>
+				</div>
+
+				<div class="header-group">
+					<a href="#" title="Toggle details" class="header-item" @click.prevent="toggleDetails">
+						<icon :name="showDetails ? 'chevron-right' : 'chevron-left'"></icon>
+					</a>
+				</div>
+			</template>
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="group, index in items">
 					<td class="timeline-chart">
@@ -40,7 +35,7 @@
 							<div class="group-label" :class="group.labelClass" :style="group.labelStyle">
 								<span class="label-tags" v-if="group.tags">
 									<span v-for="tag in resolveTags(group.tags)">
-										<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+										<icon :name="tag.icon" :title="tag.title"></icon>
 									</span>
 								</span>
 								{{group.name}}
@@ -60,7 +55,7 @@
 
 										<div class="header-tags">
 											<span v-for="tag in resolveTags(event.tags)">
-												<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+												<icon :name="tag.icon" :title="tag.title"></icon>
 											</span>
 										</div>
 									</div>
@@ -105,7 +100,7 @@
 						<slot name="table-description" :item="group">
 							<span class="description-tags" v-if="group.tags">
 								<span v-for="tag in resolveTags(group.tags)">
-									<font-awesome-icon :icon="tag.icon" :title="tag.title"></font-awesome-icon>
+									<icon :name="tag.icon" :title="tag.title"></icon>
 								</span>
 							</span>
 							{{group.description}}
@@ -238,158 +233,24 @@ export default {
 @import '../../../mixins.scss';
 
 $timeline-colors-light: (
-	blue:   ( normal: rgb(66, 149, 197),  alternative: rgb(120, 177, 222) ),
-	red:    ( normal: rgb(209, 107, 108), alternative: rgb(231, 150, 151) ),
-	green:  ( normal: rgb(152, 186, 81),  alternative: rgb(177, 202, 109) ),
-	purple: ( normal: rgb(151, 114, 181), alternative: rgb(186, 148, 230) ),
+	blue:   ( normal: hsl(212, 89%, 55%), alternative: hsl(212, 88%, 70%) ),
+	red:    ( normal: hsl(359, 57%, 55%), alternative: hsl(359, 57%, 70%) ),
+	green:  ( normal: hsl(109, 52%, 45%), alternative: hsl(109, 52%, 60%) ),
+	purple: ( normal: hsl(273, 57%, 55%), alternative: hsl(273, 57%, 70%) ),
 	grey:   ( normal: hsl(240, 5, 27),    alternative: hsl(240, 5, 62) )
 );
 
 $timeline-colors-dark: (
-	blue:   ( normal: rgb(100, 157, 202), alternative: rgb(46, 129, 177) ),
-	red:    ( normal: rgb(211, 130, 131), alternative: rgb(189, 87, 88) ),
-	green:  ( normal: rgb(157, 182, 89),  alternative: rgb(132, 166, 61) ),
-	purple: ( normal: rgb(166, 128, 210), alternative: rgb(131, 94, 161) ),
-	grey:   ( normal: hsl(240, 5, 52),    alternative: hsl(240, 5, 37) )
+	blue:   ( normal: hsl(212, 83%, 60%), alternative: hsl(212, 84%, 45%) ),
+	red:    ( normal: hsl(359, 52%, 60%), alternative: hsl(359, 52%, 45%) ),
+	green:  ( normal: hsl(109, 47%, 50%), alternative: hsl(109, 47%, 35%) ),
+	purple: ( normal: hsl(273, 52%, 60%), alternative: hsl(273, 52%, 45%) ),
+	grey:   ( normal: hsl(240, 5, 60),    alternative: hsl(240, 5, 40) )
 );
 
 .timeline {
-	.timeline-header {
-		align-items: center;
-		display: flex;
-		font-size: 14px;
-		height: 24px;
-		justify-content: space-between;
-		margin-bottom: 10px;
-		padding: 0 10px;
-
-		.header-title {
-			flex: 1;
-			font-size: 105%;
-			font-weight: 600;
-			margin-right: 10px;
-		}
-
-		.header-group {
-			align-items: center;
-			display: flex;
-			height: 100%;
-			margin-right: 12px;
-
-			&:last-child {
-				margin-right: 0;
-			}
-		}
-
-		.header-item {
-			align-items: center;
-			border-radius: 4px;
-			display: flex;
-			height: 100%;
-			justify-content: center;
-			margin-right: 4px;
-			text-decoration: none;
-			width: 24px;
-
-			@include dark {
-				color: rgb(158, 158, 158);
-			}
-
-			&:hover {
-				color: rgb(37, 140, 219);
-
-				@include dark {
-					color: hsl(31, 98%, 44%);
-				}
-			}
-
-			&.active {
-				background: rgb(37, 140, 219);
-				color: #f5f5f5;
-
-				@include dark {
-					background: hsl(31, 98%, 44%);
-					color: #fff;
-				}
-			}
-
-			&:last-child {
-				margin-right: 0;
-			}
-		}
-
-		.header-condense {
-			align-items: center;
-			background: hsl(30, 1, 96);
-			border-radius: 4px;
-			display: flex;
-			font-size: 95%;
-			height: 100%;
-			padding: 0 8px;
-
-			@include dark {
-				background: hsl(30, 1, 16);
-			}
-
-			input {
-				margin: 0 5px 0 0;
-			}
-		}
-
-		.header-search {
-			position: relative;
-
-			input {
-				background: #eee;
-				border: 0;
-				border-radius: 4px;
-				font-size: 13px;
-				height: 24px;
-				padding-left: 30px;
-				width: 180px;
-
-				@include dark {
-					background: rgb(93, 92, 91);
-					color: rgb(233, 233, 233);
-
-					&::placeholder {
-						color: rgb(167, 166, 165);
-						opacity: 1;
-					}
-				}
-			}
-
-			.fa-search {
-				left: 7px;
-				position: absolute;
-				top: 5px;
-			}
-		}
-	}
-
 	table {
 		table-layout: fixed;
-
-		.toggle-filter {
-			display: none !important;
-		}
-
-		th {
-			font-size: 95% !important;
-			padding-top: 10px !important;
-		}
-
-		tbody {
-			tr:nth-child(even) {
-				background: hsl(240, 20, 97) !important;
-
-				@include dark { background: hsl(240, 2, 15) !important; }
-			}
-
-			tr:first-child td {
-				border-top: 0 !important;
-			}
-		}
 	}
 
 	.timeline-timing, .timeline-description {
@@ -414,11 +275,14 @@ $timeline-colors-dark: (
 	}
 
 	.timeline-size-monitor {
-		visibility: hidden;
+		td {
+			padding-bottom: 0;
+			padding-top: 0;
+		}
 	}
 
 	.timeline-chart {
-		padding: 8px;
+		padding: 8px !important;
 
 		.chart-event-group {
 			cursor: pointer;

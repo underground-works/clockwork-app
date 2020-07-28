@@ -1,6 +1,6 @@
 <template>
 	<div v-show="active">
-		<details-table :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
+		<details-table title="Events" icon="zap" :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="event, index in items" :key="`${$request.id}-${index}`">
 					<td>{{event.time | moment('HH:mm:ss')}}</td>
@@ -30,7 +30,9 @@
 						</div>
 					</td>
 					<td class="fired-event-actions">
-						<font-awesome-icon :icon="isEventExpanded(event) ? 'angle-up' : 'angle-down'" @click="toggleEvent(event)"></font-awesome-icon>
+						<a href="#" @click.prevent="toggleEvent(event)">
+							<icon :name="isEventExpanded(event) ? 'chevron-up' : 'chevron-down'"></icon>
+						</a>
 					</td>
 				</tr>
 			</template>

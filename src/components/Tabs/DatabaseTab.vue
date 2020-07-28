@@ -7,7 +7,7 @@
 			</div>
 			<div class="counter database-slow-query" v-if="$request.databaseSlowQueries">
 				<div class="counter-value">{{$request.databaseSlowQueries}}</div>
-				<div class="counter-title">slow</div>
+				<div class="counter-title has-mark">slow</div>
 			</div>
 			<div class="counter" v-if="$request.databaseSelects">
 				<div class="counter-value">{{$request.databaseSelects}}</div>
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 
-		<details-table :columns="columns" :items="$request.databaseQueries" :filter="filter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100" v-if="$request.databaseQueries.length">
+		<details-table title="Queries" icon="database" :columns="columns" :items="$request.databaseQueries" :filter="filter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100" v-if="$request.databaseQueries.length">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="query, index in items" :key="`${$request.id}-${index}`" :class="{ 'database-slow-query': query.tags.includes('slow') }">
 					<td>
@@ -104,29 +104,33 @@ export default {
 @import '../../mixins.scss';
 
 .counter.database-slow-query {
-	border-color: hsl(27, 55%, 65%) !important;
-	@include dark { border-color: hsl(38, 42%, 68%) !important; }
-}
-
-.database-slow-query {
-	background: rgb(255, 250, 226);
-	color: rgb(168, 89, 25);
-
-	&:nth-child(even) { background: hsl(50, 100%, 88%) !important; }
-
-	.database-query-path > a { color: hsl(27, 55%, 65%) !important; }
-
-	@include dark {
-		background: hsl(50, 100%, 11%);
-		color: rgb(250, 216, 159);
-
-		&:nth-child(even) { background: hsl(50, 100%, 9%) !important; }
-
-		.database-query-path > a { color: hsl(38, 42%, 68%) !important; }
+	.has-mark:before {
+		background-color: hsl(27, 55%, 65%);
+		@include dark { background-color: hsl(38, 42%, 38%); }
 	}
 }
 
-.database-query-bindings {
-	margin-top: 2px;
+.details-table table {
+	tr.database-slow-query {
+		background: rgb(255, 250, 226);
+		color: rgb(168, 89, 25);
+
+		&:nth-child(even) { background: hsl(50, 100%, 88%) !important; }
+
+		.database-query-path > a { color: hsl(27, 55%, 65%) !important; }
+
+		@include dark {
+			background: hsl(50, 100%, 11%);
+			color: rgb(250, 216, 159);
+
+			&:nth-child(even) { background: hsl(50, 100%, 9%) !important; }
+
+			.database-query-path > a { color: hsl(38, 42%, 68%) !important; }
+		}
+	}
+
+	.database-query-bindings {
+		margin-top: 2px;
+	}
 }
 </style>

@@ -2,7 +2,6 @@ import App from './App.vue'
 import Vue from 'vue'
 
 import './vendor'
-import './fonts'
 // import './registerServiceWorker'
 
 import Extension from './platform/extension'
@@ -35,7 +34,7 @@ let $whatsNew = new WhatsNew($settings)
 
 let global = {
 	$requests, $platform, $authentication, $profiler, $requestsSearch, $settings, $store, $updateNotification, $whatsNew,
-	$request: null, activeTab: 'performance', showIncomingRequests: true, defaultAppearance: 'light'
+	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true, defaultAppearance: 'light'
 }
 
 $platform.init(global)
@@ -49,6 +48,10 @@ Vue.mixin({
 		return result
 	}, {})
 })
+
+import Icon from './components/UI/Icon'
+
+Vue.component('icon', Icon)
 
 new Vue({
   render: h => h(App)

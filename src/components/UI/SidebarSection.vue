@@ -1,18 +1,28 @@
 <template>
 	<div class="sidebar-section">
 		<div class="section-header">
-			<span class="section-title" @click="toggle">
-				{{ title }}
-				<font-awesome-icon :icon="expanded ? 'angle-down' : 'angle-up'"></font-awesome-icon>
-			</span>
-			<details-table-filter-toggle :filter="filter"></details-table-filter-toggle>
+			<div class="header-title" @click="toggle">
+				<icon :name="expanded ? 'chevron-down' : 'chevron-up'"></icon>
+				{{title}}
+			</div>
+
+			<div class="header-group">
+				<div class="header-search" v-if="expandedSearch">
+					<input type="search" v-model="filter.input" placeholder="Search..." ref="searchInput">
+					<icon name="search"></icon>
+				</div>
+				<a href="#" class="header-item" @click.prevent="expandSearch" v-else>
+					<icon name="search"></icon>
+				</a>
+			</div>
 		</div>
+
 		<slot name="content" :expanded="expanded">
 			<div v-show="expanded">
 				<slot name="above-table"></slot>
 			</div>
 			<slot name="table" :items="items" :filter="filter" :filter-example="filterExample" :expanded="expanded">
-				<details-table :columns="['Key', 'Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" v-show="expanded">
+				<details-table :columns="['Key', 'Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-show="expanded">
 					<template slot="body" slot-scope="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 							<td colspan="2">
@@ -29,17 +39,17 @@
 
 <script>
 import DetailsTable from './DetailsTable'
-import DetailsTableFilterToggle from './DetailsTableFilterToggle'
 import PrettyPrint from './PrettyPrint'
 
 import Filter from '../../features/filter'
 
 export default {
 	name: 'SidebarSection',
-	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint },
+	components: { DetailsTable, PrettyPrint },
 	props: [ 'title', 'name', 'filterExample', 'items' ],
 	data: () => ({
-		filter: new Filter([ { tag: 'name' } ])
+		filter: new Filter([ { tag: 'name' } ]),
+		expandedSearch: false
 	}),
 	computed: {
 		expanded() {
@@ -49,6 +59,12 @@ export default {
 	methods: {
 		toggle() {
 			this.$settings.global.requestSidebarCollapsedSections[this.name] = ! this.expanded
+			this.$settings.save()
+		},
+
+		expandSearch() {
+			this.expandedSearch = true
+			this.$nextTick(() => this.$refs.searchInput.focus())
 		}
 	}
 }
@@ -60,86 +76,114 @@ export default {
 .sidebar-section {
 	.section-header {
 		align-items: center;
-		border-bottom: 1px solid rgb(209, 209, 209);
+		background: #fff;
+		border-bottom: 1px solid hsl(240, 20, 92);
 		display: flex;
-		font-weight: bold;
-		padding: 5px 10px;
+		font-size: 14px;
+		justify-content: space-between;
+		padding: 8px 8px 8px 12px;
 
-		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
-
-		.section-title {
-			cursor: default;
+		@include dark {
+			background: #252527;
+			border-bottom: 1px solid rgb(52, 52, 54);
 		}
 
-		.toggle-filter {
-			display: none;
-			margin-left: auto;
-		}
+		.header-title {
+			cursor: pointer;
+			flex: 1;
+			font-size: 13px;
+			font-weight: 600;
+			margin-right: 10px;
 
-		&:hover {
-			.toggle-filter { display: block; }
-		}
-	}
+			.ui-icon {
+				color: #111;
+				margin-right: 2px;
 
-	table {
-		border-bottom: 1px solid rgb(209, 209, 209);
-		font-size: 11px;
-		margin-bottom: 0;
-
-		@include dark { border-bottom: 1px solid rgb(54, 54, 54); }
-
-		thead {
-			th:last-child {
-				padding-right: 20px;
-				position: relative;
+				@include dark { color: #b2b2b2; }
 			}
+		}
 
-			.fa-angle-down, .fa-angle-up {
-				font-weight: bold;
-				margin-left: 4px;
-			}
+		.header-item {
+			align-items: center;
+			border-radius: 4px;
+			display: flex;
+			height: 24px;
+			justify-content: center;
+			margin-right: 4px;
+			text-decoration: none;
+			width: 24px;
 
-			.toggle-filter {
-				position: absolute;
-				right: 4px;
-				top: 4px;
-				visibility: hidden;
+			@include dark {
+				color: rgb(158, 158, 158);
 			}
 
 			&:hover {
-				.toggle-filter {
-					visibility: visible;
+				color: rgb(37, 140, 219);
+
+				@include dark {
+					color: hsl(31, 98%, 44%);
 				}
+			}
+
+			&.active {
+				background: rgb(37, 140, 219);
+				color: #f5f5f5;
+
+				@include dark {
+					background: hsl(31, 98%, 44%);
+					color: #fff;
+				}
+			}
+
+			&:last-child {
+				margin-right: 0;
 			}
 		}
 
-		tr {
-			&:first-child td {
-				border-top: 0;
+		.header-search {
+			position: relative;
+
+			input {
+				background: #eee;
+				border: 0;
+				border-radius: 4px;
+				font-size: 13px;
+				height: 24px;
+				padding-left: 28px;
+				width: 180px;
 
 				@include dark {
-					border-top: 0;
+					background: rgb(63, 62, 61);
+					color: rgb(233, 233, 233);
+
+					&::placeholder {
+						color: rgb(167, 166, 165);
+						opacity: 1;
+					}
 				}
 			}
 
-			&:nth-child(even) {
-				background: rgb(245, 245, 245);
-
-				@include dark {
-					background: rgb(27, 27, 27);
-				}
+			.ui-icon {
+				left: 7px;
+				position: absolute;
+				top: 5px;
 			}
 		}
+	}
 
-		th {
-			font-size: 12px;
-			font-weight: 600;
-			padding: 4px 2px;
-			white-space: nowrap;
+	.details-table {
+		border-bottom: 1px solid hsl(240, 20, 92);
+		border-radius: 0;
+		box-shadow: none;
+		margin-bottom: 0;
+		padding-bottom: 0;
+
+		@include dark {
+			border-bottom: 1px solid rgb(52, 52, 54);
+			box-shadow: none;
 		}
 
 		td {
-			padding: 8px 10px;
 			vertical-align: top;
 
 			.key {
@@ -151,66 +195,6 @@ export default {
 
 			.value {
 				word-break: break-all;
-			}
-		}
-
-		.filter {
-			background: none !important;
-
-			td {
-				border-bottom: 1px solid #d1d1d1;
-				border-top: 0;
-				padding: 2px 10px;
-
-				@include dark {
-					border-bottom: 1px solid rgb(54, 54, 54);
-					border-top: 0;
-				}
-			}
-
-			label {
-				align-items: center;
-				display: flex;
-				position: relative;
-			}
-
-			.fa-search {
-				color: #696969;
-				margin: 0 4px;
-			}
-
-			input {
-				background: transparent;
-				border: none;
-				width: 100%;
-
-				&:focus {
-					outline: none;
-				}
-
-				&::placeholder {
-					color: #a9a9a9;
-
-					@include dark {
-						color: #777;
-					}
-				}
-
-				@include dark {
-					color: #b2b2b2;
-				}
-			}
-
-			.example {
-				color: #a9a9a9;
-				font-size: 11px;
-				pointer-events: none;
-				position: absolute;
-				right: 0;
-
-				@include dark {
-					color: #777;
-				}
 			}
 		}
 	}

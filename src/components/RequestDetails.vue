@@ -3,65 +3,41 @@
 
 		<div class="details-header">
 			<div class="icons">
-				<a href="#" title="Toggle requests" v-show="! $settings.global.requestsListCollapsed" @click="toggleRequestsList">
-					<font-awesome-icon icon="outdent"></font-awesome-icon>
-				</a>
-				<a href="#" title="Toggle requests" v-show="$settings.global.requestsListCollapsed" @click="toggleRequestsList">
-					<font-awesome-icon icon="indent"></font-awesome-icon>
-				</a>
-				<a href="#" title="Search requests" @click="$requestsSearch.toggle()">
-					<font-awesome-icon icon="search"></font-awesome-icon>
+				<a href="#" title="Toggle requests" @click="toggleRequestsList">
+					<icon :name="$settings.global.requestsListCollapsed ? 'chevron-right' : 'chevron-left'"></icon>
 				</a>
 			</div>
 
-			<div class="details-header-tabs">
-				<tab-handle name="performance" :active="activeDetailsTab == 'performance'" @tab-selected="showTab">Performance</tab-handle>
-				<tab-handle name="log" :active="activeDetailsTab == 'log'" @tab-selected="showTab" v-show="shownTabs.log">Log</tab-handle>
-				<tab-handle name="events" :active="activeDetailsTab == 'events'" @tab-selected="showTab" v-show="shownTabs.events">Events</tab-handle>
-				<tab-handle name="database" :active="activeDetailsTab == 'database'" @tab-selected="showTab" v-show="shownTabs.database">Database</tab-handle>
-				<tab-handle name="cache" :active="activeDetailsTab == 'cache'" @tab-selected="showTab" v-show="shownTabs.cache">Cache</tab-handle>
-				<tab-handle name="redis" :active="activeDetailsTab == 'redis'" @tab-selected="showTab" v-show="shownTabs.redis">Redis</tab-handle>
-				<tab-handle name="queue" :active="activeDetailsTab == 'queue'" @tab-selected="showTab" v-show="shownTabs.queue">Queue</tab-handle>
-				<tab-handle name="views" :active="activeDetailsTab == 'views'" @tab-selected="showTab" v-show="shownTabs.views">Views</tab-handle>
-				<tab-handle name="emails" :active="activeDetailsTab == 'emails'" @tab-selected="showTab" v-show="shownTabs.emails">Emails</tab-handle>
-				<tab-handle name="routes" :active="activeDetailsTab == 'routes'" @tab-selected="showTab" v-show="shownTabs.routes">Routes</tab-handle>
-				<tab-handle v-for="userTab in $get($request, 'userData')" :key="`${$request.id}-${userTab.key}`" :name="`user-${userTab.key}`" :active="activeDetailsTab == `user-${userTab.key}`" @tab-selected="showTab">{{ userTab.title }}</tab-handle>
-				<tab-handle name="output" :active="activeDetailsTab == 'output'" @tab-selected="showTab" v-show="shownTabs.output">Output</tab-handle>
-			</div>
+			<tab-bar :tabs="tabs" :active-tab="activeTab" @tab-selected="showTab"></tab-bar>
 
 			<div class="icons">
-				<a href="#" title="Preserve log" @click="togglePreserveLog" v-show="$settings.global.requestSidebarCollapsed">
-					<font-awesome-icon :icon="$settings.global.preserveLog ? 'circle' : ['far', 'circle']"></font-awesome-icon>
-				</a>
-				<a href="#" title="Clear" @click="clear" v-show="$settings.global.requestSidebarCollapsed">
-					<font-awesome-icon icon="ban"></font-awesome-icon>
-				</a>
 				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
-					<font-awesome-icon icon="cog"></font-awesome-icon>
+					<icon name="settings"></icon>
 				</a>
 				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
-					<font-awesome-icon :icon="$settings.global.requestSidebarCollapsed ? 'outdent' : 'indent'"></font-awesome-icon>
+					<icon :name="$settings.global.requestSidebarCollapsed ? 'chevron-left' : 'chevron-right'"></icon>
 				</a>
 			</div>
 		</div>
 
-		<settings-modal></settings-modal>
-		<messages-overlay></messages-overlay>
-
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
-			<events-tab :active="activeDetailsTab == 'events'"></events-tab>
-			<database-tab :active="activeDetailsTab == 'database'"></database-tab>
-			<cache-tab :active="activeDetailsTab == 'cache'"></cache-tab>
-			<redis-tab :active="activeDetailsTab == 'redis'"></redis-tab>
-			<queue-tab :active="activeDetailsTab == 'queue'"></queue-tab>
-			<log-tab :active="activeDetailsTab == 'log'"></log-tab>
-			<performance-tab :active="activeDetailsTab == 'performance'"></performance-tab>
-			<views-tab :active="activeDetailsTab == 'views'"></views-tab>
-			<emails-tab :active="activeDetailsTab == 'emails'"></emails-tab>
-			<routes-tab :active="activeDetailsTab == 'routes'"></routes-tab>
-			<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeDetailsTab == `user-${userTab.key}`"></user-tab>
-			<output-tab :active="activeDetailsTab == 'output'"></output-tab>
+			<div class="content-header"></div>
+
+			<div class="content-content">
+				<events-tab :active="activeTab == 'events'"></events-tab>
+				<database-tab :active="activeTab == 'database'"></database-tab>
+				<cache-tab :active="activeTab == 'cache'"></cache-tab>
+				<redis-tab :active="activeTab == 'redis'"></redis-tab>
+				<queue-tab :active="activeTab == 'queue'"></queue-tab>
+				<log-tab :active="activeTab == 'log'"></log-tab>
+				<performance-tab :active="activeTab == 'performance'"></performance-tab>
+				<views-tab :active="activeTab == 'views'"></views-tab>
+				<emails-tab :active="activeTab == 'emails'"></emails-tab>
+				<routes-tab :active="activeTab == 'routes'"></routes-tab>
+				<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeTab == `user-${userTab.key}`"></user-tab>
+				<output-tab :active="activeTab == 'output'"></output-tab>
+			</div>
 
 		</div>
 
@@ -70,14 +46,14 @@
 		</div>
 
 		<div class="details-error-overlay" v-show="$get($request, 'error') && $get($request, 'error.error') != 'requires-authentication'">
-			<font-awesome-icon icon="exclamation-circle"></font-awesome-icon>
+			<icon name="alert-circle"></icon>
 			<p class="title">Error loading request metadata.</p>
 			<p class="message">{{$get($request, 'error.error')}}</p>
 		</div>
 
 		<div class="details-authentication-overlay" :class="{failed:$authentication.failed}" v-show="$authentication.shown">
 			<form @submit.prevent="$authentication.attempt()">
-				<font-awesome-icon icon="lock"></font-awesome-icon>
+				<icon name="lock"></icon>
 				<p class="title">This site requires authentication.</p>
 				<p class="title failed">Authentication failed.</p>
 				<p class="message" v-show="$authentication.message">{{ $authentication.message }}</p>
@@ -92,13 +68,16 @@
 				</p>
 			</form>
 		</div>
+
+		<settings-modal></settings-modal>
+		<messages-overlay></messages-overlay>
 	</div>
 </template>
 
 <script>
 import MessagesOverlay from './Details/MessagesOverlay'
 import SettingsModal from './Settings/SettingsModal'
-import TabHandle from './Details/TabHandle'
+import TabBar from './Details/TabBar'
 
 import CacheTab from './Tabs/CacheTab'
 import DatabaseTab from './Tabs/DatabaseTab'
@@ -116,15 +95,34 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, TabHandle, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, OutputTab,
+		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, OutputTab,
 		PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
-		activeDetailsTab() {
-			if (! this.$request) return
-			if (this.shownTabs[this.global.activeTab] === false) return 'performance'
+		tabs() {
+			return [
+				{ text: 'Performance', name: 'performance', icon: 'activity', shown: true },
+				{ text: 'Log', name: 'log', icon: 'edit-2', shown: this.shownTabs.log },
+				{ text: 'Events', name: 'events', icon: 'zap', shown: this.shownTabs.events },
+				{ text: 'Database', name: 'database', icon: 'database', shown: this.shownTabs.database },
+				{ text: 'Cache', name: 'cache', icon: 'paperclip', shown: this.shownTabs.cache },
+				{ text: 'Redis', name: 'redis', icon: 'layers', shown: this.shownTabs.redis },
+				{ text: 'Queue', name: 'queue', icon: 'clock', shown: this.shownTabs.queue },
+				{ text: 'Views', name: 'views', icon: 'image', shown: this.shownTabs.views },
+				{ text: 'Emails', name: 'emails', icon: 'mail', shown: this.shownTabs.emails },
+				{ text: 'Routes', name: 'routes', icon: 'map', shown: this.shownTabs.routes }
+			].concat(
+				this.$request?.userData?.map(userTab => ({ text: userTab.title, name: `user-${userTab.key}`, icon: 'menu' }))
+			).concat([
+				{ text: 'Output', name: 'output', icon: 'terminal', shown: this.shownTabs.output }
+			]).filter(Boolean)
+		},
 
-			return this.global.activeTab
+		activeTab() {
+			if (! this.$request) return
+			if (this.shownTabs[this.global.activeDetailsTab] === false) return 'performance'
+
+			return this.global.activeDetailsTab
 		},
 
 		shownTabs() {
@@ -145,7 +143,7 @@ export default {
 	},
 	methods: {
 		showTab(tab) {
-			this.global.activeTab = tab
+			this.global.activeDetailsTab = tab
 			this.global.showIncomingRequests = false
 		},
 		toggleRequestsList() {
@@ -156,14 +154,9 @@ export default {
 			this.$settings.global.requestSidebarCollapsed = ! this.$settings.global.requestSidebarCollapsed
 			this.$settings.save()
 		},
-		togglePreserveLog() {
-			this.$settings.global.preserveLog = ! this.$settings.global.preserveLog
-			this.$settings.save()
-		},
 		toggleSettingsModal() {
 			this.$settings.toggle()
-		},
-		clear() { this.$requests.clear() }
+		}
 	}
 }
 </script>

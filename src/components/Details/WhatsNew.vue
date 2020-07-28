@@ -1,33 +1,38 @@
 <template>
-	<div class="whats-new" v-if="$whatsNew.show">
-		<div class="whats-new-content">
-			<h1>Clockwork has just been updated!</h1>
+	<modal icon="star" title="What's new" :shown="$whatsNew.show" :on-close="close">
+		<div class="whats-new">
+			<div class="whats-new-content">
+				<h1>Clockwork has just been updated!</h1>
 
-			<template v-for="note in release.notes">
-				<div class="whats-new-section">
-					<h2>{{note.title}}</h2>
+				<template v-for="note in release.notes">
+					<div class="whats-new-section">
+						<h2>{{note.title}}</h2>
 
-					<p v-for="line in note.text">{{line}}</p>
+						<p v-for="line in note.text">{{line}}</p>
 
-					<img :src="`img/whats-new/${release.version}/${note.image}`" v-if="note.image">
+						<img :src="`img/whats-new/${release.version}/${note.image}`" v-if="note.image">
+					</div>
+				</template>
+
+				<div class="whats-new-actions">
+					<a :href="release.url" target="_blank" class="actions-show-more">Learn more</a>
+					<a @click.prevent="close" href="#" class="actions-close">Close</a>
+
+					<p><small>Some of the new features might require server-side Clockwork library update.</small></p>
 				</div>
-			</template>
-
-			<div class="whats-new-actions">
-				<a :href="release.url" target="_blank" class="actions-show-more">Learn more</a>
-				<a @click.prevent="close" href="#" class="actions-close">Close</a>
-
-				<p><small>Some of the new features might require server-side Clockwork library update.</small></p>
 			</div>
 		</div>
-	</div>
+	</modal>
 </template>
 
 <script>
+import Modal from '../UI/Modal'
+
 import WhatsNew from '../../features/whats-new'
 
 export default {
 	name: 'WhatsNew',
+	components: { Modal },
 	computed: {
 		release() {
 			return WhatsNew.latestRelease
@@ -45,14 +50,8 @@ export default {
 @import '../../mixins.scss';
 
 .whats-new {
-	background: #fff;
 	font-size: 14px;
-	height: calc(100% - 31px);
-	overflow: auto;
-	position: absolute;
-	top: 31px;
 	width: 100%;
-	z-index: 999;
 
 	@include dark {
 		background: rgb(31, 31, 31);

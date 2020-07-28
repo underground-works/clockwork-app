@@ -1,6 +1,6 @@
 <template>
-	<transition name="settings">
-		<div class="settings-modal" v-show="$settings.shown">
+	<modal icon="settings" title="Settings" :shown.sync="$settings.shown">
+		<div class="settings-modal">
 			<div class="settings-warning" v-if="! $settings.persistent">
 				<div class="warning-text">
 					<span class="warning-label">Warning</span>
@@ -77,7 +77,11 @@
 				<div class="controls">
 					<label class="controls-checkbox">
 						<input type="checkbox" v-model="$settings.global.showIncomingRequests" @change="save">
-						Automatically show incoming requests
+						Show incoming requests
+					</label>
+					<label class="controls-checkbox">
+						<input type="checkbox" v-model="$settings.global.preserveLog" @change="save">
+						Keep requests log
 					</label>
 				</div>
 			</div>
@@ -101,12 +105,15 @@
 				</div>
 			</div>
 		</div>
-	</transition>
+	</modal>
 </template>
 
 <script>
+import Modal from '../UI/Modal'
+
 export default {
 	name: 'SettingsModal',
+	components: { Modal },
 	data: () => ({
 		showPersistWarning: false
 	}),
@@ -127,25 +134,10 @@ export default {
 @import '../../mixins.scss';
 
 .settings-modal {
-	background: #fff;
-	border: 1px solid rgb(209, 209, 209);
-	border-radius: 5px;
-	box-shadow: 0 0 4px #e5e5e5;
 	font-size: 13px;
-	left: 5%;
 	max-width: 600px;
-	padding: 30px 35px 1px;
-	position: absolute;
-	text-align: left;
-	top: 0;
+	padding-top: 10px;
 	width: 90%;
-	z-index: 300;
-
-	@include dark {
-		background: rgb(31, 31, 31);
-		border: 1px solid #404040;
-		box-shadow: 0 0 4px #292929;
-	}
 
 	a {
 		padding: 0;
@@ -176,8 +168,8 @@ export default {
 		height: 26px;
 
 		@include dark {
-			background: rgb(93, 92, 91);
-			border-color: rgb(124, 122, 120);
+			background: rgb(63, 62, 61);
+			border-color: rgb(93, 92, 91);
 			color: rgb(233, 233, 233);
 
 			&::placeholder {
@@ -195,8 +187,8 @@ export default {
 
 	select {
 		@include dark {
-			background: rgb(106, 104, 102);
-			border: 1px solid rgb(124, 122, 120);
+			background: rgb(63, 62, 61);
+			border: 1px solid rgb(93, 92, 91);
 			border-radius: 5px;
 		}
 	}
@@ -309,13 +301,5 @@ export default {
 			}
 		}
 	}
-}
-
-.settings-enter-active, .settings-leave-active {
-	transition: top .33s;
-}
-
-.settings-enter, .settings-leave-to {
-	top: -500px;
 }
 </style>
