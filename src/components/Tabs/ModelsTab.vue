@@ -50,13 +50,31 @@
 
 					<tr class="actions-details" v-show="action.isShowingDetails" :key="`${$request.id}-models-actions-details-${index}`">
 						<td colspan="3">
-							<div v-if="action.attributes">
-								<h4>Attributes</h4>
-								<pretty-print :data="action.attributes"></pretty-print>
+							<div class="details-row" v-if="action.attributes">
+								<div class="row-group">
+									<h4>Attributes</h4>
+									<pretty-print :data="action.attributes"></pretty-print>
+								</div>
 							</div>
-							<div v-if="action.changes">
-								<h4>Changes</h4>
-								<pretty-print :data="action.changes"></pretty-print>
+							<div class="details-row" v-if="action.changes">
+								<div class="row-group">
+									<h4>Changes</h4>
+									<pretty-print :data="action.changes"></pretty-print>
+								</div>
+							</div>
+							<div class="details-row" v-if="action.query">
+								<div class="row-group group-query" v-if="action.query">
+									<h4>Query</h4>
+									<span>{{action.query}}</span>
+								</div>
+								<div class="row-group" v-if="action.duration">
+									<h4>Duration</h4>
+									<span>{{action.duration | round(3)}} ms</span>
+								</div>
+								<div class="row-group" v-if="action.connection">
+									<h4>Connection</h4>
+									<span>{{action.connection}}</span>
+								</div>
 							</div>
 						</td>
 					</tr>
@@ -324,6 +342,21 @@ export default {
 			font-size: 90%;
 			font-weight: 600;
 			margin: 0 0 5px;
+		}
+
+		.details-row {
+			display: flex;
+			margin-bottom: 5px;
+
+			.row-group {
+				margin-right: 15px;
+
+				&:last-child { margin-right: 0; }
+
+				&.group-query {
+					flex: 1;
+				}
+			}
 		}
 	}
 
