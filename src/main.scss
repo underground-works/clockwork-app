@@ -477,7 +477,20 @@ a {
 	}
 
 	a {
+		color: #a6a6a6;
 		text-decoration: none;
+
+		&:hover {
+			color: #969696;
+		}
+
+		@include dark {
+			color: #595959;
+
+			&:hover {
+				color: #696969;
+			}
+		}
 	}
 
 	.stack-frame {

@@ -19,6 +19,7 @@ export default class Request
 		this.cookies = this.createKeypairs(this.cookies)
 		this.middleware = this.middleware instanceof Array ? this.middleware : []
 		this.processDatabase()
+		this.processModels()
 		this.emails = this.processEmails(this.emailsData)
 		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
@@ -180,7 +181,7 @@ export default class Request
 			|| this.databaseQueries.filter(query => query.query.match(/^insert /i)).length
 		this.databaseUpdates = parseInt(this.databaseUpdates)
 			|| this.databaseQueries.filter(query => query.query.match(/^update /i)).length
-		this.databaseDeletes = parseInt(this.databaseDelets)
+		this.databaseDeletes = parseInt(this.databaseDeletes)
 			|| this.databaseQueries.filter(query => query.query.match(/^delete /i)).length
 		this.databaseOthers = parseInt(this.databaseOthers)
 			|| this.databaseQueries.filter(query => ! query.query.match(/^(select|insert|update|delete) /i)).length
@@ -301,6 +302,23 @@ export default class Request
 			message.context = message.context instanceof Object && Object.keys(message.context).filter(key => key != '__type__').length ? message.context : undefined
 
 			return message
+		})
+	}
+
+	processModels() {
+		this.modelsActions = this.processModelsActions(this.modelsActions)
+	}
+
+	processModelsActions(actions) {
+		return this.enforceArray(actions).map(action => {
+			action.shortModel = action.model ? action.model.split('\\').pop() : ''
+			action.attributes = this.optionalNonEmptyObject(action.attributes)
+			action.changes = this.optionalNonEmptyObject(action.changes)
+			action.tags = this.enforceArray(action.tags)
+			action.bindings = this.optionalNonEmptyObject(action.bindings)
+			action.isShowingDetails = false
+
+			return action
 		})
 	}
 
@@ -506,6 +524,10 @@ export default class Request
 		let pow = Math.floor(Math.log(bytes) / Math.log(1024))
 
 		return `${Math.round(bytes / Math.round(Math.pow(1024, pow)))} ${units[pow]}`
+	}
+
+	enforceArray(input) {
+		return input instanceof Array ? input : []
 	}
 
 	optionalNonEmptyObject(input, defaultValue) {

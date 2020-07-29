@@ -125,13 +125,13 @@ export default {
 		}
 
 		&:after {
-			border-color: transparent transparent rgba(#333, 0.05) transparent;
+			border-color: transparent transparent rgba(#333, 0.06) transparent;
 			border-width: 0 12px 12px 12px;
 			left: calc(50% - 11px);
 			top: 5px;
 
 			@include dark {
-				border-color: transparent transparent rgba(#888, 0.05) transparent;
+				border-color: transparent transparent hsla(240, 5, 8, 0.5) transparent;
 			}
 		}
 	}
