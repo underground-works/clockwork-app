@@ -3,28 +3,32 @@
 		<div class="counters-row models-counters">
 			<div class="counter counter-retrieved" v-if="totals.retrieved">
 				<div class="counter-value">{{totals.retrieved}}</div>
-				<div class="counter-title">retrieved</div>
+				<div class="counter-title has-mark">retrieved</div>
 			</div>
 			<div class="counter counter-created" v-if="totals.created">
 				<div class="counter-value">{{totals.created}}</div>
-				<div class="counter-title">created</div>
+				<div class="counter-title has-mark">created</div>
 			</div>
 			<div class="counter counter-updated" v-if="totals.updated">
 				<div class="counter-value">{{totals.updated}}</div>
-				<div class="counter-title">updated</div>
+				<div class="counter-title has-mark">updated</div>
 			</div>
 			<div class="counter counter-deleted" v-if="totals.deleted">
 				<div class="counter-value">{{totals.deleted}}</div>
-				<div class="counter-title">deleted</div>
+				<div class="counter-title has-mark">deleted</div>
 			</div>
 		</div>
 
 		<div class="models-tabs" v-if="$request.modelsActions.length">
-			<a class="models-tab" :class="{ 'active': activeModelsTab == 'actions' }" href="#" @click.prevent="selectedModelsTab = 'actions'">Actions</a>
-			<a class="models-tab" :class="{ 'active': activeModelsTab == 'models' }" href="#" @click.prevent="selectedModelsTab = 'models'">Models</a>
+			<a class="models-tab" :class="{ 'active': activeModelsTab == 'actions' }" href="#" @click.prevent="selectedModelsTab = 'actions'">
+				<icon name="activity"></icon> Actions
+			</a>
+			<a class="models-tab" :class="{ 'active': activeModelsTab == 'models' }" href="#" @click.prevent="selectedModelsTab = 'models'">
+				<icon name="hash"></icon> Models
+			</a>
 		</div>
 
-		<details-table class="models-actions" :columns="[ 'Model', '', '' ]" :items="$request.modelsActions" :filter="actionsFilter" filter-example="App\User action:updated" v-if="activeModelsTab == 'actions'">
+		<details-table title="Actions" icon="activity" class="models-actions" :columns="[ 'Model', '', '' ]" :items="$request.modelsActions" :filter="actionsFilter" filter-example="App\User action:updated" v-if="activeModelsTab == 'actions'">
 			<template slot="body" slot-scope="{ items }">
 				<template v-for="action, index in items">
 					<tr class="actions-action" :key="`${$request.id}-models-actions-${index}`">
@@ -39,7 +43,7 @@
 						</td>
 						<td>
 							<a href="#" @click.prevent="action.isShowingDetails = ! action.isShowingDetails" title="Show details" v-if="action.attributes || action.changes">
-								<font-awesome-icon icon="search"></font-awesome-icon>
+								<icon :name="action.isShowingDetails ? 'chevron-up' : 'chevron-down'"></icon>
 							</a>
 						</td>
 					</tr>
@@ -60,7 +64,7 @@
 			</template>
 		</details-table>
 
-		<details-table class="models-counts" :columns="[ 'Model', 'Retrieved', 'Created', 'Updated', 'Deleted' ]" :items="modelsCounts" :filter="countsFilter" filter-example="App\User retrieved:>10" v-if="activeModelsTab == 'models'">
+		<details-table title="Models" icon="hash" class="models-counts" :columns="[ 'Model', 'Retrieved', 'Created', 'Updated', 'Deleted' ]" :items="modelsCounts" :filter="countsFilter" filter-example="App\User retrieved:>10" v-if="activeModelsTab == 'models'">
 			<template slot="body" slot-scope="{ items }">
 				<template v-for="counts, index in items">
 					<tr :key="`${$request.id}-models-counts-${index}`">
@@ -168,35 +172,35 @@ export default {
 @import '../../mixins.scss';
 
 .models-counters {
-	.counter-retrieved {
-		border-left: 3px solid rgb(120, 177, 222) !important;
+	.counter-retrieved .has-mark:before {
+		background: rgb(120, 177, 222);
 
 		@include dark {
-			border-left: 3px solid rgb(100, 157, 202) !important;
+			background: rgb(100, 157, 202);
 		}
 	}
 
-	.counter-created {
-		border-left: 3px solid rgb(177, 202, 109) !important;
+	.counter-created .has-mark:before {
+		background: rgb(177, 202, 109);
 
 		@include dark {
-			border-left: 3px solid rgb(157, 182, 89) !important;
+			background: rgb(157, 182, 89);
 		}
 	}
 
-	.counter-updated {
-		border-left: 3px solid hsl(50, 57, 61) !important;
+	.counter-updated .has-mark:before {
+		background: hsl(50, 57, 61);
 
 		@include dark {
-			border-left: 3px solid hsl(27, 39, 53) !important;
+			background: hsl(27, 39, 53);
 		}
 	}
 
-	.counter-deleted {
-		border-left: 3px solid rgb(231, 150, 151) !important;
+	.counter-deleted .has-mark:before {
+		background: rgb(231, 150, 151);
 
 		@include dark {
-			border-left: 3px solid rgb(211, 130, 131) !important;
+			background: rgb(211, 130, 131);
 		}
 	}
 }
@@ -205,27 +209,43 @@ export default {
 	display: flex;
 	flex: 1;
 	justify-content: center;
-	padding: 8px 0 4px;
+	margin-bottom: 10px;
+	margin-top: 30px;
 
 	.models-tab {
+		align-items: center;
+	    border-radius: 12px;
 		color: rgb(64, 64, 64);
 		cursor: default;
+		display: flex;
 		font-size: 12px;
-		line-height: 31px;
-		padding: 0 31px;
+		line-height: 26px;
+		padding: 0 26px;
 		text-align: center;
 		text-decoration: none;
 
+		@include dark {
+			color: rgb(158, 158, 158);
+		}
+
+		&:hover {
+			color: #258cdb;
+
+			@include dark { color: #f27e02; }
+		}
+
 		&.active {
-			color: rgb(37, 140, 219);
+		    background: rgb(39, 134, 243);
+		    color: #f5f5f5;
 
 			@include dark {
-				color: hsl(31, 98%, 48%);
+				background: #de7402;
+				color: #fff;
 			}
 		}
 
-		@include dark {
-			color: rgb(158, 158, 158);
+		.ui-icon {
+		    margin-right: 5px;
 		}
 	}
 }
@@ -300,19 +320,20 @@ export default {
 		}
 
 		h4 {
+			color: #333;
+			font-size: 90%;
+			font-weight: 600;
 			margin: 0 0 5px;
 		}
 	}
 
 	tr {
-		background: initial !important;
+		background: hsl(240, 20, 99) !important;
+		@include dark { background: hsl(240, 2, 14) !important; }
 
 		&:nth-child(4n), &:nth-child(4n-1) {
-			background: rgb(245, 245, 245) !important;
-
-			@include dark {
-				background: rgb(27, 27, 27) !important;
-			}
+			background: hsl(240, 20, 97) !important;
+			@include dark { background: hsl(240, 2, 13) !important; }
 		}
 	}
 }
@@ -330,7 +351,7 @@ export default {
 		background: hsla(206, 47%, 86%, 1);
 		border-radius: 8px;
 		color: hsla(205, 29%, 30%, 1);
-		font-size: 10px;
+		font-size: 11px;
 		padding: 3px 8px;
 		text-transform: uppercase;
 

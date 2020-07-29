@@ -294,11 +294,14 @@ export default {
 			color: #333;
 			font-size: 90%;
 			font-weight: 600;
-			padding: 8px 0;
+			padding: 8px 6px;
 			text-align: center;
 			white-space: nowrap;
 
 			@include dark { color: #b2b2b2; }
+
+			&:first-child { padding-left: 12px; }
+			&:last-child { padding-right: 12px; }
 		}
 
 		td {
