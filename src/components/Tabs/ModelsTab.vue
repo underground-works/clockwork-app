@@ -33,10 +33,16 @@
 				<template v-for="action, index in items">
 					<tr class="actions-action" :key="`${$request.id}-models-actions-${index}`">
 						<td class="action-model">
-							<shortened-text :full="action.model">{{action.shortModel}}</shortened-text>
-							<span class="action-key" v-if="action.key">
-								<span class="key-hash">#</span>{{action.key}}
-							</span>
+							<div class="model-content">
+								<div class="content-text">
+									<shortened-text :full="action.model">{{action.shortModel}}</shortened-text>
+									<span class="action-key" v-if="action.key">
+										<span class="key-hash">#</span>{{action.key}}
+									</span>
+								</div>
+
+								<stack-trace class="content-trace" :trace="action.trace" :file="action.file" :line="action.line"></stack-trace>
+							</div>
 						</td>
 						<td class="database-duration">
 							<span class="action-action" :class="`action-${action.action}`">{{action.action}}</span>
@@ -272,6 +278,16 @@ export default {
 	.actions-action {
 		.action-model {
 			width: 100%;
+
+			.model-content {
+				display: flex;
+				flex-wrap: wrap;
+				width: 100%;
+
+				.content-trace {
+					margin-left: auto;
+				}
+			}
 		}
 
 		.action-key {
@@ -342,6 +358,10 @@ export default {
 			font-size: 90%;
 			font-weight: 600;
 			margin: 0 0 5px;
+
+			@include dark {
+				color: #b2b2b2;
+			}
 		}
 
 		.details-row {
