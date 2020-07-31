@@ -72,6 +72,18 @@
 			</div>
 
 			<div class="controls-group">
+				<label for="settings-on-demand-secret">On-demand</label>
+
+				<div class="controls">
+					<input type="text" name="settings-on-demand-secret" placeholder="secret" v-model="$settings.site.onDemandSecret" @change="save">
+
+					<div class="help-text">
+						Only used if the server-side has on-demand mode with secret enabled.
+					</div>
+				</div>
+			</div>
+
+			<div class="controls-group">
 				<label></label>
 
 				<div class="controls">
@@ -125,6 +137,7 @@ export default {
 
 		save() {
 			this.$settings.save()
+			this.$onDemand.enableProfiling()
 		}
 	}
 }
@@ -164,8 +177,11 @@ export default {
 
 	input, select {
 		border: 1px solid #ccc;
+		border-radius: 4px;
 		font-size: 13px;
 		height: 26px;
+		padding: 4px 8px;
+		width: 100%;
 
 		@include dark {
 			background: rgb(63, 62, 61);
@@ -182,6 +198,7 @@ export default {
 			height: auto;
 			margin: 0 3px 0 0;
 			vertical-align: middle;
+			width: auto;
 		}
 	}
 
@@ -194,12 +211,6 @@ export default {
 	}
 
 	.controls-input-vgroup {
-		input {
-			border: 1px solid #ccc;
-			padding: 4px 8px;
-			width: 100%;
-		}
-
 		input:first-child {
 			border-radius: 4px 4px 0 0;
 		}

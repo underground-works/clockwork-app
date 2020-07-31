@@ -10,6 +10,7 @@ import Standalone from './platform/standalone'
 import Authentication from './features/authentication'
 import EditorLinks from './features/editor-links'
 import LocalStore from './features/local-store'
+import OnDemand from './features/on-demand'
 import Profiler from './features/profiler'
 import Requests from './features/requests'
 import RequestsSearch from './features/requests-search'
@@ -26,6 +27,7 @@ let $settings = new Settings($store, $requests, $platform)
 
 let $authentication = new Authentication($requests)
 let $editorLinks = new EditorLinks($settings)
+let $onDemand = new OnDemand($platform, $settings)
 let $profiler = new Profiler($requests, $platform)
 let $requestsSearch = new RequestsSearch($requests)
 let $textFilters = new TextFilters
@@ -33,12 +35,14 @@ let $updateNotification = new UpdateNotification($settings)
 let $whatsNew = new WhatsNew($settings)
 
 let global = {
-	$requests, $platform, $authentication, $profiler, $requestsSearch, $settings, $store, $updateNotification, $whatsNew,
+	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $store, $updateNotification,
+	$whatsNew,
 	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true, defaultAppearance: 'light'
 }
 
 $platform.init(global)
 $editorLinks.register()
+$onDemand.enableProfiling()
 $textFilters.register()
 
 Vue.mixin({

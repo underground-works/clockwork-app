@@ -81,7 +81,8 @@ export default class Settings
 				viewsTimelineCondensed: false
 			},
 			site: {
-				localPathMap: { real: null, local: null }
+				localPathMap: { real: null, local: null },
+				onDemandSecret: null
 			}
 		}
 	}
