@@ -357,7 +357,7 @@ export default {
 			color: #333;
 			font-size: 90%;
 			font-weight: 600;
-			margin: 0 0 5px;
+			margin: 0 0 3px;
 
 			@include dark {
 				color: #b2b2b2;
@@ -366,7 +366,7 @@ export default {
 
 		.details-row {
 			display: flex;
-			margin-bottom: 5px;
+			margin-bottom: 8px;
 
 			.row-group {
 				margin-right: 15px;

@@ -213,12 +213,25 @@ export default class Request
 		})
 	}
 
-	processEmails(data) {
-		if (! (data instanceof Object)) return []
+	processEmails(emails) {
+		if (! (emails instanceof Object)) return []
 
-		return Object.values(data)
-			.filter(email => email.data instanceof Object)
-			.map(email => Object.assign({ time: email.start, duration: email.duration }, email.data))
+		// legacy timeline format
+		if (! (emails instanceof Array)) {
+			return Object.values(emails)
+				.filter(email => email.data instanceof Object)
+				.map(email => Object.assign(
+					{ time: email.start, duration: email.duration, isShowingDetails: false },
+					email.data,
+					{ from: [ email.data.from ], to: [ email.data.to ] }
+				))
+		}
+
+		return this.enforceArray(emails).map(function (email) {
+			email.isShowingDetails = false
+
+			return email
+		})
 	}
 
 	processEvents(data) {
