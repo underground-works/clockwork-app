@@ -14,7 +14,11 @@
 								<stack-trace class="content-trace" :trace="email.trace" :file="email.file" :line="email.line"></stack-trace>
 							</div>
 						</td>
-						<td>
+						<td class="email-actions">
+							<a href="#" @click.prevent="showEmail = email" title="Show message">
+								<icon name="search"></icon>
+							</a>
+
 							<a href="#" @click.prevent="email.isShowingDetails = ! email.isShowingDetails" title="Show details">
 								<icon :name="email.isShowingDetails ? 'chevron-up' : 'chevron-down'"></icon>
 							</a>
@@ -62,12 +66,15 @@
 				</template>
 			</template>
 		</details-table>
+
+		<message-modal :message.sync="showEmail"></message-modal>
 	</div>
 </template>
 
 <script>
 import DetailsTable from '../UI/DetailsTable'
 import DetailsTableFilterToggle from '../UI/DetailsTableFilterToggle'
+import MessageModal from './Emails/MessageModal'
 import PrettyPrint from '../UI/PrettyPrint'
 import StackTrace from '../UI/StackTrace'
 
@@ -75,12 +82,14 @@ import Filter from '../../features/filter'
 
 export default {
 	name: 'EmailsTab',
-	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, StackTrace },
+	components: { DetailsTable, DetailsTableFilterToggle, MessageModal, PrettyPrint, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
 		filter: new Filter([
 			{ tag: 'to' }
-		])
+		]),
+
+		showEmail: null
 	})
 }
 </script>
@@ -100,6 +109,14 @@ export default {
 			.content-trace {
 				margin-left: auto;
 			}
+		}
+	}
+
+	.email-actions {
+		white-space: nowrap;
+
+		a {
+			margin-left: 5px;
 		}
 	}
 
