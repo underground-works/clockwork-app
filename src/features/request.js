@@ -20,7 +20,7 @@ export default class Request
 		this.middleware = this.middleware instanceof Array ? this.middleware : []
 		this.processDatabase()
 		this.processModels()
-		this.emails = this.processEmails(this.emailsData)
+		this.notifications = this.processNotifications(this.notifications, this.emailsData)
 		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
 		this.requestData = this.requestData instanceof Object
@@ -213,24 +213,24 @@ export default class Request
 		})
 	}
 
-	processEmails(emails) {
-		if (! (emails instanceof Object)) return []
+	processNotifications(notifications, emails) {
+		// legacy emails data in timeline format
+		emails = Object.values(this.optionalNonEmptyObject(emails, {}))
+			.filter(email => email.data instanceof Object)
+			.map(email => ({
+				subject: email.data.subject,
+				to: [ email.data.to ],
+				from: [ email.data.from ],
+				time: email.start,
+				duration: email.duration,
+				type: 'mail',
+				data: []
+			}))
 
-		// legacy timeline format
-		if (! (emails instanceof Array)) {
-			return Object.values(emails)
-				.filter(email => email.data instanceof Object)
-				.map(email => Object.assign(
-					{ time: email.start, duration: email.duration, isShowingDetails: false },
-					email.data,
-					{ from: [ email.data.from ], to: [ email.data.to ] }
-				))
-		}
+		return this.enforceArray(notifications).concat(emails).map(function (notification) {
+			notification.isShowingDetails = false
 
-		return this.enforceArray(emails).map(function (email) {
-			email.isShowingDetails = false
-
-			return email
+			return notification
 		})
 	}
 
@@ -428,12 +428,12 @@ export default class Request
 			tags: [ 'queueJobs' ]
 		}))
 
-		this.emails.forEach(email => timeline.append({
-			start: email.time,
-			duration: email.duration,
-			description: `${email.to} - ${email.subject}`,
+		this.notifications.forEach(notification => timeline.append({
+			start: notification.time,
+			duration: notification.duration,
+			description: `${notification.to} - ${notification.subject}`,
 			color: 'purple',
-			tags: [ 'emails' ]
+			tags: [ 'notifications' ]
 		}))
 
 		timeline.merge(this.viewsData)

@@ -350,7 +350,7 @@ export default {
 
 	.actions-details {
 		td {
-			padding: 0 14px 10px;
+			padding: 0 20px 10px !important;
 		}
 
 		h4 {
@@ -366,7 +366,11 @@ export default {
 
 		.details-row {
 			display: flex;
-			margin-bottom: 8px;
+			margin-top: 12px;
+
+			&:first-child {
+				margin-top: 6px;
+			}
 
 			.row-group {
 				margin-right: 15px;

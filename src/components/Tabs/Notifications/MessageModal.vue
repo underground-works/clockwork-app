@@ -77,7 +77,6 @@ export default {
 		border-bottom: 1px solid hsl(240, 20, 92);
 		border-top: 1px solid hsl(240, 20, 92);
 		margin-left: -25px;
-		padding: 0 25px;
 		width: calc(100% + 50px);
 
 		@include dark {
@@ -87,7 +86,7 @@ export default {
 
 		iframe {
 			border: 0;
-			min-height: 50vh;
+			min-height: 70vh;
 			width: 100%;
 		}
 	}
