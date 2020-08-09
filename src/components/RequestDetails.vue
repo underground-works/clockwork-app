@@ -34,7 +34,7 @@
 				<log-tab :active="activeTab == 'log'"></log-tab>
 				<performance-tab :active="activeTab == 'performance'"></performance-tab>
 				<views-tab :active="activeTab == 'views'"></views-tab>
-				<emails-tab :active="activeTab == 'emails'"></emails-tab>
+				<notifications-tab :active="activeTab == 'notifications'"></notifications-tab>
 				<routes-tab :active="activeTab == 'routes'"></routes-tab>
 				<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeTab == `user-${userTab.key}`"></user-tab>
 				<output-tab :active="activeTab == 'output'"></output-tab>
@@ -82,10 +82,10 @@ import TabBar from './Details/TabBar'
 
 import CacheTab from './Tabs/CacheTab'
 import DatabaseTab from './Tabs/DatabaseTab'
-import EmailsTab from './Tabs/EmailsTab'
 import EventsTab from './Tabs/EventsTab'
 import LogTab from './Tabs/LogTab'
 import ModelsTab from './Tabs/ModelsTab'
+import NotificationsTab from './Tabs/NotificationsTab'
 import OutputTab from './Tabs/OutputTab'
 import PerformanceTab from './Tabs/PerformanceTab'
 import RedisTab from './Tabs/RedisTab'
@@ -97,7 +97,7 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EmailsTab, EventsTab, LogTab, ModelsTab,
+		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EventsTab, LogTab, ModelsTab, NotificationsTab,
 		OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
@@ -112,7 +112,7 @@ export default {
 				{ text: 'Redis', name: 'redis', icon: 'layers', shown: this.shownTabs.redis },
 				{ text: 'Queue', name: 'queue', icon: 'clock', shown: this.shownTabs.queue },
 				{ text: 'Views', name: 'views', icon: 'image', shown: this.shownTabs.views },
-				{ text: 'Emails', name: 'emails', icon: 'mail', shown: this.shownTabs.emails },
+				{ text: 'Notifications', name: 'notifications', icon: 'mail', shown: this.shownTabs.notifications },
 				{ text: 'Routes', name: 'routes', icon: 'map', shown: this.shownTabs.routes }
 			].concat(
 				this.$request?.userData?.map(userTab => ({ text: userTab.title, name: `user-${userTab.key}`, icon: 'menu' }))
@@ -140,7 +140,7 @@ export default {
 				queue: this.$request?.queueJobs?.length > 0,
 				events: this.$request?.events?.length > 0,
 				views: this.$request?.viewsData?.events.length > 0,
-				emails: this.$request?.emails?.length > 0,
+				notifications: this.$request?.notifications?.length > 0,
 				routes: this.$request?.routes?.length > 0,
 				output: this.$request?.commandOutput?.length > 0
 			}

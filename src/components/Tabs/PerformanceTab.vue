@@ -60,7 +60,7 @@ export default {
 			{ tag: 'redisCommands', icon: 'layers', title: 'Redis' },
 			{ tag: 'queueJobs', icon: 'clock', title: 'Queue' },
 			{ tag: 'views', icon: 'image', title: 'Views' },
-			{ tag: 'emails', icon: 'mail', title: 'Emails' }
+			{ tag: 'notifications', icon: 'mail', title: 'Notifications' }
 		]
 	}),
 	computed: {

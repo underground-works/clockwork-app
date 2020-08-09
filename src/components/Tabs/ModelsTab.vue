@@ -350,14 +350,14 @@ export default {
 
 	.actions-details {
 		td {
-			padding: 0 14px 10px;
+			padding: 0 20px 10px !important;
 		}
 
 		h4 {
 			color: #333;
 			font-size: 90%;
 			font-weight: 600;
-			margin: 0 0 5px;
+			margin: 0 0 3px;
 
 			@include dark {
 				color: #b2b2b2;
@@ -366,7 +366,11 @@ export default {
 
 		.details-row {
 			display: flex;
-			margin-bottom: 5px;
+			margin-top: 12px;
+
+			&:first-child {
+				margin-top: 6px;
+			}
 
 			.row-group {
 				margin-right: 15px;
