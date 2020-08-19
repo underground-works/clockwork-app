@@ -35,6 +35,8 @@ export default class Request
 		this.viewsData = this.processViews(this.viewsData)
 		this.userData = this.processUserData(this.userData)
 		this.timeline = this.processTimeline(this.timelineData)
+		this.clientMetrics = this.processClientMetrics(this.clientMetrics)
+		this.webVitals = this.processWebVitals(this.webVitals)
 
 		this.processCommand()
 		this.processQueueJob()
@@ -167,6 +169,18 @@ export default class Request
 
 			return query
 		})
+	}
+
+	processClientMetrics(data) {
+		return [
+			{ name: 'Redirect', value: data.redirect },
+			{ name: 'DNS', value: data.dns, color: 'purple', onChart: true },
+			{ name: 'Connection', value: data.connection, color: 'blue', onChart: true },
+			{ name: 'Waiting', value: data.waiting, color: 'red', onChart: true },
+			{ name: 'Receiving', value: data.downloading, color: 'green', onChart: true },
+			{ name: 'To interactive', value: data.domLoading, color: 'blue', onChart: true, dom: true },
+			{ name: 'To complete', value: data.domInteractive, color: 'purple', onChart: true, dom: true }
+		]
 	}
 
 	processDatabase() {
@@ -483,6 +497,30 @@ export default class Request
 				})
 			}
 		})
+	}
+
+	processWebVitals(data) {
+		let vitals = {
+			cls: { slow: 7300, moderate: 3800 },
+			fid: { slow: 300, moderate: 100 },
+			lcp: { slow: 4000, moderate: 2000 },
+			fcp: { slow: 4000, moderate: 2000 },
+			ttfb: { slow: 600, moderate: 600 },
+			si: { slow: 5800, moderate: 4300 }
+		}
+
+		Object.keys(vitals).forEach(key => {
+			let value = data[key]
+			let score = 'fast'
+			let available = value !== undefined
+
+			if (value > vitals[key].slow) score = 'slow'
+			else if (value > vitals[key].moderate) score = 'moderate'
+
+			data[key] = { value, score, available }
+		})
+
+		return data
 	}
 
 	processCommand() {

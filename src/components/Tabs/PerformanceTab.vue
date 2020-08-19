@@ -27,6 +27,9 @@
 				<a class="performance-tab" :class="{ 'active': isTabActive('timeline') }" href="#" @click.prevent="showTab('timeline')">
 					<icon name="pie-chart"></icon> Timeline
 				</a>
+				<a class="performance-tab" :class="{ 'active': isTabActive('client-side') }" href="#" @click.prevent="showTab('client-side')" v-if="isClientSideTabAvailable">
+					<icon name="smile"></icon> Client-side
+				</a>
 				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')">
 					<icon name="clock"></icon> Profiler
 				</a>
@@ -34,6 +37,7 @@
 
 			<performance-log :issues="performanceIssues" :slow-queries="databaseSlowQueries" v-show="isTabActive('issues')"></performance-log>
 			<timeline name="performance" :timeline="$request.timeline" :tags="timelineTags" v-show="isTabActive('timeline')"></timeline>
+			<performance-client-side :metrics="$request.clientMetrics" :vitals="$request.webVitals" v-show="isTabActive('client-side')"></performance-client-side>
 			<profiler v-show="isTabActive('profiler')"></profiler>
 		</div>
 	</div>
@@ -41,6 +45,7 @@
 
 <script>
 import PerformanceChart from './Performance/PerformanceChart'
+import PerformanceClientSide from './Performance/PerformanceClientSide'
 import PerformanceLog from './Performance/PerformanceLog'
 import Profiler from './Performance/Profiler'
 import Timeline from './Performance/Timeline'
@@ -49,7 +54,7 @@ import Filter from '../../features/filter'
 
 export default {
 	name: 'PerformanceTab',
-	components: { PerformanceChart, PerformanceLog, Profiler, Timeline },
+	components: { PerformanceChart, PerformanceClientSide, PerformanceLog, Profiler, Timeline },
 	props: [ 'active' ],
 	data: () => ({
 		selectedPerformanceTab: null,
@@ -74,6 +79,11 @@ export default {
 
 		databaseSlowQueries() {
 			return this.$request.databaseQueries.filter(query => query.tags.includes('slow'))
+		},
+
+		isClientSideTabAvailable() {
+			return this.$request.clientMetrics.filter(m => m.value).length
+				|| Object.values(this.$request.webVitals).filter(v => v.value).length
 		},
 
 		performanceIssues() {
