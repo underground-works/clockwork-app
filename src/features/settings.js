@@ -67,6 +67,7 @@ export default class Settings
 				hideQueueJobTypeRequests: this.platform instanceof Extension,
 				hideTestTypeRequests: this.platform instanceof Extension,
 				ignoredUpdateNotifications: {},
+				performanceVitalsInfoShown: true,
 				preserveLog: true,
 				requestsListCollapsed: false,
 				requestSidebarCollapsed: false,

@@ -18,7 +18,7 @@
 		<details-table title="Vitals" icon="activity" :items="[]" class="performance-vitals" v-if="Object.values(vitals).filter(v => v.value).length">
 			<template slot="toolbar">
 				<div class="header-group">
-					<a href="#" title="Show info" class="header-item" :class="{'active':showVitalsInfo}" @click.prevent="showVitalsInfo = ! showVitalsInfo">
+					<a href="#" title="Show info" class="header-item" :class="{'active':showVitalsInfo}" @click.prevent="toggleVitalsInfo">
 						<icon name="help-circle"></icon>
 					</a>
 				</div>
@@ -121,9 +121,15 @@ export default {
 	name: 'PerformanceClientSide',
 	components: { DetailsTable, PerformanceChart },
 	props: [ 'metrics', 'vitals' ],
-	data: () => ({
-		showVitalsInfo: true
-	})
+	computed: {
+		showVitalsInfo() { return this.$settings.global.performanceVitalsInfoShown }
+	},
+	methods: {
+		toggleVitalsInfo() {
+			this.$settings.global.performanceVitalsInfoShown = ! this.$settings.global.performanceVitalsInfoShown
+			this.$settings.save()
+		}
+	}
 }
 </script>
 
