@@ -172,14 +172,16 @@ export default class Request
 	}
 
 	processClientMetrics(data) {
+		data = this.enforceObject(data)
+
 		return [
 			{ name: 'Redirect', value: data.redirect },
 			{ name: 'DNS', value: data.dns, color: 'purple', onChart: true },
 			{ name: 'Connection', value: data.connection, color: 'blue', onChart: true },
 			{ name: 'Waiting', value: data.waiting, color: 'red', onChart: true },
-			{ name: 'Receiving', value: data.downloading, color: 'green', onChart: true },
-			{ name: 'To interactive', value: data.domLoading, color: 'blue', onChart: true, dom: true },
-			{ name: 'To complete', value: data.domInteractive, color: 'purple', onChart: true, dom: true }
+			{ name: 'Receiving', value: data.receiving, color: 'green', onChart: true },
+			{ name: 'To interactive', value: data.domInteractive, color: 'blue', onChart: true, dom: true },
+			{ name: 'To complete', value: data.domComplete, color: 'purple', onChart: true, dom: true }
 		]
 	}
 
@@ -500,6 +502,8 @@ export default class Request
 	}
 
 	processWebVitals(data) {
+		data = this.enforceObject(data)
+
 		let vitals = {
 			cls: { slow: 7300, moderate: 3800 },
 			fid: { slow: 300, moderate: 100 },
@@ -579,6 +583,10 @@ export default class Request
 
 	enforceArray(input) {
 		return input instanceof Array ? input : []
+	}
+
+	enforceObject(input) {
+		return input instanceof Object && Object.keys(input).filter(key => key != '__type__').length ? input : {}
 	}
 
 	optionalNonEmptyObject(input, defaultValue) {
