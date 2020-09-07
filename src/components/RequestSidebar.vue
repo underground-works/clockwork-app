@@ -73,7 +73,9 @@
 				<div class="meta-date" v-if="$request && $request.time">
 					{{ $request.time * 1000 | moment('Y-MM-DD HH:mm:ss') }}
 				</div>
-				<div class="meta-id" v-if="$request">{{ $request.id }}</div>
+				<div class="meta-id" v-if="$request">
+					<a :href="shareUrl">{{ $request.id }}</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -89,7 +91,12 @@ import TestTab from './Tabs/TestTab'
 
 export default {
 	name: 'RequestSidebar',
-	components: { CommandTab, ExceptionSection, ParentRequest, QueueJobTab, RequestTab, TestTab }
+	components: { CommandTab, ExceptionSection, ParentRequest, QueueJobTab, RequestTab, TestTab },
+	computed: {
+		shareUrl() {
+			return this.$request ? `${window.location.origin}#${this.$request.id}` : '#'
+		}
+	}
 }
 </script>
 
@@ -269,10 +276,14 @@ export default {
 			text-align: center;
 
 			.meta-id {
-				color: rgb(128, 128, 128);
 				margin-top: 4px;
 
-				@include dark { color: rgb(118, 118, 118); }
+				a {
+					color: rgb(128, 128, 128);
+					text-decoration: none;
+
+					@include dark { color: rgb(118, 118, 118); }
+				}
 			}
 		}
 	}

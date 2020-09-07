@@ -15,6 +15,7 @@ export default class Standalone
 		this.setMetadataUrl()
 		this.setMetadataClient()
 
+		this.loadRequestFromUri()
 		this.startPollingRequests()
 		this.throttlePolling()
 	}
@@ -79,6 +80,12 @@ export default class Standalone
 		let matches = document.cookie.match(new RegExp(`(?:^| )${name}=([^;]*)`))
 
 		return Promise.resolve(! matches ? undefined : matches[1])
+	}
+
+	loadRequestFromUri() {
+		let id = URI(window.location.href).fragment()
+
+		if (id) this.requests.loadId(id, false)
 	}
 
 	startPollingRequests() {
