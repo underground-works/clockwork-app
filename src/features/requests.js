@@ -22,7 +22,7 @@ export default class Requests
 	}
 
 	// loads request by id, inserts a placeholder to the items array which is replaced once the metadata is retrieved
-	loadId(id, placeholder) {
+	loadId(id, fields, placeholder) {
 		let existing = this.findId(id)
 
 		if (existing) {
@@ -34,28 +34,32 @@ export default class Requests
 
 		if (placeholder) placeholder.loading = true
 
-		return this.load(id, promise => {
-			return promise
-				.then(data => {
-					if (placeholder) {
-						placeholder.resolve(data[0])
-					} else {
-						this.items.push(data[0])
-					}
+		return this.withQuery(fields ? { only: fields.join(',') } : {}, () => {
+			return this.load(id, promise => {
+				return promise
+					.then(data => {
+						if (placeholder) {
+							placeholder.resolve(data[0], fields)
+						} else {
+							this.items.push(data[0])
+						}
 
-					this.sort()
+						this.sort()
 
-					return placeholder || data[0]
-				})
-				.catch(message => { if (placeholder) placeholder.resolveWithError(message) })
+						return placeholder || data[0]
+					})
+					.catch(message => { if (placeholder) placeholder.resolveWithError(message) })
+			})
 		})
 	}
 
 	loadExtended(id, fields) {
 		let request = this.findId(id)
 
-		return this.load(`${id}/extended`, promise => {
-			return promise.then(data => { return request.extend(data[0], fields) }).catch(error => {})
+		return this.withQuery(fields ? { only: fields.join(',') } : {}, () => {
+			return this.load(`${id}/extended`, promise => {
+				return promise.then(data => { return request.resolve(data[0], fields) }).catch(error => {})
+			})
 		})
 	}
 
@@ -173,9 +177,11 @@ export default class Requests
 		let previousQuery = this.query
 		this.query = query
 
-		callback()
+		let promise = callback()
 
 		this.query = previousQuery
+
+		return promise
 	}
 
 	load(uri, configure, exclusive = false) {

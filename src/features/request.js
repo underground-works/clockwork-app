@@ -1,6 +1,7 @@
 import { Timeline } from './timeline'
 
 import clone from 'just-clone'
+import pick from 'just-pick'
 import URI from 'urijs'
 
 export default class Request
@@ -45,6 +46,8 @@ export default class Request
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
 		this.exceptions = this.processExceptions()
+
+		this.loadClientMetricsAttempts = 0
 	}
 
 	static placeholder(id, request, parent) {
@@ -62,19 +65,33 @@ export default class Request
 		})
 	}
 
-	resolve(request) {
-		Object.assign(this, request, { loading: false, error: undefined })
-		return this
+	resolve(request, fields) {
+		return Object.assign(this, fields ? pick(request, fields) : request, { loading: false, error: undefined })
 	}
 
 	resolveWithError(error) {
-		Object.assign(this, { loading: false, error })
-		return this
+		return Object.assign(this, { loading: false, error })
 	}
 
-	extend(data, fields) {
-		fields.forEach(field => this[field] = data[field])
-		return this
+	loadClientMetrics(requests) {
+		// return if we already have client metrics loaded, checks both clientMetrics and webVitals as webVitals take
+		// longer to measure
+		if (this.clientMetrics.some(m => m.value) && Object.values(this.webVitals).some(v => v.value)) return
+
+		// return if we are already loading
+		if (this.loadClientMetricsTimeout) return
+
+		// return if we made too many attempts
+		if (++this.loadClientMetricsAttempts > 4) return
+
+		// load the metrics with a 2.5s delay to accomodate for the request being updated with metrics from the client
+		// browser, keep trying until we get the metrics or run out of attempts
+		this.loadClientMetricsTimeout = setTimeout(() => {
+			requests.loadId(this.id, [ 'clientMetrics', 'webVitals' ]).then(() => {
+				this.loadClientMetricsTimeout = undefined
+				this.loadClientMetrics(requests)
+			})
+		}, 2500)
 	}
 
 	isClientError() {

@@ -98,10 +98,19 @@ export default {
 			this.selectedPerformanceTab = tab
 
 			if (tab == 'profiler') this.$profiler.loadRequest(this.$request)
+		},
+
+		refreshRequest() {
+			if (! this.active || ! this.$request) return
+
+			this.$request.loadClientMetrics(this.$requests)
+
+			if (this.activePerformanceTab == 'profiler') this.$profiler.loadRequest(this.$request)
 		}
 	},
 	watch: {
-		$request() { if (this.activePerformanceTab == 'profiler') this.$profiler.loadRequest(this.$request) }
+		active() { this.refreshRequest() },
+		$request() { this.refreshRequest() }
 	}
 }
 </script>
