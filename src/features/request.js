@@ -74,6 +74,9 @@ export default class Request
 	}
 
 	loadClientMetrics(requests) {
+		// return if this is not an http request
+		if (! this.isRequest()) return
+
 		// return if we already have client metrics loaded, checks both clientMetrics and webVitals as webVitals take
 		// longer to measure
 		if (this.clientMetrics.some(m => m.value) && Object.values(this.webVitals).some(v => v.value)) return
@@ -533,7 +536,7 @@ export default class Request
 		Object.keys(vitals).forEach(key => {
 			let value = data[key]
 			let score = 'fast'
-			let available = value !== undefined
+			let available = ! isNaN(parseFloat(value))
 
 			if (value > vitals[key].slow) score = 'slow'
 			else if (value > vitals[key].moderate) score = 'moderate'

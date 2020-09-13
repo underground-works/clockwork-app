@@ -157,7 +157,11 @@ export default {
 		width: 50%;
 
 		&:first-child {
-			border-right: 1px solid #f3f3f3;
+			border-right: 1px solid hsl(240, 20, 92);
+
+			@include dark {
+				border-right: 1px solid rgb(52, 52, 54);
+			}
 		}
 
 		.metric-value {

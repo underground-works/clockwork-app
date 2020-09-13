@@ -73,6 +73,7 @@ export default {
 			let activeTab = this.selectedPerformanceTab || 'issues'
 
 			if (activeTab == 'issues' && ! this.databaseSlowQueries.length && ! this.performanceIssues.length) return 'timeline'
+			if (activeTab == 'client-side' && ! this.isClientSideTabAvailable) return 'timeline'
 
 			return activeTab
 		},
