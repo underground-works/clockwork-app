@@ -9,7 +9,7 @@
 
 			<slot name="toolbar" :filter="filter">
 				<div class="header-group">
-					<div class="header-search">
+					<div class="header-search" v-if="filter">
 						<input type="search" v-model="filter.input" placeholder="Search...">
 						<icon name="search"></icon>
 					</div>

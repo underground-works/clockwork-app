@@ -1,6 +1,7 @@
 import { Timeline } from './timeline'
 
 import clone from 'just-clone'
+import pick from 'just-pick'
 import URI from 'urijs'
 
 export default class Request
@@ -35,6 +36,8 @@ export default class Request
 		this.viewsData = this.processViews(this.viewsData)
 		this.userData = this.processUserData(this.userData)
 		this.timeline = this.processTimeline(this.timelineData)
+		this.clientMetrics = this.processClientMetrics(this.clientMetrics)
+		this.webVitals = this.processWebVitals(this.webVitals)
 
 		this.processCommand()
 		this.processQueueJob()
@@ -43,6 +46,8 @@ export default class Request
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
 		this.exceptions = this.processExceptions()
+
+		this.loadClientMetricsAttempts = 0
 	}
 
 	static placeholder(id, request, parent) {
@@ -60,19 +65,36 @@ export default class Request
 		})
 	}
 
-	resolve(request) {
-		Object.assign(this, request, { loading: false, error: undefined })
-		return this
+	resolve(request, fields) {
+		return Object.assign(this, fields ? pick(request, fields) : request, { loading: false, error: undefined })
 	}
 
 	resolveWithError(error) {
-		Object.assign(this, { loading: false, error })
-		return this
+		return Object.assign(this, { loading: false, error })
 	}
 
-	extend(data, fields) {
-		fields.forEach(field => this[field] = data[field])
-		return this
+	loadClientMetrics(requests) {
+		// return if this is not an http request
+		if (! this.isRequest()) return
+
+		// return if we already have client metrics loaded, checks both clientMetrics and webVitals as webVitals take
+		// longer to measure
+		if (this.clientMetrics.some(m => m.value) && Object.values(this.webVitals).some(v => v.value)) return
+
+		// return if we are already loading
+		if (this.loadClientMetricsTimeout) return
+
+		// return if we made too many attempts
+		if (++this.loadClientMetricsAttempts > 4) return
+
+		// load the metrics with a 2.5s delay to accomodate for the request being updated with metrics from the client
+		// browser, keep trying until we get the metrics or run out of attempts
+		this.loadClientMetricsTimeout = setTimeout(() => {
+			requests.loadId(this.id, [ 'clientMetrics', 'webVitals' ]).then(() => {
+				this.loadClientMetricsTimeout = undefined
+				this.loadClientMetrics(requests)
+			})
+		}, 2500)
 	}
 
 	isClientError() {
@@ -167,6 +189,20 @@ export default class Request
 
 			return query
 		})
+	}
+
+	processClientMetrics(data) {
+		data = this.enforceObject(data)
+
+		return [
+			{ name: 'Redirect', value: data.redirect },
+			{ name: 'DNS', value: data.dns, color: 'purple', onChart: true },
+			{ name: 'Connection', value: data.connection, color: 'blue', onChart: true },
+			{ name: 'Waiting', value: data.waiting, color: 'red', onChart: true },
+			{ name: 'Receiving', value: data.receiving, color: 'green', onChart: true },
+			{ name: 'To interactive', value: data.domInteractive, color: 'blue', onChart: true, dom: true },
+			{ name: 'To complete', value: data.domComplete, color: 'purple', onChart: true, dom: true }
+		]
 	}
 
 	processDatabase() {
@@ -485,6 +521,32 @@ export default class Request
 		})
 	}
 
+	processWebVitals(data) {
+		data = this.enforceObject(data)
+
+		let vitals = {
+			cls: { slow: 7300, moderate: 3800 },
+			fid: { slow: 300, moderate: 100 },
+			lcp: { slow: 4000, moderate: 2000 },
+			fcp: { slow: 4000, moderate: 2000 },
+			ttfb: { slow: 600, moderate: 600 },
+			si: { slow: 5800, moderate: 4300 }
+		}
+
+		Object.keys(vitals).forEach(key => {
+			let value = data[key]
+			let score = 'fast'
+			let available = ! isNaN(parseFloat(value))
+
+			if (value > vitals[key].slow) score = 'slow'
+			else if (value > vitals[key].moderate) score = 'moderate'
+
+			data[key] = { value, score, available }
+		})
+
+		return data
+	}
+
 	processCommand() {
 		this.commandLine = ''
 
@@ -541,6 +603,10 @@ export default class Request
 
 	enforceArray(input) {
 		return input instanceof Array ? input : []
+	}
+
+	enforceObject(input) {
+		return input instanceof Object && Object.keys(input).filter(key => key != '__type__').length ? input : {}
 	}
 
 	optionalNonEmptyObject(input, defaultValue) {

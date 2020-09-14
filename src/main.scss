@@ -215,8 +215,7 @@ a {
 		.counter {
 			border-right: 1px solid hsl(240, 20, 92);
 			cursor: default;
-			flex: 0 1 120px;
-			padding: 12px 28px 13px;
+			padding: 12px 24px 13px;
 
 			@include dark {
 				border-right: 1px solid rgb(52, 52, 54);
@@ -224,7 +223,7 @@ a {
 
 			.counter-value {
 				color: #258cdb;
-				font-size: 175%;
+				font-size: 170%;
 				margin-bottom: 3px;
 				white-space: nowrap;
 

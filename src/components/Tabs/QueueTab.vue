@@ -88,7 +88,7 @@ export default {
 			if (attempt == 12) return
 			if (job.loadRequestTimeout) return
 
-			let request = this.$requests.findId(job.id) || await this.$requests.loadId(job.id, false)
+			let request = this.$requests.findId(job.id) || await this.$requests.loadId(job.id, null, false)
 
 			if (! request) {
 				return job.loadRequestTimeout = setTimeout(() => {
