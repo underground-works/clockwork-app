@@ -4,9 +4,11 @@
 <script>
 import PrettyJason from '../../features/pretty-jason/pretty-jason'
 
+import linkify from 'linkifyjs/html'
+
 export default {
 	name: 'PrettyPrint',
-	props: [ 'data', 'expanded' ],
+	props: [ 'data', 'expanded', 'linkify' ],
 	methods: {
 		render() {
 			let data = this.data
@@ -27,6 +29,7 @@ export default {
 					rendered.append((new PrettyJason(data)).generateHtml())
 				} catch (e) {
 					rendered.innerText = data
+					if (this.linkify) rendered.innerHTML = linkify(rendered.innerHTML)
 				}
 			}
 
