@@ -8,7 +8,7 @@
 					<td>
 						<div class="log-message">
 							<div class="log-message-content">
-								<pretty-print :data="message.message"></pretty-print>
+								<pretty-print :data="message.message" :linkify="true"></pretty-print>
 								<div class="log-message-context" v-show="message.context">
 									<pretty-print :data="message.context"></pretty-print>
 								</div>
@@ -135,6 +135,10 @@ export default {
 		.log-message-content {
 			flex: 1 0 auto;
 			max-width: 100%;
+
+			.linkified {
+				text-decoration: none;
+			}
 		}
 
 		.log-message-exception {
