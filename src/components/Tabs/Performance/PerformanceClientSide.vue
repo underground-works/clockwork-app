@@ -30,7 +30,7 @@
 							<div class="vitals-metric">
 								<div class="metric-name">Time To First Byte</div>
 								<div class="metric-value" :class="`value-${vitals.ttfb.score}`" v-if="vitals.ttfb.available">
-									{{ vitals.ttfb.value|round }} ms
+									{{ round(vitals.ttfb.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
 								<div class="metric-info" v-show="showVitalsInfo">
@@ -41,7 +41,7 @@
 							<div class="vitals-metric">
 								<div class="metric-name">First Input Delay</div>
 								<div class="metric-value" :class="`value-${vitals.fid.score}`" v-if="vitals.fid.available">
-									{{ vitals.fid.value|round }} ms
+									{{ round(vitals.fid.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
 								<div class="metric-info" v-show="showVitalsInfo">
@@ -58,7 +58,7 @@
 							<div class="vitals-metric">
 								<div class="metric-name">First Contentful Paint</div>
 								<div class="metric-value" :class="`value-${vitals.fcp.score}`" v-if="vitals.fcp.available">
-									{{ vitals.fcp.value|round }} ms
+									{{ round(vitals.fcp.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
 								<div class="metric-info" v-show="showVitalsInfo">
@@ -69,7 +69,7 @@
 							<div class="vitals-metric">
 								<div class="metric-name">Largest Contentful Paint</div>
 								<div class="metric-value" :class="`value-${vitals.lcp.score}`" v-if="vitals.lcp.available">
-									{{ vitals.lcp.value|round }} ms
+									{{ round(vitals.lcp.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
 								<div class="metric-info" v-show="showVitalsInfo">
@@ -86,7 +86,7 @@
 							<div class="vitals-metric">
 								<div class="metric-name">Cumulative Layout Shift</div>
 								<div class="metric-value" :class="`value-${vitals.cls.score}`" v-if="vitals.cls.available">
-									{{ vitals.cls.value|round }} ms
+									{{ round(vitals.cls.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
 								<div class="metric-info" v-show="showVitalsInfo">
@@ -97,7 +97,7 @@
 							<div class="vitals-metric">
 								<div class="metric-name">Speed Index</div>
 								<div class="metric-value" :class="`value-${vitals.si.score}`" v-if="vitals.si.available">
-									{{ vitals.si.value|round }} ms
+									{{ round(vitals.si.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
 								<div class="metric-info" v-show="showVitalsInfo">

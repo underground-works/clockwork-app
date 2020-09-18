@@ -1,4 +1,5 @@
-import Vue from 'vue'
+import { format as formatDate, isBefore, isAfter, isSame } from 'date-fns'
+import { nextTick } from 'vue'
 
 export default class Filter
 {
@@ -16,7 +17,7 @@ export default class Filter
 		this.shown = ! this.shown
 
 		if (this.shown) {
-			Vue.nextTick(() => {
+			nextTick(() => {
 				let table = $event.target
 				while (table = table.parentNode) {
 					if (table.tagName == 'TABLE') break
@@ -111,16 +112,18 @@ export default class Filter
 			let match
 
 			if (match = tagValue.match(/^<(.+)$/)) {
-				return moment(item).isBefore(
-					match[1].match(/^\d+:\d+(:\d+)?$/) ? moment().format('YYYY-MM-DD ') + match[1] : match[1]
+				return isBefore(
+					new Date(item),
+					match[1].match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'YYYY-MM-dd ') + match[1] : match[1]
 				)
 			} else if (match = tagValue.match(/^>(.+)$/)) {
-				return moment(item).isAfter(
-					match[1].match(/^\d+:\d+(:\d+)?$/) ? moment().format('YYYY-MM-DD ') + match[1] : match[1]
+				return isAfter(
+					new Date(item),
+					match[1].match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'YYYY-MM-dd ') + match[1] : match[1]
 				)
 			}
 
-			return moment(item).isSame(tagValue)
+			return isSame(new Date(item), tagValue)
 		} else {
 			return typeof item == 'string' && item.toLowerCase().includes(tagValue.toLowerCase())
 		}

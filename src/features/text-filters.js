@@ -1,12 +1,20 @@
+import { format as formatDate } from 'date-fns'
 import Vue from 'vue'
 
 export default class TextFilters
 {
-	register() {
-		Vue.filter('join', this.join)
-		Vue.filter('round', this.round)
-		Vue.filter('shortClass', this.shortClass)
-		Vue.filter('title', this.title)
+	register(app) {
+		app.mixin({ methods: {
+			date: this.date,
+			join: this.join,
+			round: this.round,
+			shortClass: this.shortClass,
+			title: this.title
+		} })
+	}
+
+	date(input, format) {
+		return formatDate(input, format)
 	}
 
 	join(input, glue = ', ') {

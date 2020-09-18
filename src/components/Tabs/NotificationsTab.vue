@@ -2,10 +2,10 @@
 	<div v-show="active">
 		<details-table title="Notifications" icon="mail" :columns="columns" :items="$request.notifications" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works" class="notifications-notifications">
 			<template slot="body" slot-scope="{ items }">
-				<template v-for="notification, index in items">
-					<tr :key="`${$request.id}-notifications-${index}`">
-						<td v-if="columns.includes('Type')">{{notification.type|title}}</td>
-						<td>{{notification.to|join(', ')}}</td>
+				<template v-for="notification, index in items" :key="`${$request.id}-notifications-${index}`">
+					<tr>
+						<td v-if="columns.includes('Type')">{{title(notification.type)}}</td>
+						<td>{{join(notification.to, ', ')}}</td>
 						<td class="notification-subject">
 							<div class="subject-content">
 								<div class="content-text">
@@ -26,28 +26,28 @@
 						</td>
 					</tr>
 
-					<tr class="notifications-details" v-show="notification.isShowingDetails" :key="`${$request.id}-notifications-details-${index}`">
+					<tr class="notifications-details" v-show="notification.isShowingDetails">
 						<td :colspan="columns.length">
 							<div class="details-row">
 								<div class="row-group" v-if="notification.to">
 									<h4>To</h4>
-									<span>{{notification.to|join(', ')}}</span>
+									<span>{{join(notification.to, ', ')}}</span>
 								</div>
 								<div class="row-group" v-if="notification.data.cc">
 									<h4>CC</h4>
-									<span>{{notification.data.cc|join(', ')}}</span>
+									<span>{{join(notification.data.cc, ', ')}}</span>
 								</div>
 								<div class="row-group" v-if="notification.data.bcc">
 									<h4>BCC</h4>
-									<span>{{notification.data.bcc|join(', ')}}</span>
+									<span>{{join(notification.data.bcc, ', ')}}</span>
 								</div>
 								<div class="row-group" v-if="notification.from">
 									<h4>From</h4>
-									<span>{{notification.from|join(', ')}}</span>
+									<span>{{join(notification.from, ', ')}}</span>
 								</div>
 								<div class="row-group" v-if="notification.data.replyTo">
 									<h4>Reply To</h4>
-									<span>{{notification.data.replyTo|join(', ')}}</span>
+									<span>{{join(notification.data.replyTo, ', ')}}</span>
 								</div>
 							</div>
 							<div class="details-row">
@@ -58,7 +58,7 @@
 							</div>
 							<div class="details-row" v-for="value, name in additionalData(notification.data)" v-if="value">
 								<div class="row-group">
-									<h4>{{name|title}}</h4>
+									<h4>{{title(name)}}</h4>
 									<pretty-print :data="value"></pretty-print>
 								</div>
 							</div>

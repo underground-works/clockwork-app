@@ -39,7 +39,7 @@
 									</span>
 								</span>
 								{{group.name}}
-								<span v-if="! group.condensed">{{group.duration|formatTiming}}</span>
+								<span v-if="! group.condensed">{{formatTiming(group.duration)}}</span>
 							</div>
 
 							<div class="group-event" :class="event.eventClass" :style="event.eventStyle" v-for='event, index in group.events'>
@@ -67,7 +67,7 @@
 									<div class="event-timings">
 										<div class="timings-timing timing-total">
 											<div class="timing-value">
-												{{event.duration|formatTiming}}
+												{{formatTiming(event.duration)}}
 											</div>
 											<div class="timing-label">
 												Total
@@ -76,7 +76,7 @@
 
 										<div class="timings-timing timing-self">
 											<div class="timing-value">
-												{{event.durationSelf|formatTiming}}
+												{{formatTiming(event.durationSelf)}}
 											</div>
 											<div class="timing-label">
 												Self
@@ -85,7 +85,7 @@
 
 										<div class="timings-timing timing-children">
 											<div class="timing-value">
-												{{event.durationChildren|formatTiming('ms', '–')}}
+												{{formatTiming(event.durationChildren, 'ms', '–')}}
 											</div>
 											<div class="timing-label">
 												Children
@@ -106,9 +106,9 @@
 							{{group.description}}
 						</slot>
 					</td>
-					<td class="timeline-timing timing-total">{{group.duration|formatTiming}}</td>
-					<td class="timeline-timing">{{group.durationSelf|formatTiming}}</td>
-					<td class="timeline-timing">{{group.durationChildren|formatTiming('ms', group.condensed ? '' : '–')}}</td>
+					<td class="timeline-timing timing-total">{{formatTiming(group.duration)}}</td>
+					<td class="timeline-timing">{{formatTiming(group.durationSelf)}}</td>
+					<td class="timeline-timing">{{formatTiming(group.durationChildren, 'ms', group.condensed ? '' : '–')}}</td>
 				</tr>
 
 				<tr class="timeline-size-monitor">
@@ -189,9 +189,8 @@ export default {
 			if (this.condense) timeline = timeline.condense()
 
 			this.presentedEvents = timeline.present(timelineWidth)
-		}
-	},
-	filters: {
+		},
+
 		formatTiming(value, unit = 'ms', placeholder = '') {
 			if (value === null || value === undefined) return placeholder
 
@@ -223,8 +222,8 @@ export default {
 
 		this.refreshEvents()
 
-		this.resizeObserver = new ResizeObserver(debounce(entries => this.refreshEvents(), 10))
-		this.resizeObserver.observe(this.$refs.timelineChart)
+		// this.resizeObserver = new ResizeObserver(debounce(entries => this.refreshEvents(), 10))
+		// this.resizeObserver.observe(this.$refs.timelineChart)
 	}
 }
 </script>

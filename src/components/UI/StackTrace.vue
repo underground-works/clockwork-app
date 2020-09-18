@@ -1,6 +1,6 @@
 <template>
 	<div class="stack-trace popover-container" v-click-outside="closePopover">
-		<a :href="file || trace[0].file | editorLink(line)" v-if="file || (trace && trace.length)">
+		<a :href="editorLink(file || trace[0].file, line)" v-if="file || (trace && trace.length)">
 			<shortened-text :full="trace ? shortPath : fullPath" @click.native="togglePopover($event)">{{shortPath}}</shortened-text>
 		</a>
 		<div class="popover" ref="popover" v-show="showPopover" v-if="trace">
@@ -8,7 +8,7 @@
 				<div v-for="frame in trace" class="stack-frame" :class="{'is-vendor':frame.isVendor}">
 					<div class="stack-frame-call">{{ frame.call }}</div>
 					<div class="stack-frame-file">
-						<a :href="frame.file | editorLink(frame.line)">
+						<a :href="editorLink(frame.file, frame.line)">
 							<shortened-text :full="makeFullPath(frame.file, frame.line)">
 								{{makeShortPath(frame.file, frame.line)}}
 							</shortened-text>

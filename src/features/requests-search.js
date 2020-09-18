@@ -1,6 +1,5 @@
 import debounce from 'just-debounce-it'
-import moment from 'moment'
-import Vue from 'vue'
+import { nextTick } from 'vue'
 
 export default class RequestsSearch
 {
@@ -12,7 +11,7 @@ export default class RequestsSearch
 			{ tag: 'method', validate: val => [ 'get', 'post', 'put', 'patch', 'delete', 'head' ].includes(val) },
 			{ tag: 'status', validate: val => val >= 100 && val < 600 },
 			{ tag: 'time' },
-			{ tag: 'received', validate: val => moment(val).isValid() },
+			{ tag: 'received', validate: val => new Date(val) },
 			{ tag: 'type', validate: val => [ 'command', 'queue-job', 'request' ].includes(val) }
 		]
 
@@ -26,7 +25,7 @@ export default class RequestsSearch
 		this.shown = ! this.shown
 
 		if (this.shown) {
-			Vue.nextTick(() => document.querySelector('.requests-search input').focus())
+			nextTick(() => document.querySelector('.requests-search input').focus())
 		} else {
 			this.input = ''
 			this.search()

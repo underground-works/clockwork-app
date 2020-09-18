@@ -46,7 +46,7 @@
 						</div>
 					</td>
 					<td><span v-if="query.expiration">{{query.expiration}}</span></td>
-					<td v-if="columns.includes('Duration')">{{query.duration | round(3)}} ms</td>
+					<td v-if="columns.includes('Duration')">{{round(query.duration, 3)}} ms</td>
 				</tr>
 			</template>
 		</details-table>

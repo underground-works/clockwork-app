@@ -71,7 +71,7 @@
 
 			<div class="content-meta">
 				<div class="meta-date" v-if="$request && $request.time">
-					{{ $request.time * 1000 | moment('Y-MM-DD HH:mm:ss') }}
+					{{ date($request.time * 1000, 'Y-MM-dd HH:mm:ss') }}
 				</div>
 				<div class="meta-id" v-if="$request">
 					<a :href="shareUrl">{{ $request.id }}</a>

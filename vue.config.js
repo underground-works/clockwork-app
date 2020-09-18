@@ -9,7 +9,11 @@ module.exports = {
 
 		svgRule.uses.clear()
 
-		svgRule.use('vue-svg-loader')
+		svgRule
+			.use('vue-loader')
+			.loader('vue-loader')
+			.end()
+			.use('vue-svg-loader')
 			.loader('vue-svg-loader')
 			.options({ svgo: { plugins: [{ removeDimensions: true }, { removeViewBox: false }] } })
 	}

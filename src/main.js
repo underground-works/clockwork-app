@@ -1,7 +1,3 @@
-import App from './App.vue'
-import Vue from 'vue'
-
-import './vendor'
 // import './registerServiceWorker'
 
 import Extension from './platform/extension'
@@ -36,27 +32,13 @@ let $whatsNew = new WhatsNew($settings)
 
 let global = {
 	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $store, $updateNotification,
-	$whatsNew,
+	$whatsNew, $editorLinks, $textFilters,
 	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true, defaultAppearance: 'light'
 }
 
 $platform.init(global)
-$editorLinks.register()
 $onDemand.enableProfiling()
-$textFilters.register()
 
-Vue.mixin({
-	data: () => ({ global }),
-	computed: Object.entries(global).reduce((result, [ key, value ]) => {
-		result[key] = function () { return this.global[key] }
-		return result
-	}, {})
-})
+import createApp from './vue'
 
-import Icon from './components/UI/Icon'
-
-Vue.component('icon', Icon)
-
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
+createApp(global).mount('#app')

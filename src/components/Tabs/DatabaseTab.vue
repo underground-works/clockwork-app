@@ -37,7 +37,7 @@
 
 		<details-table title="Queries" icon="database" :columns="columns" :items="$request.databaseQueries" :filter="filter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100" v-if="$request.databaseQueries.length">
 			<template slot="body" slot-scope="{ items }">
-				<tr v-for="query, index in items" :key="`${$request.id}-${index}`" :class="{ 'database-slow-query': query.tags.includes('slow') }">
+				<tr v-for="query, index in items" :class="{ 'database-slow-query': query.tags.includes('slow') }" :key="`${$request.id}-${index}`">
 					<td>
 						<shortened-text :full="query.model">{{query.shortModel}}</shortened-text>
 					</td>
@@ -54,7 +54,7 @@
 						</div>
 					</td>
 					<td class="database-duration">
-						<span v-if="query.duration">{{query.duration | round(3)}} ms</span>
+						<span v-if="query.duration">{{round(query.duration, 3)}} ms</span>
 					</td>
 				</tr>
 			</template>

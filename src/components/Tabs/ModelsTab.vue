@@ -30,8 +30,8 @@
 
 		<details-table title="Actions" icon="activity" class="models-actions" :columns="[ 'Model', '', '' ]" :items="$request.modelsActions" :filter="actionsFilter" filter-example="App\User action:updated" v-if="activeModelsTab == 'actions'">
 			<template slot="body" slot-scope="{ items }">
-				<template v-for="action, index in items">
-					<tr class="actions-action" :key="`${$request.id}-models-actions-${index}`">
+				<template v-for="action, index in items" :key="`${$request.id}-models-actions-${index}`">
+					<tr class="actions-action">
 						<td class="action-model">
 							<div class="model-content">
 								<div class="content-text">
@@ -54,7 +54,7 @@
 						</td>
 					</tr>
 
-					<tr class="actions-details" v-show="action.isShowingDetails" :key="`${$request.id}-models-actions-details-${index}`">
+					<tr class="actions-details" v-show="action.isShowingDetails">
 						<td colspan="3">
 							<div class="details-row" v-if="action.attributes">
 								<div class="row-group">
@@ -75,7 +75,7 @@
 								</div>
 								<div class="row-group" v-if="action.duration">
 									<h4>Duration</h4>
-									<span>{{action.duration | round(3)}} ms</span>
+									<span>{{round(action.duration, 3)}} ms</span>
 								</div>
 								<div class="row-group" v-if="action.connection">
 									<h4>Connection</h4>
@@ -90,8 +90,8 @@
 
 		<details-table title="Models" icon="hash" class="models-counts" :columns="[ 'Model', 'Retrieved', 'Created', 'Updated', 'Deleted' ]" :items="modelsCounts" :filter="countsFilter" filter-example="App\User retrieved:>10" v-if="activeModelsTab == 'models'">
 			<template slot="body" slot-scope="{ items }">
-				<template v-for="counts, index in items">
-					<tr :key="`${$request.id}-models-counts-${index}`">
+				<template v-for="counts, index in items" :key="`${$request.id}-models-counts-${index}`">
+					<tr>
 						<td class="counts-model">
 							<shortened-text :full="counts.model">{{counts.shortModel}}</shortened-text>
 						</td>
