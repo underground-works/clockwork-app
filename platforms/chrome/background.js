@@ -26,7 +26,7 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 				return callback({ error: 'requires-authentication', message: data.message, requires: data.requires })
 			}
 
-			if (! (data instanceof Object) || ! Object.keys(data).length) {
+			if (! (data instanceof Array) && (! (data instanceof Object) || ! Object.keys(data).length)) {
 				return callback({ error: 'empty-response', message: 'Server returned an empty metadata.' })
 			}
 

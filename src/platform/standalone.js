@@ -53,7 +53,7 @@ export default class Standalone
 							throw { error: 'requires-authentication', message: data.message, requires: data.requires }
 						} else if (response.status != 200) {
 							throw { error: 'error-response', message: 'Server returned an error response.' }
-						} else if (! (data instanceof Object) || ! Object.keys(data).length) {
+						} else if (! (data instanceof Array) && (! (data instanceof Object) || ! Object.keys(data).length)) {
 							throw { error: 'empty-response', message: 'Server returned an empty metadata.' }
 						}
 
@@ -109,14 +109,14 @@ export default class Standalone
 	pollRequests() {
 		clearTimeout(this.pollTimeout)
 
-		this.requests.loadNext().then(() => {
+		this.requests.loadNext().then(requests => {
 			if (! this.settings.global.preserveLog) {
 				this.requests.setItems(this.requests.all().slice(-1))
 			}
 
-			this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
+			this.pollTimeout = setTimeout(() => this.pollRequests(), this.updatePollingInterval(requests.length))
 		}).catch(() => {
-			this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
+			this.pollTimeout = setTimeout(() => this.pollRequests(), this.updatePollingInterval(false))
 		})
 	}
 
@@ -126,6 +126,22 @@ export default class Standalone
 
 			if (! document.hidden) this.pollRequests()
 		});
+	}
+
+	updatePollingInterval(requestsReceived) {
+		let currentTime = (new Date).getTime()
+
+		if (requestsReceived || ! this.pollingLastReceived) {
+			this.pollingLastReceived = currentTime
+		}
+
+		if (currentTime - this.pollingLastReceived > 60000) {
+			return this.pollingInterval = 5000
+		} else if (currentTime - this.pollingLastReceived > 30000) {
+			return this.pollingInterval = 2500
+		} else {
+			return this.pollingInterval = 1000
+		}
 	}
 
 	settingsChanged() {
