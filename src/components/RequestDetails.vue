@@ -49,7 +49,7 @@
 		<div class="details-error-overlay" v-show="$get($request, 'error') && $get($request, 'error.error') != 'requires-authentication'">
 			<icon name="alert-circle"></icon>
 			<p class="title">Error loading request metadata.</p>
-			<p class="message">{{$get($request, 'error.error')}}</p>
+			<p class="message">{{$get($request, 'error.message')}}</p>
 		</div>
 
 		<div class="details-authentication-overlay" :class="{failed:$authentication.failed}" v-show="$authentication.shown">
