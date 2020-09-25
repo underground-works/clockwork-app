@@ -21,6 +21,7 @@ export default class Extension
 		this.setMetadataClient()
 
 		this.listenToRequests()
+		this.throttlePolling()
 
 		this.loadLastRequest()
 	}
