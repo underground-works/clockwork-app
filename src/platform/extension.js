@@ -216,10 +216,10 @@ export default class Extension
 		].filter(Boolean)
 
 		this.requests.withQuery({ 'type[]': types }, () => {
-			this.requests.loadNext().then(() => {
-				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
+			this.requests.loadNext().then(requests => {
+				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.updatePollingInterval(requests.length))
 			}).catch(() => {
-				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.pollingInterval)
+				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.updatePollingInterval(false))
 			})
 		})
 	}
@@ -230,6 +230,22 @@ export default class Extension
 
 			if (! document.hidden && this.isPolling) this.pollRequests()
 		});
+	}
+
+	updatePollingInterval(requestsReceived) {
+		let currentTime = (new Date).getTime()
+
+		if (requestsReceived || ! this.pollingLastReceived) {
+			this.pollingLastReceived = currentTime
+		}
+
+		if (currentTime - this.pollingLastReceived > 60000) {
+			return this.pollingInterval = 5000
+		} else if (currentTime - this.pollingLastReceived > 30000) {
+			return this.pollingInterval = 2500
+		} else {
+			return this.pollingInterval = 1000
+		}
 	}
 
 	settingsChanged() {
