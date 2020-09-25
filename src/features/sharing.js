@@ -49,7 +49,7 @@ export default class Sharing
 	}
 
 	resolveSharedData(request, filter) {
-		let shared = JSON.parse(request.json)
+		let shared = request.original
 
 		if (! filter.log) shared.log = []
 		if (! filter.events) shared.events = []
