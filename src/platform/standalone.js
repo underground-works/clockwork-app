@@ -52,9 +52,9 @@ export default class Standalone
 						if (response.status == 403) {
 							throw { error: 'requires-authentication', message: data.message, requires: data.requires }
 						} else if (response.status != 200) {
-							throw { error: 'Server returned an error response.' }
+							throw { error: 'error-response', message: 'Server returned an error response.' }
 						} else if (! (data instanceof Object) || ! Object.keys(data).length) {
-							throw { error: 'Server returned an empty metadata.' }
+							throw { error: 'empty-response', message: 'Server returned an empty metadata.' }
 						}
 
 						return data

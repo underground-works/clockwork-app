@@ -11,7 +11,7 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 			if (xhr.readyState != 4) return
 
 			if (xhr.status != 200 && xhr.status != 403) {
-				return callback({ error: 'Server returned an error response.' })
+				return callback({ error: 'error-response', message: 'Server returned an error response.' })
 			}
 
 			let data
@@ -19,7 +19,7 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 			try {
 				data = JSON.parse(xhr.responseText)
 			} catch (e) {
-				return callback({ error: 'Server returned an invalid JSON.' })
+				return callback({ error: 'invalid-json', message: 'Server returned an invalid JSON.' })
 			}
 
 			if (xhr.status == 403) {
@@ -27,7 +27,7 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 			}
 
 			if (! (data instanceof Object) || ! Object.keys(data).length) {
-				return callback({ error: 'Server returned an empty metadata.' })
+				return callback({ error: 'empty-response', message: 'Server returned an empty metadata.' })
 			}
 
 			callback({ data })

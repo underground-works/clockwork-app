@@ -100,7 +100,8 @@ export default class Extension
 			this.requests.setRemote(message.request.url, options)
 
 			let request = Request.placeholder(options.id, message.request)
-			this.requests.loadId(options.id, null, request)
+
+			this.requests.loadId(options.id, null, request).then(() => this.retryLoading(request))
 
 			options.subrequests.forEach(subrequest => {
 				this.requests.setRemote(subrequest.url, { path: subrequest.path })
@@ -108,11 +109,11 @@ export default class Extension
 			})
 
 			this.requests.setRemote(message.request.url, options)
-
-			if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests || ! this.settings.global.hideTestTypeRequests) {
-				this.startPollingRequests()
-			}
 		})
+
+		if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests || ! this.settings.global.hideTestTypeRequests) {
+			this.startPollingRequests()
+		}
 
 		// handle clearing of requests list if we are not preserving log
 		this.api.runtime.onMessage.addListener(message => {
@@ -178,6 +179,16 @@ export default class Extension
 			}, [])
 
 		return { id, path, version, headers, subrequests }
+	}
+
+	retryLoading(request, attempts = 0) {
+		if (! request.error) return
+		if (attempts > 3) return
+
+		setTimeout(
+			() => this.requests.loadId(request.id).then(() => this.retryLoading(request, attempts + 1)),
+			(attempts + 1) * (attempts + 1) * 100
+		)
 	}
 
 	startPollingRequests() {
