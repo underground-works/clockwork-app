@@ -1,13 +1,14 @@
 export default class WhatsNew
 {
-	constructor(settings) {
+	constructor(platform, settings) {
+		this.platform = platform
 		this.settings = settings
 	}
 
 	get show() {
 		// show the what's new content only when not already seen and the seen state can be persisted
 		return this.settings.global.seenReleaseNotesVersion != WhatsNew.latestRelease.version
-			&& this.settings.persistent && this.settings.loaded
+			&& this.settings.persistent && this.settings.loaded && this.platform.hasFeature('whats-new')
 	}
 
 	seen() {

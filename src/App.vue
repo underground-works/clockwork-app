@@ -20,7 +20,7 @@ export default {
 	computed: {
 		appearance() { return this.$settings.appearance },
 		showRequestsList() { return ! this.$settings.global.requestsListCollapsed && this.$platform.hasFeature('requests-list') },
-		showRequestSidebar() { return ! this.$settings.global.requestSidebarCollapsed }
+		showRequestSidebar() { return ! this.$settings.global.requestSidebarCollapsed && this.$platform.hasFeature('request-sidebar') }
 	}
 }
 </script>

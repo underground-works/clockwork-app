@@ -41,7 +41,7 @@ let $requestsSearch = new RequestsSearch($requests)
 let $sharing = new Sharing($platform, $settings)
 let $textFilters = new TextFilters
 let $updateNotification = new UpdateNotification($settings)
-let $whatsNew = new WhatsNew($settings)
+let $whatsNew = new WhatsNew($platform, $settings)
 
 let global = {
 	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $sharing, $store,

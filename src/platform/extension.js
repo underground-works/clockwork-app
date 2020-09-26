@@ -265,7 +265,7 @@ export default class Extension
 	}
 
 	hasFeature(feature) {
-		return true
+		return feature != 'details-request'
 	}
 
 	settingsChanged() {

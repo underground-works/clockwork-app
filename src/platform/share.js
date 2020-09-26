@@ -14,6 +14,8 @@ export default class Share
 		this.setMetadataClient()
 
 		this.loadRequestFromUri()
+
+		this.isTakingScreenshot = Object.keys(URI(window.location.href).query(true)).includes('screenshot')
 	}
 
 	loadRequest(requestId) {
@@ -67,17 +69,19 @@ export default class Share
 	}
 
 	loadRequestFromUri() {
-		let id = URI(window.location.href).fragment()
+		let id = URI(window.location.href).path().split('/').slice(-1)[0]
 
-		if (id) this.requests.loadId(`${id}.json`, false)
-	}
-
-	isTakingScreenshot() {
-		return Object.keys(URI(window.location.href).query(true)).includes('screenshot')
+		this.requests.loadId(`${id}.json`, false)
 	}
 
 	hasFeature(feature) {
-		let disabledFeatures = [ 'profiler', 'requests-list', 'sharing' ]
+		let disabledFeatures = [ 'profiler', 'requests-list', 'sharing', 'whats-new' ]
+
+		if (this.isTakingScreenshot) {
+			disabledFeatures = [ ...disabledFeatures, 'request-sidebar', 'tab-bar' ]
+		} else {
+			disabledFeatures = [ ...disabledFeatures, 'details-request' ]
+		}
 
 		return ! disabledFeatures.includes(feature)
 	}

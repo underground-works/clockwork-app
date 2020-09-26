@@ -149,7 +149,7 @@ export default class Standalone
 	}
 
 	hasFeature(feature) {
-		return true
+		return feature != 'details-request'
 	}
 
 	settingsChanged() {

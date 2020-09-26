@@ -1,7 +1,7 @@
 <template>
 	<div class="split-view-pane split-view-details popover-viewport">
 
-		<div class="details-header">
+		<div class="details-header" v-show="$platform.hasFeature('tab-bar')">
 			<div class="icons">
 				<a href="#" title="Toggle requests" @click.prevent="toggleRequestsList" v-show="$platform.hasFeature('requests-list')">
 					<icon :name="$settings.global.requestsListCollapsed ? 'chevron-right' : 'chevron-left'"></icon>
@@ -23,6 +23,8 @@
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
 			<div class="content-header"></div>
+
+			<details-request v-if="$platform.hasFeature('details-request')"></details-request>
 
 			<div class="content-content">
 				<events-tab :active="activeTab == 'events'"></events-tab>
@@ -77,6 +79,7 @@
 </template>
 
 <script>
+import DetailsRequest from './Details/DetailsRequest'
 import MessagesOverlay from './Details/MessagesOverlay'
 import SettingsModal from './Settings/SettingsModal'
 import SharingModal from './Sharing/SharingModal'
@@ -99,8 +102,8 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, SharingModal, TabBar, CacheTab, DatabaseTab, EventsTab, LogTab, ModelsTab,
-		NotificationsTab, OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
+		DetailsRequest, MessagesOverlay, SettingsModal, SharingModal, TabBar, CacheTab, DatabaseTab, EventsTab, LogTab,
+		ModelsTab, NotificationsTab, OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
 	},
 	computed: {
 		tabs() {
