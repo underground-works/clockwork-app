@@ -2,45 +2,14 @@ let api = chrome || browser
 let lastClockworkRequestPerTab = {}
 
 api.runtime.onMessage.addListener((message, sender, callback) => {
-	if (message.action == 'getJSON') {
-		let xhr = new XMLHttpRequest()
+	if (message.action == 'fetch') {
+		let { method, url, data, headers } = message
 
-		xhr.open(message.method || 'GET', message.url, true)
+		let body = new FormData
+		Object.entries(data).forEach(([ key, value ]) => body.append(key, value))
 
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState != 4) return
-
-			if (xhr.status != 200 && xhr.status != 403) {
-				return callback({ error: 'error-response', message: 'Server returned an error response.' })
-			}
-
-			let data
-
-			try {
-				data = JSON.parse(xhr.responseText)
-			} catch (e) {
-				return callback({ error: 'invalid-json', message: 'Server returned an invalid JSON.' })
-			}
-
-			if (xhr.status == 403) {
-				return callback({ error: 'requires-authentication', message: data.message, requires: data.requires })
-			}
-
-			if (! (data instanceof Array) && (! (data instanceof Object) || ! Object.keys(data).length)) {
-				return callback({ error: 'empty-response', message: 'Server returned an empty metadata.' })
-			}
-
-			callback({ data })
-		}
-
-		Object.keys(message.headers || {}).forEach(headerName => {
-			xhr.setRequestHeader(headerName, message.headers[headerName])
-		})
-
-		let formData = new FormData
-		Object.keys(message.data).forEach(key => formData.append(key, message.data[key]))
-
-		xhr.send(formData)
+		fetch(url, { method, body: Object.keys(data).length ? body : null, headers })
+			.then(response => response.json().then(data => callback({ response: { status: response.status }, data })))
 	} else if (message.action == 'getTabUrl') {
 		api.tabs.get(message.tabId, tab => callback(tab.url))
 	} else if (message.action == 'getLastClockworkRequestInTab') {

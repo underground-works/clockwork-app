@@ -69,7 +69,7 @@ export default class Request
 
 	resolve(request, fields) {
 		return Object.assign(this, fields ? pick(request, fields) : request, {
-			loading: false, error: undefined, original: Object.assign(this.data, request.data)
+			loading: false, error: undefined, original: Object.assign(this.original, request.original)
 		})
 	}
 
