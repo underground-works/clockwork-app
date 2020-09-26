@@ -1,3 +1,5 @@
+import clone from 'just-clone'
+
 export default class Sharing
 {
 	constructor($platform, $settings) {
@@ -41,10 +43,14 @@ export default class Sharing
 	}
 
 	resolveSharedData(request, filter) {
-		let shared = request.original
+		let shared = clone(request.original)
 
 		if (! filter.log) shared.log = []
 		if (! filter.events) shared.events = []
+		if (! filter.models) {
+			shared.modelsActions = []
+			shared.modelsRetrieved = shared.modelsCreated = shared.modelsUpdated = shared.modelsDeleted = undefined
+		}
 		if (! filter.database) {
 			shared.databaseQueries = []
 			shared.databaseQueriesCount = shared.databaseSlowQueries = shared.databaseSelects = shared.databaseInserts
@@ -57,7 +63,7 @@ export default class Sharing
 		if (! filter.redis) shared.redisCommands = []
 		if (! filter.queue) shared.queueJobs = []
 		if (! filter.views) shared.viewsData = []
-		if (! filter.emails) shared.emailsData = []
+		if (! filter.notifications) shared.notifications = shared.emailsData = []
 		if (! filter.routes) shared.routes = []
 		if (! filter.output) shared.commandOutput = undefined
 		if (! filter.userData) shared.userData = []
