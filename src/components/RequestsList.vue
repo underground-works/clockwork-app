@@ -456,7 +456,7 @@ export default {
 	.requests-container {
 		height: calc(100% - 31px);
 		overflow: auto;
-		padding: 4px;
+		padding: 5px;
 	}
 
 	.requests-content {
@@ -465,7 +465,11 @@ export default {
 		min-height: calc(100% + 69px);
 
 		.content-above {
-			padding-top: 6px;
+			padding-top: 2px;
+
+			.button {
+				font-size: 13px;
+			}
 		}
 	}
 
@@ -475,7 +479,8 @@ export default {
 	}
 
 	.requests-clear {
-		margin-bottom: 4px;
+		font-size: 13px;
+		margin-bottom: 5px;
 		margin-top: 5px;
 		font-size: 12px;
 	}

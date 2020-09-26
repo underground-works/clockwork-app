@@ -5,7 +5,6 @@ export default class Sharing
 		this.$settings = $settings
 
 		this.shown = false
-		this.termsShown = false
 		this.inProgress = false
 	}
 
@@ -16,17 +15,10 @@ export default class Sharing
 	acceptTerms() {
 		this.$settings.global.shareTermsAccepted = true
 		this.$settings.save()
-
-		this.termsShown = false
-		setTimeout(() => this.shown = true, 100)
 	}
 
 	toggle() {
-		if (this.termsAccepted) {
-			this.shown = ! this.shown
-		} else {
-			this.termsShown = ! this.termsShown
-		}
+		this.shown = ! this.shown
 	}
 
 	clear(request) {

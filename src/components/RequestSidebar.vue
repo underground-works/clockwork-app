@@ -69,10 +69,18 @@
 			<test-tab v-if="$request && $request.isTest()"></test-tab>
 			<request-tab v-else-if="$request"></request-tab>
 
+			<div class="content-actions">
+				<a href="#" class="button" @click.prevent="toggleShareModal">
+					<icon name="share"></icon>
+					Share
+				</a>
+			</div>
+
 			<div class="content-meta">
 				<div class="meta-date" v-if="$request && $request.time">
 					{{ $request.time * 1000 | moment('Y-MM-DD HH:mm:ss') }}
 				</div>
+
 				<div class="meta-id" v-if="$request">
 					<a :href="shareUrl">{{ $request.id }}</a>
 				</div>
@@ -95,6 +103,11 @@ export default {
 	computed: {
 		shareUrl() {
 			return this.$request ? `${window.location.origin}#${this.$request.id}` : '#'
+		}
+	},
+	methods: {
+		toggleShareModal() {
+			this.$sharing.toggle()
 		}
 	}
 }
@@ -270,13 +283,21 @@ export default {
 		flex-direction: column;
 		overflow: auto;
 
+		.content-actions {
+			padding: 14px 12px;
+
+			.button {
+				font-size: 13px;
+			}
+		}
+
 		.content-meta {
 			margin-top: auto;
-			padding: 10px 0;
+			padding: 10px 12px;
 			text-align: center;
 
 			.meta-id {
-				margin-top: 4px;
+				margin-top: 5px;
 
 				a {
 					color: rgb(128, 128, 128);
