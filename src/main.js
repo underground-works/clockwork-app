@@ -6,6 +6,7 @@ import './vendor'
 
 import Extension from './platform/extension'
 import Standalone from './platform/standalone'
+import Share from './platform/share'
 
 import Authentication from './features/authentication'
 import EditorLinks from './features/editor-links'
@@ -20,7 +21,13 @@ import TextFilters from './features/text-filters'
 import UpdateNotification from './features/update-notification'
 import WhatsNew from './features/whats-new'
 
-let $platform = Extension.runningAsExtension() ? new Extension : new Standalone
+let $platform
+
+if (process.env.VUE_APP_PLATFORM == 'share') {
+	$platform = new Share
+} else {
+	$platform = Extension.runningAsExtension() ? new Extension : new Standalone
+}
 
 let $store = new LocalStore
 let $requests = new Requests

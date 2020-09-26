@@ -70,7 +70,7 @@
 			<request-tab v-else-if="$request"></request-tab>
 
 			<div class="content-actions">
-				<a href="#" class="button" @click.prevent="toggleShareModal">
+				<a href="#" class="button" @click.prevent="toggleShareModal" v-show="$platform.hasFeature('sharing')">
 					<icon name="share"></icon>
 					Share
 				</a>

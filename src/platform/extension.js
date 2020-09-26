@@ -264,6 +264,10 @@ export default class Extension
 		}
 	}
 
+	hasFeature(feature) {
+		return true
+	}
+
 	settingsChanged() {
 		if (this.settings.global.hideCommandTypeRequests && this.settings.global.hideQueueJobTypeRequests && this.settings.global.hideTestTypeRequests) {
 			this.stopPollingRequests()

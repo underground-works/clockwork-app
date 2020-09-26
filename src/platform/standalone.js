@@ -148,6 +148,10 @@ export default class Standalone
 		}
 	}
 
+	hasFeature(feature) {
+		return true
+	}
+
 	settingsChanged() {
 	}
 }
