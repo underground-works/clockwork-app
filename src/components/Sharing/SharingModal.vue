@@ -14,6 +14,8 @@
 					</label>
 				</div>
 
+				<p class="error-message" v-if="error">{{errorMessage}}</p>
+
 				<a href="#" class="button" @click.prevent="share">
 					<template v-if="isCopied">
 						Copied to clipboard!
@@ -78,7 +80,8 @@ export default {
 			userData: true
 		},
 
-		isCopied: false
+		isCopied: false,
+		error: false
 	}),
 	computed: {
 		sections() {
@@ -120,11 +123,20 @@ export default {
 		filterAll: {
 			get() { return this.sections.every(s => ! s.available || this.filter[s.name]) },
 			set(checked) { this.sections.filter(s => s.available && ! s.readonly).forEach(s => this.filter[s.name] = checked) }
+		},
+
+		errorMessage() {
+			if (this.error == 'metadata-too-large') return 'Shared request metadata is too large, please try selecting fewer sections.'
+			if (this.error == 'temporarily-unavailable') return 'Share service is temporarily unavailable, please try again later.'
+
+			return 'Unexpected error, please try again later.'
 		}
 	},
 	methods: {
 		share() {
-			this.$sharing.share(this.$request, this.filter).then(() => {
+			this.$sharing.share(this.$request, this.filter).then(data => {
+				if (data.error) return this.error = data.error
+
 				this.$copyText(this.$request.shareUrl).then(() => this.isCopied = true)
 			})
 		}
@@ -139,7 +151,7 @@ export default {
 		},
 
 		"$request": function () { this.isCopied = false },
-		"$sharing.shown": function () { this.isCopied = false }
+		"$sharing.shown": function () { this.isCopied = this.error = false }
 	}
 }
 </script>
@@ -215,6 +227,10 @@ export default {
 				display: none;
 			}
 		}
+	}
+
+	.error-message {
+		text-align: center;
 	}
 
 	.button {

@@ -39,12 +39,16 @@ export default class Sharing
 		this.inProgress = true
 
 		return this.$platform.fetch('POST', process.env.VUE_APP_SHARING_URL, { data: this.resolveSharedData(request, filter) })
-			.then(({data}) => {
+			.then(({response, data}) => {
 				this.inProgress = false
+
+				if (response.status == 500) return { error: 'server-error' }
 
 				request.shareId = data.shareId
 				request.shareUrl = data.shareUrl
 				request.shareImageUrl = data.shareImageUrl
+
+				return data
 			})
 	}
 
