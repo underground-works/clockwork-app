@@ -1,4 +1,5 @@
 import clone from 'just-clone'
+import URI from 'urijs'
 
 export default class Sharing
 {
@@ -7,6 +8,7 @@ export default class Sharing
 		this.$settings = $settings
 
 		this.shown = false
+		this.shownDelete = false
 		this.inProgress = false
 	}
 
@@ -21,6 +23,10 @@ export default class Sharing
 
 	toggle() {
 		this.shown = ! this.shown
+	}
+
+	toggleDelete() {
+		this.shownDelete = ! this.shownDelete
 	}
 
 	clear(request) {
@@ -69,5 +75,11 @@ export default class Sharing
 		if (! filter.userData) shared.userData = []
 
 		return JSON.stringify(shared)
+	}
+
+	deleteShared() {
+		let id = URI(window.location.href).path().split('/').slice(-1)[0]
+
+		return this.$platform.fetch('POST', window.location, { '_method': 'delete' })
 	}
 }

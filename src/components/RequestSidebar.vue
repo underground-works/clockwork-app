@@ -70,9 +70,14 @@
 			<request-tab v-else-if="$request"></request-tab>
 
 			<div class="content-actions">
-				<a href="#" class="button" @click.prevent="toggleShareModal" v-show="$platform.hasFeature('sharing')">
+				<a href="#" class="button" @click.prevent="$sharing.toggle()" v-show="$platform.hasFeature('sharing')">
 					<icon name="share"></icon>
 					Share
+				</a>
+
+				<a href="#" class="button" @click.prevent="$sharing.toggleDelete()" v-show="$platform.hasFeature('delete-shared')">
+					<icon name="trash-2"></icon>
+					Delete
 				</a>
 			</div>
 
@@ -103,11 +108,6 @@ export default {
 	computed: {
 		shareUrl() {
 			return this.$request ? `${window.location.origin}#${this.$request.id}` : '#'
-		}
-	},
-	methods: {
-		toggleShareModal() {
-			this.$sharing.toggle()
 		}
 	}
 }
@@ -288,6 +288,7 @@ export default {
 
 			.button {
 				font-size: 13px;
+				margin-bottom: 10px;
 			}
 		}
 

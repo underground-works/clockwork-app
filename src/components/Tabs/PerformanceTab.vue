@@ -104,7 +104,7 @@ export default {
 		refreshRequest() {
 			if (! this.active || ! this.$request) return
 
-			this.$request.loadClientMetrics(this.$requests)
+			if (this.$platform.hasFeature('load-client-metrics')) this.$request.loadClientMetrics(this.$requests)
 
 			if (this.activePerformanceTab == 'profiler') this.$profiler.loadRequest(this.$request)
 		}

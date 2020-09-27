@@ -9,6 +9,7 @@ import ActivityIcon from 'feather-icons/dist/icons/activity.svg'
 import AlertCircleIcon from 'feather-icons/dist/icons/alert-circle.svg'
 import AlertTriangleIcon from 'feather-icons/dist/icons/alert-triangle.svg'
 import ArrowDownCircleIcon from 'feather-icons/dist/icons/arrow-down-circle.svg'
+import CheckCircleIcon from 'feather-icons/dist/icons/check-circle.svg'
 import ChevronDownIcon from 'feather-icons/dist/icons/chevron-down.svg'
 import ChevronLeftIcon from 'feather-icons/dist/icons/chevron-left.svg'
 import ChevronRightIcon from 'feather-icons/dist/icons/chevron-right.svg'
@@ -38,6 +39,7 @@ import SlashIcon from 'feather-icons/dist/icons/slash.svg'
 import SmileIcon from 'feather-icons/dist/icons/smile.svg'
 import StarIcon from 'feather-icons/dist/icons/star.svg'
 import TerminalIcon from 'feather-icons/dist/icons/terminal.svg'
+import Trash2Icon from 'feather-icons/dist/icons/trash-2.svg'
 import UserIcon from 'feather-icons/dist/icons/user.svg'
 import UsersIcon from 'feather-icons/dist/icons/users.svg'
 import XIcon from 'feather-icons/dist/icons/x.svg'
@@ -47,11 +49,11 @@ import ZapIcon from 'feather-icons/dist/icons/zap.svg'
 export default {
 	name: 'Icon',
 	components: {
-		ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, ChevronDownIcon, ChevronLeftIcon,
-		ChevronRightIcon, ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, DiscIcon, Edit2Icon, HashIcon,
-		HelpCircleIcon, ImageIcon, InfoIcon, LayersIcon, LinkIcon, LockIcon, MailIcon, MapIcon, MenuIcon, PaperclipIcon,
-		PercentIcon, PieChartIcon, SearchIcon, SettingsIcon, ShareIcon, SlashIcon, SmileIcon, StarIcon, TerminalIcon,
-		UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
+		ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, CheckCircleIcon, ChevronDownIcon,
+		ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, DiscIcon, Edit2Icon,
+		HashIcon, HelpCircleIcon, ImageIcon, InfoIcon, LayersIcon, LinkIcon, LockIcon, MailIcon, MapIcon, MenuIcon,
+		PaperclipIcon, PercentIcon, PieChartIcon, SearchIcon, SettingsIcon, ShareIcon, SlashIcon, SmileIcon, StarIcon,
+		TerminalIcon, Trash2Icon, UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
 	},
 	props: [ 'name' ],
 	computed: {

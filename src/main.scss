@@ -383,7 +383,7 @@ a {
 	position: absolute;
 	top: 31px;
 	width: 100%;
-	z-index: 999;
+	z-index: 500;
 
 	@include dark {
 		background: rgb(31, 31, 31);
