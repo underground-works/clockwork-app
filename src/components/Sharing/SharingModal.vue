@@ -135,7 +135,7 @@ export default {
 	methods: {
 		share() {
 			this.$sharing.share(this.$request, this.filter).then(data => {
-				if (data.error) return this.error = data.error
+				if (data && data.error) return this.error = data.error
 
 				this.$copyText(this.$request.shareUrl).then(() => this.isCopied = true)
 			})
