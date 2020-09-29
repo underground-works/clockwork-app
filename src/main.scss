@@ -57,7 +57,7 @@ a {
 
 .button {
 	align-items: center;
-	background: hsl(30, 1, 96);
+	background: hsl(30, 1, 94);
 	border-radius: 4px;
 	color: dimgrey;
 	display: flex;
@@ -66,7 +66,7 @@ a {
 	text-decoration: none;
 
 	@include dark {
-		background: hsl(30, 1, 16);
+		background: hsl(30, 1, 18);
 	}
 
 	&:hover {
@@ -383,7 +383,7 @@ a {
 	position: absolute;
 	top: 31px;
 	width: 100%;
-	z-index: 999;
+	z-index: 500;
 
 	@include dark {
 		background: rgb(31, 31, 31);

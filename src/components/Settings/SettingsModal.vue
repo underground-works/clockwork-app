@@ -71,7 +71,7 @@
 				</div>
 			</div>
 
-			<div class="controls-group">
+			<div class="controls-group" v-show="$platform.hasFeature('requests-list')">
 				<label for="settings-on-demand-secret">On-demand</label>
 
 				<div class="controls">
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 
-			<div class="controls-group">
+			<div class="controls-group" v-show="$platform.hasFeature('requests-list')">
 				<label></label>
 
 				<div class="controls">
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 
-			<div class="controls-group">
+			<div class="controls-group" v-show="$platform.hasFeature('requests-list')">
 				<label></label>
 
 				<div class="controls">

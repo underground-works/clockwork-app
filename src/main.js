@@ -6,6 +6,7 @@ import './vendor'
 
 import Extension from './platform/extension'
 import Standalone from './platform/standalone'
+import Share from './platform/share'
 
 import Authentication from './features/authentication'
 import EditorLinks from './features/editor-links'
@@ -15,11 +16,18 @@ import Profiler from './features/profiler'
 import Requests from './features/requests'
 import RequestsSearch from './features/requests-search'
 import Settings from './features/settings'
+import Sharing from './features/sharing'
 import TextFilters from './features/text-filters'
 import UpdateNotification from './features/update-notification'
 import WhatsNew from './features/whats-new'
 
-let $platform = Extension.runningAsExtension() ? new Extension : new Standalone
+let $platform
+
+if (process.env.VUE_APP_PLATFORM == 'share') {
+	$platform = new Share
+} else {
+	$platform = Extension.runningAsExtension() ? new Extension : new Standalone
+}
 
 let $store = new LocalStore
 let $requests = new Requests
@@ -30,14 +38,15 @@ let $editorLinks = new EditorLinks($settings)
 let $onDemand = new OnDemand($platform, $settings)
 let $profiler = new Profiler($requests, $platform)
 let $requestsSearch = new RequestsSearch($requests)
+let $sharing = new Sharing($platform, $settings)
 let $textFilters = new TextFilters
 let $updateNotification = new UpdateNotification($settings)
-let $whatsNew = new WhatsNew($settings)
+let $whatsNew = new WhatsNew($platform, $settings)
 
 let global = {
-	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $store, $updateNotification,
-	$whatsNew,
-	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true, defaultAppearance: 'light'
+	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $sharing, $store,
+	$updateNotification, $whatsNew,
+	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true
 }
 
 $platform.init(global)

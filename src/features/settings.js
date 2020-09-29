@@ -16,6 +16,8 @@ export default class Settings
 		this.loaded = false
 		this.settings = this.defaults()
 
+		this.defaultAppearance = 'light'
+
 		this.load()
 	}
 
@@ -33,6 +35,10 @@ export default class Settings
 
 	get persistent() {
 		return this.store.persistent
+	}
+
+	get appearance() {
+		return this.global.appearance != 'auto' ? this.global.appearance : this.defaultAppearance
 	}
 
 	toggle() {
@@ -77,6 +83,7 @@ export default class Settings
 					asserts: false
 				},
 				seenReleaseNotesVersion: null,
+				shareTermsAccepted: false,
 				timelineCondensed: { performance: true, views: false },
 				timelineHiddenTags: {},
 				viewsTimelineCondensed: false

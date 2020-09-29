@@ -28,7 +28,7 @@ export default class Extension
 
 	useProperTheme() {
 		if (this.api.devtools.panels.themeName === 'dark') {
-			this.global.defaultAppearance = 'dark'
+			this.settings.defaultAppearance = 'dark'
 		}
 	}
 
@@ -38,21 +38,37 @@ export default class Extension
 
 	setMetadataClient() {
 		this.requests.setClient((method, url, data, headers) => {
-			return new Promise((accept, reject) => {
-				let isProfiling = this.profiler.isProfiling
+			let isProfiling = this.profiler.isProfiling
 
-				let makeRequest = () => {
-					this.api.runtime.sendMessage(
-						{ action: 'getJSON', method, url, data, headers }, (message) => {
-							if (isProfiling) this.profiler.enableProfiling()
-
-							message.error ? reject(message) : accept(message.data)
+			let makeRequest = () => {
+				return this.fetch(method, url, data, headers)
+					.then(({ response, data }) => {
+						if (response.status == 403) {
+							throw { error: 'requires-authentication', message: data.message, requires: data.requires }
+						} else if (response.status != 200) {
+							throw { error: 'error-response', message: 'Server returned an error response.' }
+						} else if (! (data instanceof Array) && (! (data instanceof Object) || ! Object.keys(data).length)) {
+							throw { error: 'empty-response', message: 'Server returned an empty metadata.' }
 						}
-					)
-				}
 
-				isProfiling ? this.profiler.disableProfiling().then(makeRequest) : makeRequest()
-			})
+						return data
+					})
+					.then(data => {
+						if (isProfiling) this.profiler.enableProfiling()
+
+						return data
+					})
+			}
+
+			return isProfiling ? this.profiler.disableProfiling().then(makeRequest) : makeRequest()
+		})
+	}
+
+	fetch(method, url, data, headers) {
+		return new Promise((accept, reject) => {
+			this.api.runtime.sendMessage(
+				{ action: 'fetch', method, url, data, headers }, message => accept(message)
+			)
 		})
 	}
 
@@ -246,6 +262,10 @@ export default class Extension
 		} else {
 			return this.pollingInterval = 1000
 		}
+	}
+
+	hasFeature(feature) {
+		return feature != 'details-request'
 	}
 
 	settingsChanged() {

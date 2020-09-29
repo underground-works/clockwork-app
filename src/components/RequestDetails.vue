@@ -1,9 +1,9 @@
 <template>
 	<div class="split-view-pane split-view-details popover-viewport">
 
-		<div class="details-header">
+		<div class="details-header" v-show="$platform.hasFeature('tab-bar')">
 			<div class="icons">
-				<a href="#" title="Toggle requests" @click="toggleRequestsList">
+				<a href="#" title="Toggle requests" @click.prevent="toggleRequestsList" v-show="$platform.hasFeature('requests-list')">
 					<icon :name="$settings.global.requestsListCollapsed ? 'chevron-right' : 'chevron-left'"></icon>
 				</a>
 			</div>
@@ -11,10 +11,10 @@
 			<tab-bar :tabs="tabs" :active-tab="activeTab" @tab-selected="showTab"></tab-bar>
 
 			<div class="icons">
-				<a href="#" title="Settings" @click="toggleSettingsModal" :class="{'active': $settings.shown}">
+				<a href="#" title="Settings" @click.prevent="toggleSettingsModal" :class="{'active': $settings.shown}">
 					<icon name="settings"></icon>
 				</a>
-				<a href="#" title="Toggle sidebar" @click="toggleRequestSidebar">
+				<a href="#" title="Toggle sidebar" @click.prevent="toggleRequestSidebar">
 					<icon :name="$settings.global.requestSidebarCollapsed ? 'chevron-left' : 'chevron-right'"></icon>
 				</a>
 			</div>
@@ -23,6 +23,8 @@
 		<div class="details-content" v-if="$request && ! $request.loading && ! $request.error">
 
 			<div class="content-header"></div>
+
+			<details-request v-if="$platform.hasFeature('details-request')"></details-request>
 
 			<div class="content-content">
 				<events-tab :active="activeTab == 'events'"></events-tab>
@@ -71,13 +73,18 @@
 		</div>
 
 		<settings-modal></settings-modal>
+		<sharing-modal></sharing-modal>
+		<sharing-delete-modal></sharing-delete-modal>
 		<messages-overlay></messages-overlay>
 	</div>
 </template>
 
 <script>
+import DetailsRequest from './Details/DetailsRequest'
 import MessagesOverlay from './Details/MessagesOverlay'
 import SettingsModal from './Settings/SettingsModal'
+import SharingModal from './Sharing/SharingModal'
+import SharingDeleteModal from './Sharing/SharingDeleteModal'
 import TabBar from './Details/TabBar'
 
 import CacheTab from './Tabs/CacheTab'
@@ -97,8 +104,9 @@ import ViewsTab from './Tabs/ViewsTab'
 export default {
 	name: 'RequestDetails',
 	components: {
-		MessagesOverlay, SettingsModal, TabBar, CacheTab, DatabaseTab, EventsTab, LogTab, ModelsTab, NotificationsTab,
-		OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab, UserTab, ViewsTab
+		DetailsRequest, MessagesOverlay, SettingsModal, SharingModal, SharingDeleteModal, TabBar, CacheTab, DatabaseTab,
+		EventsTab, LogTab, ModelsTab, NotificationsTab, OutputTab, PerformanceTab, RedisTab, QueueTab, RoutesTab,
+		UserTab, ViewsTab
 	},
 	computed: {
 		tabs() {

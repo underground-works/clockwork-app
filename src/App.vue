@@ -1,8 +1,8 @@
 <template>
 	<div class="application split-view" :class="appearance">
-		<requests-list v-show="! $settings.global.requestsListCollapsed"></requests-list>
+		<requests-list v-show="showRequestsList"></requests-list>
 		<request-details></request-details>
-		<request-sidebar v-show="! $settings.global.requestSidebarCollapsed"></request-sidebar>
+		<request-sidebar v-show="showRequestSidebar"></request-sidebar>
 
 		<whats-new></whats-new>
 	</div>
@@ -18,9 +18,9 @@ export default {
 	name: 'App',
 	components: { RequestDetails, RequestSidebar, RequestsList, WhatsNew },
 	computed: {
-		appearance() {
-			return this.$settings.global.appearance != 'auto' ? this.$settings.global.appearance : this.defaultAppearance
-		}
+		appearance() { return this.$settings.appearance },
+		showRequestsList() { return ! this.$settings.global.requestsListCollapsed && this.$platform.hasFeature('requests-list') },
+		showRequestSidebar() { return ! this.$settings.global.requestSidebarCollapsed && this.$platform.hasFeature('request-sidebar') }
 	}
 }
 </script>
