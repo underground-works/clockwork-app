@@ -50,6 +50,11 @@ export default class Sharing
 
 				return data
 			})
+			.catch(() => {
+				this.inProgress = false
+
+				return { error: 'server-error' }
+			})
 	}
 
 	resolveSharedData(request, filter) {
