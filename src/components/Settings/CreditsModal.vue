@@ -32,9 +32,9 @@
 			<h2>Sponsored by</h2>
 
 			<div class="credits-sponsors">
-				<div class="sponsors-sponsor" v-for="sponsor in credits.app.sponsors">
-					<div class="sponsor-avatar" :style="`background-image:url(${sponsor.avatarUrl};`" :title="sponsor.name"></div>
-				</div>
+				<a class="sponsors-sponsor" :href="sponsor.url" target="_blank" :title="sponsor.userName" v-for="sponsor in credits.app.sponsors">
+					<div class="sponsor-avatar" :style="`background-image:url(${sponsor.avatarUrl};`"></div>
+				</a>
 			</div>
 
 			<h2>Built with</h2>
