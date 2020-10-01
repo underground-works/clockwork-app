@@ -4,65 +4,71 @@
 			<h1>Clockwork App</h1>
 			<p class="credits-version">Version {{$credits.version}}</p>
 
-			<h2>Created by</h2>
+			<div>
+				<h2>Created by</h2>
 
-			<div class="credits-authors">
-				<div class="authors-author" v-for="author in $credits.authors">
-					<div class="author-avatar" :style="`background-image:url(${author.avatarUrl};`"></div>
-					<div>
-						<div class="author-name">{{author.name}}</div>
-						<div class="author-links">
-							<a :href="author.twitterUrl" target="_blank"><icon name="twitter"></icon></a>
-							<a :href="author.githubUrl" target="_blank"><icon name="github"></icon></a>
-							<a :href="author.sponsorUrl" target="_blank"><icon name="heart"></icon></a>
+				<div class="credits-authors">
+					<div class="authors-author" v-for="author in $credits.authors">
+						<div class="author-avatar" :style="`background-image:url(${author.avatarUrl};`"></div>
+						<div>
+							<div class="author-name">{{author.name}}</div>
+							<div class="author-links">
+								<a :href="author.twitterUrl" target="_blank"><icon name="twitter"></icon></a>
+								<a :href="author.githubUrl" target="_blank"><icon name="github"></icon></a>
+								<a :href="author.sponsorUrl" target="_blank"><icon name="heart"></icon></a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="credits-contributors">
-				<a class="contributors-contributor" :href="contributor.url" target="_blank" :title="contributor.userName" v-for="contributor in credits.app.contributors">
-					<div class="contributor-avatar" :style="`background-image:url(${contributor.avatarUrl};`"></div>
-				</a>
-				<a class="contributors-contributor" :href="contributor.url" target="_blank" :title="contributor.userName" v-for="contributor in credits.php.contributors">
-					<div class="contributor-avatar" :style="`background-image:url(${contributor.avatarUrl};`"></div>
-				</a>
-			</div>
-
-			<h2>Sponsored by</h2>
-
-			<div class="credits-sponsors">
-				<a class="sponsors-sponsor" :href="sponsor.url" target="_blank" :title="sponsor.userName" v-for="sponsor in credits.app.sponsors">
-					<div class="sponsor-avatar" :style="`background-image:url(${sponsor.avatarUrl};`"></div>
-				</a>
-			</div>
-
-			<h2>Built with</h2>
-
-			<div class="credits-dependencies">
-				<h3>Clockwork App</h3>
-
-				<div class="dependencies-dependency" v-for="dependency in credits.app.dependencies">
-					<div>
-						<a :href="dependency.url" target="_blank">{{dependency.name}}</a>
-						by
-						<a :href="dependency.authorUrl" target="_blank">{{dependency.author}}</a>
-					</div>
-					<div class="dependency-description">
-						{{dependency.description}}
-					</div>
+				<div class="credits-contributors" v-if="credits.app.contributors.length || credits.php.contributors.length">
+					<a class="contributors-contributor" :href="contributor.url" target="_blank" :title="contributor.userName" v-for="contributor in credits.app.contributors">
+						<div class="contributor-avatar" :style="`background-image:url(${contributor.avatarUrl};`"></div>
+					</a>
+					<a class="contributors-contributor" :href="contributor.url" target="_blank" :title="contributor.userName" v-for="contributor in credits.php.contributors">
+						<div class="contributor-avatar" :style="`background-image:url(${contributor.avatarUrl};`"></div>
+					</a>
 				</div>
+			</div>
 
-				<h3>Clockwork PHP</h3>
+			<div v-if="credits.app.sponsors.length">
+				<h2>Sponsored by</h2>
 
-				<div class="dependencies-dependency" v-for="dependency in credits.php.dependencies">
-					<div>
-						<a :href="dependency.url" target="_blank">{{dependency.name}}</a>
-						by
-						<a :href="dependency.authorUrl" target="_blank">{{dependency.authors|join}}</a>
+				<div class="credits-sponsors">
+					<a class="sponsors-sponsor" :href="sponsor.url" target="_blank" :title="sponsor.userName" v-for="sponsor in credits.app.sponsors">
+						<div class="sponsor-avatar" :style="`background-image:url(${sponsor.avatarUrl};`"></div>
+					</a>
+				</div>
+			</div>
+
+			<div v-if="credits.app.dependencies.length || credits.php.dependencies.length">
+				<h2>Built with</h2>
+
+				<div class="credits-dependencies">
+					<h3>Clockwork App</h3>
+
+					<div class="dependencies-dependency" v-for="dependency in credits.app.dependencies">
+						<div>
+							<a :href="dependency.url" target="_blank">{{dependency.name}}</a>
+							by
+							<a :href="dependency.authorUrl" target="_blank">{{dependency.author}}</a>
+						</div>
+						<div class="dependency-description">
+							{{dependency.description}}
+						</div>
 					</div>
-					<div class="dependency-description">
-						{{dependency.description}}
+
+					<h3>Clockwork PHP</h3>
+
+					<div class="dependencies-dependency" v-for="dependency in credits.php.dependencies">
+						<div>
+							<a :href="dependency.url" target="_blank">{{dependency.name}}</a>
+							by
+							<a :href="dependency.authorUrl" target="_blank">{{dependency.authors|join}}</a>
+						</div>
+						<div class="dependency-description">
+							{{dependency.description}}
+						</div>
 					</div>
 				</div>
 			</div>
