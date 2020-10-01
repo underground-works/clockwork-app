@@ -66,7 +66,7 @@ export default class Standalone
 		})
 	}
 
-	fetch(method, url, data, headers) {
+	fetch(method, url, data = {}, headers = {}) {
 		let body = new FormData
 		Object.entries(data).forEach(([ key, value ]) => body.append(key, value))
 

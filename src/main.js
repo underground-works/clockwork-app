@@ -9,6 +9,7 @@ import Standalone from './platform/standalone'
 import Share from './platform/share'
 
 import Authentication from './features/authentication'
+import Credits from './features/credits'
 import EditorLinks from './features/editor-links'
 import LocalStore from './features/local-store'
 import OnDemand from './features/on-demand'
@@ -34,6 +35,7 @@ let $requests = new Requests
 let $settings = new Settings($store, $requests, $platform)
 
 let $authentication = new Authentication($requests)
+let $credits = new Credits($platform)
 let $editorLinks = new EditorLinks($settings)
 let $onDemand = new OnDemand($platform, $settings)
 let $profiler = new Profiler($requests, $platform)
@@ -44,7 +46,7 @@ let $updateNotification = new UpdateNotification($settings)
 let $whatsNew = new WhatsNew($platform, $settings)
 
 let global = {
-	$requests, $platform, $authentication, $onDemand, $profiler, $requestsSearch, $settings, $sharing, $store,
+	$requests, $platform, $authentication, $credits, $onDemand, $profiler, $requestsSearch, $settings, $sharing, $store,
 	$updateNotification, $whatsNew,
 	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true
 }
