@@ -17,31 +17,33 @@
 			</slot>
 		</div>
 
-		<table>
-			<thead>
-				<tr v-if="! noTableHead">
-					<slot name="header" :filter="filter">
-						<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())" :class="column.class">
-							{{ column.name || column }}
-							<icon v-show="filter.sortedBy == (column.sortBy || column.toLowerCase())" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
-						</th>
-					</slot>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-if="hasPreviousItems" class="pagination-controls">
-					<td :colspan="columns.length">
-						<a href="#" @click="showPreviousItems">Show {{previousItemsCount}} previous</a>
-					</td>
-				</tr>
-				<slot name="body" :items="shownItems"></slot>
-				<tr v-if="hasNextItems" class="pagination-controls">
-					<td :colspan="columns.length">
-						<a href="#" @click="showNextItems">Show {{nextItemsCount}} more</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="table-content">
+			<table>
+				<thead>
+					<tr v-if="! noTableHead">
+						<slot name="header" :filter="filter">
+							<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())" :class="column.class">
+								{{ column.name || column }}
+								<icon v-show="filter.sortedBy == (column.sortBy || column.toLowerCase())" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
+							</th>
+						</slot>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-if="hasPreviousItems" class="pagination-controls">
+						<td :colspan="columns.length">
+							<a href="#" @click="showPreviousItems">Show {{previousItemsCount}} previous</a>
+						</td>
+					</tr>
+					<slot name="body" :items="shownItems"></slot>
+					<tr v-if="hasNextItems" class="pagination-controls">
+						<td :colspan="columns.length">
+							<a href="#" @click="showNextItems">Show {{nextItemsCount}} more</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </template>
 
@@ -114,19 +116,17 @@ export default {
 .details-table {
 	background: hsl(240, 20, 99);
 	border-radius: 8px;
-	box-shadow: 0 0 1px 1px hsl(240, 20, 90), 0 2px 4px 0 hsl(240, 20, 90);
+	box-shadow: 0 0 0px 1px hsl(240, 20, 90), 0 2px 2px 0 hsl(240, 20, 90);
 	margin-bottom: 20px;
 	padding-bottom: 10px;
 
 	@include dark {
 		background: hsl(240, 2, 15);
-		box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
+		box-shadow: 0 0 0px 1px #15151e, 0 2px 2px 0 #15151e;
 	}
 
 	.table-header {
 		align-items: center;
-		background: #fff;
-		border-bottom: 1px solid hsl(240, 20, 92);
 		border-radius: 8px 8px 0 0;
 		display: flex;
 		font-size: 14px;
@@ -135,7 +135,6 @@ export default {
 
 		@include dark {
 			background: #252527;
-			border-bottom: 1px solid rgb(52, 52, 54);
 		}
 
 		.header-title {
@@ -159,7 +158,7 @@ export default {
 				padding: 1px 8px;
 
 				@include dark {
-					background: hsl(31, 98%, 44%);
+					background: hsl(31, 98%, 42%);
 					color: #fff;
 				}
 			}
@@ -194,7 +193,7 @@ export default {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 44%);
+					color: hsl(31, 98%, 42%);
 				}
 			}
 
@@ -207,7 +206,7 @@ export default {
 				color: #f5f5f5;
 
 				@include dark {
-					background: hsl(31, 98%, 44%);
+					background: hsl(31, 98%, 42%);
 					color: #fff;
 				}
 			}
@@ -222,7 +221,7 @@ export default {
 
 		.header-toggle {
 			align-items: center;
-			background: hsl(30, 1, 96);
+			background: #eee;
 			border-radius: 4px;
 			display: flex;
 			font-size: 95%;
@@ -230,7 +229,7 @@ export default {
 			padding: 0 8px;
 
 			@include dark {
-				background: hsl(30, 1, 19);
+				background: rgb(63, 62, 61);
 			}
 
 			input {
@@ -269,6 +268,10 @@ export default {
 		}
 	}
 
+	.table-content {
+		// overflow: auto;
+	}
+
 	table {
 		font-size: 12px;
 
@@ -280,13 +283,8 @@ export default {
 
 		tr {
 			&:nth-child(even) {
-				background: hsl(240, 20, 97);
+				background: hsl(240, 20, 96);
 				@include dark { background: hsl(240, 2, 13); }
-			}
-
-			&:nth-child(odd) {
-				background: hsl(240, 20, 99);
-				@include dark { background: hsl(240, 2, 14); }
 			}
 		}
 

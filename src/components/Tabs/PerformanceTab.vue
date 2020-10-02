@@ -189,7 +189,7 @@ $performance-colors-dark: (
 		    color: #f5f5f5;
 
 			@include dark {
-				background: #de7402;
+				background: hsl(31, 98%, 42%);
 				color: #fff;
 			}
 		}

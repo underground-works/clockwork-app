@@ -125,7 +125,7 @@ export default {
 
 			&:nth-child(even) { background: hsl(50, 100%, 9%) !important; }
 
-			.database-query-path > a { color: hsl(38, 42%, 68%) !important; }
+			.database-query-path > a { color: hsl(38, 42%, 48%) !important; }
 		}
 	}
 

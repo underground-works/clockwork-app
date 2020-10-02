@@ -263,7 +263,7 @@ export default {
 		    color: #f5f5f5;
 
 			@include dark {
-				background: #de7402;
+				background: hsl(31, 98%, 42%);
 				color: #fff;
 			}
 		}
@@ -386,10 +386,10 @@ export default {
 
 	tr {
 		background: hsl(240, 20, 99) !important;
-		@include dark { background: hsl(240, 2, 14) !important; }
+		@include dark { background: hsl(240, 2, 15) !important; }
 
 		&:nth-child(4n), &:nth-child(4n-1) {
-			background: hsl(240, 20, 97) !important;
+			background: hsl(240, 20, 96) !important;
 			@include dark { background: hsl(240, 2, 13) !important; }
 		}
 	}

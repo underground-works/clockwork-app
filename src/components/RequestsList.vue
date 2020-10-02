@@ -204,7 +204,7 @@ export default {
 @import '../mixins.scss';
 
 .split-view-requests {
-	background: hsl(240, 20, 99);
+	background: hsl(240, 20, 98%);
 	border-bottom: 1px solid rgb(209, 209, 209);
 	cursor: default;
 	display: flex;
@@ -250,7 +250,7 @@ export default {
 				border-top: 1px solid transparent;
 				color: white;
 
-				@include dark { background: #de7402 !important; }
+				@include dark { background: hsl(31, 98%, 42%) !important; }
 			}
 
 			& + tr td {
@@ -286,7 +286,7 @@ export default {
 		}
 
 		td {
-			border-top: 1px solid rgb(243, 243, 243);
+			border-top: 1px solid hsl(0, 0, 94%);
 
 			@include dark {
 				border-top: 1px solid #242424;
@@ -482,7 +482,6 @@ export default {
 		font-size: 13px;
 		margin-bottom: 5px;
 		margin-top: 5px;
-		font-size: 12px;
 	}
 }
 </style>

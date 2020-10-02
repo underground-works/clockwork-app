@@ -74,10 +74,15 @@ export default {
 @import '../../mixins.scss';
 
 .sidebar-section {
+	border-bottom: 1px solid hsl(240, 20, 92);
+
+	@include dark {
+		border-bottom: 1px solid hsl(240, 2, 20%);
+	}
+
 	.section-header {
 		align-items: center;
-		background: #fff;
-		border-bottom: 1px solid hsl(240, 20, 92);
+		background: hsl(240, 20, 99%);
 		display: flex;
 		font-size: 14px;
 		justify-content: space-between;
@@ -85,7 +90,6 @@ export default {
 
 		@include dark {
 			background: #252527;
-			border-bottom: 1px solid rgb(52, 52, 54);
 		}
 
 		.header-title {
@@ -121,7 +125,7 @@ export default {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 44%);
+					color: hsl(31, 98%, 42%);
 				}
 			}
 
@@ -130,7 +134,7 @@ export default {
 				color: #f5f5f5;
 
 				@include dark {
-					background: hsl(31, 98%, 44%);
+					background: hsl(31, 98%, 42%);
 					color: #fff;
 				}
 			}
@@ -172,14 +176,12 @@ export default {
 	}
 
 	.details-table {
-		border-bottom: 1px solid hsl(240, 20, 92);
 		border-radius: 0;
 		box-shadow: none;
 		margin-bottom: 0;
 		padding-bottom: 0;
 
 		@include dark {
-			border-bottom: 1px solid rgb(52, 52, 54);
 			box-shadow: none;
 		}
 

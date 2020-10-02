@@ -57,7 +57,7 @@ a {
 
 .button {
 	align-items: center;
-	background: hsl(30, 1, 94);
+	background: hsl(30, 1, 92);
 	border-radius: 4px;
 	color: dimgrey;
 	display: flex;
@@ -185,13 +185,13 @@ a {
 		align-items: center;
 		display: flex;
 		border-radius: 8px;
-		background: #fff;
-		box-shadow: 0 0 1px 1px hsl(240, 20, 90), 0 2px 4px 0 hsl(240, 20, 90);
+		background: hsl(240, 20, 99);
+		box-shadow: 0 0 0px 1px hsl(240, 20, 90), 0 2px 2px 0 hsl(240, 20, 90);
 		margin-bottom: 20px;
 
 		@include dark {
 			background: #252527;
-			box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
+			box-shadow: 0 0 0px 1px #15151e, 0 2px 2px 0 #15151e;
 		}
 
 		.counters-group {
@@ -205,7 +205,7 @@ a {
 					border-right: 0;
 
 					@include dark {
-						border-left: 1px solid rgb(52, 52, 54);
+						border-left: 1px solid hsl(240, 18, 13%);
 						border-right: 0;
 					}
 				}
@@ -218,7 +218,7 @@ a {
 			padding: 12px 24px 13px;
 
 			@include dark {
-				border-right: 1px solid rgb(52, 52, 54);
+				border-right: 1px solid hsl(240, 18, 13%);
 			}
 
 			.counter-value {
@@ -344,6 +344,7 @@ a {
 		.database-query-content {
 			flex: 1 0 auto;
 			max-width: 100%;
+			word-break: break-word;
 		}
 
 		.database-query-path {
@@ -351,6 +352,7 @@ a {
 			flex: 0;
 			font-size: 90%;
 			margin-top: 3px;
+			word-break: normal;
 
 			@include dark {
 				color: #777;
@@ -503,13 +505,9 @@ a {
 		}
 
 		&:nth-child(even) {
-			background: rgb(245, 245, 245);
-
-			@include dark {
-				background: rgb(27, 27, 27);
-			}
+			background: hsl(240, 20, 97);
+			@include dark { background: hsl(240, 2, 13); }
 		}
-
 
 		.stack-frame-call {
 			font-size: 12px;

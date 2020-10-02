@@ -190,7 +190,7 @@ export default {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 44%);
+					color: hsl(31, 98%, 42%);
 				}
 			}
 
@@ -199,7 +199,7 @@ export default {
 				color: #f5f5f5;
 
 				@include dark {
-					background: hsl(31, 98%, 44%);
+					background: hsl(31, 98%, 42%);
 					color: #fff;
 				}
 			}

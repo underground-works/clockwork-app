@@ -22,7 +22,7 @@
 
 		<sidebar-section title="Middleware" name="middleware" :items="$request.middleware" filter-example="auth:admin" v-show="$request.middleware.length">
 			<template slot="table" slot-scope="{ items, filter, filterExample, expanded }">
-				<details-table :columns="['Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" v-show="expanded">
+				<details-table :columns="['Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-show="expanded">
 					<template slot="header" slot-scope="{ filter }">
 					</template>
 					<template slot="body" slot-scope="{ items }">

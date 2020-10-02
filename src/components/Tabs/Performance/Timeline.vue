@@ -3,16 +3,16 @@
 		<details-table title="Timeline" icon="pie-chart" :columns="columns" :items="presentedEvents" :filter="filter" :no-table-head="! showDetails" filter-example="database query duration:>50" :per-page="100">
 			<template slot="toolbar" slot-scope="{ filter }">
 				<div class="header-group">
-					<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
-						<icon :name="tag.icon"></icon>
-					</a>
-				</div>
-
-				<div class="header-group">
 					<label class="header-toggle">
 						<input type="checkbox" v-model="condense">
 						Condense
 					</label>
+				</div>
+
+				<div class="header-group" v-if="availableTags.length">
+					<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
+						<icon :name="tag.icon"></icon>
+					</a>
 				</div>
 
 				<div class="header-group">
@@ -23,8 +23,8 @@
 				</div>
 
 				<div class="header-group">
-					<a href="#" title="Toggle details" class="header-item" @click.prevent="toggleDetails">
-						<icon :name="showDetails ? 'chevron-right' : 'chevron-left'"></icon>
+					<a href="#" title="Toggle details" class="header-item" :class="{ 'active': showDetails }" @click.prevent="toggleDetails">
+						<icon name="list"></icon>
 					</a>
 				</div>
 			</template>
@@ -237,7 +237,7 @@ $timeline-colors-light: (
 	red:    ( normal: hsl(359, 57%, 55%), alternative: hsl(359, 57%, 70%) ),
 	green:  ( normal: hsl(109, 52%, 45%), alternative: hsl(109, 52%, 60%) ),
 	purple: ( normal: hsl(273, 57%, 55%), alternative: hsl(273, 57%, 70%) ),
-	grey:   ( normal: hsl(240, 5, 27),    alternative: hsl(240, 5, 62) )
+	grey:   ( normal: hsl(240, 5, 30),    alternative: hsl(240, 5, 65) )
 );
 
 $timeline-colors-dark: (
@@ -245,10 +245,14 @@ $timeline-colors-dark: (
 	red:    ( normal: hsl(359, 52%, 60%), alternative: hsl(359, 52%, 45%) ),
 	green:  ( normal: hsl(109, 47%, 50%), alternative: hsl(109, 47%, 35%) ),
 	purple: ( normal: hsl(273, 52%, 60%), alternative: hsl(273, 52%, 45%) ),
-	grey:   ( normal: hsl(240, 5, 60),    alternative: hsl(240, 5, 40) )
+	grey:   ( normal: hsl(240, 5, 50),    alternative: hsl(240, 5, 30) )
 );
 
 .timeline {
+	.table-header {
+		padding-bottom: 10px;
+	}
+
 	table {
 		table-layout: fixed;
 	}
@@ -286,13 +290,13 @@ $timeline-colors-dark: (
 
 		.chart-event-group {
 			cursor: pointer;
-			height: 18px;
+			height: 16px;
 			position: relative;
 
 			.group-label {
 				color: hsl(206, 30%, 30%);
 				font-size: 12px;
-				line-height: 18px;
+				line-height: 16px;
 				overflow: hidden;
 				padding: 0 6px;
 				position: absolute;
@@ -385,7 +389,10 @@ $timeline-colors-dark: (
 
 			@include dark { border-color: rgba(#eee, 0.1); }
 
-			&:last-child { border-bottom: 0; }
+			&:last-child {
+				border-bottom: 0;
+				margin-bottom: 0;
+			}
 
 			.event-header {
 				display: flex;
