@@ -148,7 +148,7 @@ export default {
 		}
 	}
 
-	@media screen and (min-width: 1100px) {
+	@media screen and (min-width: 1280px) {
 		width: 360px;
 
 		&.large {

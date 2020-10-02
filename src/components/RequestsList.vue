@@ -228,7 +228,7 @@ export default {
 		&.large { width: 380px; }
 	}
 
-	@media screen and (min-width: 1100px) {
+	@media screen and (min-width: 1280px) {
 		width: 320px;
 	}
 

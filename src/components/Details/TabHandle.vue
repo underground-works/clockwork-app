@@ -77,7 +77,7 @@ export default {
 	}
 
 	&.full {
-		min-width: 0;
+		min-width: 40px;
 	}
 
 	&.short {
