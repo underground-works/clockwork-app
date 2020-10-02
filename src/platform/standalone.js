@@ -149,7 +149,9 @@ export default class Standalone
 	}
 
 	hasFeature(feature) {
-		return feature != 'details-request'
+		let disabledFeatures = [ 'delete-shared', 'details-request' ]
+
+		return ! disabledFeatures.includes(feature)
 	}
 
 	settingsChanged() {
