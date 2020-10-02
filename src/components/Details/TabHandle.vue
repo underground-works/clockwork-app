@@ -1,5 +1,5 @@
 <template>
-	<a @click="selectTab" class="details-header-tab" :class="{'active':active, 'short':short}" href="#">
+	<a @click="selectTab" class="details-header-tab" :class="{'active':active, 'short':short, 'full':full}" href="#">
 		<icon :name="icon" :title="text" v-if="icon"></icon>
 		<div class="tab-title" v-show="! short">{{text}}</div>
 		<div class="tab-badge" v-show="badge && ! short">{{badge}}</div>
@@ -9,7 +9,7 @@
 <script>
 export default {
 	name: 'TabHandle',
-	props: [ 'text', 'name', 'icon', 'badge', 'active', 'short' ],
+	props: [ 'text', 'name', 'icon', 'badge', 'active', 'short', 'full' ],
 	methods: {
 		selectTab() { this.$emit('tab-selected', this.name) }
 	}
@@ -76,6 +76,10 @@ export default {
 		}
 	}
 
+	&.full {
+		min-width: 0;
+	}
+
 	&.short {
 		flex: 0;
 		width: 40px;
@@ -86,7 +90,13 @@ export default {
 	}
 
 	.ui-icon {
+		flex-shrink: 0;
 		margin-right: 5px;
+	}
+
+	.tab-title {
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.tab-badge {

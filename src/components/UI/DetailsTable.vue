@@ -142,6 +142,7 @@ export default {
 			font-size: 13px;
 			font-weight: 600;
 			margin-right: 10px;
+			white-space: nowrap;
 
 			.ui-icon {
 				color: #111;
@@ -246,8 +247,9 @@ export default {
 				border-radius: 4px;
 				font-size: 13px;
 				height: 24px;
+				max-width: 180px;
 				padding-left: 28px;
-				width: 180px;
+				width: 100%;
 
 				@include dark {
 					background: rgb(63, 62, 61);

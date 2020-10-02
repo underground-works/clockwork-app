@@ -1,6 +1,6 @@
 <template>
 	<div class="details-header-tabs">
-		<tab-handle v-for="tab in tabs" :key="tab.name" :text="tab.text" :name="tab.name" :icon="tab.icon" :active="tab.name == activeTab" :short="shortTabs.includes(tab)" @tab-selected="$emit('tab-selected', $event)" v-if="tab.shown">{{tab.text}}</tab-handle>
+		<tab-handle v-for="tab in tabs" :key="tab.name" :text="tab.text" :name="tab.name" :icon="tab.icon" :active="tab.name == activeTab" :short="shortTabs.includes(tab)" :full="fullTabs.includes(tab)" @tab-selected="$emit('tab-selected', $event)" v-if="tab.shown">{{tab.text}}</tab-handle>
 	</div>
 </template>
 
@@ -14,11 +14,13 @@ export default {
 	components: { TabHandle },
 	props: { tabs: { default: () => [] }, activeTab: {} },
 	data: () => ({
-		shortTabs: []
+		shortTabs: [],
+		fullTabs: []
 	}),
 	methods: {
 		hideOverflowingTabs() {
 			this.shortTabs = []
+			this.fullTabs = []
 			this.$nextTick(() => this.hideNextOverflowingTab())
 		},
 		hideNextOverflowingTab() {
@@ -30,7 +32,9 @@ export default {
 				.sort((a, b) => Math.abs(activeTabIndex - this.tabs.indexOf(b)) - Math.abs(activeTabIndex - this.tabs.indexOf(a)))
 				.find(tab => ! this.shortTabs.includes(tab))
 
-			if (! tab) return
+			if (! tab || tab.name == this.activeTab) {
+				return this.fullTabs = this.tabs.filter(tab => ! this.shortTabs.includes(tab))
+			}
 
 			this.shortTabs.push(tab)
 			this.$nextTick(() => this.hideNextOverflowingTab())
