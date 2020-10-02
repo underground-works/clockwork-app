@@ -141,7 +141,7 @@ export default {
 		shownTabs() {
 			return {
 				log: this.$request?.log?.length > 0,
-				models: [ 'modelsRetrieved', 'modelsCreated', 'modelsUpdated', 'modelsDeleted' ].some(prop => this.$request?.[prop])
+				models: [ 'modelsRetrieved', 'modelsCreated', 'modelsUpdated', 'modelsDeleted' ].some(prop => this.$request?.[prop]?.length)
 					|| this.$request?.modelsActions.length > 0,
 				database: this.$request?.databaseQueriesCount > 0 || this.$request?.databaseQueries?.length > 0,
 				cache: [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
