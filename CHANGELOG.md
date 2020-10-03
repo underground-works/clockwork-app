@@ -1,3 +1,35 @@
+5.0 (unreleased)
+
+- added many design tweaks, refinements and consistent iconography
+- added reworked timeline with new UI, condensed mode, self and children times, event details, default "total" event, custom colors
+- added client-side metrics and web-vitals to the performance tab
+- added new "models" tab showing models actions with details, retrieved, created, updated and deleted models counts
+- added new "notifications" tab showing all kinds of notifications (replaces emails tab)
+- added email previews to the notifications tab
+- added ability to share requests
+- added ability to link to the current request in standalone mode
+- added credits modal and app version to settings modal
+- added on-demand mode (with optional secret)
+- improved tab bar styles and behavior
+- improved requests sidebar to show basic request info
+- improved settings and "what's new" to use a new modal UI
+- improved performance chart with simplified styles
+- improved performance issues to be a separate performance tab section
+- improved performance pofiler UI
+- improved log tab to likify urls in log messages
+- improved metadata loading with automatic retry in case of failure
+- improved metadata polling to use a simple dynamic interval
+- improved additional metadata loading to not transfer the whole request metadata
+- improved metadata loading error handling
+- changed moved requests search to the requests list
+- changed moved clear button to the requests list
+- changed moved preserve log settings to the settings modal
+- changed api path to be static `__clockwork/` in standalone mode
+- updated to vue-cli 4
+- fixed expanded sidebar sections state not being persisted
+- fixed profiler unnecessary re-parsing of profiles, sorting, changing requests not updating content and the docs url
+- fixed polling not being throttled on inactivity in extension mode
+
 4.1.1
 
 - added support for the "chrome.storage" api as a fall-back persistent settings storage if localStorage is not available
