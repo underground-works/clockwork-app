@@ -61,7 +61,8 @@
 									</div>
 
 									<div class="event-description" v-if="event.description != event.name">
-										{{event.description}}
+										<highlightjs v-if="event.tags && event.tags.indexOf('databaseQueries') > -1" language="sql" :code="event.description" />
+										<div v-else>{{event.description}}</div>
 									</div>
 
 									<div class="event-timings">
@@ -103,7 +104,8 @@
 									<icon :name="tag.icon" :title="tag.title"></icon>
 								</span>
 							</span>
-							{{group.description}}
+							<highlightjs v-if="group.tags && group.tags.indexOf('databaseQueries') > -1" language="sql" :code="group.description" />
+							<div v-else>{{group.description}}</div>
 						</slot>
 					</td>
 					<td class="timeline-timing timing-total">{{group.duration|formatTiming}}</td>
@@ -299,6 +301,9 @@ $timeline-colors-dark: (
 			font-size: 95%;
 			opacity: 0.7;
 		}
+		&>pre {
+			margin: 0;
+		}
 	}
 
 	.timeline-timing {
@@ -448,6 +453,9 @@ $timeline-colors-dark: (
 				border-top: 1px solid rgba(#333, 0.1);
 				padding: 12px;
 				text-align: left;
+				&>pre {
+					margin: 0;
+				}
 
 				@include dark {
 					background: rgba(#ddd, 0.03);

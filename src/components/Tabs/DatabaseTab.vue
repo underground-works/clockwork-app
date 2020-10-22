@@ -45,7 +45,7 @@
 					<td>
 						<div class="database-query">
 							<div class="database-query-content">
-								<div>{{query.query}}</div>
+								<highlightjs language="sql" :code="query.query" />
 								<div class="database-query-bindings" v-if="query.bindings">
 									<pretty-print :data="query.bindings"></pretty-print>
 								</div>
