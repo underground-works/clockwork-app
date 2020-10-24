@@ -236,17 +236,18 @@ export default class Request
 			query.tags = query.tags instanceof Array ? query.tags : []
 			query.bindings = this.optionalNonEmptyObject(query.bindings)
 
+			const sql = query.query.trim();
 			let match
-			if (match = query.query.match(/^SELECT .*? FROM .?([A-Za-z-_]+)/)) {
+			if (match = sql.match(/^SELECT\s[\s\S]*?\sFROM\s[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
 				query.shortQuery = `SELECT FROM ${match[1]}`
-			} else if (match = query.query.match(/^INSERT INTO .?([A-Za-z-_]+)/)) {
+			} else if (match = sql.match(/^INSERT\s+INTO\s+[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
 				query.shortQuery = `INSERT INTO ${match[1]}`
-			} else if (match = query.query.match(/^UPDATE .?([A-Za-z-_]+)/)) {
+			} else if (match = sql.match(/^UPDATE\s+[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
 				query.shortQuery = `UPDATE ${match[1]}`
-			} else if (match = query.query.match(/^DELETE FROM .?([A-Za-z-_]+)/)) {
+			} else if (match = sql.match(/^DELETE\s+FROM\s+[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
 				query.shortQuery = `DELETE FROM ${match[1]}`
 			} else {
-				query.shortQuery = query.query
+				query.shortQuery = sql
 			}
 
 			return query
