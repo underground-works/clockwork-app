@@ -36,7 +36,8 @@ export default class Standalone
 		}
 
 		this.requests.setRemote(
-			window.location.href, { path: '__clockwork/' }
+			window.location.href,
+			{ path: (new URI(window.location.href)).path().split('/').slice(0, -2).join('/') + '/__clockwork/' }
 		)
 	}
 
