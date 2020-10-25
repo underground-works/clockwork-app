@@ -10,6 +10,7 @@ export default class Standalone
 		this.authentication = global.$authentication
 		this.profiler = global.$profiler
 		this.settings = global.$settings
+		this.lastId = null;
 
 		this.useProperTheme()
 		this.setMetadataUrl()
@@ -96,7 +97,8 @@ export default class Standalone
 		this.pollingInterval = 1000
 
 		this.requests.loadLatest().then(() => {
-			if (! this.requests.last()) throw new Error
+			this.lastId = this.requests.last()?.id;
+			if (! this.lastId) throw new Error
 
 			this.pollRequests()
 		}).catch(error => {
@@ -113,10 +115,11 @@ export default class Standalone
 	pollRequests() {
 		clearTimeout(this.pollTimeout)
 
-		this.requests.loadNext().then(requests => {
+		this.requests.loadNext(null, this.lastId).then(requests => {
 			if (! this.settings.global.preserveLog) {
 				this.requests.setItems(this.requests.all().slice(-1))
 			}
+			this.lastId = this.requests.last()?.id || this.lastId;
 
 			this.pollTimeout = setTimeout(() => this.pollRequests(), this.updatePollingInterval(requests.length))
 		}).catch(() => {
