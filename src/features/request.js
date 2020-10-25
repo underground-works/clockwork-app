@@ -236,8 +236,8 @@ export default class Request
 			query.tags = query.tags instanceof Array ? query.tags : []
 			query.bindings = this.optionalNonEmptyObject(query.bindings)
 
-			const sql = query.query.trim();
-			let match
+			let match, sql = query.query.trim()
+
 			if (match = sql.match(/^SELECT\s[\s\S]*?\sFROM\s[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
 				query.shortQuery = `SELECT FROM ${match[1]}`
 			} else if (match = sql.match(/^INSERT\s+INTO\s+[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
