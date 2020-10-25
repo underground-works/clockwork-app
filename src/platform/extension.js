@@ -16,6 +16,8 @@ export default class Extension
 		this.settings = global.$settings
 		this.updateNotification = global.$updateNotification
 
+		this.lastPolledId = null
+
 		this.useProperTheme()
 		this.setMetadataUrl()
 		this.setMetadataClient()
@@ -211,6 +213,7 @@ export default class Extension
 	startPollingRequests() {
 		this.pollingInterval = 1000
 		this.isPolling = true
+		this.lastPolledId = this.requests.last()?.id
 
 		if (! this.pollTimeout) this.pollRequests()
 	}
@@ -233,6 +236,7 @@ export default class Extension
 
 		this.requests.withQuery({ 'type[]': types }, () => {
 			this.requests.loadNext().then(requests => {
+				this.lastPolledId = this.requests.last()?.id || this.lastPolledId
 				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.updatePollingInterval(requests.length))
 			}).catch(() => {
 				if (this.isPolling) this.pollTimeout = setTimeout(() => this.pollRequests(), this.updatePollingInterval(false))
