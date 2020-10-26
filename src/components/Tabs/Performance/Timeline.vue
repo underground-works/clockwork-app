@@ -1,5 +1,5 @@
 <template>
-	<div class="timeline" :class="{ 'show-details': showDetails }">
+	<div class="timeline" :class="{ 'show-details': showDetails }" ref="timeline">
 		<details-table title="Timeline" icon="pie-chart" :columns="columns" :items="presentedEvents" :filter="filter" :no-table-head="! showDetails" filter-example="database query duration:>50" :per-page="100">
 			<template slot="toolbar" slot-scope="{ filter }">
 				<div class="header-group">
@@ -10,7 +10,7 @@
 				</div>
 
 				<div class="header-group" v-if="availableTags.length">
-					<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
+					<a v-for="tag in availableTags" href="#" class="header-item" :class="{ 'active': hiddenTags && ! hiddenTags.includes(tag.tag) }" :title="tag.title" @click="toggleTag(tag.tag)">
 						<icon :name="tag.icon"></icon>
 					</a>
 				</div>
@@ -113,8 +113,10 @@
 
 				<tr class="timeline-size-monitor">
 					<td class="timeline-graph" ref="timelineChart"></td>
-					<td class="timeline-timing"></td>
 					<td class="timeline-description"></td>
+					<td class="timeline-timing"></td>
+					<td class="timeline-timing"></td>
+					<td class="timeline-timing"></td>
 				</tr>
 			</template>
 		</details-table>
@@ -134,10 +136,10 @@ export default {
 	components: { DetailsTable, Popover },
 	props: { name: {}, timeline: {}, tags: { default: () => [] } },
 	data: () => ({
-		condense: true,
+		condense: undefined,
 		showDetails: false,
 
-		hiddenTags: [],
+		hiddenTags: undefined,
 		presentedEvents: [],
 
 		filter: new Filter([
@@ -150,13 +152,13 @@ export default {
 		},
 
 		columns() {
-			return [
+			return this.showDetails ? [
 				{ name: ' ', sortBy: 'start', class: 'timeline-chart' },
 				{ name: 'Event', sortBy: 'name', class: 'timeline-description' },
 				{ name: 'Total', sortBy: 'duration', class: 'timeline-timing' },
 				{ name: 'Self', sortBy: 'durationSelf', class: 'timeline-timing' },
 				{ name: 'Child', sortBy: 'durationChild', class: 'timeline-timing' }
-			]
+			] : []
 		}
 	},
 	methods: {
@@ -180,15 +182,37 @@ export default {
 			this.$refs.popovers[index].toggle()
 		},
 
-		refreshEvents() {
-			if (! this.timeline || ! this.$refs.timelineChart) return []
+		async refreshEvents(e) {
+			if (! this.timeline || ! this.$refs.timelineChart) return
+
+			// wait until all changes are rendered as we depend on current column size
+			await this.$nextTick()
 
 			let timelineWidth = this.$refs.timelineChart.offsetWidth - 16
+
+			// don't bother presenting timelines which are not visible
+			if (timelineWidth <= 0) return
+
 			let timeline = this.timeline.filter(this.filter, this.hiddenTags)
 
 			if (this.condense) timeline = timeline.condense()
 
 			this.presentedEvents = timeline.present(timelineWidth)
+		},
+
+		// observe resizes of the timeline container, track last width to refresh only on width updates as resize
+		// observer also triggers on height changes
+		observeResizing() {
+			let lastWidth = this.$refs.timeline.offsetWidth
+
+			this.resizeObserver = new ResizeObserver(debounce(([ entry ]) => {
+				if (lastWidth != entry.contentRect.width) {
+					lastWidth = entry.contentRect.width
+					this.refreshEvents(entry)
+				}
+			}, 10))
+
+			this.resizeObserver.observe(this.$refs.timeline)
 		}
 	},
 	filters: {
@@ -199,32 +223,41 @@ export default {
 		}
 	},
 	watch: {
-		condense() {
+		condense(val, old) {
+			// skip initial assignment from settings to avoid multiple refreshes on mounted
+			if (old === undefined) return
+
 			this.refreshEvents()
 
 			this.$settings.global.timelineCondensed[this.name] = this.condense
 			this.$settings.save()
 		},
 
-		hiddenTags() {
+		hiddenTags(val, old) {
+			// skip initial assignment from settings to avoid multiple refreshes on mounted
+			if (old === undefined) return
+
 			this.refreshEvents()
 
 			this.$settings.global.timelineHiddenTags[this.name] = this.hiddenTags
 			this.$settings.save()
 		},
 
+		showDetails() {
+			this.refreshEvents()
+		},
+
 		timeline() {
 			this.refreshEvents()
 		}
 	},
-	mounted() {
+	async mounted() {
 		this.condense = this.$settings.global.timelineCondensed[this.name] || false
 		this.hiddenTags = this.$settings.global.timelineHiddenTags[this.name] || []
 
-		this.refreshEvents()
+		await this.refreshEvents()
 
-		this.resizeObserver = new ResizeObserver(debounce(entries => this.refreshEvents(), 10))
-		this.resizeObserver.observe(this.$refs.timelineChart)
+		this.observeResizing()
 	}
 }
 </script>
