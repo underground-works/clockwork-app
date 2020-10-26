@@ -103,6 +103,8 @@ import RoutesTab from './Tabs/RoutesTab'
 import UserTab from './Tabs/UserTab'
 import ViewsTab from './Tabs/ViewsTab'
 
+import isEmpty from 'just-is-empty'
+
 export default {
 	name: 'RequestDetails',
 	components: {
@@ -141,7 +143,7 @@ export default {
 		shownTabs() {
 			return {
 				log: this.$request?.log?.length > 0,
-				models: [ 'modelsRetrieved', 'modelsCreated', 'modelsUpdated', 'modelsDeleted' ].some(prop => this.$request?.[prop]?.length)
+				models: [ 'modelsRetrieved', 'modelsCreated', 'modelsUpdated', 'modelsDeleted' ].some(prop => ! isEmpty(this.$request?.[prop]))
 					|| this.$request?.modelsActions.length > 0,
 				database: this.$request?.databaseQueriesCount > 0 || this.$request?.databaseQueries?.length > 0,
 				cache: [ 'cacheReads', 'cacheHits', 'cacheWrites', 'cacheDeletes', 'cacheTime' ].some(prop => this.$request?.[prop])
