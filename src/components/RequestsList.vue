@@ -163,16 +163,13 @@ export default {
 		clear() { this.$requests.clear() }
 	},
 	watch: {
-		requests: {
-			handler(items) {
-				if (this.shouldShowFirstRequest()) {
-					this.showRequest(this.$requests.first())
-				} else if (this.shouldShowIncomingRequest()) {
-					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
-					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.requestsTable.offsetTop
-				}
-			},
-			deep: true
+		requests(items) {
+			if (this.shouldShowFirstRequest()) {
+				this.showRequest(this.$requests.first())
+			} else if (this.shouldShowIncomingRequest()) {
+				this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
+				this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.requestsTable.offsetTop
+			}
 		},
 
 		$request: {

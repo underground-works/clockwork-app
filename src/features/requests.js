@@ -44,7 +44,7 @@ export default class Requests
 							this.items.push(data[0])
 						}
 
-						this.sort()
+						if (! fields) this.sort()
 
 						return placeholder || data[0]
 					})
