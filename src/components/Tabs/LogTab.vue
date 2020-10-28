@@ -3,7 +3,7 @@
 		<details-table title="Messages" icon="edit-2" :columns="['Time', 'Level', 'Message']" :items="log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message, index in items" :class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }" :key="`${$request.id}-${index}`">
-					<td class="log-date">{{message.time | moment('HH:mm:ss')}}</td>
+					<td class="log-date">{{message.time | date('HH:mm:ss')}}</td>
 					<td class="log-level">{{message.level}}</td>
 					<td>
 						<div class="log-message">

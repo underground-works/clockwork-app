@@ -1,5 +1,4 @@
 import debounce from 'just-debounce-it'
-import moment from 'moment'
 import Vue from 'vue'
 
 export default class RequestsSearch
@@ -12,7 +11,7 @@ export default class RequestsSearch
 			{ tag: 'method', validate: val => [ 'get', 'post', 'put', 'patch', 'delete', 'head' ].includes(val) },
 			{ tag: 'status', validate: val => val >= 100 && val < 600 },
 			{ tag: 'time' },
-			{ tag: 'received', validate: val => moment(val).isValid() },
+			{ tag: 'received', validate: val => new Date(val) },
 			{ tag: 'type', validate: val => [ 'command', 'queue-job', 'request' ].includes(val) }
 		]
 
