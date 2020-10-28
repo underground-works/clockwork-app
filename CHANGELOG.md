@@ -21,14 +21,18 @@
 - improved metadata polling to use a simple dynamic interval
 - improved additional metadata loading to not transfer the whole request metadata
 - improved metadata loading error handling
+- improved clockwork api endpoint detection in standalone mode
+- improved date handling to use date-fns instead of momentjs (~30% lower bundle size)
 - changed moved requests search to the requests list
 - changed moved clear button to the requests list
 - changed moved preserve log settings to the settings modal
-- changed api path to be static `__clockwork/` in standalone mode
 - updated to vue-cli 4
+- fixed clearing requests list in standalone mode (implemented by edgardmessias, thanks!)
+- fixed requests list behavior where a request might not be selectable
 - fixed expanded sidebar sections state not being persisted
 - fixed profiler unnecessary re-parsing of profiles, sorting, changing requests not updating content and the docs url
 - fixed polling not being throttled on inactivity in extension mode
+- fixed multi-line database queries timeline descriptions (implemented by edgardmessias, thanks!)
 
 4.1.1
 
