@@ -4,6 +4,8 @@ import clone from 'just-clone'
 import pick from 'just-pick'
 import URI from 'urijs'
 
+import sqlFormatter from '@sqltools/formatter';
+
 export default class Request
 {
 	constructor(data) {
@@ -235,6 +237,7 @@ export default class Request
 			query.shortModel = query.model ? query.model.split('\\').pop() : '-'
 			query.tags = query.tags instanceof Array ? query.tags : []
 			query.bindings = this.optionalNonEmptyObject(query.bindings)
+			query.formattedQuery = sqlFormatter.format(query.query);
 
 			let match, sql = query.query.trim()
 
