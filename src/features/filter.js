@@ -1,3 +1,4 @@
+import { format as formatDate, isBefore, isAfter, isEqual, parseISO, setMilliseconds } from 'date-fns'
 import Vue from 'vue'
 
 export default class Filter
@@ -111,16 +112,21 @@ export default class Filter
 			let match
 
 			if (match = tagValue.match(/^<(.+)$/)) {
-				return moment(item).isBefore(
-					match[1].match(/^\d+:\d+(:\d+)?$/) ? moment().format('YYYY-MM-DD ') + match[1] : match[1]
+				return isBefore(
+					setMilliseconds(new Date(item), 0),
+					parseISO(match[1].match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'yyyy-MM-dd ') + match[1] : match[1])
 				)
 			} else if (match = tagValue.match(/^>(.+)$/)) {
-				return moment(item).isAfter(
-					match[1].match(/^\d+:\d+(:\d+)?$/) ? moment().format('YYYY-MM-DD ') + match[1] : match[1]
+				return isAfter(
+					setMilliseconds(new Date(item), 0),
+					parseISO(match[1].match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'yyyy-MM-dd ') + match[1] : match[1])
 				)
 			}
 
-			return moment(item).isSame(tagValue)
+			return isEqual(
+				setMilliseconds(new Date(item), 0),
+				parseISO(tagValue.match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'yyyy-MM-dd ') + tagValue : tagValue)
+			)
 		} else {
 			return typeof item == 'string' && item.toLowerCase().includes(tagValue.toLowerCase())
 		}

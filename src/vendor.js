@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
-import VueMoment from 'vue-moment'
 import VueSpinner from 'vue-spinkit'
 import vClickOutside from 'v-click-outside'
 
@@ -11,7 +10,6 @@ Vue.config.performance = true
 Vue.config.productionTip = false
 
 Vue.use(VueClipboard)
-Vue.use(VueMoment)
 Vue.use(vClickOutside)
 
 Vue.component('spinner', VueSpinner)
