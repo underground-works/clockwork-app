@@ -35,10 +35,26 @@ export default class Standalone
 			)
 		}
 
-		this.requests.setRemote(
-			window.location.href,
-			{ path: (new URI(window.location.href)).path().split('/').slice(0, -2).join('/') + '/__clockwork/' }
-		)
+		const currentUri = new URI(window.location.href);
+		currentUri.filename("../__clockwork");
+
+		let host = currentUri.origin();
+		let path = currentUri.path();
+
+		const remoteUrl = document.querySelector('meta[name="clockwork-remote-url"]')?.content;
+
+		if (typeof remoteUrl !== "undefined") {
+			const uri = new URI(remoteUrl)
+			uri.normalizePath()
+			host = uri.origin() || host
+			path = uri.path()
+		}
+
+		if (!path.endsWith("/")) {
+			path += "/";
+		}
+
+		this.requests.setRemote(host, { path })
 	}
 
 	setMetadataClient() {
