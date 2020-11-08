@@ -5,12 +5,14 @@
 				<h1>Clockwork has just been updated!</h1>
 
 				<template v-for="note in release.notes">
-					<div class="whats-new-section">
+					<div class="whats-new-section" :class="`image-${note.imagePlacement || 'bottom'}`">
+						<img :src="`img/whats-new/${release.version}/${note.image}`" v-if="note.image && (note.imagePlacement || 'bottom') != 'bottom'">
+
 						<h2>{{note.title}}</h2>
 
 						<p v-for="line in note.text">{{line}}</p>
 
-						<img :src="`img/whats-new/${release.version}/${note.image}`" v-if="note.image">
+						<img :src="`img/whats-new/${release.version}/${note.image}`" v-if="note.image && (note.imagePlacement || 'bottom') == 'bottom'">
 					</div>
 				</template>
 
@@ -78,6 +80,53 @@ export default {
 
 	.whats-new-section {
 		margin-bottom: 50px;
+
+		&.image-left, &.image-right {
+			padding-top: 20px;
+
+			&:after {
+				clear: both;
+				content: '';
+				display: block;
+			}
+
+			img {
+				border-bottom: 0;
+				float: left;
+				margin-left: -40px;
+				margin-top: -20px;
+				max-width: 65%;
+
+				@include dark {
+					border-bottom: 0;
+				}
+			}
+		}
+
+		&.image-right {
+			img {
+				float: right;
+				margin-left: 0;
+				margin-right: -40px;
+			}
+		}
+
+		&.image-top {
+			img {
+				border-bottom: 0;
+				border-top: 1px solid #eee;
+				margin-top: 0;
+
+				@include dark {
+					border-bottom: 0;
+					border-top: 1px solid #444;
+				}
+			}
+
+			h2 {
+				margin-top: 0;
+			}
+		}
 
 		img {
 			border-bottom: 1px solid #eee;
