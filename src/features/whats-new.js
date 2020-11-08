@@ -23,58 +23,74 @@ export default class WhatsNew
 	static get releases() {
 		return [
 			{
-				version: '4.1',
-				url: 'https://underground.works/blog/clockwork-4.1-released-with-commands-queue-jobs-tests-profiling-and-more',
+				version: '5.0',
+				url: 'https://underground.works/blog/clockwork-5.0-released-with-client-side-metrics-toolbar-and-more',
 				notes: [
 					{
-						title: 'Commands profiling',
+						title: 'UI refinements',
 						text: [
-							'Collect executed artisan commands with all profiling data and command specific data like command name, exit code, arguments, parameters and output.',
-							'New "output" tab shows an ansi formatted command output.'
+							'Almost every part of the Clockwork UI was touched up and improved. From simplified requests list, new tab bar, counters and tables to reworked dark theme colors.',
+							'You will also find a new "credits" link in the settings modal. This opens a credits modal with a little shout-out to all contributors, sponsors and used third-party dependencies.'
 						],
-						image: 'commands-profiling.png'
+						image: 'clockwork-5.png',
+						imagePlacement: 'top'
 					},
 					{
-						title: 'Queue jobs profiling',
+						title: 'Timeline',
 						text: [
-							'Collect executed queue jobs with all profiling data and queue-job specific data like job name, status, payload, connection, queue name and options.',
-							'The "queue" tab now shows the disatched job\'s status with an ability to show full job details if available.'
+							'Timeline was rebuilt from the ground up in this release.',
+							'The new timeline makes it easier than ever before to figure out what\'s happening in your application.',
+							'The condense option makes the timeline more compact and clicking on an event now reveals a popover with more details.',
 						],
-						image: 'queue-jobs-profiling.png'
+						image: 'timeline.png',
+						imagePlacement: 'right'
 					},
 					{
-						title: 'Tests profiling',
+						title: 'Client-side metrics and Web Vitals',
 						text: [
-							'Collect ran tests with all profiling data and test specific data like test name, status and executed asserts.'
+							'Clockwork helps you to keep your server-side performance in check. Optimizing the backend is just half of the battle though.',
+							'Clockwork can now collect client-side performance metrics. Supported are both navigation timings and Web Vitals',
+							'Collecting these metrics requires installing a tiny javascript library from npm or via cdn. Check the docs for more details.'
 						],
-						image: 'tests-profiling.png'
+						image: 'client-metrics.png',
+						imagePlacement: 'left'
 					},
 					{
-						title: 'Extended timeline',
+						title: 'Models',
 						text: [
-							'Timeline now includes database queries, events, cache queries, queue jobs, redis commands, views and emails.',
-							'You can use the new "tag" icons to filter out specific type of timeline items.'
+							'Models tab is a new tool in your toolbelt for dealing with database issues.',
+							'Models actions give you a different point of view at your database usage.',
+							'Models counts will show you how many of each model you\'ve retrieved, created, updated and deleted.'
 						],
-						image: 'extended-timeline.png'
+						image: 'models-tab.png',
+						imagePlacement: 'right'
 					},
 					{
-						title: 'New settings modal',
+						title: 'Notifications',
 						text: [
-							'Personalize Clockwork via the new settings modal, including new appearance settings, ability to hide various types of requests and to disable auto-showing of incoming requests.'
+							'Notifications tab is a new tab replacing the emails tab.',
+							'This time we support not only emails, but all kinds of notifications, like SMS or Slack messages.',
+							'With details like subject, recipient, sender, but also notifiable, notified and mailable objects in Larvel.'
 						],
-						image: 'new-settings-modal.png'
+						image: 'notifications-tab.png',
+						imagePlacement: 'left'
 					},
 					{
-						title: 'Parent requests',
+						title: 'Sharing',
 						text: [
-							'Requests can now have parent requests, eg. a queue-job can have the http request that dispatched it as a parent. Parent requests are lazy-loaded with ability to click-through to the parent details.'
+							'Have you ever wanted to share a Clockwork profile with someone else? Maybe you\'d like to share details of a crash from a local environment with a co-worker. Or before and after optimisation metrics with your boss.',
+							'Sharing a request uploads the metadata to a Clockwork share service and gives you a public link to share with others. On this link you will find a fully working Clockwork app showing the request you shared.',
+							'The share service is free to use, click on the share button in the sidebar to start.'
 						]
 					},
 					{
-						title: 'Views timeline',
+						title: 'Toolbar',
 						text: [
-							'The views tab now shows a timeline view instead of a simple table, supports memory usage and does not show empty view data anymore.'
-						]
+							'Clockwork now gives you an option to show basic request information in the form of a toolbar in your app.',
+							'A tiny browser component has to be installed from npm or via cdn. See the docs for full installation instructions.'
+						],
+						image: 'toolbar.png',
+						imagePlacement: 'top'
 					}
 				]
 			}
