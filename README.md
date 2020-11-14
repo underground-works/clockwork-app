@@ -28,6 +28,12 @@
 	<a href="https://underground.works/clockwork">
 		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-6.png">
 	</a>
+	<a href="https://underground.works/clockwork">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-7.png">
+	</a>
+	<a href="https://underground.works/clockwork">
+		<img width="100%" src="https://github.com/underground-works/clockwork-app/raw/master/.github/assets/features-8.png">
+	</a>
 </p>
 
 ### Installation
@@ -37,7 +43,7 @@ Clockwork browser extension can be installed from official distribution channels
 - [Chrome](https://chrome.google.com/webstore/detail/clockwork/dmggabnehkmmfmdffgajcflpdjlnoemp)
 - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/clockwork-dev-tools/)
 
-The server-side component also includes a full copy of the Clockwork app available at `your.app/__clockwork`.
+The server-side component also includes a full copy of the Clockwork app available at `your.app/clockwork`.
 
 Clockwork uses a server-side component, that gathers all the data and easily integrates with any PHP project, including out-of-the-box support for major frameworks.
 
