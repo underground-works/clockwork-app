@@ -1,4 +1,4 @@
-5.0 (unreleased)
+5.0
 
 - added many design tweaks, refinements and consistent iconography
 - added reworked timeline with new UI, condensed mode, self and children times, event details, default "total" event, custom colors
