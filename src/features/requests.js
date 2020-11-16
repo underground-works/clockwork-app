@@ -32,7 +32,7 @@ export default class Requests
 			this.items.push(placeholder)
 		}
 
-		if (placeholder) placeholder.loading = true
+		if (placeholder && ! fields) placeholder.loading = true
 
 		return this.withQuery(fields ? { only: fields.join(',') } : {}, () => {
 			return this.load(id, promise => {
