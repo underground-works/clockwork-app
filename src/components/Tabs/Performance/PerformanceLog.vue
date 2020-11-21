@@ -1,6 +1,6 @@
 <template>
 	<div class="performance-log">
-		<details-table title="Performance issues" icon="alert-triangle" :badge="issues.length" :columns="['Message']" :items="issues" :filter="performanceLogFilter" filter-example="query failed file:Controller.php time:>13:08:29" v-if="issues.length">
+		<details-table title="Performance issues" icon="alert-triangle" :badge="issues.length" :columns="['Message']" :items="issues" :filter="performanceLogFilter" filter-example="query failed file:Controller.php time:>13:08:29" :no-table-head="true" v-if="issues.length">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message, index in items" class="log-row" :key="`${$request.id}-${index}`">
 					<td>
@@ -46,9 +46,6 @@ import ShortenedText from '../../UI/ShortenedText'
 import StackTrace from '../../UI/StackTrace'
 
 import Filter from '../../../features/filter'
-
-import extend from 'just-extend'
-import omit from 'just-omit'
 
 export default {
 	name: 'PerformanceLog',

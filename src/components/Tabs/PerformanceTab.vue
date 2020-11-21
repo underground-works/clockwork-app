@@ -52,6 +52,9 @@ import Timeline from './Performance/Timeline'
 
 import Filter from '../../features/filter'
 
+import extend from 'just-extend'
+import omit from 'just-omit'
+
 export default {
 	name: 'PerformanceTab',
 	components: { PerformanceChart, PerformanceClientSide, PerformanceLog, Profiler, Timeline },
