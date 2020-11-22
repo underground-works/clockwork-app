@@ -1,3 +1,8 @@
+5.0.1
+
+- fixed broken performance tab for requests with performance log data (reported by sinnbeck, thanks!)
+- fixed some UI glitches, wrong spinner colors in dark theme
+
 5.0
 
 - added many design tweaks, refinements and consistent iconography
