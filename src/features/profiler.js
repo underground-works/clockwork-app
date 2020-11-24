@@ -28,12 +28,22 @@ export default class Profiler
 		})
 	}
 
-	disableProfiling(clear = false) {
+	disableProfiling(clear = false, temporary = false) {
 		if (clear) this.clear()
 
 		return this.platform.setCookie('XDEBUG_PROFILE', '0', 0).then(() => {
-			this.isProfiling = false
+			if (! temporary) this.isProfiling = false
 		})
+	}
+
+	withoutProfiling(callback) {
+		if (! this.isProfiling) return callback()
+
+		this.disableProfiling(false, true)
+		let ret = callback()
+		this.enableProfiling()
+
+		return ret
 	}
 
 	loadRequest(request) {

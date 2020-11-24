@@ -40,9 +40,7 @@ export default class Extension
 
 	setMetadataClient() {
 		this.requests.setClient((method, url, data, headers) => {
-			let isProfiling = this.profiler.isProfiling
-
-			let makeRequest = () => {
+			return this.profiler.withoutProfiling(() => {
 				return this.fetch(method, url, data, headers)
 					.then(({ response, data }) => {
 						if (response.status == 403) {
@@ -55,14 +53,7 @@ export default class Extension
 
 						return data
 					})
-					.then(data => {
-						if (isProfiling) this.profiler.enableProfiling()
-
-						return data
-					})
-			}
-
-			return isProfiling ? this.profiler.disableProfiling().then(makeRequest) : makeRequest()
+			})
 		})
 	}
 
