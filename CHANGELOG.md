@@ -1,5 +1,6 @@
 5.0.2
 
+- fixed user tabs not being shown (reported by martbean, thanks!)
 - fixed timeline not working if two events have the exact same start and end time (reported by mahagr, thanks!)
 - fixed flickering profiler controls when enabled
 
