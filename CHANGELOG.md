@@ -1,3 +1,8 @@
+5.0.2
+
+- fixed timeline not working if two events have the exact same start and end time (reported by mahagr, thanks!)
+- fixed flickering profiler controls when enabled
+
 5.0.1
 
 - fixed broken performance tab for requests with performance log data (reported by sinnbeck, thanks!)
