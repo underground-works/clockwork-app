@@ -27,19 +27,19 @@
 			<details-request v-if="$platform.hasFeature('details-request')"></details-request>
 
 			<div class="content-content">
-				<events-tab :active="activeTab == 'events'"></events-tab>
-				<models-tab :active="activeTab == 'models'"></models-tab>
-				<database-tab :active="activeTab == 'database'"></database-tab>
-				<cache-tab :active="activeTab == 'cache'"></cache-tab>
-				<redis-tab :active="activeTab == 'redis'"></redis-tab>
-				<queue-tab :active="activeTab == 'queue'"></queue-tab>
-				<log-tab :active="activeTab == 'log'"></log-tab>
+				<events-tab :active="activeTab == 'events'" v-if="shownTabs.events"></events-tab>
+				<models-tab :active="activeTab == 'models'" v-if="shownTabs.models"></models-tab>
+				<database-tab :active="activeTab == 'database'" v-if="shownTabs.database"></database-tab>
+				<cache-tab :active="activeTab == 'cache'" v-if="shownTabs.cache"></cache-tab>
+				<redis-tab :active="activeTab == 'redis'" v-if="shownTabs.redis"></redis-tab>
+				<queue-tab :active="activeTab == 'queue'" v-if="shownTabs.queue"></queue-tab>
+				<log-tab :active="activeTab == 'log'" v-if="shownTabs.log"></log-tab>
 				<performance-tab :active="activeTab == 'performance'"></performance-tab>
-				<views-tab :active="activeTab == 'views'"></views-tab>
-				<notifications-tab :active="activeTab == 'notifications'"></notifications-tab>
-				<routes-tab :active="activeTab == 'routes'"></routes-tab>
+				<views-tab :active="activeTab == 'views'" v-if="shownTabs.views"></views-tab>
+				<notifications-tab :active="activeTab == 'notifications'" v-if="shownTabs.notifications"></notifications-tab>
+				<routes-tab :active="activeTab == 'routes'" v-if="shownTabs.routes"></routes-tab>
 				<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeTab == `user-${userTab.key}`"></user-tab>
-				<output-tab :active="activeTab == 'output'"></output-tab>
+				<output-tab :active="activeTab == 'output'" v-if="shownTabs.output"></output-tab>
 			</div>
 
 		</div>
@@ -127,7 +127,7 @@ export default {
 				{ text: 'Notifications', name: 'notifications', icon: 'mail', shown: this.shownTabs.notifications },
 				{ text: 'Routes', name: 'routes', icon: 'map', shown: this.shownTabs.routes }
 			].concat(
-				this.$request?.userData?.map(userTab => ({ text: userTab.title, name: `user-${userTab.key}`, icon: 'menu' }))
+				this.$request?.userData?.map(userTab => ({ text: userTab.title, name: `user-${userTab.key}`, icon: 'menu', shown: true }))
 			).concat([
 				{ text: 'Output', name: 'output', icon: 'terminal', shown: this.shownTabs.output }
 			]).filter(Boolean)
