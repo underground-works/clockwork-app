@@ -144,7 +144,7 @@ export class TimelineEvent {
 	}
 
 	contains(event) {
-		return this.start <= event.start && event.end <= this.end
+		return this.start < event.start && event.end < this.end
 	}
 }
 
