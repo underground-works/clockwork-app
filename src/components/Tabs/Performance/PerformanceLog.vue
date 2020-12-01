@@ -27,7 +27,9 @@
 					<td v-if="databaseSlowQueriesColumns.includes('Connection')">{{query.connection}}</td>
 					<td>
 						<div class="database-query">
-							<div class="database-query-content">{{query.query}}</div>
+							<div class="database-query-content">
+								<highlightjs language="sql" :code="query.query" />
+							</div>
 							<stack-trace class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
 						</div>
 					</td>

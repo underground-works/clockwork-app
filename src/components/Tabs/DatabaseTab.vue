@@ -36,6 +36,21 @@
 		</div>
 
 		<details-table title="Queries" icon="database" :columns="columns" :items="$request.databaseQueries" :filter="filter" filter-example="where request_id model:request type:select file:Controller.php duration:&gt;100" v-if="$request.databaseQueries.length">
+			<template slot="toolbar" slot-scope="{ filter }">
+				<div class="header-group">
+					<label class="header-toggle">
+						<input type="checkbox" v-model="format">
+						Format SQL
+					</label>
+				</div>
+
+				<div class="header-group">
+					<div class="header-search">
+						<input type="search" v-model="filter.input" placeholder="Search...">
+						<icon name="search"></icon>
+					</div>
+				</div>
+			</template>
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="query, index in items" :key="`${$request.id}-${index}`" :class="{ 'database-slow-query': query.tags.includes('slow') }">
 					<td>
@@ -45,7 +60,7 @@
 					<td>
 						<div class="database-query">
 							<div class="database-query-content">
-								<div>{{query.query}}</div>
+								<highlightjs language="sql" :code="format ? query.formattedQuery : query.query" />
 								<div class="database-query-bindings" v-if="query.bindings">
 									<pretty-print :data="query.bindings"></pretty-print>
 								</div>
@@ -75,6 +90,7 @@ export default {
 	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
+		format: false,
 		filter: new Filter([
 			{ tag: 'model' },
 			{ tag: 'type', apply: (item, tagValue) => {
