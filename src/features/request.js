@@ -191,7 +191,7 @@ export default class Request
 
 		return data.map(query => {
 			query.expiration = query.expiration ? this.formatTime(query.expiration) : undefined
-			query.value = query.type == 'hit' || query.type == 'write' ? query.value : ''
+			query.value = query.value !== undefined ? query.value : ''
 
 			return query
 		})
