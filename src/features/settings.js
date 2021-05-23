@@ -61,6 +61,8 @@ export default class Settings
 		}
 
 		this.loaded = true
+
+		this.platform.settingsChanged()
 	}
 
 	defaults() {
@@ -73,6 +75,7 @@ export default class Settings
 				hideQueueJobTypeRequests: this.platform instanceof Extension,
 				hideTestTypeRequests: this.platform instanceof Extension,
 				ignoredUpdateNotifications: {},
+				metadataPath: null,
 				performanceVitalsInfoShown: true,
 				preserveLog: true,
 				requestsListCollapsed: false,

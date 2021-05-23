@@ -35,6 +35,12 @@ export default class Standalone
 			)
 		}
 
+		if (this.settings.global.metadataPath) {
+			return this.requests.setRemote(
+				window.location.href, { path: this.settings.global.metadataPath }
+			)
+		}
+
 		this.requests.setRemote(
 			window.location.href,
 			{ path: (new URI(window.location.href)).path().split('/').slice(0, -2).join('/') + '/__clockwork/' }
@@ -150,5 +156,8 @@ export default class Standalone
 	}
 
 	settingsChanged() {
+		if (this.settings.global.metadataPath) {
+			this.setMetadataUrl()
+		}
 	}
 }
