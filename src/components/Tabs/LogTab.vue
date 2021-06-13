@@ -129,6 +129,7 @@ export default {
 	}
 
 	.log-message {
+		align-items: flex-start;
 		display: flex;
 		flex-wrap: wrap;
 
