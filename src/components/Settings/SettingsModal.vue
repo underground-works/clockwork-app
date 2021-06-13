@@ -52,7 +52,7 @@
 						Requires <a href="https://atom.io/packages/open" target="_blank">Atom Open</a> package.
 					</div>
 					<div class="help-text" v-show="$settings.global.editor == 'sublime'">
-						Requires <a href="https://github.com/asuth/subl-handler" target="_blank">subl-handler</a>.
+						Requires <a href="https://github.com/inopinatus/sublime_url" target="_blank">sublime_url</a> on MacOS. Not supported on other platforms.
 					</div>
 				</div>
 			</div>
