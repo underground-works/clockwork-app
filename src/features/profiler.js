@@ -88,6 +88,9 @@ export default class Profiler
 			this.metadata = profile.metadata
 			this.summary = this.metadata.summary.split(' ')
 
+			// Xdebug 3 provides higher precision timing, in that case we want to convert to milliseconds
+			let highPrecision = this.metadata.events.includes('Time_(10ns)')
+
 			this.functionsAll = profile.functions
 				.filter(fn => fn.name != '{main}')
 				.map(fn => {
@@ -95,6 +98,12 @@ export default class Profiler
 					fn.inclusiveAll = fn.inclusive
 					fn.fullPath = fn.file == 'php:internal' ? 'internal' : `${fn.file}:${fn.line}`
 					fn.shortPath = fn.fullPath != 'internal' ? fn.fullPath.split(/[\/\\]/).pop() : fn.fullPath
+
+					if (highPrecision) {
+						fn.selfAll[0] = fn.selfAll[0] / 100
+						fn.inclusiveAll[0] = fn.inclusiveAll[0] / 100
+					}
+
 					return fn
 				})
 
