@@ -67,18 +67,18 @@ export default class Extension
 
 	setCookie(name, value, expiration) {
 		return this.resolveTabUrl().then(url => {
-			this.api.cookies.set({
-				url, name, value, path: '/', expirationDate: Math.floor(Date.now() / 1000) + expiration
-			})
+			this.api.runtime.sendMessage(
+				{ action: 'setCookie', url, name, value, path: '/', expirationDate: Math.floor(Date.now() / 1000) + expiration }
+			)
 		})
 	}
 
 	getCookie(name) {
 		return this.resolveTabUrl().then(url => {
 			return new Promise((accept, reject) => {
-				this.api.cookies.get({ url, name }, cookie => {
-					accept(cookie ? cookie.value : undefined)
-				})
+				this.api.runtime.sendMessage(
+					{ action: 'setCookie', url, name }, message => accept(message)
+				)
 			})
 		})
 	}

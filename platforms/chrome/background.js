@@ -10,10 +10,20 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 
 		fetch(url, { method, body: Object.keys(data).length ? body : null, headers })
 			.then(response => response.json().then(data => callback({ response: { status: response.status }, data })))
+	} else if (message.action == 'getCookie') {
+		let { url, name } = message
+
+		api.cookies.get({ url, name }, cookie => {
+			callback(cookie ? cookie.value : undefined)
+		})
 	} else if (message.action == 'getTabUrl') {
 		api.tabs.get(message.tabId, tab => callback(tab.url))
 	} else if (message.action == 'getLastClockworkRequestInTab') {
 		callback(lastClockworkRequestPerTab[message.tabId])
+	} else if (message.action == 'setCookie') {
+		let { url, name, value, path, expirationDate } = message
+
+		api.cookies.set({ url, name, value, path, expirationDate })
 	}
 
 	return true
