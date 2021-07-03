@@ -4,8 +4,8 @@
 		</sidebar-section>
 
 		<sidebar-section title="Data" name="data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
-			<template slot="content" v-if="! ($request.requestData instanceof Object)">
-				<div class="data-raw">
+			<template v-slot:content="{ expanded }" v-if="! ($request.requestData instanceof Object)">
+				<div class="data-raw" v-show="expanded">
 					{{$request.requestData}}
 				</div>
 			</template>
@@ -76,9 +76,9 @@ export default {
 	@include dark { background: #1f1f1f; }
 
 	.data-raw {
-		td {
-			white-space: pre;
-		}
+		overflow: auto;
+		padding: 8px 12px;
+		white-space: pre;
 	}
 
 	.session-user {
