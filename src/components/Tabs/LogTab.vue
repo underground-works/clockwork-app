@@ -53,6 +53,7 @@ export default {
 			let messageIndex = this.$request.log.indexOf(message)
 
 			this.$request.log.splice(messageIndex + 1, 0, {
+				time:      message.time,
 				message:   message.exception.previous.message,
 				exception: message.exception.previous,
 				level:     'error',
