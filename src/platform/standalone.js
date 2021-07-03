@@ -115,7 +115,10 @@ export default class Standalone
 
 		this.requests.loadNext(null, this.requests.last()?.id || this.lastPolledId).then(requests => {
 			if (! this.settings.global.preserveLog) {
-				this.requests.setItems(this.requests.all().slice(-1))
+				let lastPageRequest = this.requests.last(request => request.isRequest() && ! request.isAjax())
+				let lastPageRequestIndex = this.requests.all().indexOf(lastPageRequest)
+
+				this.requests.setItems(this.requests.all().slice(lastPageRequestIndex))
 			}
 
 			this.lastPolledId = this.requests.last()?.id || this.lastPolledId

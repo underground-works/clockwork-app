@@ -96,6 +96,9 @@ export default class Request
 		// load the metrics with a 2.5s delay to accomodate for the request being updated with metrics from the client
 		// browser, keep trying until we get the metrics or run out of attempts
 		this.loadClientMetricsTimeout = setTimeout(() => {
+			// return if the request has been removed form the requests list
+			if (! requests.findId(this.id)) return
+
 			requests.loadId(this.id, [ 'clientMetrics', 'webVitals' ]).then(() => {
 				this.loadClientMetricsTimeout = undefined
 				this.loadClientMetrics(requests)
