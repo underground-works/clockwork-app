@@ -1,0 +1,32 @@
+{
+	"manifest_version": 2,
+	"name": "Clockwork",
+	"version": "5.0.2",
+	"version_name": "5.0.2",
+
+	"description": "php dev tools integrated to your browser",
+	"homepage_url": "https://underground.works/clockwork",
+
+	"icons": {
+		"48": "assets/logo-48x48.png",
+		"128": "assets/logo-128x128.png"
+	},
+
+	"devtools_page": "devtools.html",
+
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+
+	"incognito": "split",
+
+	"permissions": [
+		"cookies",
+		"storage",
+		"tabs",
+		"webNavigation",
+		"webRequest",
+		"http://*/",
+		"https://*/"
+	]
+}

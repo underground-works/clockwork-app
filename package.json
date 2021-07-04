@@ -11,6 +11,8 @@
     "build-chrome-dev": "vue-cli-service build --mode=development && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cpx 'platforms/chrome/**/*' dist/chrome/",
     "build-firefox": "vue-cli-service build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
     "build-firefox-dev": "vue-cli-service build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
+    "build-edge": "vue-cli-service build && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
+    "build-edge-dev": "vue-cli-service build --mode=development && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
     "build-share": "VUE_APP_PLATFORM=share vue-cli-service build && del-cli dist/share && move-cli --mkdirp build dist/share",
     "build-share-dev": "VUE_APP_PLATFORM=share vue-cli-service build --mode=development && del-cli dist/share && move-cli --mkdirp build dist/share",
     "build-web": "vue-cli-service build && del-cli dist/web && move-cli --mkdirp build dist/web",
