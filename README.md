@@ -64,6 +64,7 @@ The Clockwork app can be build for following targets:
 
 - `npm run build-chrome` - build Chrome extension in `dist/chrome`
 - `npm run build-firefox` - build Firefox extension in `dist/firefox`
+- `npm run build-edge` - build Edge extension in `dist/edge`
 - `npm run build-web` - build standalone web application in `dist/web`
 
 To make a development build with source-maps append `-dev` to the target, eg. `build-chrome-dev`.
