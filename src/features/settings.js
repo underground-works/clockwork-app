@@ -69,6 +69,7 @@ export default class Settings
 		return {
 			global: {
 				appearance: 'auto',
+				databasePrettified: false,
 				editor: null,
 				showIncomingRequests: true,
 				hideCommandTypeRequests: this.platform instanceof Extension,
