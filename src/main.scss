@@ -351,9 +351,6 @@ code {
 			flex: 1 0 auto;
 			max-width: 100%;
 			word-break: break-word;
-			&>pre {
-				margin: 0;
-			}
 		}
 
 		.database-query-path {
@@ -538,94 +535,6 @@ code {
 				font-size: 10px
 			}
 		}
-	}
-}
-
-.hljs {
-	white-space: pre-wrap;
-
-	.hljs-comment,
-	.hljs-quote {
-		color: rgb(128, 128, 128);
-		font-style: italic;
-	}
-
-	.hljs-keyword,
-	.hljs-selector-tag,
-	.hljs-subst {
-		font-weight: bold;
-	}
-
-	.hljs-number,
-	.hljs-literal,
-	.hljs-variable,
-	.hljs-template-variable,
-	.hljs-tag .hljs-attr {
-		color: rgb(28, 0, 207);
-	}
-
-	.hljs-string,
-	.hljs-doctag {
-		color: rgb(196, 26, 22);
-	}
-
-	.hljs-title,
-	.hljs-section,
-	.hljs-selector-id {
-		color: rgb(196, 26, 22);
-		font-weight: bold;
-	}
-
-	.hljs-subst {
-		font-weight: normal;
-	}
-
-	.hljs-type,
-	.hljs-class .hljs-title {
-		color: rgb(196, 26, 22);
-		font-weight: bold;
-	}
-
-	.hljs-tag,
-	.hljs-name,
-	.hljs-attribute {
-		font-weight: normal;
-	}
-
-	.hljs-regexp,
-	.hljs-link {
-		color: rgb(196, 26, 22);
-	}
-
-	.hljs-symbol,
-	.hljs-bullet {
-		color: rgb(28, 0, 207);
-	}
-
-	.hljs-built_in,
-	.hljs-builtin-name {
-		color: rgb(19, 43, 162);
-	}
-
-	.hljs-meta {
-		color: rgb(28, 0, 207);
-		font-weight: bold;
-	}
-
-	.hljs-deletion {
-		background: #fdd;
-	}
-
-	.hljs-addition {
-		background: #dfd;
-	}
-
-	.hljs-emphasis {
-		font-style: italic;
-	}
-
-	.hljs-strong {
-		font-weight: bold;
 	}
 }
 

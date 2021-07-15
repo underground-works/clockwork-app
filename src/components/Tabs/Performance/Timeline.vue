@@ -61,7 +61,7 @@
 									</div>
 
 									<div class="event-description" v-if="event.description != event.name">
-										<highlightjs v-if="event.tags && event.tags.indexOf('databaseQueries') > -1" language="sql" :code="event.description" />
+										<highlighted-code v-if="event.tags && event.tags.indexOf('databaseQueries') > -1" language="sql" :code="event.description"></highlighted-code>
 										<div v-else>{{event.description}}</div>
 									</div>
 
@@ -99,13 +99,15 @@
 					</td>
 					<td class="timeline-description">
 						<slot name="table-description" :item="group">
-							<span class="description-tags" v-if="group.tags">
-								<span v-for="tag in resolveTags(group.tags)">
-									<icon :name="tag.icon" :title="tag.title"></icon>
+							<div class="description-content">
+								<span class="description-tags" v-if="group.tags && group.tags.length">
+									<span v-for="tag in resolveTags(group.tags)">
+										<icon :name="tag.icon" :title="tag.title"></icon>
+									</span>
 								</span>
-							</span>
-							<highlightjs v-if="group.tags && group.tags.indexOf('databaseQueries') > -1" language="sql" :code="group.description" />
-							<div v-else>{{group.description}}</div>
+								<highlighted-code v-if="group.tags && group.tags.indexOf('databaseQueries') > -1" language="sql" :code="group.description"></highlighted-code>
+								<div v-else>{{group.description}}</div>
+							</div>
 						</slot>
 					</td>
 					<td class="timeline-timing timing-total">{{group.duration|formatTiming}}</td>
@@ -127,6 +129,7 @@
 
 <script>
 import DetailsTable from '../../UI/DetailsTable'
+import HighlightedCode from '../../UI/HighlightedCode'
 import Popover from '../../UI/Popover'
 
 import Filter from '../../../features/filter'
@@ -135,7 +138,7 @@ import debounce from 'just-debounce-it'
 
 export default {
 	name: 'Timeline',
-	components: { DetailsTable, Popover },
+	components: { DetailsTable, HighlightedCode, Popover },
 	props: { name: {}, timeline: {}, tags: { default: () => [] } },
 	data: () => ({
 		condense: undefined,
@@ -297,12 +300,16 @@ $timeline-colors-dark: (
 	}
 
 	.timeline-description {
+		.description-content {
+			align-items: center;
+			display: flex;
+			word-break: break-word;
+		}
+
 		.description-tags {
 			font-size: 95%;
+			margin-right: 5px;
 			opacity: 0.7;
-		}
-		&>pre {
-			margin: 0;
 		}
 	}
 
@@ -453,9 +460,6 @@ $timeline-colors-dark: (
 				border-top: 1px solid rgba(#333, 0.1);
 				padding: 12px;
 				text-align: left;
-				&>pre {
-					margin: 0;
-				}
 
 				@include dark {
 					background: rgba(#ddd, 0.03);

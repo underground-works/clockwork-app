@@ -28,7 +28,7 @@
 					<td>
 						<div class="database-query">
 							<div class="database-query-content">
-								<highlightjs language="sql" :code="query.query" />
+								<highlighted-code language="sql" :code="query.query"></highlighted-code>
 							</div>
 							<stack-trace class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
 						</div>
@@ -43,6 +43,7 @@
 <script>
 import DetailsTable from '../../UI/DetailsTable'
 import DetailsTableFilterToggle from '../../UI/DetailsTableFilterToggle'
+import HighlightedCode from '../../UI/HighlightedCode'
 import PrettyPrint from '../../UI/PrettyPrint'
 import ShortenedText from '../../UI/ShortenedText'
 import StackTrace from '../../UI/StackTrace'
@@ -51,7 +52,7 @@ import Filter from '../../../features/filter'
 
 export default {
 	name: 'PerformanceLog',
-	components: { DetailsTable, DetailsTableFilterToggle, PrettyPrint, ShortenedText, StackTrace },
+	components: { DetailsTable, DetailsTableFilterToggle, HighlightedCode, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'issues', 'slowQueries' ],
 	data: () => ({
 		databaseSlowQueriesFilter: new Filter([

@@ -71,7 +71,7 @@
 							<div class="details-row" v-if="action.query">
 								<div class="row-group group-query" v-if="action.query">
 									<h4>Query</h4>
-									<span>{{action.query}}</span>
+									<highlighted-code language="sql" :code="action.query"></highlighted-code>
 								</div>
 								<div class="row-group" v-if="action.duration">
 									<h4>Duration</h4>
@@ -120,6 +120,7 @@
 
 <script>
 import DetailsTable from '../UI/DetailsTable'
+import HighlightedCode from '../UI/HighlightedCode'
 import PrettyPrint from '../UI/PrettyPrint'
 import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
@@ -128,7 +129,7 @@ import Filter from '../../features/filter'
 
 export default {
 	name: 'ModelsTab',
-	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
+	components: { DetailsTable, HighlightedCode, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
 		selectedModelsTab: 'actions',
