@@ -1,6 +1,6 @@
 {
   "name": "Clockwork",
-  "version": "5.0.2",
+  "version": "5.1.0-beta0",
   "description": "php dev tools in your browser",
   "repository": "github:underground-works/clockwork-app",
   "license": "MIT",

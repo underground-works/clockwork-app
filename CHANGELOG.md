@@ -1,3 +1,20 @@
+5.1 (unreleased)
+
+- added database queries syntax highlighting (implemented by edgardmessias, thanks!)
+- added database queries prettifying (implemented by edgardmessias, thanks!)
+- added official Edge build
+- added support for overriding metadata path via settings
+- improved compatibility with Firefox when handling cookies (reported by DarkVen0m, thanks!)
+- improved Data sidebar section styles (reprted by DarkVen0m, thanks!)
+- improved behavior of standalone mode with "keep requests log" disabled (reported by piperone, thanks!)
+- improved monospace font stack and styles
+- updated suggested Sublime url handler (idea by peterthomson, thanks!)
+- updated dependencies
+- fixed stack traces popovers placement issues (reported by JackWH, thanks!)
+- fixed high-precision timings from Xdebug 3 not being shown correctly in profiler (reported by tsukasagenesis, thanks!)
+- fixed not being able to show previous exception of chained eceptions in the log tab
+- fixed npm build scripts breaking with latest Node
+
 5.0.2
 
 - fixed user tabs not being shown (reported by martbean, thanks!)
