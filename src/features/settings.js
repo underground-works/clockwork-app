@@ -89,8 +89,7 @@ export default class Settings
 				seenReleaseNotesVersion: null,
 				shareTermsAccepted: false,
 				timelineCondensed: { performance: true, views: false },
-				timelineHiddenTags: {},
-				viewsTimelineCondensed: false
+				timelineHiddenTags: {}
 			},
 			site: {
 				localPathMap: { real: null, local: null },
