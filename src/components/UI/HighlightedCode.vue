@@ -1,14 +1,23 @@
 <template>
-	<vue-prism :code="code" :language="language" class="highlighted-code"></vue-prism>
+	<pre class="highlighted-code"><code :class="languageClass" v-html="html"></code></pre>
 </template>
 
 <script>
-import VuePrism from 'vue-prismjs'
+import Prism from 'prismjs/components/prism-core'
+import 'prismjs/components/prism-sql'
 
 export default {
 	name: 'HighlightedCode',
-	components: { VuePrism },
-	props: [ 'code', 'language' ]
+	props: [ 'code', 'language' ],
+	computed: {
+		languageClass() {
+			return `language-${this.language}`
+		},
+
+		html() {
+			return Prism.highlight(this.code, Prism.languages.sql, 'sql')
+		}
+	}
 }
 </script>
 
@@ -48,26 +57,28 @@ export default {
 }
 
 .application.dark {
-	.language-sql {
-		.function {
-			color: rgb(227, 110, 236);
-		}
+	.highlighted-code {
+		.language-sql {
+			.function {
+				color: rgb(227, 110, 236);
+			}
 
-		.number {
-			color: rgb(153, 127, 255);
-		}
+			.number {
+				color: rgb(153, 127, 255);
+			}
 
-		.string {
-			color: rgb(227, 62, 58);
-		}
+			.string {
+				color: rgb(227, 62, 58);
+			}
 
-		.punctuation {
-			color: rgb(127, 127, 127);
-		}
+			.punctuation {
+				color: rgb(127, 127, 127);
+			}
 
-		.boolean,
-		.operator {
-			color: rgb(130, 150, 255);
+			.boolean,
+			.operator {
+				color: rgb(130, 150, 255);
+			}
 		}
 	}
 }

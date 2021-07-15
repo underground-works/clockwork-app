@@ -37,12 +37,12 @@
     "just-unique": "^3.2.0",
     "linkifyjs": "^2.1.9",
     "lodash": "^4.17.19",
+    "prismjs": "^1.24.1",
     "register-service-worker": "^1.7.1",
     "urijs": "^1.19.2",
     "v-click-outside": "^3.1.2",
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",
-    "vue-prismjs": "^1.2.0",
     "vue-spinkit": "1.4.0",
     "vue-svg-loader": "^0.16.0"
   },
@@ -54,6 +54,7 @@
     "move-cli": "^1.2.1",
     "node-sass": "^6.0.0",
     "sass-loader": "^10.2.0",
+    "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "postcss": {
