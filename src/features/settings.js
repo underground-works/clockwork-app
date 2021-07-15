@@ -69,6 +69,7 @@ export default class Settings
 		return {
 			global: {
 				appearance: 'auto',
+				databasePrettified: false,
 				editor: null,
 				showIncomingRequests: true,
 				hideCommandTypeRequests: this.platform instanceof Extension,
@@ -88,8 +89,7 @@ export default class Settings
 				seenReleaseNotesVersion: null,
 				shareTermsAccepted: false,
 				timelineCondensed: { performance: true, views: false },
-				timelineHiddenTags: {},
-				viewsTimelineCondensed: false
+				timelineHiddenTags: {}
 			},
 			site: {
 				localPathMap: { real: null, local: null },

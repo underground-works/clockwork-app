@@ -39,8 +39,8 @@
 			<template slot="toolbar" slot-scope="{ filter }">
 				<div class="header-group">
 					<label class="header-toggle">
-						<input type="checkbox" v-model="format">
-						Format SQL
+						<input type="checkbox" v-model="prettify">
+						Prettify
 					</label>
 				</div>
 
@@ -60,7 +60,7 @@
 					<td>
 						<div class="database-query">
 							<div class="database-query-content">
-								<highlightjs language="sql" :code="format ? query.formattedQuery : query.query" />
+								<highlighted-code language="sql" :code="prettify ? query.prettifiedQuery : query.query"></highlighted-code>
 								<div class="database-query-bindings" v-if="query.bindings">
 									<pretty-print :data="query.bindings"></pretty-print>
 								</div>
@@ -79,6 +79,7 @@
 
 <script>
 import DetailsTable from '../UI/DetailsTable'
+import HighlightedCode from '../UI/HighlightedCode'
 import PrettyPrint from '../UI/PrettyPrint'
 import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
@@ -87,10 +88,10 @@ import Filter from '../../features/filter'
 
 export default {
 	name: 'DatabaseTab',
-	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
+	components: { DetailsTable, HighlightedCode, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		format: false,
+		prettify: false,
 		filter: new Filter([
 			{ tag: 'model' },
 			{ tag: 'type', apply: (item, tagValue) => {
@@ -112,6 +113,18 @@ export default {
 
 			return columns
 		}
+	},
+	watch: {
+		prettify(val, old) {
+			// skip initial assignment from settings
+			if (old === undefined) return
+
+			this.$settings.global.databasePrettified = this.prettify
+			this.$settings.save()
+		}
+	},
+	mounted() {
+		this.prettify = this.$settings.global.databasePrettified || false
 	}
 }
 </script>

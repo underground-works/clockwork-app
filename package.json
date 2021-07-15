@@ -26,7 +26,6 @@
     "cpx2": "^3.0.0",
     "date-fns": "^2.16.1",
     "feather-icons": "^4.28.0",
-    "highlight.js": "^10.3.1",
     "just-clone": "^3.1.0",
     "just-debounce-it": "^1.1.0",
     "just-extend": "^4.1.0",
@@ -38,6 +37,7 @@
     "just-unique": "^3.2.0",
     "linkifyjs": "^2.1.9",
     "lodash": "^4.17.19",
+    "prismjs": "^1.24.1",
     "register-service-worker": "^1.7.1",
     "urijs": "^1.19.2",
     "v-click-outside": "^3.1.2",
@@ -54,6 +54,7 @@
     "move-cli": "^1.2.1",
     "node-sass": "^6.0.0",
     "sass-loader": "^10.2.0",
+    "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "postcss": {
