@@ -1,4 +1,4 @@
-5.1 (unreleased)
+5.1
 
 - added database queries syntax highlighting (implemented by edgardmessias, thanks!)
 - added database queries prettifying (implemented by edgardmessias, thanks!)
