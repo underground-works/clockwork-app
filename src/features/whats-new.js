@@ -23,6 +23,27 @@ export default class WhatsNew
 	static get releases() {
 		return [
 			{
+				version: '5.1',
+				url: 'https://underground.works/blog/clockwork-5.1-released-with-database-queries-highlighting-and-more',
+				notes: [
+					{
+						title: 'Database Queries Highlighting',
+						text: [
+							'Database queries are now easier to read with SQL syntax highlighting. You can also enable the prettify mode to reformat the queries for even more readibility.'
+						],
+						image: 'database-queries.png',
+						imagePlacement: 'top'
+					},
+					{
+						title: 'Server-side Library Updated',
+						text: [
+							'The server-side library was also updated with support for Laravel Octane, collecting cache values and more.',
+							'For the full list of improvements, changes, and fixes click on the "learn more" button.'
+						]
+					}
+				]
+			},
+			{
 				version: '5.0',
 				url: 'https://underground.works/blog/clockwork-5.0-released-with-client-side-metrics-toolbar-and-more',
 				notes: [
