@@ -1,31 +1,31 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<div class="counters-row">
-			<div class="counter" v-show="$request.cacheQueries.length">
+			<div class="counter" v-if="$request.cacheQueries.length">
 				<div class="counter-value">{{$request.cacheQueries.length}}</div>
 				<div class="counter-title">queries</div>
 			</div>
-			<div class="counter" v-show="$request.cacheReads !== null">
+			<div class="counter" v-if="$request.cacheReads !== null">
 				<div class="counter-value">{{$request.cacheReads}}</div>
 				<div class="counter-title">reads</div>
 			</div>
-			<div class="counter" v-show="$request.cacheHits !== null">
+			<div class="counter" v-if="$request.cacheHits !== null">
 				<div class="counter-value">{{$request.cacheHits}}</div>
 				<div class="counter-title">hits</div>
 			</div>
-			<div class="counter" v-show="$request.cacheMisses !== null">
+			<div class="counter" v-if="$request.cacheMisses !== null">
 				<div class="counter-value">{{$request.cacheMisses}}</div>
 				<div class="counter-title">misses</div>
 			</div>
-			<div class="counter" v-show="$request.cacheWrites !== null">
+			<div class="counter" v-if="$request.cacheWrites !== null">
 				<div class="counter-value">{{$request.cacheWrites}}</div>
 				<div class="counter-title">writes</div>
 			</div>
-			<div class="counter" v-show="$request.cacheDeletes !== null">
+			<div class="counter" v-if="$request.cacheDeletes !== null">
 				<div class="counter-value">{{$request.cacheDeletes}}</div>
 				<div class="counter-title">deletes</div>
 			</div>
-			<div class="counter" v-show="$request.cacheTime !== null">
+			<div class="counter" v-if="$request.cacheTime !== null">
 				<div class="counter-value">{{$request.cacheTime}}</div>
 				<div class="counter-title">time</div>
 			</div>

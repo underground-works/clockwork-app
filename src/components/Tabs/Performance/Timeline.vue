@@ -97,7 +97,7 @@
 							</popover>
 						</div>
 					</td>
-					<td class="timeline-description">
+					<td v-if="showDetails" class="timeline-description">
 						<slot name="table-description" :item="group">
 							<div class="description-content">
 								<span class="description-tags" v-if="group.tags && group.tags.length">
@@ -110,17 +110,17 @@
 							</div>
 						</slot>
 					</td>
-					<td class="timeline-timing timing-total">{{group.duration|formatTiming}}</td>
-					<td class="timeline-timing">{{group.durationSelf|formatTiming}}</td>
-					<td class="timeline-timing">{{group.durationChildren|formatTiming('ms', group.condensed ? '' : '–')}}</td>
+					<td v-if="showDetails" class="timeline-timing timing-total">{{group.duration|formatTiming}}</td>
+					<td v-if="showDetails" class="timeline-timing">{{group.durationSelf|formatTiming}}</td>
+					<td v-if="showDetails" class="timeline-timing">{{group.durationChildren|formatTiming('ms', group.condensed ? '' : '–')}}</td>
 				</tr>
 
 				<tr class="timeline-size-monitor">
 					<td class="timeline-graph" ref="timelineChart"></td>
 					<td class="timeline-description"></td>
-					<td class="timeline-timing"></td>
-					<td class="timeline-timing"></td>
-					<td class="timeline-timing"></td>
+					<td v-if="showDetails" class="timeline-timing"></td>
+					<td v-if="showDetails" class="timeline-timing"></td>
+					<td v-if="showDetails" class="timeline-timing"></td>
 				</tr>
 			</template>
 		</details-table>

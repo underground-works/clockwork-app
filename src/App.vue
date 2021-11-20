@@ -1,8 +1,8 @@
 <template>
 	<div class="application split-view" :class="appearance">
-		<requests-list v-show="showRequestsList"></requests-list>
+		<requests-list v-if="showRequestsList"></requests-list>
 		<request-details></request-details>
-		<request-sidebar v-show="showRequestSidebar"></request-sidebar>
+		<request-sidebar v-if="showRequestSidebar"></request-sidebar>
 
 		<whats-new></whats-new>
 	</div>

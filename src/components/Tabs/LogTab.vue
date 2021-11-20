@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<details-table title="Messages" icon="edit-2" :columns="['Time', 'Level', 'Message']" :items="log" :filter="filter" filter-example="query failed level:error file:Controller.php time:>13:08:29">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="message, index in items" :class="{ 'log-row': true, 'error': ['emergency', 'alert', 'critical', 'error'].includes(message.level), warning: message.level == 'warning' }" :key="`${$request.id}-${index}`">
@@ -9,7 +9,7 @@
 						<div class="log-message">
 							<div class="log-message-content">
 								<pretty-print :data="message.message" :linkify="true"></pretty-print>
-								<div class="log-message-context" v-show="message.context">
+								<div class="log-message-context" v-if="message.context">
 									<pretty-print :data="message.context"></pretty-print>
 								</div>
 							</div>

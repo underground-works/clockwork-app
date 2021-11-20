@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<div class="counters-row models-counters">
 			<div class="counter counter-retrieved" v-if="totals.retrieved">
 				<div class="counter-value">{{totals.retrieved}}</div>
@@ -54,7 +54,7 @@
 						</td>
 					</tr>
 
-					<tr class="actions-details" v-show="action.isShowingDetails" :key="`${$request.id}-models-actions-details-${index}`">
+					<tr class="actions-details" v-if="action.isShowingDetails" :key="`${$request.id}-models-actions-details-${index}`">
 						<td colspan="3">
 							<div class="details-row" v-if="action.attributes">
 								<div class="row-group">

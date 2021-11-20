@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<div class="counters-row">
 			<div class="counter">
 				<div class="counter-value">{{$request.databaseQueriesCount}}</div>
@@ -65,7 +65,7 @@
 									<pretty-print :data="query.bindings"></pretty-print>
 								</div>
 							</div>
-							<stack-trace class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
+							<stack-trace v-if="query.trace || query.file" class="database-query-path" :trace="query.trace" :file="query.file" :line="query.line"></stack-trace>
 						</div>
 					</td>
 					<td class="database-duration">

@@ -1,7 +1,7 @@
 <template>
 	<div class="content-request">
 		<div class="counters-row">
-			<div class="counter request-type" v-show="$request.isCommand() || $request.isQueueJob() || $request.isTest() || $request.isAjax()">
+			<div class="counter request-type" v-if="$request.isCommand() || $request.isQueueJob() || $request.isTest() || $request.isAjax()">
 				<template v-if="$request.isCommand()">
 					<span class="type-text">CMD</span>
 				</template>

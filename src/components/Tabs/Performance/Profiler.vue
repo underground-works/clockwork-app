@@ -77,10 +77,10 @@
 							</p>
 
 							<p class="content-actions">
-								<a href="#" class="button" @click="$profiler.enableProfiling()" v-show="! $profiler.isProfiling">
+								<a href="#" class="button" @click="$profiler.enableProfiling()" v-if="! $profiler.isProfiling">
 									Enable profiler
 								</a>
-								<a href="#" class="button" @click="$profiler.disableProfiling()" v-show="$profiler.isProfiling">
+								<a href="#" class="button" @click="$profiler.disableProfiling()" v-if="$profiler.isProfiling">
 									Disable profiler
 								</a>
 							</p>

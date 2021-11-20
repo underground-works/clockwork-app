@@ -70,12 +70,12 @@
 			<request-tab v-else-if="$request"></request-tab>
 
 			<div class="content-actions">
-				<a href="#" class="button" @click.prevent="$sharing.toggle()" v-show="$platform.hasFeature('sharing')">
+				<a href="#" class="button" @click.prevent="$sharing.toggle()" v-if="$platform.hasFeature('sharing')">
 					<icon name="share"></icon>
 					Share
 				</a>
 
-				<a href="#" class="button" @click.prevent="$sharing.toggleDelete()" v-show="$platform.hasFeature('delete-shared')">
+				<a href="#" class="button" @click.prevent="$sharing.toggleDelete()" v-if="$platform.hasFeature('delete-shared')">
 					<icon name="trash-2"></icon>
 					Delete
 				</a>

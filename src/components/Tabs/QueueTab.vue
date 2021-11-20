@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<details-table title="Jobs" icon="clock" :columns="columns" :items="queueJobs" :filter="filter" filter-example="Underground.works name:GenerateInvoice queue:priority">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="job, index in items" :key="`${$request.id}-${index}`">

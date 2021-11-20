@@ -1,9 +1,9 @@
 <template>
 	<div class="command-tab">
-		<sidebar-section title="Arguments" name="arguments" :items="$request.commandArgumentsMerged" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.commandArgumentsMerged.length">
+		<sidebar-section title="Arguments" name="arguments" :items="$request.commandArgumentsMerged" filter-example="&quot;Mike Jones&quot; name:name" v-if="$request.commandArgumentsMerged.length">
 		</sidebar-section>
 
-		<sidebar-section title="Options" name="options" :items="$request.commandOptionsMerged" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.commandOptionsMerged.length">
+		<sidebar-section title="Options" name="options" :items="$request.commandOptionsMerged" filter-example="&quot;Mike Jones&quot; name:name" v-if="$request.commandOptionsMerged.length">
 		</sidebar-section>
 	</div>
 </template>

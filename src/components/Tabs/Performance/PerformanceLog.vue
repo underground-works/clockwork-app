@@ -7,7 +7,7 @@
 						<div class="log-message">
 							<div class="log-message-content">
 								<pretty-print :data="message.message"></pretty-print>
-								<div v-show="message.context && message.context.length">
+								<div v-if="message.context && message.context.length">
 									<pretty-print :data="message.context"></pretty-print>
 								</div>
 							</div>

@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<details-table title="Commands" icon="layers" :columns="columns" :items="$request.redisCommands" :filter="filter" filter-example="command:zrange connection:eshop file:StatsController.php duration:&gt;50">
 			<template slot="body" slot-scope="{ items }">
 				<tr v-for="query, index in items" :key="`${$request.id}-${index}`">

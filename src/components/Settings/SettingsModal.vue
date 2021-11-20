@@ -48,10 +48,10 @@
 						<option value="vs-code">Visual Studio Code</option>
 					</select>
 
-					<div class="help-text" v-show="$settings.global.editor == 'atom'">
+					<div class="help-text" v-if="$settings.global.editor == 'atom'">
 						Requires <a href="https://atom.io/packages/open" target="_blank">Atom Open</a> package.
 					</div>
-					<div class="help-text" v-show="$settings.global.editor == 'sublime'">
+					<div class="help-text" v-if="$settings.global.editor == 'sublime'">
 						Requires <a href="https://github.com/inopinatus/sublime_url" target="_blank">sublime_url</a> on MacOS. Not supported on other platforms.
 					</div>
 				</div>
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 
-			<div class="controls-group" v-show="$platform.hasFeature('requests-list')">
+			<div class="controls-group" v-if="$platform.hasFeature('requests-list')">
 				<label for="settings-on-demand-secret">On-demand</label>
 
 				<div class="controls">
@@ -84,7 +84,7 @@
 				</div>
 			</div>
 
-			<div class="controls-group" v-show="$platform.hasFeature('requests-list')">
+			<div class="controls-group" v-if="$platform.hasFeature('requests-list')">
 				<label></label>
 
 				<div class="controls">
@@ -99,7 +99,7 @@
 				</div>
 			</div>
 
-			<div class="controls-group" v-show="$platform.hasFeature('requests-list')">
+			<div class="controls-group" v-if="$platform.hasFeature('requests-list')">
 				<label></label>
 
 				<div class="controls">
