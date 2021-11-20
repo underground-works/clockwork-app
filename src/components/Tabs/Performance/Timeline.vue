@@ -48,7 +48,7 @@
 								</div>
 							</div>
 
-							<popover class="timeline-popover" ref="popovers">
+							<popover v-if="openPopover === index" class="timeline-popover" ref="popovers">
 								<div class="popover-event" :class="event.eventClass" v-for="event in group.events">
 									<div class="event-header">
 										<h1>{{event.name}}</h1>
@@ -146,6 +146,7 @@ export default {
 
 		hiddenTags: undefined,
 		presentedEvents: [],
+		openPopover: null,
 
 		filter: new Filter([
 			{ tag: 'duration', type: 'number' }
@@ -183,8 +184,12 @@ export default {
 			this.showDetails = ! this.showDetails
 		},
 
-		showPopover(index) {
-			this.$refs.popovers[index].toggle()
+		async showPopover(index) {
+			this.openPopover = index;
+
+			await this.$nextTick();
+
+			this.$refs.popovers[0].open();
 		},
 
 		async refreshEvents(e) {

@@ -4,7 +4,7 @@
 			<shortened-text :full="trace ? shortPath : fullPath" @click.native="togglePopover($event)">{{shortPath}}</shortened-text>
 		</a>
 
-		<popover ref="popover" v-if="trace">
+		<popover ref="popover" v-if="trace && showPopover">
 			<div v-for="frame in trace" class="stack-frame" :class="{'is-vendor':frame.isVendor}">
 				<div class="stack-frame-call">{{ frame.call }}</div>
 				<div class="stack-frame-file">
@@ -31,11 +31,18 @@ export default {
 		fullPath() { return this.makeFullPath(this.file || this.trace[0]?.file, this.line || this.trace[0]?.line) },
 		shortPath() { return this.makeShortPath(this.file || this.trace[0]?.file, this.line || this.trace[0]?.line) }
 	},
+	data() {
+		return {
+			showPopover: false
+		}
+	},
 	methods: {
-		togglePopover($event) {
+		async togglePopover($event) {
 			if (! this.trace) return
 
 			$event.preventDefault()
+			this.showPopover = true;
+			await this.$nextTick();
 
 			this.$refs.popover.toggle()
 		},
