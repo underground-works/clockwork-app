@@ -243,14 +243,14 @@ export default class Request
 
 			let match, sql = query.query.trim()
 
-			if (match = sql.match(/^SELECT\s[\s\S]*?\sFROM\s[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
-				query.shortQuery = `SELECT FROM ${match[1]}`
-			} else if (match = sql.match(/^INSERT\s+INTO\s+[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
-				query.shortQuery = `INSERT INTO ${match[1]}`
-			} else if (match = sql.match(/^UPDATE\s+[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
-				query.shortQuery = `UPDATE ${match[1]}`
-			} else if (match = sql.match(/^DELETE\s+FROM\s+[^A-Za-z-_]?([A-Za-z-_]+)/i)) {
-				query.shortQuery = `DELETE FROM ${match[1]}`
+			if (match = sql.match(/^SELECT\s[\s\S]*?\sFROM\s+(?<quot>[^A-Za-z-_]?)(?<schema>[A-Za-z-_]+)(\k<quot>?\.\k<quot>?(?<table>[A-Za-z-_]+)\k<quot>?)?/i)) {
+				query.shortQuery = `SELECT FROM ${match.groups['table'] ?? match.groups['schema']}`
+			} else if (match = sql.match(/^INSERT\s+INTO\s+(?<quot>[^A-Za-z-_]?)(?<schema>[A-Za-z-_]+)(\k<quot>?\.\k<quot>?(?<table>[A-Za-z-_]+)\k<quot>?)?/i)) {
+				query.shortQuery = `INSERT INTO ${match.groups['table'] ?? match.groups['schema']}`
+			} else if (match = sql.match(/^UPDATE\s+(?<quot>[^A-Za-z-_]?)(?<schema>[A-Za-z-_]+)(\k<quot>?\.\k<quot>?(?<table>[A-Za-z-_]+)\k<quot>?)?/i)) {
+				query.shortQuery = `UPDATE ${match.groups['table'] ?? match.groups['schema']}`
+			} else if (match = sql.match(/^DELETE\s+FROM\s+(?<quot>[^A-Za-z-_]?)(?<schema>[A-Za-z-_]+)(\k<quot>?\.\k<quot>?(?<table>[A-Za-z-_]+)\k<quot>?)?/i)) {
+				query.shortQuery = `DELETE FROM ${match.groups['table'] ?? match.groups['schema']}`
 			} else {
 				query.shortQuery = sql
 			}
