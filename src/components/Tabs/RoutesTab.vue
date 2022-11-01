@@ -1,7 +1,7 @@
 <template>
 	<div v-show="active">
 		<details-table title="Routes" icon="map" :columns="columns" :items="$request.routes" :filter="filter" filter-example="OrderController method:post uri:order">
-			<template slot="body" slot-scope="{ items }">
+			<template v-slot:body="{ items }">
 				<tr v-for="route, index in items" :key="`${$request.id}-${index}`">
 					<td>{{route.method}}</td>
 					<td>{{route.uri}}</td>

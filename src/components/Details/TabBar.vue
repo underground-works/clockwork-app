@@ -1,6 +1,6 @@
 <template>
 	<div class="details-header-tabs">
-		<tab-handle v-for="tab in tabs" :key="tab.name" :text="tab.text" :name="tab.name" :icon="tab.icon" :active="tab.name == activeTab" :short="shortTabs.includes(tab)" :full="fullTabs.includes(tab)" @tab-selected="$emit('tab-selected', $event)" v-if="tab.shown">{{tab.text}}</tab-handle>
+		<tab-handle v-for="tab in shownTabs" :key="tab.name" :text="tab.text" :name="tab.name" :icon="tab.icon" :active="tab.name == activeTab" :short="shortTabs.includes(tab)" :full="fullTabs.includes(tab)" @tab-selected="$emit('tab-selected', $event)">{{tab.text}}</tab-handle>
 	</div>
 </template>
 
@@ -17,6 +17,9 @@ export default {
 		shortTabs: [],
 		fullTabs: []
 	}),
+	computed: {
+ 		shownTabs() { return this.tabs.filter(tab => tab.shown) }
+ 	},
 	methods: {
 		hideOverflowingTabs() {
 			this.shortTabs = []

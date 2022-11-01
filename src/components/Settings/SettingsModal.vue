@@ -1,5 +1,5 @@
 <template>
-	<modal icon="settings" title="Settings" :shown.sync="$settings.shown">
+	<modal icon="settings" title="Settings" v-model:shown="$settings.shown">
 		<div class="settings-modal">
 			<div class="settings-warning" v-if="! $settings.persistent">
 				<div class="warning-text">

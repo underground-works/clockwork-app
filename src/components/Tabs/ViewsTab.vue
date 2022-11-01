@@ -1,7 +1,7 @@
 <template>
 	<div v-show="active">
 		<timeline name="views" icon="image" :timeline="$request.viewsData">
-			<template slot="table-description" slot-scope="{ item }">
+			<template v-slot:table-description="{ item }">
 				<div class="views-view-name">{{ item.description }}</div>
 				<pretty-print :data="item.data" v-if="item.data"></pretty-print>
 			</template>

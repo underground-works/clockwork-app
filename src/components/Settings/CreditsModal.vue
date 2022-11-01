@@ -1,5 +1,5 @@
 <template>
-	<modal icon="info" title="Credits" :shown.sync="$credits.shown">
+	<modal icon="info" title="Credits" v-model:shown="$credits.shown">
 		<div class="credits-modal">
 			<h1>Clockwork App</h1>
 			<p class="credits-version">Version {{$credits.version}}</p>

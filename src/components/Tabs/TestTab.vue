@@ -5,9 +5,9 @@
 		</div>
 
 		<sidebar-section title="Asserts" name="asserts" :items="asserts" filter-example="text/html name:Accept" v-show="asserts.length">
-			<template slot="table" slot-scope="{ items, filter, filterExample, expanded }">
+			<template v-slot:table="{ items, filter, filterExample, expanded }">
 				<details-table :columns="['Assert']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-show="expanded">
-					<template slot="body" slot-scope="{ items }">
+					<template v-slot:body="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 							<td class="value test-assert">
 								<div class="assert-name">

@@ -1,7 +1,7 @@
 <template>
 	<div v-show="active">
 		<details-table title="Jobs" icon="clock" :columns="columns" :items="queueJobs" :filter="filter" filter-example="Underground.works name:GenerateInvoice queue:priority">
-			<template slot="body" slot-scope="{ items }">
+			<template v-slot:body="{ items }">
 				<tr v-for="job, index in items" :key="`${$request.id}-${index}`">
 					<td v-if="columns.includes('Queue')">{{job.queue}}</td>
 					<td v-if="columns.includes('Connection')">{{job.connection}}</td>

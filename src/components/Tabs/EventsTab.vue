@@ -1,9 +1,9 @@
 <template>
 	<div v-show="active">
 		<details-table title="Events" icon="zap" :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
-			<template slot="body" slot-scope="{ items }">
+			<template v-slot:body="{ items }">
 				<tr v-for="event, index in items" :key="`${$request.id}-${index}`">
-					<td>{{event.time | date('HH:mm:ss')}}</td>
+					<td>{{$date(event.time, 'HH:mm:ss')}}</td>
 					<td>
 						<div class="fired-event">
 							<div class="fired-event-content">

@@ -2,24 +2,21 @@
   "name": "Clockwork",
   "version": "5.1.0-beta0",
   "description": "php dev tools in your browser",
-  "repository": "github:underground-works/clockwork-app",
-  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build-chrome": "vue-cli-service build && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cpx 'platforms/chrome/**/*' dist/chrome/",
     "build-chrome-dev": "vue-cli-service build --mode=development && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cpx 'platforms/chrome/**/*' dist/chrome/",
-    "build-firefox": "vue-cli-service build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
-    "build-firefox-dev": "vue-cli-service build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
     "build-edge": "vue-cli-service build && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
     "build-edge-dev": "vue-cli-service build --mode=development && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
+    "build-firefox": "vue-cli-service build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
+    "build-firefox-dev": "vue-cli-service build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
     "build-share": "VUE_APP_PLATFORM=share vue-cli-service build && del-cli dist/share && move-cli --mkdirp build dist/share",
     "build-share-dev": "VUE_APP_PLATFORM=share vue-cli-service build --mode=development && del-cli dist/share && move-cli --mkdirp build dist/share",
     "build-web": "vue-cli-service build && del-cli dist/web && move-cli --mkdirp build dist/web",
     "build-web-dev": "vue-cli-service build --mode=development && del-cli dist/web && move-cli --mkdirp build dist/web"
   },
   "dependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.10.4",
     "@sqltools/formatter": "^1.2.2",
     "ansi-to-html": "^0.6.14",
     "core-js": "^3.6.5",
@@ -41,21 +38,20 @@
     "register-service-worker": "^1.7.1",
     "urijs": "^1.19.2",
     "v-click-outside": "^3.1.2",
-    "vue": "^2.6.11",
+    "vue": "^3.1.0",
     "vue-clipboard2": "^0.3.1",
-    "vue-spinkit": "1.4.0",
-    "vue-svg-loader": "^0.16.0"
+    "vue-spinkit": "1.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.4.6",
-    "@vue/cli-plugin-pwa": "^4.4.6",
-    "@vue/cli-service": "^4.4.6",
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-plugin-pwa": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
     "del-cli": "^3.0.1",
     "move-cli": "^1.2.1",
-    "node-sass": "^6.0.0",
-    "sass-loader": "^10.2.0",
+    "node-sass": "^7.0.0",
+    "sass-loader": "^13.0.0",
     "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
-    "vue-template-compiler": "^2.6.11"
+    "@vue/compiler-sfc": "^3.1.0"
   },
   "postcss": {
     "plugins": {
@@ -65,6 +61,9 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
-  ]
+    "not dead",
+    "not ie > 0"
+  ],
+  "license": "MIT",
+  "repository": "github:underground-works/clockwork-app"
 }

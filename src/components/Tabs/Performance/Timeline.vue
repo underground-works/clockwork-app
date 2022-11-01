@@ -1,7 +1,7 @@
 <template>
 	<div class="timeline" :class="{ 'show-details': showDetails }" ref="timeline">
 		<details-table title="Timeline" icon="pie-chart" :columns="columns" :items="presentedEvents" :filter="filter" :no-table-head="! showDetails" filter-example="database query duration:>50" :per-page="100">
-			<template slot="toolbar" slot-scope="{ filter }">
+			<template v-slot:toolbar="{ filter }">
 				<div class="header-group">
 					<label class="header-toggle">
 						<input type="checkbox" v-model="condense">
@@ -28,7 +28,7 @@
 					</a>
 				</div>
 			</template>
-			<template slot="body" slot-scope="{ items }">
+			<template v-slot:body="{ items }">
 				<tr v-for="group, index in items">
 					<td class="timeline-chart">
 						<div class="chart-event-group popover-container" :style="group.groupStyle" @click="showPopover(index)">
@@ -39,7 +39,7 @@
 									</span>
 								</span>
 								{{group.name}}
-								<span v-if="! group.condensed">{{group.duration|formatTiming}}</span>
+								<span v-if="! group.condensed">{{formatTiming(group.duration)}}</span>
 							</div>
 
 							<div class="group-event" :class="event.eventClass" :style="event.eventStyle" v-for='event, index in group.events'>
@@ -68,7 +68,7 @@
 									<div class="event-timings">
 										<div class="timings-timing timing-total">
 											<div class="timing-value">
-												{{event.duration|formatTiming}}
+												{{formatTiming(event.duration)}}
 											</div>
 											<div class="timing-label">
 												Total
@@ -77,7 +77,7 @@
 
 										<div class="timings-timing timing-self">
 											<div class="timing-value">
-												{{event.durationSelf|formatTiming}}
+												{{formatTiming(event.durationSelf)}}
 											</div>
 											<div class="timing-label">
 												Self
@@ -86,7 +86,7 @@
 
 										<div class="timings-timing timing-children">
 											<div class="timing-value">
-												{{event.durationChildren|formatTiming('ms', '–')}}
+												{{formatTiming(event.durationChildren, 'ms', '–')}}
 											</div>
 											<div class="timing-label">
 												Children
@@ -218,9 +218,8 @@ export default {
 			}, 10))
 
 			this.resizeObserver.observe(this.$refs.timeline)
-		}
-	},
-	filters: {
+		},
+
 		formatTiming(value, unit = 'ms', placeholder = '') {
 			if (value === null || value === undefined) return placeholder
 

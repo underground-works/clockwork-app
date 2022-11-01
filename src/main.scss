@@ -21,6 +21,11 @@ body {
 	}
 }
 
+#app {
+ 	height: 100%;
+ 	width: 100%;
+}
+
 .application {
 	&.dark {
 		background: #1e1e1e;

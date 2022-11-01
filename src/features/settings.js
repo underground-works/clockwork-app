@@ -2,6 +2,7 @@ import Extension from '../platform/extension'
 
 import extend from 'just-extend'
 import mapValues from 'just-map-values'
+import { reactive } from 'vue'
 
 export default class Settings
 {
@@ -14,7 +15,7 @@ export default class Settings
 
 		this.shown = false
 		this.loaded = false
-		this.settings = this.defaults()
+		this.settings = reactive(this.defaults())
 
 		this.defaultAppearance = 'light'
 
@@ -55,10 +56,10 @@ export default class Settings
 		let defaults = this.defaults()
 		let settings = await this.store.get('settings', {})
 
-		this.settings = {
+		Object.assign(this.settings, {
 			global: extend(true, defaults.global, settings.global || {}),
 			site: mapValues(settings.site || {}, settings => extend(true, {}, defaults.site, settings || {}))
-		}
+		})
 
 		this.loaded = true
 

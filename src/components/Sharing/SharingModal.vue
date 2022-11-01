@@ -1,5 +1,5 @@
 <template>
-	<modal icon="share" title="Share" :shown.sync="$sharing.shown">
+	<modal icon="share" title="Share" v-model:shown="$sharing.shown">
 		<div class="sharing-modal">
 			<template v-if="$sharing.termsAccepted">
 				<div class="sharing-content">

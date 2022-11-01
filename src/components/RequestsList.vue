@@ -34,7 +34,7 @@
 					<table id="requests">
 						<tr v-for="request in requests" :key="request.id" @click="showRequest(request)" :class="{ selected: isActive(request.id) }">
 							<td class="controller" :title="request.tooltip">
-								<big>
+								<span class="controller-big">
 									<icon name="alert-circle" class="request-alert alert-errors" v-if="request.errorsCount"></icon>
 									<icon name="alert-triangle" class="request-alert alert-warnings" v-else-if="request.warningsCount"></icon>
 
@@ -54,7 +54,7 @@
 										<span v-if="request.isAjax()" class="type-text">AJAX</span>
 										<span class="method-text">{{request.method}}</span> {{request.uri}}
 									</template>
-								</big>
+								</span>
 								<br>
 								<template v-if="request.isCommand()">
 									<small>{{request.commandLine}}</small>
@@ -67,7 +67,7 @@
 								</template>
 								<template v-else>
 									<small v-if="$settings.global.requestSidebarCollapsed">{{request.controller}}</small>
-									<small v-else>{{request.controller | shortClass}}</small>
+									<small v-else>{{$shortClass(request.controller)}}</small>
 								</template>
 							</td>
 							<template v-if="request.isCommand()">
@@ -163,13 +163,16 @@ export default {
 		clear() { this.$requests.clear() }
 	},
 	watch: {
-		requests(items) {
-			if (this.shouldShowFirstRequest()) {
-				this.showRequest(this.$requests.first())
-			} else if (this.shouldShowIncomingRequest()) {
-				this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
-				this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.requestsTable.offsetTop
-			}
+		requests: {
+			handler(items) {
+				if (this.shouldShowFirstRequest()) {
+					this.showRequest(this.$requests.first())
+				} else if (this.shouldShowIncomingRequest()) {
+					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
+					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.requestsTable.offsetTop
+				}
+			},
+			deep: true
 		},
 
 		$request: {
@@ -324,7 +327,7 @@ export default {
 		}
 	}
 
-	big {
+	.controller-big {
 		font-size: 115%;
 	}
 

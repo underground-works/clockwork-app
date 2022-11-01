@@ -32,7 +32,7 @@
 		</div>
 
 		<details-table title="Queries" icon="paperclip" :columns="columns" :items="$request.cacheQueries" :filter="filter" filter-example="info@underground.works action:miss key:lastRequest file:Controller.php" v-if="$request.cacheQueries.length">
-			<template slot="body" slot-scope="{ items }">
+			<template slot="body" v-slot:body="{ items }">
 				<tr v-for="query, index in items" :key="`${$request.id}-${index}`">
 					<td v-if="columns.includes('Connection')">{{query.connection}}</td>
 					<td class="cache-query-type">{{query.type}}</td>
@@ -46,7 +46,7 @@
 						</div>
 					</td>
 					<td><span v-if="query.expiration">{{query.expiration}}</span></td>
-					<td v-if="columns.includes('Duration')">{{query.duration | round(3)}} ms</td>
+					<td v-if="columns.includes('Duration')">{{$round(query.duration, 3)}} ms</td>
 				</tr>
 			</template>
 		</details-table>
