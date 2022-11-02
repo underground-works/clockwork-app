@@ -3,51 +3,57 @@
 </template>
 
 <script>
+import ActivityIcon from 'feather-icons/dist/icons/activity.svg?raw'
+import AlertCircleIcon from 'feather-icons/dist/icons/alert-circle.svg?raw'
+import AlertTriangleIcon from 'feather-icons/dist/icons/alert-triangle.svg?raw'
+import ArrowDownCircleIcon from 'feather-icons/dist/icons/arrow-down-circle.svg?raw'
+import CheckCircleIcon from 'feather-icons/dist/icons/check-circle.svg?raw'
+import ChevronDownIcon from 'feather-icons/dist/icons/chevron-down.svg?raw'
+import ChevronLeftIcon from 'feather-icons/dist/icons/chevron-left.svg?raw'
+import ChevronRightIcon from 'feather-icons/dist/icons/chevron-right.svg?raw'
+import ChevronUpIcon from 'feather-icons/dist/icons/chevron-up.svg?raw'
+import ClockIcon from 'feather-icons/dist/icons/clock.svg?raw'
+import CpuIcon from 'feather-icons/dist/icons/cpu.svg?raw'
+import DatabaseIcon from 'feather-icons/dist/icons/database.svg?raw'
+import DiscIcon from 'feather-icons/dist/icons/disc.svg?raw'
+import Edit2Icon from 'feather-icons/dist/icons/edit-2.svg?raw'
+import GithubIcon from 'feather-icons/dist/icons/github.svg?raw'
+import HashIcon from 'feather-icons/dist/icons/hash.svg?raw'
+import HeartIcon from 'feather-icons/dist/icons/heart.svg?raw'
+import HelpCircleIcon from 'feather-icons/dist/icons/help-circle.svg?raw'
+import ImageIcon from 'feather-icons/dist/icons/image.svg?raw'
+import InfoIcon from 'feather-icons/dist/icons/info.svg?raw'
+import LayersIcon from 'feather-icons/dist/icons/layers.svg?raw'
+import LinkIcon from 'feather-icons/dist/icons/link.svg?raw'
+import ListIcon from 'feather-icons/dist/icons/list.svg?raw'
+import LockIcon from 'feather-icons/dist/icons/lock.svg?raw'
+import MailIcon from 'feather-icons/dist/icons/mail.svg?raw'
+import MapIcon from 'feather-icons/dist/icons/map.svg?raw'
+import MenuIcon from 'feather-icons/dist/icons/menu.svg?raw'
+import PaperclipIcon from 'feather-icons/dist/icons/paperclip.svg?raw'
+import PercentIcon from 'feather-icons/dist/icons/percent.svg?raw'
+import PieChartIcon from 'feather-icons/dist/icons/pie-chart.svg?raw'
+import SearchIcon from 'feather-icons/dist/icons/search.svg?raw'
+import SettingsIcon from 'feather-icons/dist/icons/settings.svg?raw'
+import ShareIcon from 'feather-icons/dist/icons/share.svg?raw'
+import SlashIcon from 'feather-icons/dist/icons/slash.svg?raw'
+import SmileIcon from 'feather-icons/dist/icons/smile.svg?raw'
+import StarIcon from 'feather-icons/dist/icons/star.svg?raw'
+import TerminalIcon from 'feather-icons/dist/icons/terminal.svg?raw'
+import Trash2Icon from 'feather-icons/dist/icons/trash-2.svg?raw'
+import TwitterIcon from 'feather-icons/dist/icons/twitter.svg?raw'
+import UserIcon from 'feather-icons/dist/icons/user.svg?raw'
+import UsersIcon from 'feather-icons/dist/icons/users.svg?raw'
+import XIcon from 'feather-icons/dist/icons/x.svg?raw'
+import XCircleIcon from 'feather-icons/dist/icons/x-circle.svg?raw'
+import ZapIcon from 'feather-icons/dist/icons/zap.svg?raw'
+
 let icons = {
-	'ActivityIcon': require('feather-icons/dist/icons/activity.svg?raw'),
-	'AlertCircleIcon': require('feather-icons/dist/icons/alert-circle.svg?raw'),
-	'AlertTriangleIcon': require('feather-icons/dist/icons/alert-triangle.svg?raw'),
-	'ArrowDownCircleIcon': require('feather-icons/dist/icons/arrow-down-circle.svg?raw'),
-	'CheckCircleIcon': require('feather-icons/dist/icons/check-circle.svg?raw'),
-	'ChevronDownIcon': require('feather-icons/dist/icons/chevron-down.svg?raw'),
-	'ChevronLeftIcon': require('feather-icons/dist/icons/chevron-left.svg?raw'),
-	'ChevronRightIcon': require('feather-icons/dist/icons/chevron-right.svg?raw'),
-	'ChevronUpIcon': require('feather-icons/dist/icons/chevron-up.svg?raw'),
-	'ClockIcon': require('feather-icons/dist/icons/clock.svg?raw'),
-	'CpuIcon': require('feather-icons/dist/icons/cpu.svg?raw'),
-	'DatabaseIcon': require('feather-icons/dist/icons/database.svg?raw'),
-	'DiscIcon': require('feather-icons/dist/icons/disc.svg?raw'),
-	'Edit2Icon': require('feather-icons/dist/icons/edit-2.svg?raw'),
-	'GithubIcon': require('feather-icons/dist/icons/github.svg?raw'),
-	'HashIcon': require('feather-icons/dist/icons/hash.svg?raw'),
-	'HeartIcon': require('feather-icons/dist/icons/heart.svg?raw'),
-	'HelpCircleIcon': require('feather-icons/dist/icons/help-circle.svg?raw'),
-	'ImageIcon': require('feather-icons/dist/icons/image.svg?raw'),
-	'InfoIcon': require('feather-icons/dist/icons/info.svg?raw'),
-	'LayersIcon': require('feather-icons/dist/icons/layers.svg?raw'),
-	'LinkIcon': require('feather-icons/dist/icons/link.svg?raw'),
-	'ListIcon': require('feather-icons/dist/icons/list.svg?raw'),
-	'LockIcon': require('feather-icons/dist/icons/lock.svg?raw'),
-	'MailIcon': require('feather-icons/dist/icons/mail.svg?raw'),
-	'MapIcon': require('feather-icons/dist/icons/map.svg?raw'),
-	'MenuIcon': require('feather-icons/dist/icons/menu.svg?raw'),
-	'PaperclipIcon': require('feather-icons/dist/icons/paperclip.svg?raw'),
-	'PercentIcon': require('feather-icons/dist/icons/percent.svg?raw'),
-	'PieChartIcon': require('feather-icons/dist/icons/pie-chart.svg?raw'),
-	'SearchIcon': require('feather-icons/dist/icons/search.svg?raw'),
-	'SettingsIcon': require('feather-icons/dist/icons/settings.svg?raw'),
-	'ShareIcon': require('feather-icons/dist/icons/share.svg?raw'),
-	'SlashIcon': require('feather-icons/dist/icons/slash.svg?raw'),
-	'SmileIcon': require('feather-icons/dist/icons/smile.svg?raw'),
-	'StarIcon': require('feather-icons/dist/icons/star.svg?raw'),
-	'TerminalIcon': require('feather-icons/dist/icons/terminal.svg?raw'),
-	'Trash2Icon': require('feather-icons/dist/icons/trash-2.svg?raw'),
-	'TwitterIcon': require('feather-icons/dist/icons/twitter.svg?raw'),
-	'UserIcon': require('feather-icons/dist/icons/user.svg?raw'),
-	'UsersIcon': require('feather-icons/dist/icons/users.svg?raw'),
-	'XIcon': require('feather-icons/dist/icons/x.svg?raw'),
-	'XCircleIcon': require('feather-icons/dist/icons/x-circle.svg?raw'),
-	'ZapIcon': require('feather-icons/dist/icons/zap.svg?raw')
+	ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, CheckCircleIcon, ChevronDownIcon,
+	ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, DiscIcon, Edit2Icon, GithubIcon,
+	HashIcon, HeartIcon, HelpCircleIcon, ImageIcon, InfoIcon, LayersIcon, LinkIcon, ListIcon, LockIcon, MailIcon,
+	MapIcon, MenuIcon, PaperclipIcon, PercentIcon, PieChartIcon, SearchIcon, SettingsIcon, ShareIcon, SlashIcon,
+	SmileIcon, StarIcon, TerminalIcon, Trash2Icon, TwitterIcon, UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
 }
 
 export default {

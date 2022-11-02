@@ -3,23 +3,22 @@
   "version": "5.1.0-beta0",
   "description": "php dev tools in your browser",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-chrome": "vue-cli-service build && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cpx 'platforms/chrome/**/*' dist/chrome/",
-    "build-chrome-dev": "vue-cli-service build --mode=development && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cpx 'platforms/chrome/**/*' dist/chrome/",
-    "build-edge": "vue-cli-service build && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
-    "build-edge-dev": "vue-cli-service build --mode=development && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
-    "build-firefox": "vue-cli-service build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
-    "build-firefox-dev": "vue-cli-service build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
-    "build-share": "VUE_APP_PLATFORM=share vue-cli-service build && del-cli dist/share && move-cli --mkdirp build dist/share",
-    "build-share-dev": "VUE_APP_PLATFORM=share vue-cli-service build --mode=development && del-cli dist/share && move-cli --mkdirp build dist/share",
-    "build-web": "vue-cli-service build && del-cli dist/web && move-cli --mkdirp build dist/web",
-    "build-web-dev": "vue-cli-service build --mode=development && del-cli dist/web && move-cli --mkdirp build dist/web"
+    "serve": "vite",
+    "build": "vite build",
+    "build-chrome": "vite build && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cpx 'platforms/chrome/**/*' dist/chrome/",
+    "build-chrome-dev": "vite build --mode=development && del-cli dist/chrome && move-cli --mkdirp build dist/chrome && cpx 'platforms/chrome/**/*' dist/chrome/",
+    "build-edge": "vite build && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
+    "build-edge-dev": "vite build --mode=development && del-cli dist/edge && move-cli --mkdirp build dist/edge && cpx 'platforms/edge/**/*' dist/edge/",
+    "build-firefox": "vite build && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
+    "build-firefox-dev": "vite build --mode=development && del-cli dist/firefox && move-cli --mkdirp build dist/firefox && cpx 'platforms/firefox/**/*' dist/firefox/",
+    "build-share": "VUE_APP_PLATFORM=share vite build && del-cli dist/share && move-cli --mkdirp build dist/share",
+    "build-share-dev": "VUE_APP_PLATFORM=share vite build --mode=development && del-cli dist/share && move-cli --mkdirp build dist/share",
+    "build-web": "vite build && del-cli dist/web && move-cli --mkdirp build dist/web",
+    "build-web-dev": "vite build --mode=development && del-cli dist/web && move-cli --mkdirp build dist/web"
   },
   "dependencies": {
     "@sqltools/formatter": "^1.2.2",
     "ansi-to-html": "^0.6.14",
-    "core-js": "^3.6.5",
     "cpx2": "^3.0.0",
     "date-fns": "^2.16.1",
     "feather-icons": "^4.28.0",
@@ -36,34 +35,20 @@
     "lodash": "^4.17.19",
     "prismjs": "^1.24.1",
     "register-service-worker": "^1.7.1",
+    "sass": "^1.55.0",
     "urijs": "^1.19.2",
     "v-click-outside": "^3.1.2",
-    "vue": "^3.1.0",
+    "vite-svg-loader": "^3.6.0",
+    "vue": "^3.2.0",
     "vue-clipboard2": "^0.3.1",
     "vue-spinkit": "1.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~5.0.8",
-    "@vue/cli-plugin-pwa": "~5.0.8",
-    "@vue/cli-service": "~5.0.8",
+    "@vitejs/plugin-vue": "^3.2.0",
     "del-cli": "^3.0.1",
     "move-cli": "^1.2.1",
-    "node-sass": "^7.0.0",
-    "sass-loader": "^13.0.0",
-    "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
-    "@vue/compiler-sfc": "^3.1.0"
+    "vite": "^3.2.1"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie > 0"
-  ],
   "license": "MIT",
   "repository": "github:underground-works/clockwork-app"
 }

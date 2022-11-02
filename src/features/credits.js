@@ -6,7 +6,7 @@ export default class Credits
 		this.shown = false
 		this.loaded = false
 
-		this.version = process.env.VUE_APP_VERSION
+		this.version = import.meta.env.VITE_VERSION
 
 		this.credits = {
 			app: { contributors: [], dependencies: [], sponsors: [] },
@@ -37,7 +37,7 @@ export default class Credits
 		types.forEach(type => {
 			keys.forEach(key => {
 				fetches.push(
-					this.platform.fetch('GET', `${process.env.VUE_APP_CREDITS_URL}/clockwork-${type}/${key}.json`)
+					this.platform.fetch('GET', `${import.meta.env.VITE_CREDITS_URL}/clockwork-${type}/${key}.json`)
 						.then(({data}) => this.credits[type][key] = data)
 				)
 			})

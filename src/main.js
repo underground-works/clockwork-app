@@ -20,7 +20,7 @@ import WhatsNew from './features/whats-new'
 
 let $platform
 
-if (process.env.VUE_APP_PLATFORM == 'share') {
+if (import.meta.env.VITE_PLATFORM == 'share') {
 	$platform = new Share
 } else {
 	$platform = Extension.runningAsExtension() ? new Extension : new Standalone

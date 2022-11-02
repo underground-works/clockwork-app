@@ -1,5 +1,4 @@
 import { format as formatDate } from 'date-fns'
-import Vue from 'vue'
 
 export default class TextFilters
 {
