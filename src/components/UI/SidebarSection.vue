@@ -23,7 +23,7 @@
 			</div>
 			<slot name="table" :items="items" :filter="filter" :filter-example="filterExample" :expanded="expanded">
 				<details-table :columns="['Key', 'Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-show="expanded">
-					<template slot="body" slot-scope="{ items }">
+					<template v-slot:body="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 							<td colspan="2">
 								<div class="key">{{item.name}}</div>

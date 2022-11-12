@@ -1,5 +1,5 @@
 <template>
-	<modal icon="mail" title="Message" :shown.sync="messageLocal">
+	<modal icon="mail" title="Message" v-model:shown="messageLocal">
 		<div class="email-message">
 			<div class="message-info">
 				<div class="info-row" v-if="message">

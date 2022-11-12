@@ -1,5 +1,5 @@
 import { format as formatDate, isBefore, isAfter, isEqual, parseISO, setMilliseconds } from 'date-fns'
-import Vue from 'vue'
+import { nextTick } from 'vue'
 
 export default class Filter
 {
@@ -17,7 +17,7 @@ export default class Filter
 		this.shown = ! this.shown
 
 		if (this.shown) {
-			Vue.nextTick(() => {
+			nextTick(() => {
 				let table = $event.target
 				while (table = table.parentNode) {
 					if (table.tagName == 'TABLE') break

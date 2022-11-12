@@ -21,11 +21,11 @@
 		</sidebar-section>
 
 		<sidebar-section title="Middleware" name="middleware" :items="$request.middleware" filter-example="auth:admin" v-show="$request.middleware.length">
-			<template slot="table" slot-scope="{ items, filter, filterExample, expanded }">
+			<template v-slot:table="{ items, filter, filterExample, expanded }">
 				<details-table :columns="['Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-show="expanded">
-					<template slot="header" slot-scope="{ filter }">
+					<template v-slot:header="{ filter }">
 					</template>
-					<template slot="body" slot-scope="{ items }">
+					<template v-slot:body="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 							<td class="value">{{item}}</td>
 						</tr>
@@ -35,7 +35,7 @@
 		</sidebar-section>
 
 		<sidebar-section title="Session" name="session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
-			<template slot="above-table">
+			<template v-slot:above-table>
 				<div class="session-user" v-if="$request.authenticatedUser">
 					<icon name="user"></icon>
 					<div>

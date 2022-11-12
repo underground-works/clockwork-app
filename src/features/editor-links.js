@@ -1,14 +1,12 @@
-import Vue from 'vue'
-
 export default class EditorLinks
 {
 	constructor(settings) {
 		this.settings = settings
 	}
 
-	register() {
-		Vue.filter('editorLink', this.filter())
-	}
+	register(app) {
+ 		app.mixin({ methods: { $editorLink: this.filter() } })
+ 	}
 
 	filter() {
 		return (file, line) => {

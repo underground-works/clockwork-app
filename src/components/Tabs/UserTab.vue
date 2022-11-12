@@ -9,7 +9,7 @@
 			</div>
 
 			<details-table :title="section.title" :columns="section.data[0].map(item => item.key)" :items="section.data" :filter="filters[sectionIndex]" v-if="section.showAs == 'table'">
-				<template slot="body" slot-scope="{ items }">
+				<template v-slot:body="{ items }">
 					<tr v-for="item in items">
 						<td v-for="item in item">
 							<pretty-print :data="item.value"></pretty-print>

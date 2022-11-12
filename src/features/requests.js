@@ -1,11 +1,13 @@
 import Request from './request'
 import URI from 'urijs'
 
+import { reactive } from 'vue'
+
 export default class Requests
 {
 	constructor() {
 		this.settings = null
-		this.items = []
+		this.items = reactive([])
 
 		this.query = {}
 		this.exclusive = {}
@@ -121,7 +123,7 @@ export default class Requests
 
 		if (! requests.length) return
 
-		this.items = this.items.concat(requests)
+		this.items.push(...requests)
 		this.sort()
 	}
 

@@ -1,5 +1,5 @@
 import debounce from 'just-debounce-it'
-import Vue from 'vue'
+import { nextTick } from 'vue'
 
 export default class RequestsSearch
 {
@@ -25,7 +25,7 @@ export default class RequestsSearch
 		this.shown = ! this.shown
 
 		if (this.shown) {
-			Vue.nextTick(() => document.querySelector('.requests-search input').focus())
+			nextTick(() => document.querySelector('.requests-search input').focus())
 		} else {
 			this.input = ''
 			this.search()

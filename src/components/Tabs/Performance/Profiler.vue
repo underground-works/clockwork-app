@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<details-table title="Profiler" icon="clock" :columns="['Self', 'Inclusive', 'Function']" :items="$profiler.functions" :filter="filter" :per-page="100" class="profiler">
-			<template slot="toolbar" slot-scope="{ filter }">
+			<template v-slot:toolbar="{ filter }">
 				<div class="header-group">
 					<label class="header-toggle">
 						<input type="checkbox" v-model="enabled">
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 			</template>
-			<template slot="body" slot-scope="{ items }">
+			<template v-slot:body="{ items }">
 				<tr v-for="item, index in filterXdebug(items)" :key="`${$request.id}-${index}`" v-if="$profiler.ready">
 					<td class="profiler-metric">{{$profiler.formatMetric(item.self)}}</td>
 					<td class="profiler-metric">{{$profiler.formatMetric(item.inclusive)}}</td>

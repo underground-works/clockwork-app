@@ -1,5 +1,5 @@
 <template>
-	<modal icon="trash-2" title="Delete" :shown.sync="$sharing.shownDelete">
+	<modal icon="trash-2" title="Delete" v-model:shown="$sharing.shownDelete">
 		<div class="delete-shared-modal">
 			<h1>
 				<template v-if="deleted">

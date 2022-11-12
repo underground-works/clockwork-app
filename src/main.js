@@ -1,8 +1,4 @@
-import App from './App.vue'
-import Vue from 'vue'
-
-import './vendor'
-// import './registerServiceWorker'
+import createApp from './app'
 
 import Extension from './platform/extension'
 import Standalone from './platform/standalone'
@@ -24,7 +20,7 @@ import WhatsNew from './features/whats-new'
 
 let $platform
 
-if (process.env.VUE_APP_PLATFORM == 'share') {
+if (import.meta.env.VITE_PLATFORM == 'share') {
 	$platform = new Share
 } else {
 	$platform = Extension.runningAsExtension() ? new Extension : new Standalone
@@ -46,28 +42,14 @@ let $updateNotification = new UpdateNotification($settings)
 let $whatsNew = new WhatsNew($platform, $settings)
 
 let global = {
-	$requests, $platform, $authentication, $credits, $onDemand, $profiler, $requestsSearch, $settings, $sharing, $store,
-	$updateNotification, $whatsNew,
+	$requests, $platform, $authentication, $credits, $editorLinks, $onDemand, $profiler, $requestsSearch, $settings,
+	$sharing, $textFilters, $store, $updateNotification, $whatsNew,
 	$request: null, activeDetailsTab: 'performance', showIncomingRequests: true
 }
 
 $platform.init(global)
-$editorLinks.register()
 $onDemand.enableProfiling()
-$textFilters.register()
 
-Vue.mixin({
-	data: () => ({ global }),
-	computed: Object.entries(global).reduce((result, [ key, value ]) => {
-		result[key] = function () { return this.global[key] }
-		return result
-	}, {})
-})
+let app = createApp(global)
 
-import Icon from './components/UI/Icon'
-
-Vue.component('icon', Icon)
-
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
+app.mount('#app')
