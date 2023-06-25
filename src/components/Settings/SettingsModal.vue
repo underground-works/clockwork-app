@@ -19,17 +19,17 @@
 				<div class="controls">
 					<div class="appearance-controls">
 						<div class="option" :class="{'selected': $settings.global.appearance == 'auto'}" @click="setAppearance('auto')">
-							<img src="img/appearance-auto-icon.png">
+							<img src="/img/appearance-auto-icon.png">
 							Auto
 						</div>
 
 						<div class="option" :class="{'selected': $settings.global.appearance == 'light'}" @click="setAppearance('light')">
-							<img src="img/appearance-light-icon.png">
+							<img src="/img/appearance-light-icon.png">
 							Light
 						</div>
 
 						<div class="option" :class="{'selected': $settings.global.appearance == 'dark'}" @click="setAppearance('dark')">
-							<img src="img/appearance-dark-icon.png">
+							<img src="/img/appearance-dark-icon.png">
 							Dark
 						</div>
 					</div>
