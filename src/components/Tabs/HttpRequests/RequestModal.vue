@@ -1,137 +1,146 @@
 <template>
 	<modal icon="compass" title="HTTP Request" v-model:shown="requestLocal">
         <div class="http-request-details" v-if="request">
-            <div class="details-columns">
-                <div class="details-request">
-                    <div class="request-info">
-                        <div @click="showRequestHeaders = ! showRequestHeaders" class="info-header">
-                            <div>
-                                <span class="request-method" :class="`method-${request.request.method.toLowerCase()}`">{{request.request.method}}</span> <span class="request-scheme">{{request.request.url.scheme}}</span><span class="request-host">{{request.request.url.host}}</span><span class="request-path">{{request.request.url.path}}</span><span class="request-query">{{request.request.url.query}}</span>
-                            </div>
-                            <ui-icon :name="showRequestHeaders ? 'chevron-down' : 'chevron-up'"></ui-icon>
+            <div class="details-tabs">
+                <a class="tabs-tab" :class="{ 'active': selectedTab == 'request' }" href="#" @click.prevent="selectedTab = 'request'">
+                    <span class="request-method" :class="`method-${request.request.method.toLowerCase()}`">{{request.request.method}}</span>
+                    Request
+                </a>
+                <a class="tabs-tab" :class="{ 'active': selectedTab == 'response', 'no-response': ! request.response }" href="#" @click.prevent="selectedTab = 'response'">
+                    <span v-if="request.response" class="response-status">{{request.response.status}}</span>
+                    Response
+                </a>
+            </div>
+
+            <div v-show="selectedTab == 'request'" class="details-request">
+                <div class="request-info">
+                    <div @click="showRequestHeaders = ! showRequestHeaders" class="info-header">
+                        <div>
+                            <span class="request-method" :class="`method-${request.request.method.toLowerCase()}`">{{request.request.method}}</span> <span class="request-scheme">{{request.request.url.scheme}}</span><span class="request-host">{{request.request.url.host}}</span><span class="request-path">{{request.request.url.path}}</span><span class="request-query">{{request.request.url.query}}</span>
                         </div>
-                        
-                        <div class="info-headers" v-show="showRequestHeaders">
-                            <details-table :columns="['Key', 'Value']" :items="Object.entries(request.request.headers)" :no-header="true" :no-table-head="true">
-                                <template v-slot:body="{ items }">
-                                    <tr v-for="[ header, value ] in items" :key="`${$request.id}-${header}`">
-                                        <td colspan="2">
-                                            <div class="key">{{header}}</div>
-                                            <div class="value">{{value.join(', ')}}</div>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </details-table>
-                        </div>
+                        <ui-icon :name="showRequestHeaders ? 'chevron-down' : 'chevron-up'"></ui-icon>
                     </div>
-                    
-                    <div class="request-content">
-                        <div class="request-content-header">
-                            <div v-if="request.stats?.size.upload !== null && request.stats?.size.upload !== undefined" class="stats-item" title="Upload Size">
-                                <ui-icon name="upload-cloud"></ui-icon>
-                                {{formatBytesSize(request.stats.size.upload)}}
-                            </div>
-                            <div v-if="request.stats?.speed.upload !== null && request.stats?.speed.upload !== undefined" class="stats-item" title="Upload Speed">
-                                <ui-icon name="zap"></ui-icon>
-                                {{formatBytesSpeed(request.stats.speed.upload)}}
-                            </div>
-                            <div v-if="request.stats?.hosts.local" class="stats-item">
-                                {{request.stats.hosts.local.ip}}:{{request.stats.hosts.local.port}}
-                            </div>
-                        
-                            <a v-if="request.request.body" @click="showRawRequestBody = ! showRawRequestBody" href="#" class="header-action" :class="{ 'active': showRawRequestBody }" title="Show raw request body">
-                                Raw
-                            </a>
-                        </div>
-                    
-                        <div class="request-content-content">
-                            <div v-if="! request.request.content || ! Object.values(request.request.content).length" class="request-content-empty">
-                                No request body.
-                            </div>
-                            
-                            <pretty-print v-else-if="! showRawRequestBody" :data="request.request.content" :expanded="true"></pretty-print>
-                            
-                            <code v-else v-html="request.request.body"></code>
-                        </div>
+
+                    <div class="info-headers" v-show="showRequestHeaders">
+                        <details-table :columns="['Key', 'Value']" :items="Object.entries(request.request.headers)" :no-header="true" :no-table-head="true">
+                            <template v-slot:body="{ items }">
+                                <tr v-for="[ header, value ] in items" :key="`${$request.id}-${header}`">
+                                    <td colspan="2">
+                                        <div class="key">{{header}}</div>
+                                        <div class="value">{{value.join(', ')}}</div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </details-table>
                     </div>
                 </div>
-                
-                <div class="details-response">
-                    <div v-if="request.response" class="response-info">
-                        <div @click="showResponseHeaders = ! showResponseHeaders" class="info-header" :class="{ 'client-error': request.response.status >= 400 && request.response.status <= 499, 'server-error': request.response.status >= 500 && request.response.status <= 599 }">
-                            <div class="header-status">
-                                <span class="status-code">{{request.response.status}}</span>
-                                <span class="status-message">
-                                    {{request.response.statusMessage}}
-                                </span>
-                            </div>
-                            <span class="status-version" v-if="request.stats.version">
-                                    HTTP{{request.stats.version}}
-                            </span>
-                            <ui-icon :name="showResponseHeaders ? 'chevron-down' : 'chevron-up'"></ui-icon>
+
+                <div class="request-content">
+                    <div class="request-content-header">
+                        <div v-if="request.stats?.size.upload !== null && request.stats?.size.upload !== undefined" class="stats-item" title="Upload Size">
+                            <ui-icon name="upload-cloud"></ui-icon>
+                            {{formatBytesSize(request.stats.size.upload)}}
                         </div>
-                        
-                        <div class="info-headers" v-show="showResponseHeaders">
-                            <details-table :columns="['Key', 'Value']" :items="Object.entries(request.response.headers)" :no-header="true" :no-table-head="true">
-                                <template v-slot:body="{ items }">
-                                    <tr v-for="[ header, value ] in items" :key="`${$request.id}-${header}`">
-                                        <td colspan="2">
-                                            <div class="key">{{header}}</div>
-                                            <div class="value">{{value.join(', ')}}</div>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </details-table>
+                        <div v-if="request.stats?.speed.upload !== null && request.stats?.speed.upload !== undefined" class="stats-item" title="Upload Speed">
+                            <ui-icon name="zap"></ui-icon>
+                            {{formatBytesSpeed(request.stats.speed.upload)}}
                         </div>
+                        <div v-if="request.stats?.hosts.local" class="stats-item">
+                            {{request.stats.hosts.local.ip}}:{{request.stats.hosts.local.port}}
+                        </div>
+
+                        <a v-if="request.request.body" @click="showRawRequestBody = ! showRawRequestBody" href="#" class="header-action" :class="{ 'active': showRawRequestBody }" title="Show raw request body">
+                            Raw
+                        </a>
                     </div>
-                    
-                    <div v-if="request.response" class="response-content">
-                        <div class="response-content-header">
-                            <div v-if="request.stats.size.download !== null" class="stats-item" title="Download Size">
-                                <ui-icon name="download-cloud"></ui-icon>
-                                {{formatBytesSize(request.stats.size.download)}}
-                            </div>
-                            <div v-if="request.stats.speed.download !== null" class="stats-item" title="Download Speed">
-                                <ui-icon name="zap"></ui-icon>
-                                {{formatBytesSpeed(request.stats.speed.download)}}
-                            </div>
-                            <div v-if="request.stats.hosts.remote" class="stats-item">
-                                {{request.stats.hosts.remote.ip}}:{{request.stats.hosts.remote.port}}
-                            </div>
 
-                            <a v-if="request.response.body && hasJsonResponse" @click="showRawResponseBody = ! showRawResponseBody" href="#" class="header-action" :class="{ 'active': showRawResponseBody }" title="Show raw response body">
-                                Raw
-                            </a>
+                    <div class="request-content-content">
+                        <div v-if="! request.request.content || ! Object.values(request.request.content).length" class="request-content-empty">
+                            No request body.
                         </div>
 
-                        <div class="response-content-content">
-                            <div v-if="(! request.response.content || ! Object.values(request.response.content).length) && ! request.response.body" class="response-content-empty">
-                                No response body.
-                            </div>
+                        <pretty-print v-else-if="! showRawRequestBody" :data="request.request.content" :expanded="true"></pretty-print>
 
-                            <pretty-print v-else-if="hasJsonResponse && ! showRawResponseBody" :data="request.response.content" :expanded="true"></pretty-print>
-
-                            <code v-else-if="hasJsonResponse" v-html="request.response.body"></code>
-                            
-                            <iframe v-else ref="responseContent" :srcdoc="request.response.body"></iframe>
-                        </div>
-                    </div>
-                    
-                    <div v-if="! request.response" class="response-error">
-                        <p>No response.</p>
-                        <p v-if="request.error">({{request.error}})</p>
+                        <code v-else v-html="request.request.body"></code>
                     </div>
                 </div>
             </div>
-            
-            <div v-if="request.stats?.timing" class="request-performance">
-                <performance-chart :metrics="timings"></performance-chart>
-                
-                <div class="performance-timings">
-                    <div v-for="timing in timings" class="timings-timing">
-                        <div class="timing-color" :class="timing.color"></div>
-                        {{timing.name}}
-                        <div class="timing-value" :title="`${timing.value} ms`">{{Math.round(timing.value)}} ms</div>
+
+            <div v-show="selectedTab == 'response'" class="details-response">
+                <div v-if="request.response" class="response-info">
+                    <div @click="showResponseHeaders = ! showResponseHeaders" class="info-header" :class="{ 'client-error': request.response.status >= 400 && request.response.status <= 499, 'server-error': request.response.status >= 500 && request.response.status <= 599 }">
+                        <div class="header-status">
+                            <span class="status-code">{{request.response.status}}</span>
+                            <span class="status-message">
+                                {{request.response.statusMessage}}
+                            </span>
+                        </div>
+                        <span class="status-version" v-if="request.stats.version">
+                                HTTP{{request.stats.version}}
+                        </span>
+                        <ui-icon :name="showResponseHeaders ? 'chevron-down' : 'chevron-up'"></ui-icon>
+                    </div>
+
+                    <div class="info-headers" v-show="showResponseHeaders">
+                        <details-table :columns="['Key', 'Value']" :items="Object.entries(request.response.headers)" :no-header="true" :no-table-head="true">
+                            <template v-slot:body="{ items }">
+                                <tr v-for="[ header, value ] in items" :key="`${$request.id}-${header}`">
+                                    <td colspan="2">
+                                        <div class="key">{{header}}</div>
+                                        <div class="value">{{value.join(', ')}}</div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </details-table>
+                    </div>
+                </div>
+
+                <div v-if="request.response" class="response-content">
+                    <div class="response-content-header">
+                        <div v-if="request.stats.size.download !== null" class="stats-item" title="Download Size">
+                            <ui-icon name="download-cloud"></ui-icon>
+                            {{formatBytesSize(request.stats.size.download)}}
+                        </div>
+                        <div v-if="request.stats.speed.download !== null" class="stats-item" title="Download Speed">
+                            <ui-icon name="zap"></ui-icon>
+                            {{formatBytesSpeed(request.stats.speed.download)}}
+                        </div>
+                        <div v-if="request.stats.hosts.remote" class="stats-item">
+                            {{request.stats.hosts.remote.ip}}:{{request.stats.hosts.remote.port}}
+                        </div>
+
+                        <a v-if="request.response.body && hasJsonResponse" @click="showRawResponseBody = ! showRawResponseBody" href="#" class="header-action" :class="{ 'active': showRawResponseBody }" title="Show raw response body">
+                            Raw
+                        </a>
+                    </div>
+
+                    <div class="response-content-content">
+                        <div v-if="(! request.response.content || ! Object.values(request.response.content).length) && ! request.response.body" class="response-content-empty">
+                            No response body.
+                        </div>
+
+                        <pretty-print v-else-if="hasJsonResponse && ! showRawResponseBody" :data="request.response.content" :expanded="true"></pretty-print>
+
+                        <code v-else-if="hasJsonResponse" v-html="request.response.body"></code>
+
+                        <iframe v-else ref="responseContent" :srcdoc="request.response.body"></iframe>
+                    </div>
+                </div>
+
+                <div v-if="! request.response" class="response-error">
+                    <p>No response.</p>
+                    <p v-if="request.error">({{request.error}})</p>
+                </div>
+
+                <div v-if="request.stats?.timing" class="request-performance">
+                    <performance-chart :metrics="timings"></performance-chart>
+
+                    <div class="performance-timings">
+                        <div v-for="timing in timings" class="timings-timing">
+                            <div class="timing-color" :class="timing.color"></div>
+                    {{timing.name}}
+                            <div class="timing-value" :title="`${timing.value} ms`">{{Math.round(timing.value)}} ms</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -151,6 +160,7 @@ export default {
     components: { DetailsTable, Modal, PerformanceChart, PrettyPrint, UiIcon },
     props: [ 'request' ],
     data: () => ({
+        selectedTab: 'request',
         showRequestHeaders: false,
         showResponseHeaders: false,
         showRawRequestBody: false,
@@ -194,14 +204,124 @@ export default {
 .http-request-details {
     font-size: 13px;
     margin: 0 auto;
-    max-width: 820px;
+    max-width: 680px;
     width: 100vw;
     
-    .details-columns {
-        align-items: flex-start;
+    .details-tabs {
         display: flex;
-        gap: 20px;
-        margin-top: 20px;
+        gap: 12px;
+        justify-content: center;
+        margin: 10px 0 20px;
+
+    	.tabs-tab {
+    		align-items: center;
+    	    border-radius: 6px;
+    		color: rgb(64, 64, 64);
+    		cursor: default;
+            display: flex;
+            font-size: 14px;
+            padding: 6px 12px 6px 8px;
+            text-align: center;
+            text-decoration: none;
+
+            @include dark {
+                color: rgb(158, 158, 158);
+            }
+
+            &:hover {
+                color: #258cdb;
+
+                @include dark { color: #f27e02; }
+            }
+
+            &.active {
+                background: rgb(39, 134, 243);
+                color: #f5f5f5;
+
+                @include dark {
+                    background: hsl(31, 98%, 42%);
+                    color: #fff;
+                }
+            }
+
+            &.no-response {
+                padding-left: 12px;
+            }
+
+            .ui-icon {
+                margin-right: 5px;
+            }
+
+            .request-method {
+                border-radius: 8px;
+                font-size: 12px;
+                margin-right: 6px;
+                padding: 2px 6px;
+                text-transform: uppercase;
+
+                &.method-get, &.method-head {
+                    color: #586336;
+                    background: hsl(76, 47%, 86%);
+                    @include dark {
+                        background: hsla(76, 100%, 11%, 1);
+                        color: hsla(75, 90%, 80%, 1);
+                    }
+                }
+
+                &.method-post, &.method-put, &.method-patch {
+                    background: hsla(206, 47%, 86%, 1);
+                    color: hsla(205, 29%, 30%, 1);
+                    @include dark {
+                        background: hsla(206, 100%, 16%, 1);
+                        color: hsla(205, 90%, 70%, 1);
+                    }
+                }
+
+                &.method-delete {
+                    color: #c51f24;
+                    background: #ffebeb;
+                    @include dark {
+                        color: #ed797a;
+                        background: #380000;
+                    }
+                }
+            }
+
+            .response-status {
+                background: hsl(76, 47%, 86%);
+                border-radius: 8px;
+                color: #586336;
+                font-size: 12px;
+                margin-right: 6px;
+                padding: 2px 6px;
+                text-transform: uppercase;
+
+                @include dark {
+                    background: hsla(76, 100%, 11%, 1);
+                    color: hsla(75, 90%, 80%, 1);
+                }
+
+                &.client-error {
+                    color: #a85919;
+                    background: #fffae2;
+
+                    @include dark {
+                        color: #fad89f;
+                        background: #382f00;
+                    }
+                }
+
+                &.server-error {
+                    color: #c51f24;
+                    background: #ffebeb;
+
+                    @include dark {
+                        color: #ed797a;
+                        background: #380000;
+                    }
+                }
+            }
+        }
     }
     
     .request-info, .response-info, .request-content, .response-content, .response-error {
@@ -349,24 +469,28 @@ export default {
         
         .info-header {
             &.client-error {
-                color: #a85919;
-                .status-code { background: #fffae2; }
+                .header-status {
+                    color: #a85919;
+                    .status-code { background: #fffae2; }
 
-                @include dark {
-                    color: #fad89f;
-                    .status-code { background: #382f00; }
+                    @include dark {
+                        color: #fad89f;
+                        .status-code { background: #382f00; }
+                    }
                 }
             }
 
             &.server-error {
-                color: #c51f24;
-                background: #ffebeb;
+                .header-status {
+                    color: #c51f24;
+                    .status-code { background: #ffebeb; }
 
-                @include dark {
-                    color: #ed797a;
-                    background: #380000;
+                    @include dark {
+                        color: #ed797a;
+                        .status-code { background: #380000; }
+                    }
                 }
-            }            
+            }
         }
         
         .header-status {
