@@ -67,6 +67,7 @@ export default {
 			{ tag: 'cacheQueries', icon: 'paperclip', title: 'Cache' },
 			{ tag: 'redisCommands', icon: 'layers', title: 'Redis' },
 			{ tag: 'queueJobs', icon: 'clock', title: 'Queue' },
+			{ tag: 'httpRequests', icon: 'compass', title: 'HTTP Requests' },
 			{ tag: 'views', icon: 'image', title: 'Views' },
 			{ tag: 'notifications', icon: 'mail', title: 'Notifications' }
 		]
