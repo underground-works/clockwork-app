@@ -29,6 +29,8 @@ export default function createApp(global) {
 		}, {})
 	})
 
+	VueClipboard.config.autoSetContainer = true
+
 	app.use(VueClipboard)
 	app.use(vClickOutside)
 

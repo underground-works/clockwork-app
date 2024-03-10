@@ -37,7 +37,7 @@
 				<performance-tab :active="activeTab == 'performance'"></performance-tab>
 				<views-tab :active="activeTab == 'views'" v-if="shownTabs.views"></views-tab>
 				<notifications-tab :active="activeTab == 'notifications'" v-if="shownTabs.notifications"></notifications-tab>
-				<http-requests-tab :active="activeTab == 'httpRequests'" v-if="shownTabs.notifications"></http-requests-tab>
+				<http-requests-tab :active="activeTab == 'httpRequests'" v-if="shownTabs.httpRequests"></http-requests-tab>
 				<routes-tab :active="activeTab == 'routes'" v-if="shownTabs.routes"></routes-tab>
 				<user-tab v-for="userTab, index in $get($request, 'userData')" :key="`${$request.id}-${index}`" :user-tab="userTab" :active="activeTab == `user-${userTab.key}`"></user-tab>
 				<output-tab :active="activeTab == 'output'" v-if="shownTabs.output"></output-tab>
@@ -125,7 +125,7 @@ export default {
 				{ text: 'Cache', name: 'cache', icon: 'paperclip', shown: this.shownTabs.cache },
 				{ text: 'Redis', name: 'redis', icon: 'layers', shown: this.shownTabs.redis },
 				{ text: 'Queue', name: 'queue', icon: 'clock', shown: this.shownTabs.queue },
-				{ text: 'HTTP Requests', name: 'httpRequests', icon: 'compass', shown: this.shownTabs.httpRequests },
+				{ text: 'HTTP', name: 'httpRequests', icon: 'compass', shown: this.shownTabs.httpRequests },
 				{ text: 'Views', name: 'views', icon: 'image', shown: this.shownTabs.views },
 				{ text: 'Notifications', name: 'notifications', icon: 'mail', shown: this.shownTabs.notifications },
 				{ text: 'Routes', name: 'routes', icon: 'map', shown: this.shownTabs.routes }

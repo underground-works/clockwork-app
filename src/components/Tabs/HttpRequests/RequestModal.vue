@@ -3,12 +3,12 @@
         <div class="http-request-details" v-if="request">
             <div class="details-tabs">
                 <a class="tabs-tab" :class="{ 'active': selectedTab == 'request' }" href="#" @click.prevent="selectedTab = 'request'">
-                    <span class="request-method" :class="`method-${request.request.method.toLowerCase()}`">{{request.request.method}}</span>
                     Request
+                    <span class="request-method" :class="`method-${request.request.method.toLowerCase()}`">{{request.request.method}}</span>
                 </a>
                 <a class="tabs-tab" :class="{ 'active': selectedTab == 'response', 'no-response': ! request.response }" href="#" @click.prevent="selectedTab = 'response'">
-                    <span v-if="request.response" class="response-status">{{request.response.status}}</span>
                     Response
+                    <span v-if="request.response" class="response-status">{{request.response.status}}</span>
                 </a>
             </div>
 
@@ -49,13 +49,18 @@
                             {{request.stats.hosts.local.ip}}:{{request.stats.hosts.local.port}}
                         </div>
 
-                        <a v-if="request.request.body" @click="showRawRequestBody = ! showRawRequestBody" href="#" class="header-action" :class="{ 'active': showRawRequestBody }" title="Show raw request body">
-                            Raw
-                        </a>
+                        <div class="header-actions">
+                            <a v-if="hasRequestContent" @click.prevent="copyRequestContent" class="header-action" title="Copy to clipboard">
+                                <ui-icon name="clipboard"></ui-icon>
+                            </a>
+                            <a v-if="request.request.body" @click="showRawRequestBody = ! showRawRequestBody" href="#" class="header-action" :class="{ 'active': showRawRequestBody }" title="Show raw request body">
+                                Raw
+                            </a>
+                        </div>
                     </div>
 
                     <div class="request-content-content">
-                        <div v-if="! request.request.content || ! Object.values(request.request.content).length" class="request-content-empty">
+                        <div v-if="! hasRequestContent" class="request-content-empty">
                             No request body.
                         </div>
 
@@ -75,7 +80,7 @@
                                 {{request.response.statusMessage}}
                             </span>
                         </div>
-                        <span class="status-version" v-if="request.stats.version">
+                        <span class="status-version" v-if="request.stats?.version">
                                 HTTP{{request.stats.version}}
                         </span>
                         <ui-icon :name="showResponseHeaders ? 'chevron-down' : 'chevron-up'"></ui-icon>
@@ -97,25 +102,30 @@
 
                 <div v-if="request.response" class="response-content">
                     <div class="response-content-header">
-                        <div v-if="request.stats.size.download !== null" class="stats-item" title="Download Size">
+                        <div v-if="request.stats?.size.download !== null && request.stats?.size.download !== undefined" class="stats-item" title="Download Size">
                             <ui-icon name="download-cloud"></ui-icon>
                             {{formatBytesSize(request.stats.size.download)}}
                         </div>
-                        <div v-if="request.stats.speed.download !== null" class="stats-item" title="Download Speed">
+                        <div v-if="request.stats?.speed.download !== null && request.stats?.speed.download !== undefined" class="stats-item" title="Download Speed">
                             <ui-icon name="zap"></ui-icon>
                             {{formatBytesSpeed(request.stats.speed.download)}}
                         </div>
-                        <div v-if="request.stats.hosts.remote" class="stats-item">
+                        <div v-if="request.stats?.hosts.remote" class="stats-item">
                             {{request.stats.hosts.remote.ip}}:{{request.stats.hosts.remote.port}}
                         </div>
 
-                        <a v-if="request.response.body && hasJsonResponse" @click="showRawResponseBody = ! showRawResponseBody" href="#" class="header-action" :class="{ 'active': showRawResponseBody }" title="Show raw response body">
-                            Raw
-                        </a>
+                        <div class="header-actions">
+                            <a v-if="hasResponseContent" @click.prevent="copyResponseContent" class="header-action" title="Copy to clipboard">
+                                <ui-icon name="clipboard"></ui-icon>
+                            </a>
+                            <a v-if="request.response.body && hasJsonResponse" @click="showRawResponseBody = ! showRawResponseBody" href="#" class="header-action" :class="{ 'active': showRawResponseBody }" title="Show raw response body">
+                                Raw
+                            </a>
+                        </div>
                     </div>
 
                     <div class="response-content-content">
-                        <div v-if="(! request.response.content || ! Object.values(request.response.content).length) && ! request.response.body" class="response-content-empty">
+                        <div v-if="! hasResponseContent" class="response-content-empty">
                             No response body.
                         </div>
 
@@ -172,6 +182,28 @@ export default {
             set(val) { this.$emit('update:request', val) }
         },
         
+        hasRequestContent() {
+            return (this.request.request.content && Object.values(this.request.request.content).length) || this.request.body
+        },
+
+        hasResponseContent() {
+            return (this.request.response.content && Object.values(this.request.response.content).length) || this.response.body
+        },
+
+        hasJsonResponse() {
+            return this.request.response?.content instanceof Object
+        },
+
+        copyRequestContent() {
+            console.log(this.request.request.body || JSON.stringify(this.request.request.content))
+            this.$copyText(this.request.request.body || JSON.stringify(this.request.request.content))
+        },
+
+        copyResponseContent() {
+            console.log(this.request.response.body || JSON.stringify(this.request.response.content))
+            this.$copyText(this.request.response.body || JSON.stringify(this.request.response.content))
+        },
+
         timings() {
             return this.request.stats.timing ? [
                 { name: 'Lookup', value: this.request.stats.timing.lookup, color: 'red' },
@@ -255,7 +287,7 @@ export default {
             .request-method {
                 border-radius: 8px;
                 font-size: 12px;
-                margin-right: 6px;
+                margin-left: 6px;
                 padding: 2px 6px;
                 text-transform: uppercase;
 
@@ -292,7 +324,7 @@ export default {
                 border-radius: 8px;
                 color: #586336;
                 font-size: 12px;
-                margin-right: 6px;
+                margin-left: 6px;
                 padding: 2px 6px;
                 text-transform: uppercase;
 
@@ -356,6 +388,12 @@ export default {
                 .ui-icon {
                     margin-right: 2px;
                 }
+            }
+
+            .header-actions {
+                align-items: center;
+                display: flex;
+                margin-left: auto;
             }
 
             .header-action {
@@ -536,6 +574,7 @@ export default {
         padding: 4px;
         
         .ui-icon {
+            flex-shrink: 0;
             margin-left: auto;
         }
     }

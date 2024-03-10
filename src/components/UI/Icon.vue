@@ -12,6 +12,7 @@ import ChevronDownIcon from 'feather-icons/dist/icons/chevron-down.svg?raw'
 import ChevronLeftIcon from 'feather-icons/dist/icons/chevron-left.svg?raw'
 import ChevronRightIcon from 'feather-icons/dist/icons/chevron-right.svg?raw'
 import ChevronUpIcon from 'feather-icons/dist/icons/chevron-up.svg?raw'
+import ClipboardIcon from 'feather-icons/dist/icons/clipboard.svg?raw'
 import ClockIcon from 'feather-icons/dist/icons/clock.svg?raw'
 import CompassIcon from 'feather-icons/dist/icons/compass.svg?raw'
 import CpuIcon from 'feather-icons/dist/icons/cpu.svg?raw'
@@ -53,11 +54,11 @@ import ZapIcon from 'feather-icons/dist/icons/zap.svg?raw'
 
 let icons = {
 	ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, CheckCircleIcon, ChevronDownIcon,
-	ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ClockIcon, CompassIcon, CpuIcon, DatabaseIcon, DiscIcon,
-	DownloadCloudIcon, Edit2Icon, GithubIcon, HashIcon, HeartIcon, HelpCircleIcon, ImageIcon, InfoIcon, LayersIcon,
-	LinkIcon, ListIcon, LockIcon, MailIcon, MapIcon, MenuIcon, PaperclipIcon, PercentIcon, PieChartIcon, SearchIcon,
-	SettingsIcon, ShareIcon, SlashIcon, SmileIcon, StarIcon, TerminalIcon, Trash2Icon, TwitterIcon, UploadCloudIcon,
-	UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
+	ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ClipboardIcon, ClockIcon, CompassIcon, CpuIcon, DatabaseIcon,
+	DiscIcon, DownloadCloudIcon, Edit2Icon, GithubIcon, HashIcon, HeartIcon, HelpCircleIcon, ImageIcon, InfoIcon,
+	LayersIcon, LinkIcon, ListIcon, LockIcon, MailIcon, MapIcon, MenuIcon, PaperclipIcon, PercentIcon, PieChartIcon,
+	SearchIcon, SettingsIcon, ShareIcon, SlashIcon, SmileIcon, StarIcon, TerminalIcon, Trash2Icon, TwitterIcon,
+	UploadCloudIcon, UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
 }
 
 export default {
