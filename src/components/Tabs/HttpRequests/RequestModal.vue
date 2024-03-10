@@ -183,11 +183,11 @@ export default {
         },
         
         hasRequestContent() {
-            return (this.request.request.content && Object.values(this.request.request.content).length) || this.request.body
+            return (this.request.request.content && Object.values(this.request.request.content).length) || this.request.request.body
         },
 
         hasResponseContent() {
-            return (this.request.response.content && Object.values(this.request.response.content).length) || this.response.body
+            return (this.request.response?.content && Object.values(this.request.response?.content).length) || this.request.response?.body
         },
 
         hasJsonResponse() {
@@ -195,12 +195,10 @@ export default {
         },
 
         copyRequestContent() {
-            console.log(this.request.request.body || JSON.stringify(this.request.request.content))
             this.$copyText(this.request.request.body || JSON.stringify(this.request.request.content))
         },
 
         copyResponseContent() {
-            console.log(this.request.response.body || JSON.stringify(this.request.response.content))
             this.$copyText(this.request.response.body || JSON.stringify(this.request.response.content))
         },
 
