@@ -167,9 +167,7 @@ export default class PrettyJason
 			if (parent.tagName != 'LI' || ! ('key' in parent.dataset)) continue
 			if (parent.classList.contains('pretty-jason')) break
 
-			let segment = parent.dataset.key
-
-			path.unshift(! isNaN(parseInt(segment, 10)) ? parseInt(segment, 10) : segment)
+			path.unshift(parent.dataset.key)
 		}
 
 		node.parentNode.append(this.generateHtmlNode(this.getDataFromPath(path)))
