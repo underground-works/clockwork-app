@@ -64,6 +64,7 @@ $performance-chart-colors-dark: (
 	display: flex;
 	height: 6px;
 	margin: 0 auto 20px;
+	overflow: hidden;
 	width: calc(100% - 2px);
 
 	@include dark {

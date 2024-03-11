@@ -97,6 +97,7 @@ export default {
 	.tab-title {
 		overflow: hidden;
 		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.tab-badge {

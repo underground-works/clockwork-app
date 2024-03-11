@@ -12,10 +12,13 @@ import ChevronDownIcon from 'feather-icons/dist/icons/chevron-down.svg?raw'
 import ChevronLeftIcon from 'feather-icons/dist/icons/chevron-left.svg?raw'
 import ChevronRightIcon from 'feather-icons/dist/icons/chevron-right.svg?raw'
 import ChevronUpIcon from 'feather-icons/dist/icons/chevron-up.svg?raw'
+import ClipboardIcon from 'feather-icons/dist/icons/clipboard.svg?raw'
 import ClockIcon from 'feather-icons/dist/icons/clock.svg?raw'
+import CompassIcon from 'feather-icons/dist/icons/compass.svg?raw'
 import CpuIcon from 'feather-icons/dist/icons/cpu.svg?raw'
 import DatabaseIcon from 'feather-icons/dist/icons/database.svg?raw'
 import DiscIcon from 'feather-icons/dist/icons/disc.svg?raw'
+import DownloadCloudIcon from 'feather-icons/dist/icons/download-cloud.svg?raw'
 import Edit2Icon from 'feather-icons/dist/icons/edit-2.svg?raw'
 import GithubIcon from 'feather-icons/dist/icons/github.svg?raw'
 import HashIcon from 'feather-icons/dist/icons/hash.svg?raw'
@@ -42,6 +45,7 @@ import StarIcon from 'feather-icons/dist/icons/star.svg?raw'
 import TerminalIcon from 'feather-icons/dist/icons/terminal.svg?raw'
 import Trash2Icon from 'feather-icons/dist/icons/trash-2.svg?raw'
 import TwitterIcon from 'feather-icons/dist/icons/twitter.svg?raw'
+import UploadCloudIcon from 'feather-icons/dist/icons/upload-cloud.svg?raw'
 import UserIcon from 'feather-icons/dist/icons/user.svg?raw'
 import UsersIcon from 'feather-icons/dist/icons/users.svg?raw'
 import XIcon from 'feather-icons/dist/icons/x.svg?raw'
@@ -50,10 +54,11 @@ import ZapIcon from 'feather-icons/dist/icons/zap.svg?raw'
 
 let icons = {
 	ActivityIcon, AlertCircleIcon, AlertTriangleIcon, ArrowDownCircleIcon, CheckCircleIcon, ChevronDownIcon,
-	ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ClockIcon, CpuIcon, DatabaseIcon, DiscIcon, Edit2Icon, GithubIcon,
-	HashIcon, HeartIcon, HelpCircleIcon, ImageIcon, InfoIcon, LayersIcon, LinkIcon, ListIcon, LockIcon, MailIcon,
-	MapIcon, MenuIcon, PaperclipIcon, PercentIcon, PieChartIcon, SearchIcon, SettingsIcon, ShareIcon, SlashIcon,
-	SmileIcon, StarIcon, TerminalIcon, Trash2Icon, TwitterIcon, UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
+	ChevronLeftIcon, ChevronRightIcon, ChevronUpIcon, ClipboardIcon, ClockIcon, CompassIcon, CpuIcon, DatabaseIcon,
+	DiscIcon, DownloadCloudIcon, Edit2Icon, GithubIcon, HashIcon, HeartIcon, HelpCircleIcon, ImageIcon, InfoIcon,
+	LayersIcon, LinkIcon, ListIcon, LockIcon, MailIcon, MapIcon, MenuIcon, PaperclipIcon, PercentIcon, PieChartIcon,
+	SearchIcon, SettingsIcon, ShareIcon, SlashIcon, SmileIcon, StarIcon, TerminalIcon, Trash2Icon, TwitterIcon,
+	UploadCloudIcon, UserIcon, UsersIcon, XIcon, XCircleIcon, ZapIcon
 }
 
 export default {

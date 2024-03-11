@@ -1,5 +1,7 @@
 import { Timeline } from './timeline'
 
+import httpCodes from '../support/http-codes.json'
+
 import clone from 'just-clone'
 import pick from 'just-pick'
 import sqlFormatter from '@sqltools/formatter'
@@ -25,6 +27,7 @@ export default class Request
 		this.processDatabase()
 		this.processModels()
 		this.notifications = this.processNotifications(this.notifications, this.emailsData)
+		this.processHttpRequests()
 		this.events = this.processEvents(this.events)
 		this.getData = this.createKeypairs(this.getData)
 		this.requestData = this.requestData instanceof Object
@@ -280,6 +283,24 @@ export default class Request
 		})
 	}
 
+	processHttpRequests() {
+		this.httpRequests = this.enforceArray(this.httpRequests).map(request => {
+			let matches
+
+			if (matches = request.request.url.match(/(.+?:\/\/)(.+?)(\/.+?)?(\?.+)?$/)) {
+				request.request.url = { full: request.request.url, scheme: matches[1], host: matches[2], path: matches[3], query: matches[4] }
+			} else {
+				request.request.url = { full: request.request.url }
+			}
+
+			if (request.response?.status) {
+				request.response.statusMessage = httpCodes[request.response.status].message
+			}
+
+			return request
+		})
+	}
+
 	processEvents(data) {
 		if (! (data instanceof Array)) return []
 
@@ -480,6 +501,14 @@ export default class Request
 			description: `${notification.to} - ${notification.subject}`,
 			color: 'purple',
 			tags: [ 'notifications' ]
+		}))
+
+		this.httpRequests.forEach(request => timeline.append({
+			start: request.time,
+			duration: request.duration,
+			description: `${request.request.method} ${request.request.url.full}`,
+			color: 'purple',
+			tags: [ 'httpRequests' ]
 		}))
 
 		timeline.merge(this.viewsData)
