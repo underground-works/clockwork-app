@@ -77,7 +77,7 @@ export default class Extension
 		return this.resolveTabUrl().then(url => {
 			return new Promise((accept, reject) => {
 				this.api.runtime.sendMessage(
-					{ action: 'setCookie', url, name }, message => accept(message)
+					{ action: 'getCookie', url, name }, message => accept(message)
 				)
 			})
 		})
