@@ -26,6 +26,9 @@ export default class Standalone
 		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
 			this.settings.defaultAppearance = 'dark'
 		}
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+			this.settings.defaultAppearance = event.matches ? 'dark' : 'light'
+		});
 	}
 
 	setMetadataUrl() {
