@@ -1,5 +1,6 @@
+console.log('fireofx')
+
 let api = chrome || browser
-let lastClockworkRequestPerTab = {}
 
 api.runtime.onMessage.addListener((message, sender, callback) => {
 	if (message.action == 'fetch') {
@@ -13,13 +14,11 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 	} else if (message.action == 'getCookie') {
 		let { url, name } = message
 
-		api.cookies.get({ url, name }, cookie => {
-			callback(cookie ? cookie.value : undefined)
-		})
+		api.cookies.get({ url, name }).then(cookie => callback(cookie ? cookie.value : undefined))
 	} else if (message.action == 'getTabUrl') {
-		api.tabs.get(message.tabId, tab => callback(tab.url))
+		api.tabs.get(message.tabId).then(tab => callback(tab.url))
 	} else if (message.action == 'getLastClockworkRequestInTab') {
-		callback(lastClockworkRequestPerTab[message.tabId])
+		api.storage.local.get('lastClockworkRequestPerTab').then(values => callback(values.lastClockworkRequestPerTab?.[message.tabId]))
 	} else if (message.action == 'setCookie') {
 		let { url, name, value, path, expirationDate } = message
 
@@ -29,15 +28,21 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 	return true
 })
 
+console.log(api.webRequest.onHeadersReceived)
+
 // listen to http requests and send them to the app
 api.webRequest.onHeadersReceived.addListener(
 	request => {
+		console.log('onHeadersReceived')
+		console.log(request)
 		// ignore requests executed from the extension itself
 		if (request.documentUrl && request.documentUrl.match(new RegExp('^moz-extension://'))) return
 
 		// track last clockwork-enabled request per tab
 		if (request.responseHeaders.find(x => x.name.toLowerCase() == 'x-clockwork-id')) {
-			lastClockworkRequestPerTab[request.tabId] = request
+			api.storage.local.get('lastClockworkRequestPerTab').then(values => {
+				api.storage.local.set({ lastClockworkRequestPerTab: { ...values.lastClockworkRequestPerTab, [request.tabId]: request } })
+			})
 		}
 
 		api.runtime.sendMessage({ action: 'requestCompleted', request })
@@ -52,4 +57,9 @@ api.webNavigation.onBeforeNavigate.addListener(details => {
 })
 
 // clean up last request when tab is closed
-api.tabs.onRemoved.addListener(tabId => delete lastClockworkRequestPerTab[tabId])
+api.tabs.onRemoved.addListener(tabId => {
+	api.storage.local.get('lastClockworkRequestPerTab').then(values => {
+		delete values.lastClockworkRequestPerTab[request.tabId]
+		api.storage.local.set({ lastClockworkRequestPerTab: values.lastClockworkRequestPerTab })
+	})
+})

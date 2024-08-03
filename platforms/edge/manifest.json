@@ -1,5 +1,5 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "Clockwork",
 	"version": "5.1.0",
 	"version_name": "5.1.0",
@@ -15,7 +15,7 @@
 	"devtools_page": "devtools.html",
 
 	"background": {
-		"scripts": [ "background.js" ]
+		"service_worker": "worker.js"
 	},
 
 	"incognito": "split",
@@ -25,7 +25,10 @@
 		"storage",
 		"tabs",
 		"webNavigation",
-		"webRequest",
+		"webRequest"
+	],
+
+	"host_permissions": [
 		"http://*/",
 		"https://*/"
 	]

@@ -58,37 +58,32 @@ export default class Extension
 	}
 
 	fetch(method, url, data = {}, headers = {}) {
-		return new Promise((accept, reject) => {
-			this.api.runtime.sendMessage(
-				{ action: 'fetch', method, url, data, headers }, message => accept(message)
-			)
+		return this.api.runtime.sendMessage({
+			action: 'fetch', method, url, data, headers
 		})
 	}
 
 	setCookie(name, value, expiration) {
 		return this.resolveTabUrl().then(url => {
-			this.api.runtime.sendMessage(
-				{ action: 'setCookie', url, name, value, path: '/', expirationDate: Math.floor(Date.now() / 1000) + expiration }
-			)
+			return this.api.runtime.sendMessage({
+				action: 'setCookie', url, name, value, path: '/', expirationDate: Math.floor(Date.now() / 1000) + expiration
+			})
 		})
 	}
 
 	getCookie(name) {
 		return this.resolveTabUrl().then(url => {
-			return new Promise((accept, reject) => {
-				this.api.runtime.sendMessage(
-					{ action: 'getCookie', url, name }, message => accept(message)
-				)
+			return this.api.runtime.sendMessage({
+				action: 'getCookie', url, name
 			})
 		})
 	}
 
 	resolveTabUrl() {
 		return new Promise((accept, reject) => {
-			this.api.runtime.sendMessage(
-				{ action: 'getTabUrl', tabId: this.api.devtools.inspectedWindow.tabId },
-				url => accept(url)
-			)
+			return this.api.runtime.sendMessage({
+				action: 'getTabUrl', tabId: this.api.devtools.inspectedWindow.tabId
+			})
 		})
 	}
 
@@ -140,23 +135,22 @@ export default class Extension
 	}
 
 	loadLastRequest() {
-		this.api.runtime.sendMessage(
-			{ action: 'getLastClockworkRequestInTab', tabId: this.api.devtools.inspectedWindow.tabId },
-			(request) => {
-				if (! request) return
+		this.api.runtime.sendMessage({
+			action: 'getLastClockworkRequestInTab', tabId: this.api.devtools.inspectedWindow.tabId
+		}).then(request => {
+			if (! request) return
 
-				let options = this.parseHeaders(request.responseHeaders)
+			let options = this.parseHeaders(request.responseHeaders)
 
-				this.updateNotification.serverVersion = options.version
+			this.updateNotification.serverVersion = options.version
 
-				this.requests.setRemote(request.url, options)
-				this.requests.loadId(options.id, null, Request.placeholder(options.id, request))
+			this.requests.setRemote(request.url, options)
+			this.requests.loadId(options.id, null, Request.placeholder(options.id, request))
 
-				if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests || ! this.settings.global.hideTestTypeRequests) {
-					this.startPollingRequests()
-				}
+			if (! this.settings.global.hideCommandTypeRequests || ! this.settings.global.hideQueueJobTypeRequests || ! this.settings.global.hideTestTypeRequests) {
+				this.startPollingRequests()
 			}
-		)
+		})
 	}
 
 	parseHeaders(requestHeaders) {
