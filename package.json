@@ -37,6 +37,7 @@
     "just-unique": "^3.2.0",
     "linkifyjs": "^2.1.9",
     "lodash": "^4.17.19",
+    "node-sass": "^9.0.0",
     "prismjs": "^1.24.1",
     "register-service-worker": "^1.7.1",
     "urijs": "^1.19.2",
@@ -44,7 +45,8 @@
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",
     "vue-spinkit": "1.4.0",
-    "vue-svg-loader": "^0.16.0"
+    "vue-svg-loader": "^0.16.0",
+    "webpack": "^4.47.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.6",
@@ -52,8 +54,7 @@
     "@vue/cli-service": "^4.4.6",
     "del-cli": "^3.0.1",
     "move-cli": "^1.2.1",
-    "node-sass": "^6.0.0",
-    "sass-loader": "^10.2.0",
+    "sass-loader": "^10.0.0",
     "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
     "vue-template-compiler": "^2.6.11"
   },
