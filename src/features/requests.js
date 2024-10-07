@@ -30,8 +30,7 @@ export default class Requests
 		if (existing) {
 			placeholder = existing
 		} else if (placeholder !== false) {
-			placeholder = placeholder || Request.placeholder(id)
-			this.items.push(placeholder)
+			placeholder = this.push(placeholder || Request.placeholder(id))
 		}
 
 		if (placeholder && ! fields) placeholder.loading = true
@@ -125,6 +124,14 @@ export default class Requests
 
 		this.items.push(...requests)
 		this.sort()
+	}
+
+	push(request) {
+		request = reactive(request)
+
+		this.items.push(request)
+
+		return request
 	}
 
 	sort() {
