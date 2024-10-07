@@ -26,20 +26,22 @@ if (import.meta.env.VITE_PLATFORM == 'share') {
 	$platform = Extension.runningAsExtension() ? new Extension : new Standalone
 }
 
-let $store = new LocalStore
-let $requests = new Requests
-let $settings = new Settings($store, $requests, $platform)
+import { shallowReactive } from 'vue'
 
-let $authentication = new Authentication($requests)
-let $credits = new Credits($platform)
-let $editorLinks = new EditorLinks($settings)
-let $onDemand = new OnDemand($platform, $settings)
-let $profiler = new Profiler($requests, $platform)
-let $requestsSearch = new RequestsSearch($requests)
-let $sharing = new Sharing($platform, $settings)
-let $textFilters = new TextFilters
-let $updateNotification = new UpdateNotification($settings)
-let $whatsNew = new WhatsNew($platform, $settings)
+let $store = shallowReactive(new LocalStore)
+let $requests = shallowReactive(new Requests)
+let $settings = shallowReactive(new Settings($store, $requests, $platform))
+
+let $authentication = shallowReactive(new Authentication($requests))
+let $credits = shallowReactive(new Credits($platform))
+let $editorLinks = shallowReactive(new EditorLinks($settings))
+let $onDemand = shallowReactive(new OnDemand($platform, $settings))
+let $profiler = shallowReactive(new Profiler($requests, $platform))
+let $requestsSearch = shallowReactive(new RequestsSearch($requests))
+let $sharing = shallowReactive(new Sharing($platform, $settings))
+let $textFilters = shallowReactive(new TextFilters)
+let $updateNotification = shallowReactive(new UpdateNotification($settings))
+let $whatsNew = shallowReactive(new WhatsNew($platform, $settings))
 
 let global = {
 	$requests, $platform, $authentication, $credits, $editorLinks, $onDemand, $profiler, $requestsSearch, $settings,
