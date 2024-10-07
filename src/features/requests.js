@@ -148,7 +148,8 @@ export default class Requests
 	}
 
 	setItems(items) {
-		this.items = items
+		this.items.splice(0)
+		this.items.push(...items)
 	}
 
 	setRemote(url, options) {
