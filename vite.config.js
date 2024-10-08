@@ -14,5 +14,12 @@ export default defineConfig({
   },
   experimental: {
     renderBuiltUrl: filename => filename
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
   }
 })
