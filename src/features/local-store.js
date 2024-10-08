@@ -1,4 +1,6 @@
-export default class LocalStore
+import { shallowReactive } from 'vue'
+
+export class LocalStore
 {
 	constructor() {
 		this.backend = null
@@ -11,8 +13,12 @@ export default class LocalStore
 
 		this.persistent = !! this.backend
 		this.data = null
+	}
 
+	initialize() {
 		this.load()
+
+		return this
 	}
 
 	async get(key, defaultValue) {
@@ -72,3 +78,5 @@ export default class LocalStore
 		return (window.browser && browser.storage) || (window.chrome && chrome.storage)
 	}
 }
+
+export default (...args) => shallowReactive(new LocalStore(...args)).initialize()

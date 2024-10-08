@@ -58,14 +58,14 @@ import DetailsTable from '../UI/DetailsTable'
 import PrettyPrint from '../UI/PrettyPrint'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'CacheTab',
 	components: { DetailsTable, PrettyPrint, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'action', apply: (item, tagValue) => {
 				if ([ 'read', 'write', 'delete', 'miss' ].includes(tagValue.toLowerCase())) {
 					return item.type.toLowerCase() == tagValue.toLowerCase()

@@ -1,4 +1,6 @@
-export default class Credits
+import { reactive, shallowReactive } from 'vue'
+
+export class Credits
 {
 	constructor(platform) {
 		this.platform = platform
@@ -8,10 +10,10 @@ export default class Credits
 
 		this.version = import.meta.env.VITE_VERSION
 
-		this.credits = {
+		this.credits = reactive({
 			app: { contributors: [], dependencies: [], sponsors: [] },
 			php: { contributors: [], dependencies: [], sponsors: [] }
-		}
+		})
 
 		this.authors = [{
 			name: 'its',
@@ -46,3 +48,5 @@ export default class Credits
 		Promise.all(fetches).then(() => this.loaded = true)
 	}
 }
+
+export default (...args) => shallowReactive(new Credits(...args))

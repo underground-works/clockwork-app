@@ -41,14 +41,14 @@
 import DetailsTable from './DetailsTable'
 import PrettyPrint from './PrettyPrint'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'SidebarSection',
 	components: { DetailsTable, PrettyPrint },
 	props: [ 'title', 'name', 'filterExample', 'items' ],
 	data: () => ({
-		filter: new Filter([ { tag: 'name' } ]),
+		filter: createFilter([ { tag: 'name' } ]),
 		expandedSearch: false
 	}),
 	computed: {

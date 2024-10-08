@@ -84,7 +84,7 @@ import PrettyPrint from '../UI/PrettyPrint'
 import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'DatabaseTab',
@@ -92,7 +92,7 @@ export default {
 	props: [ 'active' ],
 	data: () => ({
 		prettify: false,
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'model' },
 			{ tag: 'type', apply: (item, tagValue) => {
 				if ([ 'select', 'update', 'insert', 'delete' ].includes(tagValue.toLowerCase())) {

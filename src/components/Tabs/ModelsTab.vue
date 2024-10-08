@@ -125,7 +125,7 @@ import PrettyPrint from '../UI/PrettyPrint'
 import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'ModelsTab',
@@ -134,13 +134,13 @@ export default {
 	data: () => ({
 		selectedModelsTab: 'actions',
 
-		actionsFilter: new Filter([
+		actionsFilter: createFilter([
 			{ tag: 'model' },
 			{ tag: 'action' },
 			{ tag: 'file', map: item => item.shortPath }
 		]),
 
-		countsFilter: new Filter([
+		countsFilter: createFilter([
 			{ tag: 'model' },
 			{ tag: 'retrieved', type: 'number' },
 			{ tag: 'created', type: 'number' },

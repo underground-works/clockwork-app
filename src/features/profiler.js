@@ -1,6 +1,7 @@
 import Callgrind from './callgrind/callgrind'
+import { shallowReactive } from 'vue'
 
-export default class Profiler
+export class Profiler
 {
 	constructor(requests, platform) {
 		this.requests = requests
@@ -18,8 +19,12 @@ export default class Profiler
 
 		this.request = undefined
 		this.functions = []
+	}
 
+	initialize() {
 		this.platform.getCookie('XDEBUG_PROFILE').then(value => this.isProfiling = value)
+
+		return this
 	}
 
 	enableProfiling() {
@@ -161,3 +166,5 @@ export default class Profiler
 		}
 	}
 }
+
+export default (...args) => shallowReactive(new Profiler(...args)).initialize()

@@ -2,9 +2,9 @@ import Extension from '../platform/extension'
 
 import extend from 'just-extend'
 import mapValues from 'just-map-values'
-import { reactive } from 'vue'
+import { reactive, shallowReactive } from 'vue'
 
-export default class Settings
+export class Settings
 {
 	constructor(store, requests, platform) {
 		this.store = store
@@ -18,8 +18,12 @@ export default class Settings
 		this.settings = reactive(this.defaults())
 
 		this.defaultAppearance = 'light'
+	}
 
+	initialize() {
 		this.load()
+
+		return this
 	}
 
 	get global() {
@@ -99,3 +103,5 @@ export default class Settings
 		}
 	}
 }
+
+export default (...args) => shallowReactive(new Settings(...args)).initialize()

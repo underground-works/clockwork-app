@@ -1,7 +1,7 @@
 import debounce from 'just-debounce-it'
-import { nextTick } from 'vue'
+import { nextTick, shallowReactive } from 'vue'
 
-export default class RequestsSearch
+export class RequestsSearch
 {
 	constructor(requests) {
 		this.requests = requests
@@ -82,3 +82,5 @@ export default class RequestsSearch
 		return { terms, tags }
 	}
 }
+
+export default (...args) => shallowReactive(new RequestsSearch(...args))

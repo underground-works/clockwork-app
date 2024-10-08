@@ -32,14 +32,14 @@ import DetailsTable from '../UI/DetailsTable'
 import PrettyPrint from '../UI/PrettyPrint'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'LogTab',
 	components: { DetailsTable, PrettyPrint, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'time', type: 'date' },
 			{ tag: 'level' },
 			{ tag: 'file', map: item => item.shortPath }

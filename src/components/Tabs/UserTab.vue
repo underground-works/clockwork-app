@@ -25,7 +25,7 @@
 import DetailsTable from '../UI/DetailsTable'
 import PrettyPrint from '../UI/PrettyPrint'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'UserTab',
@@ -39,7 +39,7 @@ export default {
 			handler(val) {
 				this.filters = val.sections.map(section => {
 					if (section.showAs == 'table') {
-						return new Filter(section.data[0].map(item => ({ tag: item.key })))
+						return createFilter(section.data[0].map(item => ({ tag: item.key })))
 					}
 				})
 			},

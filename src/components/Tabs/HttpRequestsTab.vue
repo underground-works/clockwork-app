@@ -38,14 +38,14 @@ import RequestModal from './HttpRequests/RequestModal'
 import PrettyPrint from '../UI/PrettyPrint'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'httpRequestsTab',
 	components: { DetailsTable, PrettyPrint, RequestModal, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'to' }
 		]),
 

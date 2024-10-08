@@ -1,4 +1,6 @@
-export default class Authentication
+import { shallowReactive } from 'vue'
+
+export class Authentication
 {
 	constructor(requests) {
 		this.requests = requests
@@ -43,3 +45,5 @@ export default class Authentication
 		})
 	}
 }
+
+export default (...args) => shallowReactive(new Authentication(...args))

@@ -132,7 +132,7 @@ import DetailsTable from '../../UI/DetailsTable'
 import HighlightedCode from '../../UI/HighlightedCode'
 import Popover from '../../UI/Popover'
 
-import Filter from '../../../features/filter'
+import createFilter from '../../../features/filter'
 
 import debounce from 'just-debounce-it'
 
@@ -147,7 +147,7 @@ export default {
 		hiddenTags: undefined,
 		presentedEvents: [],
 
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'duration', type: 'number' }
 		], item => item.description)
 	}),

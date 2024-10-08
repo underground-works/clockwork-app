@@ -1,7 +1,8 @@
 import clone from 'just-clone'
 import URI from 'urijs'
+import { shallowReactive } from 'vue'
 
-export default class Sharing
+export class Sharing
 {
 	constructor($platform, $settings) {
 		this.$platform = $platform
@@ -92,3 +93,5 @@ export default class Sharing
 		return this.$platform.fetch('POST', window.location, { '_method': 'delete' })
 	}
 }
+
+export default (...args) => shallowReactive(new Sharing(...args))

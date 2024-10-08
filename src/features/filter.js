@@ -1,7 +1,7 @@
 import { format as formatDate, isBefore, isAfter, isEqual, parseISO, setMilliseconds } from 'date-fns'
-import { nextTick } from 'vue'
+import { nextTick, shallowReactive } from 'vue'
 
-export default class Filter
+export class Filter
 {
 	constructor(tags, map) {
 		this.tags = tags
@@ -158,3 +158,5 @@ export default class Filter
 		return { terms, tags }
 	}
 }
+
+export default (...args) => shallowReactive(new Filter(...args))

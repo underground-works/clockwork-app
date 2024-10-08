@@ -25,14 +25,14 @@ import DetailsTable from '../UI/DetailsTable'
 import PrettyPrint from '../UI/PrettyPrint'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'RedisTab',
 	components: { DetailsTable, PrettyPrint, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'connection' },
 			{ tag: 'command' },
 			{ tag: 'file', map: item => item.shortPath },

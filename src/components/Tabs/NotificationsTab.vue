@@ -79,7 +79,7 @@ import MessageModal from './Notifications/MessageModal'
 import PrettyPrint from '../UI/PrettyPrint'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 import omit from 'just-omit'
 
@@ -88,7 +88,7 @@ export default {
 	components: { DetailsTable, DetailsTableFilterToggle, MessageModal, PrettyPrint, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'to' }
 		]),
 

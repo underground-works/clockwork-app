@@ -1,4 +1,6 @@
-export default class WhatsNew
+import { shallowReactive } from 'vue'
+
+export class WhatsNew
 {
 	constructor(platform, settings) {
 		this.platform = platform
@@ -118,3 +120,5 @@ export default class WhatsNew
 		]
 	}
 }
+
+export default (...args) => shallowReactive(new WhatsNew(...args))

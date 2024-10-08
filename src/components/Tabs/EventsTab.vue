@@ -46,14 +46,14 @@ import PrettyPrint from '../UI/PrettyPrint'
 import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'EventsTab',
 	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'time', type: 'date' },
 			{ tag: 'file', map: item => item.shortPath }
 		]),

@@ -1,4 +1,6 @@
-export default class OnDemand
+import { shallowReactive } from 'vue'
+
+export class OnDemand
 {
 	constructor(platform, settings) {
 		this.platform = platform
@@ -24,3 +26,5 @@ export default class OnDemand
 		clearTimeout(this.timeout)
 	}
 }
+
+export default (...args) => shallowReactive(new OnDemand(...args))

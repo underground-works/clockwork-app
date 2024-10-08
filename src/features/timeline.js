@@ -1,5 +1,6 @@
 import clone from 'just-clone'
 import intersect from 'just-intersect'
+import { shallowReactive } from 'vue'
 
 export class Timeline {
 	constructor(events, startTime, endTime) {
@@ -204,3 +205,5 @@ export class TimelineEventGroup {
 		return this
 	}
 }
+
+export default (...args) => shallowReactive(new Timeline(...args))

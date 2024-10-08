@@ -1,4 +1,6 @@
-export default class EditorLinks
+import { shallowReactive } from 'vue'
+
+export class EditorLinks
 {
 	constructor(settings) {
 		this.settings = settings
@@ -30,3 +32,5 @@ export default class EditorLinks
 		}
 	}
 }
+
+export default (...args) => shallowReactive(new EditorLinks(...args))

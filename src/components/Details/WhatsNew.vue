@@ -30,7 +30,7 @@
 <script>
 import Modal from '../UI/Modal'
 
-import WhatsNew from '../../features/whats-new'
+import { WhatsNew } from '../../features/whats-new'
 
 export default {
 	name: 'WhatsNew',

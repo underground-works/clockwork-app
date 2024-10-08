@@ -22,14 +22,14 @@
 
 <script>
 import DetailsTable from '../UI/DetailsTable'
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 export default {
 	name: 'RoutesTab',
 	components: { DetailsTable },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'method', apply: (item, tagValue) => {
 				if ([ 'get', 'post', 'put', 'delete', 'head', 'patch' ].includes(tagValue.toLowerCase())) {
 					return item.method.toLowerCase() == tagValue.toLowerCase()

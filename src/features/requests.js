@@ -1,12 +1,13 @@
-import Request from './request'
+import createRequest from './request'
 import URI from 'urijs'
 
-import { reactive } from 'vue'
+import { reactive, shallowReactive } from 'vue'
 
-export default class Requests
+export class Requests
 {
 	constructor() {
 		this.settings = null
+
 		this.items = reactive([])
 
 		this.query = {}
@@ -202,7 +203,7 @@ export default class Requests
 
 		return configure(this.client('GET', url, {}, headers).then(data => {
 			if (! data) return []
-			return ((data instanceof Array) ? data : [ data ]).map(data => new Request(data))
+			return ((data instanceof Array) ? data : [ data ]).map(data => createRequest(data))
 		}))
 	}
 
@@ -212,3 +213,5 @@ export default class Requests
 		return this.exclusive[uri] = this.load(uri, configure).finally(() => this.exclusive[uri] = null)
 	}
 }
+
+export default (...args) => shallowReactive(new Requests(...args))

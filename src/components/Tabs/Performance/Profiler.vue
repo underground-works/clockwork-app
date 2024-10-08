@@ -96,14 +96,14 @@
 import DetailsTable from '../../UI/DetailsTable'
 import ShortenedText from '../../UI/ShortenedText'
 
-import Filter from '../../../features/filter'
+import createFilter from '../../../features/filter'
 
 export default {
 	name: 'Profiler',
 	components: { DetailsTable, ShortenedText },
 	data: () => ({
 		filter: (() => {
-			let filter = new Filter([
+			let filter = createFilter([
 				{ tag: 'model' },
 				{ tag: 'file', map: item => item.shortPath },
 				{ tag: 'self', type: 'number' },

@@ -42,7 +42,7 @@ import PrettyPrint from '../UI/PrettyPrint'
 import ShortenedText from '../UI/ShortenedText'
 import StackTrace from '../UI/StackTrace'
 
-import Filter from '../../features/filter'
+import createFilter from '../../features/filter'
 
 import extend from 'just-extend'
 
@@ -51,7 +51,7 @@ export default {
 	components: { DetailsTable, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'active' ],
 	data: () => ({
-		filter: new Filter([
+		filter: createFilter([
 			{ tag: 'connection' },
 			{ tag: 'queue' },
 			{ tag: 'name' }

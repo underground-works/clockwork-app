@@ -1,6 +1,6 @@
 import { format as formatDate } from 'date-fns'
 
-export default class TextFilters
+export class TextFilters
 {
 	register(app) {
  		app.mixin({ methods: {
@@ -37,3 +37,5 @@ export default class TextFilters
 			.join(' ')
 	}
 }
+
+export default (...args) => new TextFilters(...args)

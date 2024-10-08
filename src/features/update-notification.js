@@ -1,4 +1,6 @@
-export default class UpdateNotification
+import { shallowReactive } from 'vue'
+
+export class UpdateNotification
 {
 	constructor(settings) {
 		this.settings = settings
@@ -56,3 +58,5 @@ export default class UpdateNotification
 		return 0;
 	}
 }
+
+export default (...args) => shallowReactive(new UpdateNotification(...args))

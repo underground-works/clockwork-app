@@ -6,8 +6,9 @@ import clone from 'just-clone'
 import pick from 'just-pick'
 import sqlFormatter from '@sqltools/formatter'
 import URI from 'urijs'
+import { shallowReactive } from 'vue'
 
-export default class Request
+export class Request
 {
 	constructor(data) {
 		Object.assign(this, data)
@@ -57,7 +58,7 @@ export default class Request
 	}
 
 	static placeholder(id, request, parent) {
-		return Object.assign(new Request({
+		return shallowReactive(Object.assign(new Request({
 			loading: true,
 			id: id,
 			uri: request ? (new URI(request.url)).pathname() : '/',
@@ -68,7 +69,7 @@ export default class Request
 		}), {
 			responseDurationRounded: '?',
 			databaseDurationRounded: '?'
-		})
+		}))
 	}
 
 	resolve(request, fields) {
@@ -652,3 +653,5 @@ export default class Request
 		return input instanceof Object && Object.keys(input).filter(key => key != '__type__').length ? input : defaultValue
 	}
 }
+
+export default (...args) => shallowReactive(new Request(...args))

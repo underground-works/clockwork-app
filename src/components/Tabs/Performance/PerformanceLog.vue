@@ -48,14 +48,14 @@ import PrettyPrint from '../../UI/PrettyPrint'
 import ShortenedText from '../../UI/ShortenedText'
 import StackTrace from '../../UI/StackTrace'
 
-import Filter from '../../../features/filter'
+import createFilter from '../../../features/filter'
 
 export default {
 	name: 'PerformanceLog',
 	components: { DetailsTable, DetailsTableFilterToggle, HighlightedCode, PrettyPrint, ShortenedText, StackTrace },
 	props: [ 'issues', 'slowQueries' ],
 	data: () => ({
-		databaseSlowQueriesFilter: new Filter([
+		databaseSlowQueriesFilter: createFilter([
 			{ tag: 'model' },
 			{ tag: 'type', apply: (item, tagValue) => {
 				if ([ 'select', 'update', 'insert', 'delete' ].includes(tagValue.toLowerCase())) {
@@ -65,7 +65,7 @@ export default {
 			{ tag: 'file', map: item => item.shortPath },
 			{ tag: 'duration', type: 'number' }
 		]),
-		performanceLogFilter: new Filter([
+		performanceLogFilter: createFilter([
 			{ tag: 'time', type: 'date' },
 			{ tag: 'file', map: item => item.shortPath }
 		], item => item.message)
