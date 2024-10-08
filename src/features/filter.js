@@ -113,18 +113,18 @@ export class Filter
 
 			if (match = tagValue.match(/^<(.+)$/)) {
 				return isBefore(
-					setMilliseconds(new Date(item), 0),
+					setMilliseconds(item, 0),
 					parseISO(match[1].match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'yyyy-MM-dd ') + match[1] : match[1])
 				)
 			} else if (match = tagValue.match(/^>(.+)$/)) {
 				return isAfter(
-					setMilliseconds(new Date(item), 0),
+					setMilliseconds(item, 0),
 					parseISO(match[1].match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'yyyy-MM-dd ') + match[1] : match[1])
 				)
 			}
 
 			return isEqual(
-				setMilliseconds(new Date(item), 0),
+				setMilliseconds(item, 0),
 				parseISO(tagValue.match(/^\d+:\d+(:\d+)?$/) ? formatDate(new Date(), 'yyyy-MM-dd ') + tagValue : tagValue)
 			)
 		} else {

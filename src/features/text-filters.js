@@ -13,7 +13,7 @@ export class TextFilters
  	}
 
 	date(input, format) {
-		return formatDate(new Date(input), format)
+		return formatDate(input, format)
 	}
 
 	join(input, glue = ', ') {

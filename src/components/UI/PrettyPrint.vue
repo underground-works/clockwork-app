@@ -5,7 +5,7 @@
 <script>
 import PrettyJason from '../../features/pretty-jason/pretty-jason'
 
-import linkify from 'linkifyjs/html'
+import linkify from 'linkify-html'
 
 export default {
 	name: 'PrettyPrint',
@@ -30,7 +30,9 @@ export default {
 					rendered.append((new PrettyJason(data)).generateHtml())
 				} catch (e) {
 					rendered.innerText = data
-					if (this.linkify) rendered.innerHTML = linkify(rendered.innerHTML)
+					if (this.linkify) rendered.innerHTML = linkify(rendered.innerHTML, {
+						target: (href, type) => type === "url" && "_blank"
+					})
 				}
 			}
 
