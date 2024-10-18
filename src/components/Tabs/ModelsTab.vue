@@ -214,10 +214,10 @@ export default {
 	}
 
 	.counter-updated .has-mark:before {
-		background: hsl(50, 57, 61);
+		background: hsl(50deg 57% 61%);
 
 		@include dark {
-			background: hsl(27, 39, 53);
+			background: hsl(27deg 39% 53%);
 		}
 	}
 
@@ -264,7 +264,7 @@ export default {
 		    color: #f5f5f5;
 
 			@include dark {
-				background: hsl(31, 98%, 42%);
+				background: hsl(31deg 98% 42%);
 				color: #fff;
 			}
 		}
@@ -305,25 +305,25 @@ export default {
 		}
 
 		.action-action {
-			background: hsla(206, 47%, 86%, 1);
+			background: hsl(206deg 47% 86%);
 			border-radius: 8px;
-			color: hsla(205, 29%, 30%, 1);
+			color: hsl(205deg 29% 30%);
 			font-size: 10px;
 			padding: 3px 8px;
 			text-transform: uppercase;
 
 			@include dark {
-				background: hsla(206, 100%, 16%, 1);
-				color: hsla(205, 90%, 70%, 1);
+				background: hsl(206deg 100% 16%);
+				color: hsl(205deg 90% 70%);
 			}
 
 			&.action-created {
-				background: hsl(76, 47%, 86%);
+				background: hsl(76deg 47% 86%);
 				color: #586336;
 
 				@include dark {
-					background: hsla(76, 100%, 11%, 1);
-					color: hsla(75, 90%, 80%, 1);
+					background: hsl(76deg 100% 11%);
+					color: hsl(75deg 90% 80%);
 				}
 			}
 
@@ -386,12 +386,12 @@ export default {
 	}
 
 	tr {
-		background: hsl(240, 20, 99) !important;
-		@include dark { background: hsl(240, 2, 15) !important; }
+		background: hsl(240deg 20% 99%) !important;
+		@include dark { background: hsl(240deg 2% 15%) !important; }
 
 		&:nth-child(4n), &:nth-child(4n-1) {
-			background: hsl(240, 20, 96) !important;
-			@include dark { background: hsl(240, 2, 13) !important; }
+			background: hsl(240deg 20% 96%) !important;
+			@include dark { background: hsl(240deg 2% 13%) !important; }
 		}
 	}
 }
@@ -406,25 +406,25 @@ export default {
 	}
 
 	.count-text {
-		background: hsla(206, 47%, 86%, 1);
+		background: hsl(206deg 47% 86%);
 		border-radius: 8px;
-		color: hsla(205, 29%, 30%, 1);
+		color: hsl(205deg 29% 30%);
 		font-size: 11px;
 		padding: 3px 8px;
 		text-transform: uppercase;
 
 		@include dark {
-			background: hsla(206, 100%, 16%, 1);
-			color: hsla(205, 90%, 70%, 1);
+			background: hsl(206deg 100% 16%);
+			color: hsl(205deg 90% 70%);
 		}
 
 		&.count-created {
-			background: hsl(76, 47%, 86%);
+			background: hsl(76deg 47% 86%);
 			color: #586336;
 
 			@include dark {
-				background: hsla(76, 100%, 11%, 1);
-				color: hsla(75, 90%, 80%, 1);
+				background: hsl(76deg 100% 11%);
+				color: hsl(75deg 90% 80%);
 			}
 		}
 

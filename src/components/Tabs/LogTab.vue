@@ -77,23 +77,23 @@ export default {
 			color: rgb(197, 31, 36);
 
 			&:nth-child(even) {
-				background: hsl(0, 100%, 94%);
+				background: hsl(0deg 100% 94%);
 			}
 
 			.log-message-path {
-				color: hsl(358, 55%, 70%);
+				color: hsl(358deg 55% 70%);
 			}
 
 			@include dark {
-				background: hsl(0, 100%, 11%);
+				background: hsl(0deg 100% 11%);
 				color: rgb(237, 121, 122);
 
 				&:nth-child(even) {
-					background: hsl(0, 100%, 9%);
+					background: hsl(0deg 100% 9%);
 				}
 
 				.log-message-path {
-					color: hsl(359, 38%, 62%);
+					color: hsl(359deg 38% 62%);
 				}
 			}
 		}
@@ -103,23 +103,23 @@ export default {
 			color: rgb(168, 89, 25);
 
 			&:nth-child(even) {
-				background: hsl(50, 100%, 88%);
+				background: hsl(50deg 100% 88%);
 			}
 
 			.log-message-path {
-				color: hsl(27, 55%, 65%);
+				color: hsl(27deg 55% 65%);
 			}
 
 			@include dark {
-				background: hsl(50, 100%, 11%);
+				background: hsl(50deg 100% 11%);
 				color: rgb(250, 216, 159);
 
 				&:nth-child(even) {
-					background: hsl(50, 100%, 9%);
+					background: hsl(50deg 100% 9%);
 				}
 
 				.log-message-path {
-					color: hsl(38, 42%, 68%);
+					color: hsl(38deg 42% 68%);
 				}
 			}
 		}

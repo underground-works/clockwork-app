@@ -21,9 +21,9 @@ export default {
 
 .details-header-tab {
 	align-items: center;
-	border-bottom: 1px solid hsl(240, 20, 85);
+	border-bottom: 1px solid hsl(240deg 20% 85%);
 	border-left: 1px solid transparent;
-	border-right: 1px solid hsl(240, 20, 85);
+	border-right: 1px solid hsl(240deg 20% 85%);
 	color: rgb(64, 64, 64);
 	cursor: default;
 	display: flex;
@@ -36,37 +36,37 @@ export default {
 	transition: all 0.1s;
 
 	@include dark {
-		border-bottom: 1px solid hsl(240, 17%, 20%);
-		border-right: 1px solid hsl(240, 17%, 20%);
+		border-bottom: 1px solid hsl(240deg 17% 20%);
+		border-right: 1px solid hsl(240deg 17% 20%);
 		color: rgb(158, 158, 158);
 	}
 
 	&:first-child {
-		border-left: 1px solid hsl(240, 20, 85);
+		border-left: 1px solid hsl(240deg 20% 85%);
 
-		@include dark { border-left: 1px solid hsl(240, 17%, 20%); }
+		@include dark { border-left: 1px solid hsl(240deg 17% 20%); }
 	}
 
 	&:hover {
-		background: hsl(240, 20, 91);
+		background: hsl(240deg 20% 91%);
 		color: rgb(37, 140, 219);
 
 		@include dark {
-			background: hsl(240, 17%, 12%);
+			background: hsl(240deg 17% 12%);
 		}
 	}
 
 	&.active {
 		background: #f6f6f9;
 		border-bottom: 0;
-		border-right: 1px solid hsl(240, 20, 85);
+		border-right: 1px solid hsl(240deg 20% 85%);
 		color: rgb(37, 140, 219);
 		margin-bottom: -1px;
 		padding-bottom: 1px;
 
 		@include dark {
-			background: hsl(240, 2, 15);
-			color: hsl(31, 98%, 48%);
+			background: hsl(240deg 2% 15%);
+			color: hsl(31deg 98% 48%);
 		}
 
 		.tab-badge {
@@ -101,8 +101,8 @@ export default {
 	}
 
 	.tab-badge {
-		background: hsl(240, 10, 65);
-		border: 1px solid hsl(240, 10, 65);
+		background: hsl(240deg 10% 65%);
+		border: 1px solid hsl(240deg 10% 65%);
 		border-radius: 6px;
 		color: #f5f5f5;
 		font-size: 90%;

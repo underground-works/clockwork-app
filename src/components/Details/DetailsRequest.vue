@@ -109,20 +109,20 @@ export default {
 	}
 
 	.type-text {
-		background: hsla(206, 47%, 86%, 1);
+		background: hsl(206deg 47% 86%);
 		border-radius: 3px;
-		color: hsla(205, 29%, 30%, 1);
+		color: hsl(205deg 29% 30%);
 		font-size: 90%;
 		padding: 2px 4px;
 
 		@include dark {
-			background: hsla(206, 100%, 16%, 1);
-			color: hsla(205, 90%, 70%, 1);
+			background: hsl(206deg 100% 16%);
+			color: hsl(205deg 90% 70%);
 		}
 	}
 
 	.status-text {
-		background: hsl(76, 47%, 86%);
+		background: hsl(76deg 47% 86%);
 		border-radius: 8px;
 		color: #586336;
 		font-size: 90%;
@@ -130,8 +130,8 @@ export default {
 		text-transform: uppercase;
 
 		@include dark {
-			background: hsla(76, 100%, 11%, 1);
-			color: hsla(75, 90%, 80%, 1);
+			background: hsl(76deg 100% 11%);
+			color: hsl(75deg 90% 80%);
 		}
 
 		&.client-error {

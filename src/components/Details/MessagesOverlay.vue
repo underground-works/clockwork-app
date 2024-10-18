@@ -87,7 +87,7 @@ export default {
 			text-decoration: none;
 			text-transform: uppercase;
 
-			@include dark { color: hsl(31, 98%, 48%); }
+			@include dark { color: hsl(31deg 98% 48%); }
 		}
 
 		strong { font-weight: 500; }

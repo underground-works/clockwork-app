@@ -53,7 +53,7 @@ export default {
 
 .parent-request {
 	align-items: center;
-	border-bottom: 1px solid hsl(240, 20, 92);
+	border-bottom: 1px solid hsl(240deg 20% 92%);
 	display: flex;
 	font-size: 12px;
 	font-weight: 600;
@@ -89,17 +89,17 @@ export default {
 	}
 
 	.type-text {
-		background: hsla(206, 47%, 86%, 1);
+		background: hsl(206deg 47% 86%);
 		border-radius: 3px;
-		color: hsla(205, 29%, 30%, 1);
+		color: hsl(205deg 29% 30%);
 		font-size: 80%;
 		margin-right: 2px;
 		padding: 1px 3px;
 		vertical-align: 1px;
 
 		@include dark {
-			background: hsla(206, 100%, 16%, 1);
-		    color: hsla(205, 90%, 70%, 1);
+			background: hsl(206deg 100% 16%);
+		    color: hsl(205deg 90% 70%);
 		}
 	}
 
@@ -111,7 +111,7 @@ export default {
 		text-decoration: none;
 		text-transform: uppercase;
 
-		@include dark { color: hsl(31, 98%, 48%); }
+		@include dark { color: hsl(31deg 98% 48%); }
 	}
 
 	.parent-close { margin-left: auto; }

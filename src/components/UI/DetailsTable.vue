@@ -114,14 +114,14 @@ export default {
 @import '../../mixins.scss';
 
 .details-table {
-	background: hsl(240, 20, 99);
+	background: hsl(240deg 20% 99%);
 	border-radius: 8px;
-	box-shadow: 0 0 0px 1px hsl(240, 20, 90), 0 2px 2px 0 hsl(240, 20, 90);
+	box-shadow: 0 0 0px 1px hsl(240deg 20% 90%), 0 2px 2px 0 hsl(240deg 20% 90%);
 	margin-bottom: 20px;
 	padding-bottom: 10px;
 
 	@include dark {
-		background: hsl(240, 2, 15);
+		background: hsl(240deg 2% 15%);
 		box-shadow: 0 0 0px 1px #15151e, 0 2px 2px 0 #15151e;
 	}
 
@@ -159,7 +159,7 @@ export default {
 				padding: 1px 8px;
 
 				@include dark {
-					background: hsl(31, 98%, 42%);
+					background: hsl(31deg 98% 42%);
 					color: #fff;
 				}
 			}
@@ -194,7 +194,7 @@ export default {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 42%);
+					color: hsl(31deg 98% 42%);
 				}
 			}
 
@@ -207,7 +207,7 @@ export default {
 				color: #f5f5f5;
 
 				@include dark {
-					background: hsl(31, 98%, 42%);
+					background: hsl(31deg 98% 42%);
 					color: #fff;
 				}
 			}
@@ -285,8 +285,8 @@ export default {
 
 		tr {
 			&:nth-child(even) {
-				background: hsl(240, 20, 96);
-				@include dark { background: hsl(240, 2, 13); }
+				background: hsl(240deg 20% 96%);
+				@include dark { background: hsl(240deg 2% 13%); }
 			}
 		}
 
@@ -333,7 +333,7 @@ export default {
 			color: rgb(37, 140, 219);
 			text-decoration: none;
 
-			@include dark { color: hsl(31, 98%, 48%); }
+			@include dark { color: hsl(31deg 98% 48%); }
 		}
 	}
 }

@@ -117,7 +117,7 @@ export default {
 @import '../mixins.scss';
 
 .request-sidebar {
-	background: hsl(240, 20, 98%);
+	background: hsl(240deg 20% 98%);
 	border-top: 1px solid rgb(209, 209, 209);
 	display: flex;
 	flex-direction: column;
@@ -126,19 +126,19 @@ export default {
 
 	@include dark {
 		background: #1b1b1b;
-		border-top: 1px solid hsl(240, 17%, 20%);
+		border-top: 1px solid hsl(240deg 17% 20%);
 	}
 
 	&.large { height: 33%; }
 
 	@media screen and (min-width: 900px) {
-		border-left: 1px solid hsl(240, 20, 85);
+		border-left: 1px solid hsl(240deg 20% 85%);
 		border-top: 0;
 		height: 100%;
 		width: 300px;
 
 		@include dark {
-			border-left: 1px solid hsl(240, 17%, 20%);
+			border-left: 1px solid hsl(240deg 17% 20%);
 			border-top: 0;
 		}
 
@@ -158,7 +158,7 @@ export default {
 
 	.sidebar-header {
 		align-items: center;
-		border-bottom: 1px solid hsl(240, 20, 92);
+		border-bottom: 1px solid hsl(240deg 20% 92%);
 		display: flex;
 		flex-shrink: 0;
 		font-size: 13px;
@@ -166,7 +166,7 @@ export default {
 		width: 100%;
 
 		@include dark {
-			border-bottom: 1px solid hsl(240, 2, 20%);
+			border-bottom: 1px solid hsl(240deg 2% 20%);
 		}
 
 		.header-info {
@@ -216,17 +216,17 @@ export default {
 		}
 
 		.type-text {
-			background: hsla(206, 47%, 86%, 1);
+			background: hsl(206deg 47% 86%);
 			border-radius: 3px;
-			color: hsla(205, 29%, 30%, 1);
+			color: hsl(205deg 29% 30%);
 			font-size: 75%;
 			margin-right: 5px;
 			padding: 2px 4px;
 			vertical-align: 1px;
 
 			@include dark {
-				background: hsla(206, 100%, 16%, 1);
-				color: hsla(205, 90%, 70%, 1);
+				background: hsl(206deg 100% 16%);
+				color: hsl(205deg 90% 70%);
 			}
 		}
 
@@ -240,15 +240,15 @@ export default {
 		}
 
 		.status-text {
-			background: hsl(76, 47%, 86%);
+			background: hsl(76deg 47% 86%);
 			border-radius: 8px;
 			color: #586336;
 			padding: 2px 6px;
 			text-transform: uppercase;
 
 			@include dark {
-				background: hsla(76, 100%, 11%, 1);
-				color: hsla(75, 90%, 80%, 1);
+				background: hsl(76deg 100% 11%);
+				color: hsl(75deg 90% 80%);
 			}
 
 			&.client-error {

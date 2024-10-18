@@ -74,8 +74,8 @@ export default {
 	}
 
 	.message-content {
-		border-bottom: 1px solid hsl(240, 20, 92);
-		border-top: 1px solid hsl(240, 20, 92);
+		border-bottom: 1px solid hsl(240deg 20% 92%);
+		border-top: 1px solid hsl(240deg 20% 92%);
 		margin-left: -25px;
 		width: calc(100% + 50px);
 

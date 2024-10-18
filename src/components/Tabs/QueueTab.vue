@@ -139,12 +139,12 @@ export default {
 	}
 
 	&.is-success {
-		background: hsl(76, 47%, 86%);
+		background: hsl(76deg 47% 86%);
 		color: #586336;
 
 		@include dark {
-			background: hsla(76, 100%, 11%, 1);
-			color: hsla(75, 90%, 80%, 1);
+			background: hsl(76deg 100% 11%);
+			color: hsl(75deg 90% 80%);
 		}
 	}
 

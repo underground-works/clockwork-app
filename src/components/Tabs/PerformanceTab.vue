@@ -124,19 +124,19 @@ export default {
 @import '../../mixins.scss';
 
 $performance-colors-light: (
-	blue:   hsl(212, 89%, 55%),
-	red:    hsl(359, 57%, 55%),
-	green:  hsl(109, 52%, 45%),
-	purple: hsl(273, 57%, 55%),
-	grey:   hsl(240, 5, 27)
+	"blue":   hsl(212deg 89% 55%),
+	"red":    hsl(359deg 57% 55%),
+	"green":  hsl(109deg 52% 45%),
+	"purple": hsl(273deg 57% 55%),
+	"grey":   hsl(240deg 5% 27%)
 );
 
 $performance-colors-dark: (
-	blue:   hsl(212, 76%, 60%),
-	red:    hsl(359, 45%, 60%),
-	green:  hsl(109, 40%, 50%),
-	purple: hsl(273, 45%, 60%),
-	grey:   hsl(240, 5, 60)
+	"blue":   hsl(212deg 76% 60%),
+	"red":    hsl(359deg 45% 60%),
+	"green":  hsl(109deg 40% 50%),
+	"purple": hsl(273deg 45% 60%),
+	"grey":   hsl(240deg 5% 60%)
 );
 
 .performance-metrics {

@@ -38,7 +38,7 @@ export default {
 
 .modal-backdrop {
 	align-items: center;
-	background: hsla(240, 20, 90, 0.6);
+	background: hsl(240deg 20% 90% / 60%);
 	display: flex;
 	height: 100%;
 	justify-content: center;
@@ -50,20 +50,20 @@ export default {
 	width: 100%;
 	z-index: 666;
 
-	@include dark { background: hsla(240, 20, 20, 0.6); }
+	@include dark { background: hsl(240deg 20% 20% / 60%); }
 }
 
 .modal {
-	background: hsl(240, 20, 99);
+	background: hsl(240deg 20% 99%);
 	border-radius: 8px;
-	box-shadow: 0 0 1px 1px hsl(240, 20, 90), 0 2px 4px 0 hsl(240, 20, 90);
+	box-shadow: 0 0 1px 1px hsl(240deg 20% 90%), 0 2px 4px 0 hsl(240deg 20% 90%);
 	max-height: calc(100vh - 20px);
 	overflow: auto;
 	padding: 25px;
 
 	@include dark {
 		background: rgb(31, 31, 31);
-		box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
+		box-shadow: 0 0 1px 1px hsl(240deg 5% 8%), 0 2px 4px 0 hsl(240deg 5% 8%);
 	}
 
 	.modal-header {
@@ -90,7 +90,7 @@ export default {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 48%);
+					color: hsl(31deg 98% 48%);
 				}
 			}
 		}

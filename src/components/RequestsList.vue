@@ -204,7 +204,7 @@ export default {
 @import '../mixins.scss';
 
 .split-view-requests {
-	background: hsl(240, 20, 98%);
+	background: hsl(240deg 20% 98%);
 	border-bottom: 1px solid rgb(209, 209, 209);
 	cursor: default;
 	display: flex;
@@ -215,16 +215,16 @@ export default {
 
 	@include dark {
 		background: #1b1b1b;
-		border-bottom: 1px solid hsl(240, 17%, 20%);
+		border-bottom: 1px solid hsl(240deg 17% 20%);
 	}
 
 	@media screen and (min-width: 900px) {
 		border-bottom: 0;
-		border-right: 1px solid hsl(240, 20, 85);
+		border-right: 1px solid hsl(240deg 20% 85%);
 		height: 100%;
 		width: 300px;
 
-		@include dark { border-right: 1px solid hsl(240, 17%, 20%); }
+		@include dark { border-right: 1px solid hsl(240deg 17% 20%); }
 		&.large { width: 380px; }
 	}
 
@@ -250,7 +250,7 @@ export default {
 				border-top: 1px solid transparent;
 				color: white;
 
-				@include dark { background: hsl(31, 98%, 42%) !important; }
+				@include dark { background: hsl(31deg 98% 42%) !important; }
 			}
 
 			& + tr td {
@@ -286,7 +286,7 @@ export default {
 		}
 
 		td {
-			border-top: 1px solid hsl(0, 0, 94%);
+			border-top: 1px solid hsl(0deg 0% 94%);
 
 			@include dark {
 				border-top: 1px solid #242424;
@@ -342,17 +342,17 @@ export default {
 	}
 
 	.type-text {
-		background: hsla(206, 47%, 86%, 1);
+		background: hsl(206deg 47% 86%);
 		border-radius: 3px;
-		color: hsla(205, 29%, 30%, 1);
+		color: hsl(205deg 29% 30%);
 		font-size: 80%;
 		margin-right: 2px;
 		padding: 1px 3px;
 		vertical-align: 1px;
 
 		@include dark {
-			background: hsla(206, 100%, 16%, 1);
-		    color: hsla(205, 90%, 70%, 1);
+			background: hsl(206deg 100% 16%);
+		    color: hsl(205deg 90% 70%);
 		}
 	}
 
@@ -366,15 +366,15 @@ export default {
 	}
 
 	.status-text {
-		background: hsl(76, 47%, 86%);
+		background: hsl(76deg 47% 86%);
 		border-radius: 8px;
 		color: #586336;
 		padding: 2px 6px;
 		text-transform: uppercase;
 
 		@include dark {
-			background: hsla(76, 100%, 11%, 1);
-		    color: hsla(75, 90%, 80%, 1);
+			background: hsl(76deg 100% 11%);
+		    color: hsl(75deg 90% 80%);
 		}
 
 		&.client-error {

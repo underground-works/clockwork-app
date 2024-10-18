@@ -90,9 +90,9 @@ export default {
 	}
 
 	.popover-content {
-		background: hsl(240, 20, 99);
+		background: hsl(240deg 20% 99%);
 		border-radius: 8px;
-		box-shadow: 0 0 1px 1px hsl(240, 20, 90), 0 2px 4px 0 hsl(240, 20, 90);
+		box-shadow: 0 0 1px 1px hsl(240deg 20% 90%), 0 2px 4px 0 hsl(240deg 20% 90%);
 		max-height: 400px;
 		overflow: auto;
 		padding: 5px 0;
@@ -100,8 +100,8 @@ export default {
 		width: 100%;
 
 		@include dark {
-			background: hsl(240, 2, 15);
-			box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
+			background: hsl(240deg 2% 15%);
+			box-shadow: 0 0 1px 1px hsl(240deg 5% 8%), 0 2px 4px 0 hsl(240deg 5% 8%);
 		}
 
 		&:before, &:after {
@@ -113,14 +113,14 @@ export default {
 		}
 
 		&:before {
-			border-color: transparent transparent hsl(240, 20, 99) transparent;
+			border-color: transparent transparent hsl(240deg 20% 99%) transparent;
 			border-width: 0 11px 11px 11px;
 			left: calc(50% - 10px);
 			top: 7px;
 			z-index: 500;
 
 			@include dark {
-				border-color: transparent transparent hsl(240, 2, 15) transparent;
+				border-color: transparent transparent hsl(240deg 2% 15%) transparent;
 			}
 		}
 
@@ -131,7 +131,7 @@ export default {
 			top: 5px;
 
 			@include dark {
-				border-color: transparent transparent hsla(240, 5, 8, 0.5) transparent;
+				border-color: transparent transparent hsl(240deg 5% 8% / 50%) transparent;
 			}
 		}
 	}

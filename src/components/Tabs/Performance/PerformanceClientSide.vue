@@ -157,7 +157,7 @@ export default {
 		width: 50%;
 
 		&:first-child {
-			border-right: 1px solid hsl(240, 20, 92);
+			border-right: 1px solid hsl(240deg 20% 92%);
 
 			@include dark {
 				border-right: 1px solid rgb(52, 52, 54);
@@ -175,8 +175,8 @@ export default {
 				color: #586336;
 
 				@include dark {
-					background: hsla(76, 100%, 11%, 1);
-				    color: hsla(75, 90%, 80%, 1);
+					background: hsl(76deg 100% 11%);
+				    color: hsl(75deg 90% 80%);
 				}
 			}
 

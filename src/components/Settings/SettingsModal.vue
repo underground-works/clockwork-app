@@ -293,9 +293,9 @@ export default {
 		}
 
 		.warning-label {
-			border: 1px solid hsl(358, 55%, 70%);
+			border: 1px solid hsl(358deg 55% 70%);
 			border-radius: 6px;
-			color: hsl(358, 55%, 70%);
+			color: hsl(358deg 55% 70%);
 			font-size: 90%;
 			font-weight: 500;
 			margin-right: 5px;
@@ -304,21 +304,21 @@ export default {
 		}
 
 		a {
-			color: hsl(358, 55%, 70%);
+			color: hsl(358deg 55% 70%);
 			margin-left: auto;
 		}
 
 		@include dark {
-			background: hsl(0, 100%, 11%);
+			background: hsl(0deg 100% 11%);
 			color: rgb(237, 121, 122);
 
 			.warning-label {
-				border: 1px solid hsl(359, 38%, 62%);
-				color: hsl(359, 38%, 62%);
+				border: 1px solid hsl(359deg 38% 62%);
+				color: hsl(359deg 38% 62%);
 			}
 
 			a {
-				color: hsl(359, 38%, 62%);
+				color: hsl(359deg 38% 62%);
 			}
 		}
 	}

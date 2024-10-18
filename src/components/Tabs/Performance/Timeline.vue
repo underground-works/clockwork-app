@@ -270,19 +270,19 @@ export default {
 @import '../../../mixins.scss';
 
 $timeline-colors-light: (
-	blue:   ( normal: hsl(212, 89%, 55%), alternative: hsl(212, 88%, 70%) ),
-	red:    ( normal: hsl(359, 57%, 55%), alternative: hsl(359, 57%, 70%) ),
-	green:  ( normal: hsl(109, 52%, 45%), alternative: hsl(109, 52%, 60%) ),
-	purple: ( normal: hsl(273, 57%, 55%), alternative: hsl(273, 57%, 70%) ),
-	grey:   ( normal: hsl(240, 5, 30),    alternative: hsl(240, 5, 65) )
+	"blue":   ( normal: hsl(212deg 89% 55%), alternative: hsl(212deg 88% 70%) ),
+	"red":    ( normal: hsl(359deg 57% 55%), alternative: hsl(359deg 57% 70%) ),
+	"green":  ( normal: hsl(109deg 52% 45%), alternative: hsl(109deg 52% 60%) ),
+	"purple": ( normal: hsl(273deg 57% 55%), alternative: hsl(273deg 57% 70%) ),
+	"grey":   ( normal: hsl(240deg 5% 30%),  alternative: hsl(240deg 5% 65%) )
 );
 
 $timeline-colors-dark: (
-	blue:   ( normal: hsl(212, 83%, 60%), alternative: hsl(212, 84%, 45%) ),
-	red:    ( normal: hsl(359, 52%, 60%), alternative: hsl(359, 52%, 45%) ),
-	green:  ( normal: hsl(109, 47%, 50%), alternative: hsl(109, 47%, 35%) ),
-	purple: ( normal: hsl(273, 52%, 60%), alternative: hsl(273, 52%, 45%) ),
-	grey:   ( normal: hsl(240, 5, 50),    alternative: hsl(240, 5, 30) )
+	"blue":   ( normal: hsl(212deg 83% 60%), alternative: hsl(212deg 84% 45%) ),
+	"red":    ( normal: hsl(359deg 52% 60%), alternative: hsl(359deg 52% 45%) ),
+	"green":  ( normal: hsl(109deg 47% 50%), alternative: hsl(109deg 47% 35%) ),
+	"purple": ( normal: hsl(273deg 52% 60%), alternative: hsl(273deg 52% 45%) ),
+	"grey":   ( normal: hsl(240deg 5% 50%),  alternative: hsl(240deg 5% 30%) )
 );
 
 .timeline {
@@ -338,7 +338,7 @@ $timeline-colors-dark: (
 			position: relative;
 
 			.group-label {
-				color: hsl(206, 30%, 30%);
+				color: hsl(206deg 30% 30%);
 				font-size: 12px;
 				line-height: 16px;
 				overflow: hidden;

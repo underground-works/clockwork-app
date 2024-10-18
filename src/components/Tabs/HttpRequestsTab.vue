@@ -78,18 +78,18 @@ export default {
 					}
 					
 					&.method-get, &.method-head {
-						color: hsl(109, 52%, 45%);
-						@include dark { color: hsl(109, 47%, 50%); }
+						color: hsl(109deg 52% 45%);
+						@include dark { color: hsl(109deg 47% 50%); }
 					}
 
 					&.method-post, &.method-put, &.method-patch {
-						color: hsl(212, 89%, 55%);
-						@include dark { color: hsl(212, 83%, 60%); }
+						color: hsl(212deg 89% 55%);
+						@include dark { color: hsl(212deg 83% 60%); }
 					}
 
 					&.method-delete {
-						color: hsl(359, 57%, 55%);
-						@include dark { color: hsl(359, 52%, 60%); }
+						color: hsl(359deg 57% 55%);
+						@include dark { color: hsl(359deg 52% 60%); }
 					}
 				}
 				
@@ -112,7 +112,7 @@ export default {
 		text-align: center;
 		
 		.status-text {
-			background: hsl(76, 47%, 86%);
+			background: hsl(76deg 47% 86%);
 			border-radius: 8px;
 			color: #586336;
 			font-size: 11px;
@@ -120,8 +120,8 @@ export default {
 			text-transform: uppercase;
 			
 			@include dark {
-				background: hsla(76, 100%, 11%, 1);
-				color: hsla(75, 90%, 80%, 1);
+				background: hsl(76deg 100% 11%);
+				color: hsl(75deg 90% 80%);
 			}
 
 			&.client-error {

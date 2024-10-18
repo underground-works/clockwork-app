@@ -134,8 +134,8 @@ export default {
 
 .counter.database-slow-query {
 	.has-mark:before {
-		background-color: hsl(27, 55%, 65%);
-		@include dark { background-color: hsl(38, 42%, 38%); }
+		background-color: hsl(27deg 55% 65%);
+		@include dark { background-color: hsl(38deg 42% 38%); }
 	}
 }
 
@@ -144,17 +144,17 @@ export default {
 		background: rgb(255, 250, 226);
 		color: rgb(168, 89, 25);
 
-		&:nth-child(even) { background: hsl(50, 100%, 88%) !important; }
+		&:nth-child(even) { background: hsl(50deg 100% 88%) !important; }
 
-		.database-query-path > a { color: hsl(27, 55%, 65%) !important; }
+		.database-query-path > a { color: hsl(27deg 55% 65%) !important; }
 
 		@include dark {
 			background: hsl(50, 100%, 11%);
 			color: rgb(250, 216, 159);
 
-			&:nth-child(even) { background: hsl(50, 100%, 9%) !important; }
+			&:nth-child(even) { background: hsl(50deg 100% 9%) !important; }
 
-			.database-query-path > a { color: hsl(38, 42%, 48%) !important; }
+			.database-query-path > a { color: hsl(38deg 42% 48%) !important; }
 		}
 	}
 

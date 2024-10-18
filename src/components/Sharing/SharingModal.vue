@@ -173,7 +173,7 @@ export default {
 
 		.content-item {
 			align-items: center;
-			background: hsl(0, 0, 95%);
+			background: hsl(0deg 0% 95%);
 			border-radius: 4px;
 			display: flex;
 			font-size: 12px;
@@ -190,7 +190,7 @@ export default {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 42%);
+					color: hsl(31deg 98% 42%);
 				}
 			}
 
@@ -199,7 +199,7 @@ export default {
 				color: #f5f5f5;
 
 				@include dark {
-					background: hsl(31, 98%, 42%);
+					background: hsl(31deg 98% 42%);
 					color: #fff;
 				}
 			}

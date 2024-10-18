@@ -42,23 +42,23 @@ export default {
 @import '../../../mixins.scss';
 
 $performance-chart-colors-light: (
-	blue:   ( normal: hsl(212, 89%, 55%), alternative: hsl(212, 88%, 70%) ),
-	red:    ( normal: hsl(359, 57%, 55%), alternative: hsl(359, 57%, 70%) ),
-	green:  ( normal: hsl(109, 52%, 45%), alternative: hsl(109, 52%, 60%) ),
-	purple: ( normal: hsl(273, 57%, 55%), alternative: hsl(273, 57%, 70%) ),
-	grey:   ( normal: hsl(240, 5, 27),    alternative: hsl(240, 5, 62) )
+	"blue":   ( normal: hsl(212deg 89% 55%), alternative: hsl(212deg 88% 70%) ),
+	"red":    ( normal: hsl(359deg 57% 55%), alternative: hsl(359deg 57% 70%) ),
+	"green":  ( normal: hsl(109deg 52% 45%), alternative: hsl(109deg 52% 60%) ),
+	"purple": ( normal: hsl(273deg 57% 55%), alternative: hsl(273deg 57% 70%) ),
+	"grey":   ( normal: hsl(240deg 5% 27%),  alternative: hsl(240deg 5% 62%) )
 );
 
 $performance-chart-colors-dark: (
-	blue:   ( normal: hsl(212, 76%, 60%), alternative: hsl(212, 77%, 50%) ),
-	red:    ( normal: hsl(359, 45%, 60%), alternative: hsl(359, 45%, 50%) ),
-	green:  ( normal: hsl(109, 40%, 50%), alternative: hsl(109, 40%, 40%) ),
-	purple: ( normal: hsl(273, 45%, 60%), alternative: hsl(273, 45%, 50%) ),
-	grey:   ( normal: hsl(240, 5, 60),    alternative: hsl(240, 5, 40) )
+	"blue":   ( normal: hsl(212deg 76% 60%), alternative: hsl(212deg 77% 50%) ),
+	"red":    ( normal: hsl(359deg 45% 60%), alternative: hsl(359deg 45% 50%) ),
+	"green":  ( normal: hsl(109deg 40% 50%), alternative: hsl(109deg 40% 40%) ),
+	"purple": ( normal: hsl(273deg 45% 60%), alternative: hsl(273deg 45% 50%) ),
+	"grey":   ( normal: hsl(240deg 5% 60%),  alternative: hsl(240deg 5% 40%) )
 );
 
 .performance-chart {
-	background: hsl(240, 5, 27);
+	background: hsl(240deg 5% 27%);
 	border-radius: 3px;
 	box-shadow: 0 2px 5px rgba(162, 172, 180, 0.25), 0 0 2px rgba(162, 172, 180, 0.5);
 	display: flex;
@@ -68,8 +68,8 @@ $performance-chart-colors-dark: (
 	width: calc(100% - 2px);
 
 	@include dark {
-		background: hsl(240, 5, 52);
-		box-shadow: 0 0 1px 1px hsl(240, 5, 8), 0 2px 4px 0 hsl(240, 5, 8);
+		background: hsl(240deg 5% 52%);
+		box-shadow: 0 0 1px 1px hsl(240deg 5% 8%), 0 2px 4px 0 hsl(240deg 5% 8%);
 	}
 
 	.chart-section {

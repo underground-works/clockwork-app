@@ -174,12 +174,12 @@ export default {
 	}
 
 	tr {
-		background: hsl(240, 20, 99) !important;
-		@include dark { background: hsl(240, 2, 15) !important; }
+		background: hsl(240deg 20% 99%) !important;
+		@include dark { background: hsl(240deg 2% 15%) !important; }
 
 		&:nth-child(4n), &:nth-child(4n-1) {
-			background: hsl(240, 20, 96) !important;
-			@include dark { background: hsl(240, 2, 13) !important; }
+			background: hsl(240deg 20% 96%) !important;
+			@include dark { background: hsl(240deg 2% 13%) !important; }
 		}
 	}
 }

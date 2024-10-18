@@ -51,7 +51,7 @@ a {
 		color: rgb(59, 59, 59);
 
 		@include dark {
-			color: hsl(31, 98%, 48%);
+			color: hsl(31deg 98% 48%);
 		}
 	}
 
@@ -62,7 +62,7 @@ a {
 
 .button {
 	align-items: center;
-	background: hsl(30, 1, 92);
+	background: hsl(30deg 1% 92%);
 	border-radius: 4px;
 	color: dimgrey;
 	display: flex;
@@ -71,7 +71,7 @@ a {
 	text-decoration: none;
 
 	@include dark {
-		background: hsl(30, 1, 18);
+		background: hsl(30deg 1% 18%);
 	}
 
 	&:hover {
@@ -118,7 +118,7 @@ code {
 }
 
 .details-header {
-	background: hsl(240, 20, 90);
+	background: hsl(240deg 20% 90%);
 	display: flex;
 	flex-shrink: 0;
 	height: 34px;
@@ -126,7 +126,7 @@ code {
 	z-index: 500;
 
 	@include dark {
-		background: hsl(240, 17%, 10%);
+		background: hsl(240deg 17% 10%);
 	}
 
 	.details-header-tabs {
@@ -137,13 +137,13 @@ code {
 
 	.icons {
 		align-items: center;
-		border-bottom: 1px solid hsl(240, 20, 85);
+		border-bottom: 1px solid hsl(240deg 20% 85%);
 		display: flex;
 		font-size: 15px;
 		padding: 0 5px;
 
 		@include dark {
-			border-bottom: 1px solid hsl(240, 17%, 20%);
+			border-bottom: 1px solid hsl(240deg 17% 20%);
 		}
 
 		a {
@@ -153,7 +153,7 @@ code {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 48%);
+					color: hsl(31deg 98% 48%);
 				}
 			}
 		}
@@ -165,7 +165,7 @@ code {
 	overflow: auto;
 
 	.content-header {
-		background: hsl(240, 20, 97);
+		background: hsl(240deg 20% 97%);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -174,7 +174,7 @@ code {
 		height: 46px;
 		width: 100%;
 
-		@include dark { background: hsl(240, 2, 15); }
+		@include dark { background: hsl(240deg 2% 15%); }
 	}
 
 	.content-content {
@@ -194,8 +194,8 @@ code {
 		align-items: center;
 		display: flex;
 		border-radius: 8px;
-		background: hsl(240, 20, 99);
-		box-shadow: 0 0 0px 1px hsl(240, 20, 90), 0 2px 2px 0 hsl(240, 20, 90);
+		background: hsl(240deg 20% 99%);
+		box-shadow: 0 0 0px 1px hsl(240deg 20% 90%), 0 2px 2px 0 hsl(240deg 20% 90%);
 		margin-bottom: 20px;
 
 		@include dark {
@@ -210,11 +210,11 @@ code {
 				margin-left: auto;
 
 				.counter {
-					border-left: 1px solid hsl(240, 20, 92);
+					border-left: 1px solid hsl(240deg 20% 92%);
 					border-right: 0;
 
 					@include dark {
-						border-left: 1px solid hsl(240, 18, 13%);
+						border-left: 1px solid hsl(240deg 18% 13%);
 						border-right: 0;
 					}
 				}
@@ -222,12 +222,12 @@ code {
 		}
 
 		.counter {
-			border-right: 1px solid hsl(240, 20, 92);
+			border-right: 1px solid hsl(240deg 20% 92%);
 			cursor: default;
 			padding: 12px 24px 13px;
 
 			@include dark {
-				border-right: 1px solid hsl(240, 18, 13%);
+				border-right: 1px solid hsl(240deg 18% 13%);
 			}
 
 			.counter-value {
@@ -517,8 +517,8 @@ code {
 		}
 
 		&:nth-child(even) {
-			background: hsl(240, 20, 97);
-			@include dark { background: hsl(240, 2, 13); }
+			background: hsl(240deg 20% 97%);
+			@include dark { background: hsl(240deg 2% 13%); }
 		}
 
 		.stack-frame-call {

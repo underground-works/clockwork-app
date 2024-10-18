@@ -74,15 +74,15 @@ export default {
 @import '../../mixins.scss';
 
 .sidebar-section {
-	border-bottom: 1px solid hsl(240, 20, 92);
+	border-bottom: 1px solid hsl(240deg 20% 92%);
 
 	@include dark {
-		border-bottom: 1px solid hsl(240, 2, 20%);
+		border-bottom: 1px solid hsl(240deg 2% 20%);
 	}
 
 	.section-header {
 		align-items: center;
-		background: hsl(240, 20, 99%);
+		background: hsl(240deg 20% 99%);
 		display: flex;
 		font-size: 14px;
 		justify-content: space-between;
@@ -125,7 +125,7 @@ export default {
 				color: rgb(37, 140, 219);
 
 				@include dark {
-					color: hsl(31, 98%, 42%);
+					color: hsl(31deg 98% 42%);
 				}
 			}
 
@@ -134,7 +134,7 @@ export default {
 				color: #f5f5f5;
 
 				@include dark {
-					background: hsl(31, 98%, 42%);
+					background: hsl(31deg 98% 42%);
 					color: #fff;
 				}
 			}

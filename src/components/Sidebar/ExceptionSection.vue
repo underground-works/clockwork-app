@@ -36,7 +36,7 @@ export default {
 @import '../../mixins.scss';
 
 .exception-section {
-	border-bottom: 1px solid hsl(240, 20, 92);
+	border-bottom: 1px solid hsl(240deg 20% 92%);
 
 	@include dark { border-bottom: 1px solid rgb(52, 52, 54); }
 
@@ -44,7 +44,7 @@ export default {
 		.exception-info {
 			background: rgba(255, 235, 235, 0.9);
 
-			@include dark { background: hsla(0, 100%, 11%, 0.9); }
+			@include dark { background: hsl(0deg 100% 11% / 90%); }
 		}
 
 		.exception-message {
@@ -69,15 +69,15 @@ export default {
 		display: flex;
 		padding: 6px 10px;
 
-		&:nth-child(even) { background: hsl(0, 100%, 94%); }
+		&:nth-child(even) { background: hsl(0deg 100% 94%); }
 		&:first-child { padding-top: 12px; }
 		&:last-child { padding-bottom: 12px; }
 
 		@include dark {
-			background: hsl(0, 100%, 11%);
+			background: hsl(0deg 100% 11%);
 			color: rgb(237, 121, 122);
 
-			&:nth-child(even) { background: hsl(0, 100%, 9%); }
+			&:nth-child(even) { background: hsl(0deg 100% 9%); }
 		}
 
 		h3 {

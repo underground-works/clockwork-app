@@ -61,7 +61,7 @@ export default {
 			color: rgb(197, 31, 36);
 
 			@include dark {
-				background: hsl(0, 100%, 11%);
+				background: hsl(0deg 100% 11%);
 				color: rgb(237, 121, 122);
 			}
 		}
@@ -71,7 +71,7 @@ export default {
 			color: rgb(168, 89, 25);
 
 			@include dark {
-				background: hsl(50, 100%, 11%);
+				background: hsl(50deg 100% 11%);
 				color: rgb(250, 216, 159);
 			}
 		}
@@ -107,8 +107,8 @@ export default {
 					padding: 2px 6px;
 
 				    @include dark {
-						background: hsla(76, 100%, 11%, 1);
-						color: hsla(75, 90%, 80%, 1);
+						background: hsl(76deg 100% 11%);
+						color: hsl(75deg 90% 80%);
 				    }
 			    }
 			}

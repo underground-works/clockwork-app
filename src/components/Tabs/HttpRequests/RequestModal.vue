@@ -269,7 +269,7 @@ export default {
                 color: #f5f5f5;
 
                 @include dark {
-                    background: hsl(31, 98%, 42%);
+                    background: hsl(31deg 98% 42%);
                     color: #fff;
                 }
             }
@@ -291,19 +291,19 @@ export default {
 
                 &.method-get, &.method-head {
                     color: #586336;
-                    background: hsl(76, 47%, 86%);
+                    background: hsl(76deg 47% 86%);
                     @include dark {
-                        background: hsla(76, 100%, 11%, 1);
-                        color: hsla(75, 90%, 80%, 1);
+                        background: hsl(76deg 100% 11%);
+                        color: hsl(75deg 90% 80%);
                     }
                 }
 
                 &.method-post, &.method-put, &.method-patch {
-                    background: hsla(206, 47%, 86%, 1);
-                    color: hsla(205, 29%, 30%, 1);
+                    background: hsl(206deg 47% 86%);
+                    color: hsl(205deg 29% 30%);
                     @include dark {
-                        background: hsla(206, 100%, 16%, 1);
-                        color: hsla(205, 90%, 70%, 1);
+                        background: hsl(206deg 100% 16%);
+                        color: hsl(205deg 90% 70%);
                     }
                 }
 
@@ -318,7 +318,7 @@ export default {
             }
 
             .response-status {
-                background: hsl(76, 47%, 86%);
+                background: hsl(76deg 47% 86%);
                 border-radius: 8px;
                 color: #586336;
                 font-size: 12px;
@@ -327,8 +327,8 @@ export default {
                 text-transform: uppercase;
 
                 @include dark {
-                    background: hsla(76, 100%, 11%, 1);
-                    color: hsla(75, 90%, 80%, 1);
+                    background: hsl(76deg 100% 11%);
+                    color: hsl(75deg 90% 80%);
                 }
 
                 &.client-error {
@@ -355,10 +355,10 @@ export default {
     }
     
     .request-info, .response-info, .request-content, .response-content, .response-error {
-        background: hsl(240, 20, 99);
-        border: 1px solid hsl(240, 20, 90);
+        background: hsl(240deg 20% 99%);
+        border: 1px solid hsl(240deg 20% 90%);
         border-radius: 8px;
-        box-shadow: 0 2px 2px 0 hsl(240, 20, 95);
+        box-shadow: 0 2px 2px 0 hsl(240deg 20% 95%);
         padding: 10px;
     }
     
@@ -371,7 +371,7 @@ export default {
             margin-bottom: 10px;
 
             .stats-item {
-                background: hsl(240, 20, 96);
+                background: hsl(240deg 20% 96%);
                 border-radius: 8px;
                 color: grey;
                 font-size: 12px;
@@ -379,7 +379,7 @@ export default {
                 padding: 4px 8px;
 
                 @include dark {
-                    background: hsl(240, 2, 13);
+                    background: hsl(240deg 2% 13%);
                     color: rgb(118, 118, 118);
                 }
 
@@ -413,7 +413,7 @@ export default {
                     color: rgb(37, 140, 219);
 
                     @include dark {
-                        color: hsl(31, 98%, 42%);
+                        color: hsl(31deg 98% 42%);
                     }
                 }
 
@@ -422,7 +422,7 @@ export default {
                     color: #f5f5f5;
 
                     @include dark {
-                        background: hsl(31, 98%, 42%);
+                        background: hsl(31deg 98% 42%);
                         color: #fff;
                     }
                 }
@@ -447,7 +447,7 @@ export default {
             }
             
             iframe {
-                border: 1px solid hsl(240, 20, 90);
+                border: 1px solid hsl(240deg 20% 90%);
                 border-radius: 8px;
                 min-height: 30vh;
                 width: 100%;
@@ -459,7 +459,7 @@ export default {
         flex: 1;
 
         @include dark {
-            background: hsl(240, 2, 15);
+            background: hsl(240deg 2% 15%);
             box-shadow: 0 0 0px 1px #15151e, 0 2px 2px 0 #15151e;
         }
         
@@ -475,18 +475,18 @@ export default {
                 }
                 
                 &.method-get, &.method-head {
-                    color: hsl(109, 52%, 45%);
-                    @include dark { color: hsl(109, 47%, 50%); }
+                    color: hsl(109deg 52% 45%);
+                    @include dark { color: hsl(109deg 47% 50%); }
                 }
                 
                 &.method-post, &.method-put, &.method-patch {
-                    color: hsl(212, 89%, 55%);
-                    @include dark { color: hsl(212, 83%, 60%); }
+                    color: hsl(212deg 89% 55%);
+                    @include dark { color: hsl(212deg 83% 60%); }
                 }
 
                 &.method-delete {
-                    color: hsl(359, 57%, 55%);
-                    @include dark { color: hsl(359, 52%, 60%); }
+                    color: hsl(359deg 57% 55%);
+                    @include dark { color: hsl(359deg 52% 60%); }
                 }
             }
 
@@ -499,7 +499,7 @@ export default {
         flex: 1;
         
         @include dark {
-            background: hsl(240, 2, 15);
+            background: hsl(240deg 2% 15%);
             box-shadow: 0 0 0px 1px #15151e, 0 2px 2px 0 #15151e;
         }
         
@@ -535,17 +535,17 @@ export default {
             font-size: 14px;
             
             @include dark {
-                color: hsla(75, 90%, 80%, 1);
+                color: hsl(75deg 90% 80%);
             }
             
             .status-code {
-                background: hsl(76, 47%, 86%);
+                background: hsl(76deg 47% 86%);
                 border-radius: 8px;
                 padding: 2px 6px;
                 text-transform: uppercase;
 
                 @include dark {
-                    background: hsla(76, 100%, 11%, 1);
+                    background: hsl(76deg 100% 11%);
                 }
             }
             
@@ -635,23 +635,23 @@ export default {
                     width: 10px;
                     
                     &.blue {
-                        background-color: hsl(212, 89%, 55%);
-                        @include dark { background-color: hsl(212, 76%, 60%); }
+                        background-color: hsl(212deg 89% 55%);
+                        @include dark { background-color: hsl(212deg 76% 60%); }
                     }
 
                     &.red {
-                        background-color: hsl(359, 57%, 55%);
-                        @include dark { background-color: hsl(359, 45%, 60%); }
+                        background-color: hsl(359deg 57% 55%);
+                        @include dark { background-color: hsl(359deg 45% 60%); }
                     }
 
                     &.green {
-                        background-color: hsl(109, 52%, 45%);
-                        @include dark { background-color: hsl(109, 40%, 50%); }
+                        background-color: hsl(109deg 52% 45%);
+                        @include dark { background-color: hsl(109deg 40% 50%); }
                     }
 
                     &.purple {
-                        background-color: hsl(273, 57%, 55%);
-                        @include dark { background-color: hsl(273, 45%, 60%); }
+                        background-color: hsl(273deg 57% 55%);
+                        @include dark { background-color: hsl(273deg 45% 60%); }
                     }
                 }
                 
