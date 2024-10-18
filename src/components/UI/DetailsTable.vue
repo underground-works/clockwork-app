@@ -56,7 +56,7 @@ export default {
 	components: { DetailsTableFilterToggle, PrettyPrint },
 	props: {
 		badge: {}, columns: {}, filter: {}, filterExample: {}, icon: { default: 'menu' }, items: {}, noHeader: {},
-		noTableHead: {}, perPage: { default: 30 }, title: {}
+		noTableHead: {}, perPage: { default: 50 }, title: {}
 	},
 	data: () => ({
 		firstShown: 0
