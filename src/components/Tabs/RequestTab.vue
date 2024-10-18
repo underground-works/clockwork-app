@@ -1,28 +1,28 @@
 <template>
-	<div class="request-tab">
-		<sidebar-section title="Headers" name="headers" :items="headers" filter-example="text/html name:Accept" v-show="headers.length">
+	<div if="request-tab">
+		<sidebar-section title="Headers" name="headers" :items="headers" filter-example="text/html name:Accept" v-if="headers.length">
 		</sidebar-section>
 
-		<sidebar-section title="Data" name="data" :items="$request.requestData" filter-example="420 name:price" v-show="$request.requestData">
+		<sidebar-section title="Data" name="data" :items="$request.requestData" filter-example="420 name:price" v-if="$request.requestData">
 			<template v-slot:content="{ expanded }" v-if="! ($request.requestData instanceof Object)">
-				<div class="data-raw" v-show="expanded">
+				<div class="data-raw" v-if="expanded">
 					{{$request.requestData}}
 				</div>
 			</template>
 		</sidebar-section>
 
-		<sidebar-section title="GET data" name="getData" :items="$request.getData" filter-example="created_at name:orderBy" v-show="$request.getData.length">
+		<sidebar-section title="GET data" name="getData" :items="$request.getData" filter-example="created_at name:orderBy" v-if="$request.getData.length">
 		</sidebar-section>
 
-		<sidebar-section title="POST data" name="postData" :items="$request.postData" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.postData.length">
+		<sidebar-section title="POST data" name="postData" :items="$request.postData" filter-example="&quot;Mike Jones&quot; name:name" v-if="$request.postData.length">
 		</sidebar-section>
 
-		<sidebar-section title="Cookies" name="cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-show="$request.cookies.length">
+		<sidebar-section title="Cookies" name="cookies" :items="$request.cookies" filter-example="&quot;Mike Jones&quot; name:name" v-if="$request.cookies.length">
 		</sidebar-section>
 
-		<sidebar-section title="Middleware" name="middleware" :items="$request.middleware" filter-example="auth:admin" v-show="$request.middleware.length">
+		<sidebar-section title="Middleware" name="middleware" :items="$request.middleware" filter-example="auth:admin" v-if="$request.middleware.length">
 			<template v-slot:table="{ items, filter, filterExample, expanded }">
-				<details-table :columns="['Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-show="expanded">
+				<details-table :columns="['Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-if="expanded">
 					<template v-slot:header="{ filter }">
 					</template>
 					<template v-slot:body="{ items }">
@@ -34,7 +34,7 @@
 			</template>
 		</sidebar-section>
 
-		<sidebar-section title="Session" name="session" :items="$request.sessionData" filter-example="registration successful name:_token" v-show="$request.sessionData.length || $request.authenticatedUser">
+		<sidebar-section title="Session" name="session" :items="$request.sessionData" filter-example="registration successful name:_token" v-if="$request.sessionData.length || $request.authenticatedUser">
 			<template v-slot:above-table>
 				<div class="session-user" v-if="$request.authenticatedUser">
 					<icon name="user"></icon>

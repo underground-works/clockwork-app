@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<div class="command-output" v-html="formattedOutput"></div>
 	</div>
 </template>

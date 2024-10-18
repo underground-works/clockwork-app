@@ -18,11 +18,11 @@
 		</div>
 
 		<slot name="content" :expanded="expanded">
-			<div v-show="expanded">
+			<div v-if="expanded">
 				<slot name="above-table"></slot>
 			</div>
 			<slot name="table" :items="items" :filter="filter" :filter-example="filterExample" :expanded="expanded">
-				<details-table :columns="['Key', 'Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-show="expanded">
+				<details-table :columns="['Key', 'Value']" :items="items" :filter="filter" :filter-example="filterExample" :no-header="true" :no-table-head="true" v-if="expanded">
 					<template v-slot:body="{ items }">
 						<tr v-for="item, index in items" :key="`${$request.id}-${index}`">
 							<td colspan="2">

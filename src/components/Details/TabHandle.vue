@@ -1,8 +1,8 @@
 <template>
 	<a @click="selectTab" class="details-header-tab" :class="{'active':active, 'short':short, 'full':full}" href="#">
 		<icon :name="icon" :title="text" v-if="icon"></icon>
-		<div class="tab-title" v-show="! short">{{text}}</div>
-		<div class="tab-badge" v-show="badge && ! short">{{badge}}</div>
+		<div class="tab-title" v-if="! short">{{text}}</div>
+		<div class="tab-badge" v-if="badge && ! short">{{badge}}</div>
 	</a>
 </template>
 

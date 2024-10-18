@@ -1,5 +1,5 @@
 <template>
-	<div class="popover" :class="classList" v-show="shown" v-click-outside="close">
+	<div class="popover" :class="classList" v-if="shown" v-click-outside="close">
 		<div class="popover-content">
 			<slot></slot>
 		</div>

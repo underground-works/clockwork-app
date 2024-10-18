@@ -1,9 +1,9 @@
 <template>
 	<div class="split-view-pane split-view-details popover-viewport">
 
-		<div class="details-header" v-show="$platform.hasFeature('tab-bar')">
+		<div class="details-header" v-if="$platform.hasFeature('tab-bar')">
 			<div class="icons">
-				<a href="#" title="Toggle requests" @click.prevent="toggleRequestsList" v-show="$platform.hasFeature('requests-list')">
+				<a href="#" title="Toggle requests" @click.prevent="toggleRequestsList" v-if="$platform.hasFeature('requests-list')">
 					<icon :name="$settings.global.requestsListCollapsed ? 'chevron-right' : 'chevron-left'"></icon>
 				</a>
 			</div>
@@ -45,26 +45,26 @@
 
 		</div>
 
-		<div class="details-loading-overlay" v-show="$get($request, 'loading') && ! $authentication.shown">
+		<div class="details-loading-overlay" v-if="$get($request, 'loading') && ! $authentication.shown">
 			<spinner name="fading-circle" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
 		</div>
 
-		<div class="details-error-overlay" v-show="$get($request, 'error') && $get($request, 'error.error') != 'requires-authentication'">
+		<div class="details-error-overlay" v-if="$get($request, 'error') && $get($request, 'error.error') != 'requires-authentication'">
 			<icon name="alert-circle"></icon>
 			<p class="title">Error loading request metadata.</p>
 			<p class="message">{{$get($request, 'error.message')}}</p>
 		</div>
 
-		<div class="details-authentication-overlay" :class="{failed:$authentication.failed}" v-show="$authentication.shown">
+		<div class="details-authentication-overlay" :class="{failed:$authentication.failed}" v-if="$authentication.shown">
 			<form @submit.prevent="$authentication.attempt()">
 				<icon name="lock"></icon>
 				<p class="title">This site requires authentication.</p>
 				<p class="title failed">Authentication failed.</p>
-				<p class="message" v-show="$authentication.message">{{ $authentication.message }}</p>
-				<p v-show="$authentication.requires.includes('username')">
+				<p class="message" v-if="$authentication.message">{{ $authentication.message }}</p>
+				<p v-if="$authentication.requires.includes('username')">
 					<input type="text" v-model="$authentication.username" placeholder="Username">
 				</p>
-				<p v-show="$authentication.requires.includes('password')">
+				<p v-if="$authentication.requires.includes('password')">
 					<input type="password" v-model="$authentication.password" placeholder="Password">
 				</p>
 				<p>

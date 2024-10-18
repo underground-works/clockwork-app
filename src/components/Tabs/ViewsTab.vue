@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<timeline name="views" icon="image" :timeline="$request.viewsData">
 			<template v-slot:table-description="{ item }">
 				<div class="views-view-name">{{ item.description }}</div>

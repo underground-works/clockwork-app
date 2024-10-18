@@ -2,7 +2,7 @@
 	<div class="queue-job-tab">
 		<sidebar-section title="Payload" name="payload" v-if="$request.jobPayload">
 			<template v-slot:content="{ expanded }">
-				<div class="data-value" v-show="expanded">
+				<div class="data-value" v-if="expanded">
 					<pretty-print :data="$request.jobPayload" :expanded="true"></pretty-print>
 				</div>
 			</template>
@@ -10,7 +10,7 @@
 
 		<sidebar-section title="Queue" name="queue" v-if="$request.jobQueue">
 			<template v-slot:content="{ expanded }">
-				<div class="data-value" v-show="expanded">
+				<div class="data-value" v-if="expanded">
 					{{$request.jobQueue}}
 				</div>
 			</template>
@@ -18,7 +18,7 @@
 
 		<sidebar-section title="Connection" name="connection" v-if="$request.jobConnection">
 			<template v-slot:content="{ expanded }">
-				<div class="data-value" v-show="expanded">
+				<div class="data-value" v-if="expanded">
 					{{$request.jobConnection}}
 				</div>
 			</template>

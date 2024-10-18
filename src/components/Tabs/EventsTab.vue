@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<details-table title="Events" icon="zap" :columns="['Time', 'Event', '']" :items="$request.events" :filter="filter" filter-example="&quot;user registered&quot; file:Controller.php time:&lt;13:08:30">
 			<template v-slot:body="{ items }">
 				<tr v-for="event, index in items" :key="`${$request.id}-${index}`">
@@ -16,7 +16,7 @@
 							</div>
 							<stack-trace class="fired-query-path" :trace="event.trace" :file="event.file" :line="event.line"></stack-trace>
 						</div>
-						<div class="fired-event-details" v-show="isEventExpanded(event)">
+						<div class="fired-event-details" v-if="isEventExpanded(event)">
 							<div class="fired-event-parameters" v-if="! event.objectEvent">
 								<h4>Parameters</h4>
 								<pretty-print :data="event.data"></pretty-print>

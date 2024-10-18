@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<details-table title="HTTP Requests" icon="compass" :columns="[ 'Request', 'Status', 'Duration', '' ]" :items="$request.httpRequests" :filter="filter" filter-example="&quot;/users&quot; method:post" class="http-requests-requests">
 			<template v-slot:body="{ items }">
 				<template v-for="request, index in items" :key="`${$request.id}-http-requests-${index}`">

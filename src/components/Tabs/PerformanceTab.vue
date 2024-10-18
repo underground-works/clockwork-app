@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<div class="counters-row performance-metrics">
 			<div class="counter" v-if="$request.responseDurationRounded">
 				<div class="counter-value">{{$request.responseDurationRounded}} ms</div>
@@ -30,15 +30,15 @@
 				<a class="performance-tab" :class="{ 'active': isTabActive('client-side') }" href="#" @click.prevent="showTab('client-side')" v-if="isClientSideTabAvailable">
 					<icon name="smile"></icon> Client-side
 				</a>
-				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')" v-show="$platform.hasFeature('profiler')">
+				<a class="performance-tab" :class="{ 'active': isTabActive('profiler') }" href="#" @click.prevent="showTab('profiler')" v-if="$platform.hasFeature('profiler')">
 					<icon name="clock"></icon> Profiler
 				</a>
 			</div>
 
-			<performance-log :issues="performanceIssues" :slow-queries="databaseSlowQueries" v-show="isTabActive('issues')"></performance-log>
-			<timeline name="performance" :timeline="$request.timeline" :tags="timelineTags" v-show="isTabActive('timeline')"></timeline>
-			<performance-client-side :metrics="$request.clientMetrics" :vitals="$request.webVitals" v-show="isTabActive('client-side')"></performance-client-side>
-			<profiler v-show="isTabActive('profiler')"></profiler>
+			<performance-log :issues="performanceIssues" :slow-queries="databaseSlowQueries" v-if="isTabActive('issues')"></performance-log>
+			<timeline name="performance" :timeline="$request.timeline" :tags="timelineTags" v-if="isTabActive('timeline')"></timeline>
+			<performance-client-side :metrics="$request.clientMetrics" :vitals="$request.webVitals" v-if="isTabActive('client-side')"></performance-client-side>
+			<profiler v-if="isTabActive('profiler')"></profiler>
 		</div>
 	</div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<details-table title="Routes" icon="map" :columns="columns" :items="$request.routes" :filter="filter" filter-example="OrderController method:post uri:order">
 			<template v-slot:body="{ items }">
 				<tr v-for="route, index in items" :key="`${$request.id}-${index}`">

@@ -1,6 +1,6 @@
 <template>
 	<transition name="modal">
-		<div class="modal-backdrop" @click.self="close" v-show="shown">
+		<div class="modal-backdrop" @click.self="close" v-if="shown">
 			<div class="modal">
 				<div class="modal-header">
 					<div class="header-title">

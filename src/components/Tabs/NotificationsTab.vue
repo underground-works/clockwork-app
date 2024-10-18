@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<details-table title="Notifications" icon="mail" :columns="columns" :items="$request.notifications" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works" class="notifications-notifications">
 			<template v-slot:body="{ items }">
 				<template v-for="notification, index in items" :key="`${$request.id}-notifications-${index}`">
@@ -26,7 +26,7 @@
 						</td>
 					</tr>
 
-					<tr class="notifications-details" v-show="notification.isShowingDetails">
+					<tr class="notifications-details" v-if="notification.isShowingDetails">
 						<td :colspan="columns.length">
 							<div class="details-row">
 								<div class="row-group" v-if="notification.to">

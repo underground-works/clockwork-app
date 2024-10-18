@@ -12,7 +12,7 @@
                 </a>
             </div>
 
-            <div v-show="selectedTab == 'request'" class="details-request">
+            <div v-if="selectedTab == 'request'" class="details-request">
                 <div class="request-info">
                     <div @click="showRequestHeaders = ! showRequestHeaders" class="info-header">
                         <div>
@@ -21,7 +21,7 @@
                         <ui-icon :name="showRequestHeaders ? 'chevron-down' : 'chevron-up'"></ui-icon>
                     </div>
 
-                    <div class="info-headers" v-show="showRequestHeaders">
+                    <div class="info-headers" v-if="showRequestHeaders">
                         <details-table :columns="['Key', 'Value']" :items="Object.entries(request.request.headers)" :no-header="true" :no-table-head="true">
                             <template v-slot:body="{ items }">
                                 <tr v-for="[ header, value ] in items" :key="`${$request.id}-${header}`">
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div v-show="selectedTab == 'response'" class="details-response">
+            <div v-if="selectedTab == 'response'" class="details-response">
                 <div v-if="request.response" class="response-info">
                     <div @click="showResponseHeaders = ! showResponseHeaders" class="info-header" :class="{ 'client-error': request.response.status >= 400 && request.response.status <= 499, 'server-error': request.response.status >= 500 && request.response.status <= 599 }">
                         <div class="header-status">
@@ -86,7 +86,7 @@
                         <ui-icon :name="showResponseHeaders ? 'chevron-down' : 'chevron-up'"></ui-icon>
                     </div>
 
-                    <div class="info-headers" v-show="showResponseHeaders">
+                    <div class="info-headers" v-if="showResponseHeaders">
                         <details-table :columns="['Key', 'Value']" :items="Object.entries(request.response.headers)" :no-header="true" :no-table-head="true">
                             <template v-slot:body="{ items }">
                                 <tr v-for="[ header, value ] in items" :key="`${$request.id}-${header}`">

@@ -24,7 +24,7 @@
 						<slot name="header" :filter="filter">
 							<th v-for="column, index in columns" @click="filter.sortBy(column.sortBy || column.toLowerCase())" :class="column.class">
 								{{ column.name || column }}
-								<icon v-show="filter.sortedBy == (column.sortBy || column.toLowerCase())" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
+								<icon v-if="filter.sortedBy == (column.sortBy || column.toLowerCase())" :name="filter.sortedDesc ? 'chevron-down' : 'chevron-up'"></icon>
 							</th>
 						</slot>
 					</tr>

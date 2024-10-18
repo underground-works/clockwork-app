@@ -1,5 +1,5 @@
 <template>
-	<div v-show="active">
+	<div v-if="active">
 		<div class="counters-row">
 			<div class="counter">
 				<div class="counter-value">{{$request.databaseQueriesCount}}</div>

@@ -33,7 +33,7 @@
 									{{ $round(vitals.ttfb.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
-								<div class="metric-info" v-show="showVitalsInfo">
+								<div class="metric-info" v-if="showVitalsInfo">
 									Time at which your server sends a response.
 									<a href="https://web.dev/time-to-first-byte/" target="_blank">Learn more</a>
 								</div>
@@ -44,7 +44,7 @@
 									{{ $round(vitals.fid.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
-								<div class="metric-info" v-show="showVitalsInfo">
+								<div class="metric-info" v-if="showVitalsInfo">
 									Time from when a user first interacts with a page to the time when the browser is actually able to respond to that interaction.
 									<a href="https://web.dev/fid/" target="_blank">Learn more</a>
 								</div>
@@ -61,7 +61,7 @@
 									{{ $round(vitals.fcp.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
-								<div class="metric-info" v-show="showVitalsInfo">
+								<div class="metric-info" v-if="showVitalsInfo">
 									First Contentful Paint marks the time at which the first text or image is painted.
 									<a href="https://web.dev/first-contentful-paint/" target="_blank">Learn more</a>
 								</div>
@@ -72,7 +72,7 @@
 									{{ $round(vitals.lcp.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
-								<div class="metric-info" v-show="showVitalsInfo">
+								<div class="metric-info" v-if="showVitalsInfo">
 									Largest Contentful Paint marks the time at which the largest text or image is painted.
 									<a href="https://web.dev/lighthouse-largest-contentful-paint/" target="_blank">Learn more</a>
 								</div>
@@ -89,7 +89,7 @@
 									{{ $round(vitals.cls.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
-								<div class="metric-info" v-show="showVitalsInfo">
+								<div class="metric-info" v-if="showVitalsInfo">
 									Cumulative Layout Shift measures the movement of visible elements within the viewport.
 									<a href="https://web.dev/cls/" target="_blank">Learn more</a>
 								</div>
@@ -100,7 +100,7 @@
 									{{ $round(vitals.si.value) }} ms
 								</div>
 								<div class="metric-value value-unavailable" v-else>—</div>
-								<div class="metric-info" v-show="showVitalsInfo">
+								<div class="metric-info" v-if="showVitalsInfo">
 									Speed Index shows how quickly the contents of a page are visibly populated.
 									<a href="https://web.dev/speed-index/" target="_blank">Learn more</a>
 								</div>
