@@ -20,8 +20,10 @@ export default {
 			this.shown = false
 		},
 
-		open() {
+		async open() {
 			this.shown = true
+
+			await this.$nextTick()
 
 			let popoverViewport = this.$el.closest('.popover-viewport')
 			let popoverViewportRect = popoverViewport.getBoundingClientRect()
