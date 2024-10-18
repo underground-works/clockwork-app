@@ -655,3 +655,4 @@ export class Request
 }
 
 export default (...args) => shallowReactive(new Request(...args))
+export function createRequestPlaceholder(...args) { return shallowReactive(Request.placeholder(...args)) }

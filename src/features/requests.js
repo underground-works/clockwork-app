@@ -1,4 +1,4 @@
-import createRequest from './request'
+import createRequest, { createRequestPlaceholder } from './request'
 import URI from 'urijs'
 
 import { reactive, shallowReactive } from 'vue'
@@ -31,7 +31,7 @@ export class Requests
 		if (existing) {
 			placeholder = existing
 		} else if (placeholder !== false) {
-			placeholder = this.push(placeholder || Request.placeholder(id))
+			placeholder = this.push(placeholder || createRequestPlaceholder(id))
 		}
 
 		if (placeholder && ! fields) placeholder.loading = true
