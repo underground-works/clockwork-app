@@ -53,7 +53,7 @@ api.webNavigation.onBeforeNavigate.addListener(details => {
 // clean up last request when tab is closed
 api.tabs.onRemoved.addListener(tabId => {
 	api.storage.local.get('lastClockworkRequestPerTab').then(values => {
-		delete values.lastClockworkRequestPerTab[request.tabId]
+		delete values.lastClockworkRequestPerTab[tabId]
 		api.storage.local.set({ lastClockworkRequestPerTab: values.lastClockworkRequestPerTab })
 	})
 })
