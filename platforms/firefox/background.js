@@ -10,6 +10,7 @@ api.runtime.onMessage.addListener((message, sender, callback) => {
 
 		fetch(url, { method, body: Object.keys(data).length ? body : null, headers })
 			.then(response => response.json().then(data => callback({ response: { status: response.status }, data })))
+			.catch(error => callback({ response: null, data: null }))
 	} else if (message.action == 'getCookie') {
 		let { url, name } = message
 

@@ -43,7 +43,9 @@ export default class Extension
 			return this.profiler.withoutProfiling(() => {
 				return this.fetch(method, url, data, headers)
 					.then(({ response, data }) => {
-						if (response.status == 403) {
+						if (! response) {
+							throw { error: 'network-error', message: 'This can be caused by a network error, misconfigured web server or an invalid SSL certificate.' }
+						} else if (response.status == 403) {
 							throw { error: 'requires-authentication', message: data.message, requires: data.requires }
 						} else if (response.status != 200) {
 							throw { error: 'error-response', message: 'Server returned an error response.' }

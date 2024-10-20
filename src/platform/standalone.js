@@ -76,6 +76,9 @@ export default class Standalone
 
 		return fetch(url, { method, body: Object.keys(data).length ? body : null, headers })
 			.then(response => response.json().then(data => ({ response, data })))
+			.catch(e => {
+				throw { error: 'network-error', message: 'This can be caused by a network error, misconfigured web server or an invalid SSL certificate.' }
+			})
 	}
 
 	setCookie(name, value, expiration) {
