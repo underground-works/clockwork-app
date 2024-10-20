@@ -58,7 +58,7 @@ export class Request
 	}
 
 	static placeholder(id, request, parent) {
-		return shallowReactive(Object.assign(new Request({
+		return Object.assign(new Request({
 			loading: true,
 			id: id,
 			uri: request ? (new URI(request.url)).pathname() : '/',
@@ -69,7 +69,7 @@ export class Request
 		}), {
 			responseDurationRounded: '?',
 			databaseDurationRounded: '?'
-		}))
+		})
 	}
 
 	resolve(request, fields) {

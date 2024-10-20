@@ -1,6 +1,6 @@
 <template>
 	<div v-if="active">
-		<details-table title="Notifications" icon="mail" :columns="columns" :items="$request.notifications" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works" class="notifications-notifications">
+		<details-table title="Notifications" icon="mail" :columns="columns" :items="$request.notifications" :filter="filter" filter-example="&quot;User Registration&quot; to:its@underground.works" class="notifications-notifications" :key="renderTrigger">
 			<template v-slot:body="{ items }">
 				<template v-for="notification, index in items" :key="`${$request.id}-notifications-${index}`">
 					<tr>
@@ -20,13 +20,13 @@
 								<icon name="search"></icon>
 							</a>
 
-							<a href="#" @click.prevent="notification.isShowingDetails = ! notification.isShowingDetails" title="Show details">
+							<a href="#" @click.prevent="notification.isShowingDetails = ! notification.isShowingDetails; renderTrigger++" title="Show details">
 								<icon :name="notification.isShowingDetails ? 'chevron-up' : 'chevron-down'"></icon>
 							</a>
 						</td>
 					</tr>
 
-					<tr class="notifications-details" v-if="notification.isShowingDetails">
+					<tr class="notifications-details" v-show="notification.isShowingDetails">
 						<td :colspan="columns.length">
 							<div class="details-row">
 								<div class="row-group" v-if="notification.to">
@@ -92,7 +92,9 @@ export default {
 			{ tag: 'to' }
 		]),
 
-		showNotification: null
+		showNotification: null,
+
+		renderTrigger: 0
 	}),
 	computed: {
 		columns() {
@@ -100,7 +102,7 @@ export default {
 
 			let hasMultipleTypes = (new Set(this.$request.notifications.map(notification => notification.type))).size > 1
 
-			if (hasMultipleTypes) columns.splice(1, 0, 'Type')
+			if (hasMultipleTypes) columns.splice(0, 0, 'Type')
 
 			return columns
 		}

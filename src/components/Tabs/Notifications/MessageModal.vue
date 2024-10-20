@@ -34,8 +34,10 @@ export default {
 		}
 	},
 	watch: {
-		message(message) {
+		async message(message) {
 			if (! message) return
+
+			await this.$nextTick()
 
 			let document = this.$refs.content.contentWindow.document
 

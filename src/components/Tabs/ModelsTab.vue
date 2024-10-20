@@ -28,7 +28,7 @@
 			</a>
 		</div>
 
-		<details-table title="Actions" icon="activity" class="models-actions" :columns="[ 'Model', '', '' ]" :items="$request.modelsActions" :filter="actionsFilter" filter-example="App\User action:updated" v-if="activeModelsTab == 'actions'">
+		<details-table title="Actions" icon="activity" class="models-actions" :columns="[ 'Model', '', '' ]" :items="$request.modelsActions" :filter="actionsFilter" filter-example="App\User action:updated" v-if="activeModelsTab == 'actions'" :key="renderTrigger">
 			<template v-slot:body="{ items }">
 				<template v-for="action, index in items" :key="`${$request.id}-models-actions-${index}`">
 					<tr class="actions-action">
@@ -48,13 +48,13 @@
 							<span class="action-action" :class="`action-${action.action}`">{{action.action}}</span>
 						</td>
 						<td>
-							<a href="#" @click.prevent="action.isShowingDetails = ! action.isShowingDetails" title="Show details" v-if="action.attributes || action.changes">
+							<a href="#" @click.prevent="action.isShowingDetails = ! action.isShowingDetails; renderTrigger++" title="Show details" v-if="action.attributes || action.changes">
 								<icon :name="action.isShowingDetails ? 'chevron-up' : 'chevron-down'"></icon>
 							</a>
 						</td>
 					</tr>
 
-					<tr class="actions-details" v-if="action.isShowingDetails">
+					<tr class="actions-details" v-show="action.isShowingDetails">
 						<td colspan="3">
 							<div class="details-row" v-if="action.attributes">
 								<div class="row-group">
@@ -146,7 +146,9 @@ export default {
 			{ tag: 'created', type: 'number' },
 			{ tag: 'updated', type: 'number' },
 			{ tag: 'deleted', type: 'number' }
-		])
+		]),
+
+		renderTrigger: 0
 	}),
 	computed: {
 		totals() {
