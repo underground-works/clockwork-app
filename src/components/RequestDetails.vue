@@ -53,6 +53,7 @@
 			<icon name="alert-circle"></icon>
 			<p class="title">Error loading request metadata.</p>
 			<p class="message">{{$get($request, 'error.message')}}</p>
+			<a href="https://underground.works/clockwork/#faq-error-loading-metadata" target="_blank">More info</a>
 		</div>
 
 		<div class="details-authentication-overlay" :class="{failed:$authentication.failed}" v-if="$authentication.shown">
