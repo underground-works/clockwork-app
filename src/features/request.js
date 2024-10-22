@@ -184,12 +184,14 @@ export class Request
 	}
 
 	processCacheStats() {
-		if (this.cacheDeletes) this.cacheDeletes = parseInt(this.cacheDeletes)
-		if (this.cacheHits) this.cacheHits = parseInt(this.cacheHits)
-		if (this.cacheReads) this.cacheReads = parseInt(this.cacheReads)
-		if (this.cacheWrites) this.cacheWrites = parseInt(this.cacheWrites)
+		this.cacheDeletes = parseInt(this.cacheDeletes || 0)
+		this.cacheHits = parseInt(this.cacheHits || 0)
+		this.cacheReads = parseInt(this.cacheReads || 0)
+		this.cacheWrites = parseInt(this.cacheWrites || 0)
 
 		this.cacheMisses = this.cacheReads && this.cacheHits ? this.cacheReads - this.cacheHits : null
+
+		this.cacheTime = parseFloat(this.cacheTime || 0)
 	}
 
 	processCacheQueries(data) {
@@ -233,6 +235,8 @@ export class Request
 			|| this.databaseQueries.filter(query => query.query.match(/^delete /i)).length
 		this.databaseOthers = parseInt(this.databaseOthers)
 			|| this.databaseQueries.filter(query => ! query.query.match(/^(select|insert|update|delete) /i)).length
+
+		this.databaseDuration = parseFloat(this.databaseDuration || 0)
 	}
 
 	processDatabaseQueries(data) {
