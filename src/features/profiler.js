@@ -11,6 +11,7 @@ export class Profiler
 		this.loading = false
 		this.parsing = false
 		this.ready = false
+		this.invalid = false
 		this.isProfiling = false
 
 		this.metric = 0
@@ -82,7 +83,7 @@ export class Profiler
 			return this.available = false
 		}
 
-		this.ready = false
+		this.ready = this.invalid = false
 		this.parsing = true
 
 		Callgrind.parse(this.request.xdebug.profileData).then(profile => {
@@ -116,6 +117,9 @@ export class Profiler
 
 			this.parsing = false
 			this.ready = true
+		}).catch(e => {
+			this.parsing = false
+			this.invalid = true
 		})
 	}
 

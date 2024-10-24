@@ -64,6 +64,21 @@
 					</td>
 				</tr>
 
+				<tr v-if="$profiler.invalid">
+					<td colspan="3">
+						<div class="profiler-content">
+							<h1>
+								Profile contains invalid data.
+							</h1>
+
+							<p>
+								This is usually caused by a misconfigured Xdebug php extension.<br>
+								<a href="https://underground.works/clockwork/#docs-xdebug-profiler" target="_blank">Read more about how to set up Xdebug</a>
+							</p>
+						</div>
+					</td>
+				</tr>
+
 				<tr v-if="! $profiler.available">
 					<td colspan="3">
 						<div class="profiler-content">
