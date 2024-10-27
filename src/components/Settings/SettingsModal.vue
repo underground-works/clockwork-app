@@ -1,5 +1,5 @@
 <template>
-	<modal icon="settings" title="Settings" v-model:shown="$settings.shown">
+	<modal icon="settings" title="Settings" v-model:shown="$settings.shown" :on-close="closed">
 		<div class="settings-modal">
 			<div class="settings-warning" v-if="! $settings.persistent">
 				<div class="warning-text">
@@ -90,7 +90,7 @@
 				<div class="controls">
 					<label class="controls-checkbox">
 						<input type="checkbox" v-model="$settings.global.showIncomingRequests" @change="save">
-						Show incoming requests
+						Foxus incoming requests
 					</label>
 					<label class="controls-checkbox">
 						<input type="checkbox" v-model="$settings.global.preserveLog" @change="save">
@@ -118,6 +118,26 @@
 				</div>
 			</div>
 
+			<div class="controls-group" v-if="showAdvancedSettings">
+				<label for="settings-on-demand-secret">Sharing URL</label>
+
+				<div class="controls">
+					<input type="text" name="settings-sharing-url" placeholder="https://clockwork.underground.works/ingest" v-model="$settings.site.sharingUrl" @change="save">
+
+					<div class="help-text">
+						Set the sharing service URL, in case of running your own instance.
+					</div>
+				</div>
+			</div>
+
+			<div class="controls-group" v-if="! showAdvancedSettings">
+				<label></label>
+
+				<div class="controls">
+					<a href="#" @click.prevent="showAdvancedSettings = true">Show advanced</a>
+				</div>
+			</div>
+
 			<div class="settings-footer">
 				Version {{$credits.version}} &bullet; <a href="#" @click.prevent="showCredits">Credits</a>
 			</div>
@@ -132,7 +152,8 @@ export default {
 	name: 'SettingsModal',
 	components: { Modal },
 	data: () => ({
-		showPersistWarning: false
+		showPersistWarning: false,
+		showAdvancedSettings: false
 	}),
 	methods: {
 		setAppearance(appearance) {
@@ -148,6 +169,10 @@ export default {
 		showCredits() {
 			this.$settings.toggle()
 			this.$credits.toggle()
+		},
+
+		closed() {
+			this.showAdvancedSettings = false
 		}
 	}
 }

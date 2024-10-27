@@ -21,7 +21,7 @@
 						Copied to clipboard!
 					</template>
 					<template v-else-if="$sharing.inProgress">
-						<spinner width="18" height="18" :no-fade-in="true" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
+						<spinner width="16" height="16" :no-fade-in="true" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
 						Sharing...
 					</template>
 					<template v-else>
@@ -237,7 +237,7 @@ export default {
 		margin: 30px auto 10px;
 		max-width: 60%;
 
-		.sk-spinner {
+		.spinner {
 			margin-right: 6px;
 		}
 	}

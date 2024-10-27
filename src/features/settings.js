@@ -98,7 +98,8 @@ export class Settings
 			},
 			site: {
 				localPathMap: { real: null, local: null },
-				onDemandSecret: null
+				onDemandSecret: null,
+				sharingUrl: import.meta.env.VITE_SHARING_URL
 			}
 		}
 	}

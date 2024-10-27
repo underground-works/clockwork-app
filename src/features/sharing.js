@@ -39,7 +39,7 @@ export class Sharing
 
 		this.inProgress = true
 
-		return this.$platform.fetch('POST', import.meta.env.VITE_SHARING_URL, { data: this.resolveSharedData(request, filter) })
+		return this.$platform.fetch('POST', this.$settings.site.sharingUrl, { data: this.resolveSharedData(request, filter) })
 			.then(({response, data}) => {
 				this.inProgress = false
 

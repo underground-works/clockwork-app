@@ -25,7 +25,7 @@ export default {
 	props: [ 'icon', 'shown', 'title', 'onClose' ],
 	methods: {
 		close() {
-			if (this.onClose) return this.onClose()
+			if (this.onClose) this.onClose()
 
 			this.$emit('update:shown', false)
 		}
