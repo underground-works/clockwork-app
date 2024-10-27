@@ -21,7 +21,7 @@
 						Copied to clipboard!
 					</template>
 					<template v-else-if="$sharing.inProgress">
-						<spinner name="fading-circle" width="18" height="18" :no-fade-in="true" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
+						<spinner width="18" height="18" :no-fade-in="true" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
 						Sharing...
 					</template>
 					<template v-else>

@@ -24,7 +24,7 @@
 					Deleted!
 				</template>
 				<template v-else-if="deleting">
-					<spinner name="fading-circle" width="18" height="18" :no-fade-in="true" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
+					<spinner width="18" height="18" :no-fade-in="true" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
 					Deleting...
 				</template>
 				<template v-else>

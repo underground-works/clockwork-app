@@ -1,5 +1,5 @@
 <template>
-	<div class="sk-fading-circle">
+	<div class="sk-fading-circle" :style="style">
 		<div></div>
 		<div></div>
 		<div></div>
@@ -14,6 +14,20 @@
 		<div></div>
 	</div>
 </template>
+
+<script>
+export default {
+	props: [ 'color', 'height', 'width' ],
+	computed: {
+		style () {
+			let color = this.color ? 'color: ' + this.color + ';' : ''
+			let width = this.width ? 'width: ' + this.width + 'px;' : ''
+			let height = this.height ? 'height: ' + this.height + 'px;' : ''
+			return color + width + height
+		}
+	}
+}
+</script>
 
 <style>
 .sk-fading-circle {

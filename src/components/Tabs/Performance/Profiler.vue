@@ -55,7 +55,7 @@
 				<tr v-if="$profiler.loading || $profiler.parsing">
 					<td colspan="3">
 						<div class="profiler-content">
-							<spinner name="fading-circle" :no-fade-in="true" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
+							<spinner :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
 
 							<p>
 								{{$profiler.loading ? 'Loading profile...' : 'Processing profile...'}}

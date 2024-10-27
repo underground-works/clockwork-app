@@ -46,7 +46,7 @@
 		</div>
 
 		<div class="details-loading-overlay" v-if="$get($request, 'loading') && ! $authentication.shown">
-			<spinner name="fading-circle" :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
+			<spinner :color="$settings.appearance == 'dark' ? '#f27e02' : '#258cdb'"></spinner>
 		</div>
 
 		<div class="details-error-overlay" v-if="$get($request, 'error') && $get($request, 'error.error') != 'requires-authentication'">
