@@ -192,6 +192,7 @@ export class Request
 		this.cacheMisses = this.cacheReads && this.cacheHits ? this.cacheReads - this.cacheHits : null
 
 		this.cacheTime = parseFloat(this.cacheTime || 0)
+		this.cacheTimeRounded = Math.round(this.cacheTime)
 	}
 
 	processCacheQueries(data) {
@@ -410,9 +411,9 @@ export class Request
 	processPerformanceMetrics(data) {
 		if (! data) {
 			return [
-				{ name: 'App', value: (this.responseDurationRounded || 0) - (this.databaseDurationRounded || 0) - (this.cacheTime || 0), color: 'blue' },
+				{ name: 'App', value: (this.responseDurationRounded || 0) - (this.databaseDurationRounded || 0) - (this.cacheTimeRounded || 0), color: 'blue' },
 				{ name: 'DB', value: this.databaseDurationRounded, color: 'red' },
-				{ name: 'Cache', value: this.cacheTime, color: 'green' }
+				{ name: 'Cache', value: this.cacheTimeRounded, color: 'green' }
 			].filter(metric => metric.value > 0)
 		}
 
