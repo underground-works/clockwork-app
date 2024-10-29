@@ -71,6 +71,8 @@ export default class PrettyJason
 			.map(key => {
 				let [ value, valueType ] = this.resolveValueAndType(data[key])
 
+				if (valueType == 'string' && value.length >= 104) value = value.substring(0, 101) + '…"'
+
 				return this.createElement('span', { class: 'pretty-jason-preview-item' }, [
 					this.createElement('span', { class: 'pretty-jason-key', text: `${key}: ` }),
 					this.createElement('span', {
