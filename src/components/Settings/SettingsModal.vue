@@ -41,16 +41,11 @@
 
 				<div class="controls">
 					<select id="settings-editor" v-model="$settings.global.editor" @change="save">
-						<option value="atom">Atom</option>
 						<option value="phpstorm">PhpStorm</option>
 						<option value="sublime">Sublime Text</option>
-						<option value="textmate">Textmate</option>
 						<option value="vs-code">Visual Studio Code</option>
 					</select>
 
-					<div class="help-text" v-if="$settings.global.editor == 'atom'">
-						Requires <a href="https://atom.io/packages/open" target="_blank">Atom Open</a> package.
-					</div>
 					<div class="help-text" v-if="$settings.global.editor == 'sublime'">
 						Requires <a href="https://github.com/inopinatus/sublime_url" target="_blank">sublime_url</a> on MacOS. Not supported on other platforms.
 					</div>
