@@ -25,6 +25,28 @@ export class WhatsNew
 	static get releases() {
 		return [
 			{
+				version: '5.3',
+				url: 'https://underground.works/clockwork/beta',
+				notes: [
+					{
+						title: 'HTTP Requests',
+						text: [
+							'This new tab shows HTTP requests executed by your application, including details like request and response bodies and headers.',
+							'Requests executed via the Laravel HTTP client are automatically collected and you can also easily collect any Guzzle based library.'
+						],
+						image: 'http-requests.png',
+						imagePlacement: 'right'
+					},
+					{
+						title: 'Server-side Library Updated',
+						text: [
+							'The server-side library was also updated with support for collecting HTTP requests, improved Vanilla integration and more.',
+							'For the full list of improvements, changes, and fixes click on the "learn more" button.'
+						]
+					}
+				]
+			},
+			{
 				version: '5.1',
 				url: 'https://underground.works/blog/clockwork-5.1-released-with-database-queries-highlighting-and-more',
 				notes: [
