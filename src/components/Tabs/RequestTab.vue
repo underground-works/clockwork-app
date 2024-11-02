@@ -1,5 +1,5 @@
 <template>
-	<div if="request-tab">
+	<div class="request-tab">
 		<sidebar-section title="Headers" name="headers" :items="headers" filter-example="text/html name:Accept" v-if="headers.length">
 		</sidebar-section>
 
