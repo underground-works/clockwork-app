@@ -8,7 +8,7 @@
                 </a>
                 <a class="tabs-tab" :class="{ 'active': selectedTab == 'response', 'no-response': ! request.response }" href="#" @click.prevent="selectedTab = 'response'">
                     Response
-                    <span v-if="request.response" class="response-status">{{request.response.status}}</span>
+                    <span v-if="request.response" class="response-status" :class="{ 'client-error': request.response?.status >= 400 && request.response?.status <= 499, 'server-error': request.response?.status >= 500 && request.response?.status <= 599 }">{{request.response.status}}</span>
                 </a>
             </div>
 
