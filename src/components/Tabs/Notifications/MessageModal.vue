@@ -50,7 +50,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../../mixins.scss';
+@use '../../../mixins' as *;
 
 .email-message {
 	font-size: 13px;

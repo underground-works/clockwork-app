@@ -113,7 +113,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .job-options {
 	margin: 2px 0;

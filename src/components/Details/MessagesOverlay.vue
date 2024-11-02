@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .messages-overlay {
 	border-top: 1px solid #d1d1e0;

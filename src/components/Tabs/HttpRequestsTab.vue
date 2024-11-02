@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .http-requests-requests {
 	.request-request {

@@ -201,7 +201,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../mixins.scss';
+@use '../mixins' as *;
 
 .split-view-requests {
 	background: hsl(240deg 20% 98%);

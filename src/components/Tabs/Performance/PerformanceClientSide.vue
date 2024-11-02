@@ -134,7 +134,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../../mixins.scss';
+@use '../../../mixins' as *;
 
 .performance-vitals {
 	tbody tr:first-child .vitals-row {

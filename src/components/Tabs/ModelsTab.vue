@@ -196,7 +196,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .models-counters {
 	.counter-retrieved .has-mark:before {

@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .request-tab {
 	background: #fff;

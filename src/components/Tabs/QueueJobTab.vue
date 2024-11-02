@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .queue-job-tab {
 	background: #fff;

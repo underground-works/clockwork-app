@@ -114,7 +114,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../mixins.scss';
+@use '../mixins' as *;
 
 .request-sidebar {
 	background: hsl(240deg 20% 98%);

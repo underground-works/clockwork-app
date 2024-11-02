@@ -26,7 +26,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './mixins.scss';
-@import './main.scss';
-@import './features/pretty-jason/pretty-jason.css';
+@use './main';
+@use './features/pretty-jason/pretty-jason';
 </style>

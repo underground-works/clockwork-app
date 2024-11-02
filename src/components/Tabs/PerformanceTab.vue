@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 $performance-colors-light: (
 	"blue":   hsl(212deg 89% 55%),

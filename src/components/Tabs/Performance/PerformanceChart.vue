@@ -39,7 +39,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../../mixins.scss';
+@use '../../../mixins' as *;
+@use 'sass:map';
 
 $performance-chart-colors-light: (
 	"blue":   ( normal: hsl(212deg 89% 55%), alternative: hsl(212deg 88% 70%) ),
@@ -87,14 +88,14 @@ $performance-chart-colors-dark: (
 
 		@each $color, $value in $performance-chart-colors-light {
 			&.section-#{$color} {
-				background: linear-gradient(to bottom, map-get($value, 'alternative'), map-get($value, 'normal'));
+				background: linear-gradient(to bottom, map.get($value, 'alternative'), map.get($value, 'normal'));
 			}
 		}
 
 		@include dark {
 			@each $color, $value in $performance-chart-colors-dark {
 				&.section-#{$color} {
-					background: linear-gradient(to bottom, map-get($value, 'normal'), map-get($value, 'alternative'));
+					background: linear-gradient(to bottom, map.get($value, 'normal'), map.get($value, 'alternative'));
 				}
 			}
 		}

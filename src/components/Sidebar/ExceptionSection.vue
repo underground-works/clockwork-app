@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .exception-section {
 	border-bottom: 1px solid hsl(240deg 20% 92%);

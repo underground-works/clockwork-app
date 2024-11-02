@@ -267,7 +267,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../../mixins.scss';
+@use '../../../mixins' as *;
+@use 'sass:map';
 
 $timeline-colors-light: (
 	"blue":   ( normal: hsl(212deg 89% 55%), alternative: hsl(212deg 88% 70%) ),
@@ -369,12 +370,12 @@ $timeline-colors-dark: (
 				}
 
 				@each $color, $values in $timeline-colors-light {
-					&.#{$color} { color: map-get($values, 'normal'); }
+					&.#{$color} { color: map.get($values, 'normal'); }
 				}
 
 				@include dark {
 					@each $color, $values in $timeline-colors-dark {
-						&.#{$color} { color: map-get($values, 'normal'); }
+						&.#{$color} { color: map.get($values, 'normal'); }
 					}
 				}
 			}
@@ -406,16 +407,16 @@ $timeline-colors-dark: (
 
 			@each $color, $values in $timeline-colors-light {
 				&.#{$color} {
-					.event-bar { background: map-get($values, 'normal'); }
-					.event-bar .bar-light { background: map-get($values, 'alternative'); }
+					.event-bar { background: map.get($values, 'normal'); }
+					.event-bar .bar-light { background: map.get($values, 'alternative'); }
 				}
 			}
 
 			@include dark {
 				@each $color, $values in $timeline-colors-dark {
 					&.#{$color} {
-						.event-bar { background: map-get($values, 'normal'); }
-						.event-bar .bar-light { background: map-get($values, 'alternative'); }
+						.event-bar { background: map.get($values, 'normal'); }
+						.event-bar .bar-light { background: map.get($values, 'alternative'); }
 					}
 				}
 			}
@@ -528,9 +529,9 @@ $timeline-colors-dark: (
 			@each $color, $values in $timeline-colors-light {
 				&.#{$color} {
 					.timings-timing {
-						.timing-label:before { background: map-get($values, 'normal'); }
-						&.timing-total .timing-label:before { background: linear-gradient(to right, map-get($values, 'normal') 50%, map-get($values, 'alternative') 50%); }
-						&.timing-children .timing-label:before { background: map-get($values, 'alternative'); }
+						.timing-label:before { background: map.get($values, 'normal'); }
+						&.timing-total .timing-label:before { background: linear-gradient(to right, map.get($values, 'normal') 50%, map.get($values, 'alternative') 50%); }
+						&.timing-children .timing-label:before { background: map.get($values, 'alternative'); }
 					}
 				}
 			}
@@ -539,9 +540,9 @@ $timeline-colors-dark: (
 				@each $color, $values in $timeline-colors-dark {
 					&.#{$color} {
 						.timings-timing {
-							.timing-label:before { background: map-get($values, 'normal'); }
-							&.timing-total .timing-label:before { background: linear-gradient(to right, map-get($values, 'normal') 50%, map-get($values, 'alternative') 50%); }
-							&.timing-children .timing-label:before { background: map-get($values, 'alternative'); }
+							.timing-label:before { background: map.get($values, 'normal'); }
+							&.timing-total .timing-label:before { background: linear-gradient(to right, map.get($values, 'normal') 50%, map.get($values, 'alternative') 50%); }
+							&.timing-children .timing-label:before { background: map.get($values, 'alternative'); }
 						}
 					}
 				}

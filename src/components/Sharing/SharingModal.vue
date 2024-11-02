@@ -157,7 +157,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .sharing-modal {
 	font-size: 13px;

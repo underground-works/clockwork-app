@@ -174,7 +174,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .settings-modal {
 	font-size: 13px;

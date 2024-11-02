@@ -111,7 +111,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .details-table {
 	background: hsl(240deg 20% 99%);

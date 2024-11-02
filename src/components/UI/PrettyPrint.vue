@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../mixins.scss';
+@use '../../mixins' as *;
 
 .pretty-print-more-link {
 	color: #aaa;
