@@ -42,12 +42,12 @@ export class Profiler
 		})
 	}
 
-	withoutProfiling(callback) {
+	async withoutProfiling(callback) {
 		if (! this.isProfiling) return callback()
 
-		this.disableProfiling(false, true)
+		await this.disableProfiling(false, true)
 		let ret = callback()
-		this.enableProfiling()
+		await this.enableProfiling()
 
 		return ret
 	}
