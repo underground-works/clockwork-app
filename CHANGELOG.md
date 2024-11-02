@@ -1,3 +1,24 @@
+5.3 (wip)
+
+- upgraded to Vue.js 3 and Vite
+- added new "HTTP Requests" tab, showing executed HTTP requests and their details
+- improved error messaging when we are unable to load request metadata
+- improved error messaging when we are unable to parse Xdebug profile
+- improved details tables to shorten very long messages by default
+- improved pretty-printed data previews to shorten long strings (idea by simbig, thanks!)
+- improved short SQL queries in Timeline when the query contains table name including schema (idea by kdbond2, thanks!)
+- improved handling of auto appearance setting now reacts to OS theme changes (implemented by bloep, thanks!)
+- improved sharing to make the share service URL configurable
+- updated the details tables' page sizes from 30 to 50 items
+- updated conditionals to use v-if instead of v-show through the app (idea by eigan, thanks!)
+- updated Chrome extension to use Manifest v3
+- fixed not being able to expand details of keys starting with number including non-numeric characters in pretty-printed data (reported by masdimdev, thanks!)
+- fixed Xdebug profiler might stay enabled for Clockwork metadata requests in extension mode (reported by Defimas, thanks!)
+- fixed reading cookies in extension mode (implemented by LachlanArthur, thanks!)
+- fixed cache time not being rounded in the Performance tab
+- removed Atom and Textmate from code editor selection
+- cleaned up unused assets
+
 5.1
 
 - added database queries syntax highlighting (implemented by edgardmessias, thanks!)

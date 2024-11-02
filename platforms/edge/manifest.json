@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 	"name": "Clockwork",
-	"version": "5.1.0",
-	"version_name": "5.1.0",
+	"version": "5.2.999.0",
+	"version_name": "5.3.0 Beta 1",
 
 	"description": "php dev tools integrated to your browser",
 	"homepage_url": "https://underground.works/clockwork",
