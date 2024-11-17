@@ -1,4 +1,4 @@
-5.3 (wip)
+5.3
 
 - upgraded to Vue.js 3 and Vite
 - added new "HTTP Requests" tab, showing executed HTTP requests and their details

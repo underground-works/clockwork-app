@@ -26,7 +26,7 @@ export class WhatsNew
 		return [
 			{
 				version: '5.3',
-				url: 'https://underground.works/clockwork/beta',
+				url: 'https://underground.works/blog/clockwork-5.3-released-with-http-requests-and-mode',
 				notes: [
 					{
 						title: 'HTTP Requests',
