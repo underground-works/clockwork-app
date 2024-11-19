@@ -159,7 +159,7 @@ export default {
 		shouldShowIncomingRequest() {
 			return this.$settings.global.preserveLog
 				&& (! this.$request || (this.$settings.global.showIncomingRequests && this.global.showIncomingRequests))
-				&& ! this.$requests.last()?.isAjax()
+				&& (! this.$request || ! this.$requests.last()?.isAjax())
 		},
 		clear() { this.$requests.clear() }
 	},
