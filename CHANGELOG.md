@@ -1,3 +1,8 @@
+5.3.1
+
+- fixed AJAX requests in the requests list might not be selectable (reported by FeBe95, thanks!)
+- fixed "Empty metadata" error might be incorrectly shown
+
 5.3
 
 - upgraded to Vue.js 3 and Vite
