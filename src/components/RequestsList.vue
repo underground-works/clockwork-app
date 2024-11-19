@@ -159,20 +159,20 @@ export default {
 		shouldShowIncomingRequest() {
 			return this.$settings.global.preserveLog
 				&& (! this.$request || (this.$settings.global.showIncomingRequests && this.global.showIncomingRequests))
+				&& ! this.$requests.last()?.isAjax()
 		},
 		clear() { this.$requests.clear() }
 	},
 	watch: {
-		requests: {
+		'requests.length': {
 			handler(items) {
 				if (this.shouldShowFirstRequest()) {
 					this.showRequest(this.$requests.first())
 				} else if (this.shouldShowIncomingRequest()) {
-					this.showRequest(this.$requests.last(request => ! request.isAjax()) || this.$requests.last())
-					this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.requestsTable.offsetTop
+					this.showRequest(this.$requests.last())
+					this.$nextTick(() => this.$refs.requestsContainer.scrollTop = this.$refs.requestsTable.offsetHeight + this.$refs.requestsTable.offsetTop)
 				}
-			},
-			deep: true
+			}
 		},
 
 		$request: {
