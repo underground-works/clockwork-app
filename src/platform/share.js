@@ -50,7 +50,7 @@ export default class Share
 						throw { error: 'requires-authentication', message: data.message, requires: data.requires }
 					} else if (response.status != 200) {
 						throw { error: 'error-response', message: 'Server returned an error response.' }
-					} else if (! (data instanceof Object) || ! Object.keys(data).length) {
+					} else if (! url.includes('only=') && (! (data instanceof Array) && (! (data instanceof Object) || ! Object.keys(data).length))) {
 						throw { error: 'empty-response', message: 'Server returned an empty metadata.' }
 					}
 
