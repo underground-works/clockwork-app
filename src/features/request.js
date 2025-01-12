@@ -34,7 +34,7 @@ export class Request
 		this.requestData = this.requestData instanceof Object
 			? this.createKeypairs(this.requestData, false) : this.requestData
 		this.headers = this.processHeaders(this.headers)
-		this.log = this.processLog(this.log)
+		this.log = shallowReactive(this.processLog(this.log))
 		this.postData = this.createKeypairs(this.postData)
 		this.queueJobs = this.processQueueJobs(this.queueJobs)
 		this.redisCommands = this.processRedisCommands(this.redisCommands)
@@ -52,7 +52,7 @@ export class Request
 
 		this.errorsCount = this.getErrorsCount()
 		this.warningsCount = this.getWarningsCount()
-		this.exceptions = this.processExceptions()
+		this.exceptions = shallowReactive(this.processExceptions())
 
 		this.loadClientMetricsAttempts = 0
 	}
