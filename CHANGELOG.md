@@ -1,3 +1,8 @@
+5.3.2
+
+- fixed "show previous exception" buttons not working (reported by etienneroudeix, thanks!)
+- fixed popovers not getting closed when clicking outside of the popover
+
 5.3.1
 
 - fixed AJAX requests in the requests list might not be selectable (reported by FeBe95, thanks!)
