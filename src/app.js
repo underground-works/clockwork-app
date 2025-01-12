@@ -5,7 +5,7 @@ import Icon from './components/UI/Icon'
 import Spinner from './components/UI/Spinner'
 
 import VueClipboard from 'vue-clipboard2'
-import vClickOutside from 'v-click-outside'
+import { vOnClickOutside } from '@vueuse/components'
 
 import lodashGet from 'lodash/get'
 
@@ -32,7 +32,8 @@ export default function createApp(global) {
 	VueClipboard.config.autoSetContainer = true
 
 	app.use(VueClipboard)
-	app.use(vClickOutside)
+
+	app.directive('on-click-outside', vOnClickOutside)
 
 	app.mixin({ methods: { $get: lodashGet } })
 
