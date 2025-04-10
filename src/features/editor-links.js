@@ -17,7 +17,9 @@ export class EditorLinks
 				'phpstorm': (file, line) => `phpstorm://open?file=${file}&line=${line}`,
 				'sublime': (file, line) => `subl://open?url=file://${file}&line=${line}`,
 				'textmate': (file, line) => `txmt://open?url=file://${file}&line=${line}`,
-				'vs-code': (file, line) => `vscode://file/${file}:${line}`
+				'vs-code': (file, line) => `vscode://file/${file}:${line}`,
+				'netbeans': (file, line) => `netbeans://open/?f=${file}:${line}`,
+        			'cursor': (file, line) => `cursor://file/${file}:${line}`
 			}
 
 			let editor = this.settings.global.editor
